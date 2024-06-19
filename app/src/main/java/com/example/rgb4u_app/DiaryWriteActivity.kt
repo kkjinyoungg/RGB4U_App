@@ -19,6 +19,8 @@ class DiaryWriteActivity : AppCompatActivity() {
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var btnBack: ImageButton
     private lateinit var btnComplete: Button
+    private lateinit var chipGroup: ChipGroup
+    private val chipList = mutableListOf<Chip>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,58 +34,20 @@ class DiaryWriteActivity : AppCompatActivity() {
         // 뷰 참조 가져오기
         btnBack = findViewById(R.id.btn_back)
         btnComplete = findViewById(R.id.btn_complete)
+        chipGroup = findViewById(R.id.chipGroup)
 
         // 뒤로가기 버튼 클릭 시 메인 화면으로 이동
         btnBack.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            saveAndExit()
         }
 
         // 완료 버튼 클릭 시 메인 화면으로 이동
         btnComplete.setOnClickListener {
-            // 일기 내용 저장 로직 추가
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            saveAndExit()
         }
 
-        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
-
-        val chipList = mutableListOf("괴로운", "슬픔", "감정 추가하기+")
-        chipList.forEach { emotion ->
-            val chip = Chip(this)
-            chip.text = emotion
-            chip.isCheckable = true
-
-            // 칩 버튼 스타일 설정
-            chip.chipBackgroundColor = ColorStateList.valueOf(Color.TRANSPARENT)
-            chip.setTextColor(Color.BLACK)
-            chip.chipStrokeColor = ColorStateList.valueOf(Color.BLACK)
-            chip.chipStrokeWidth = 1f
-
-            // "감정 추가하기+" 버튼 클릭 시 동작
-            chip.setOnClickListener {
-                if (emotion == "감정 추가하기+") {
-                    val newChip = Chip(this)
-                    newChip.text = "새로운 감정"
-                    newChip.isCheckable = true
-                    newChip.chipBackgroundColor = ColorStateList.valueOf(Color.TRANSPARENT)
-                    newChip.setTextColor(Color.BLACK)
-                    newChip.chipStrokeColor = ColorStateList.valueOf(Color.BLACK)
-                    newChip.chipStrokeWidth = 1f
-                    chipGroup.addView(newChip)
-                    chipList.add("새로운 감정")
-                }
-            }
-
-            chipGroup.addView(chip)
-        }
-
-
-
-
-
-
-
+        // 감정 칩 생성 및 추가
+        createAndAddChips()
 
         bottomNavigation = findViewById(R.id.bottom_navigation)
         bottomNavigation.setOnItemSelectedListener { item ->
@@ -111,5 +75,39 @@ class DiaryWriteActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun saveAndExit() {
+        // 일기 내용 저장 로직 추가
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun createAndAddChips() {
+        val initialChips = listOf("괴로운", "슬픔")
+        initialChips.forEach { emotion ->
+            createAndAddChip(emotion)
+        }
+
+        val addEmotionChip = createAndAddChip("감정 추가하기+")
+        addEmotionChip.setOnClickListener {
+            val newChip = createAndAddChip("새로운 감정")
+            chipList.add(newChip)
+            chipGroup.removeView(addEmotionChip)
+            chipGroup.addView(addEmotionChip, chipList.size)
+        }
+    }
+
+    private fun createAndAddChip(text: String): Chip {
+        val chip = Chip(this)
+        chip.text = text
+        chip.isCheckable = true
+        chip.chipBackgroundColor = ColorStateList.valueOf(Color.TRANSPARENT)
+        chip.setTextColor(Color.BLACK)
+        chip.chipStrokeColor = ColorStateList.valueOf(Color.BLACK)
+        chip.chipStrokeWidth = 1f
+        chipGroup.addView(chip)
+        chipList.add(chip)
+        return chip
     }
 }

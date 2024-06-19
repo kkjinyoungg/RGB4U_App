@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#656565</color> //배경색
     <color name="gray_200">#EEEEEE</color>
+    <color name="divider_view_color">#CCCCCC</color>
 </resources>
