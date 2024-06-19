@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Mindlien</string>
-    <string name="previous_date">이전 날짜</string>
-    <string name="next_date">다음 날짜</string>
-    <string name="add_challenge_button_description">Add new challenge</string>
 </resources>
