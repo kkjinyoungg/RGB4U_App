@@ -5,4 +5,10 @@
     <color name="background">#656565</color> //배경색
     <color name="gray_200">#EEEEEE</color>
     <color name="divider_view_color">#CCCCCC</color>
+    <color name="light_gray">#CCCCCC</color>
+
+    <!-- BottomNavigationView 관련 색상 리소스 -->
+    <color name="bottom_nav_icon_color">#757575</color>
+    <color name="bottom_nav_text_color">#757575</color>
+    <color name="bottom_nav_ripple_color">#E0E0E0</color>
 </resources>

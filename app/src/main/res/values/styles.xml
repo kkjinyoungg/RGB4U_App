@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:elevation">4dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="itemIconTint">@color/bottom_nav_icon_color</item>
+        <item name="itemTextColor">@color/bottom_nav_text_color</item>
+        <item name="itemRippleColor">@color/bottom_nav_ripple_color</item>
+        <item name="elevation">4dp</item>
+        <item name="android:layout_marginTop">1dp</item> <!-- 테두리 추가 -->
+        <item name="android:layout_marginBottom">1dp</item> <!-- 테두리 추가 -->
+        <item name="android:layout_marginLeft">1dp</item> <!-- 테두리 추가 -->
+        <item name="android:layout_marginRight">1dp</item> <!-- 테두리 추가 -->
+        <item name="android:background">@drawable/rounded_bottom_nav_background</item> <!-- 테두리 추가 -->
+    </style>
+</resources>

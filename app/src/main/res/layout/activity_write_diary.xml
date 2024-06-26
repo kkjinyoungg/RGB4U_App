@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"> <!-- 배경색을 흰색으로 변경 -->
 
     <ImageButton
         android:id="@+id/btn_back"
+        android:contentDescription="뒤로 가기 버튼"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
@@ -19,15 +21,13 @@
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="일기 쓰기"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
-        app:layout_constraintEnd_toStartOf="@+id/btn_complete"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btn_back"
         app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
     <Button
@@ -36,7 +36,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:text="완료"
@@ -66,7 +65,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        android:fontFamily="@font/imhyeminbold" />
 
     <LinearLayout
         android:id="@+id/layout_diary_fields"
@@ -84,8 +84,10 @@
             android:id="@+id/textview_situation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fontFamily="@font/imhyeminbold"
             android:text="상황"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edittext_situation"
@@ -101,33 +103,44 @@
             android:textColor="#000000"
             android:textSize="16sp" />
 
+        <!-- 상황과 생각 사이의 여백 추가 -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
         <TextView
             android:id="@+id/textview_thought"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:fontFamily="@font/imhyeminbold"
             android:text="생각"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edittext_thought"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="생각 적기"
+            android:hint="어떤 생각이 들었는지 적어줘"
             android:inputType="textMultiLine"
             android:lines="3"
             android:maxLines="5"
             android:minLines="3"
             android:textSize="16sp" />
 
+        <!-- 생각과 감정 사이의 여백 추가 -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
         <TextView
             android:id="@+id/textview_emotion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:fontFamily="@font/imhyeminbold"
             android:text="감정"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroup"
@@ -145,5 +158,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu"
+        style="@style/AppTheme.BottomNavigationView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
