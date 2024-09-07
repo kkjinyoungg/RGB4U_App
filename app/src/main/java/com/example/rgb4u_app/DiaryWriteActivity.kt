@@ -11,24 +11,20 @@ class DiaryWriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_write_diary)
 
         if (savedInstanceState == null) {
-            initializeFragment()
-        }
-    }
-
-    private fun initializeFragment() {
-        // setNextActivity가 올바르게 설정되도록 보장
-        val fragment = MyRecordFragment().apply {
-            arguments = Bundle().apply {
-                putString("questionText", "어떤 상황이었어?")
-                putInt("currentStep", 1) // 현재 단계 설정
+            // MyRecordFragment를 생성하고 인자를 전달
+            val fragment = MyRecordFragment().apply {
+                arguments = Bundle().apply {
+                    putString("questionText", "어떤 상황이었어?")
+                    putInt("currentStep", 1)  // 현재 단계 설정
+                }
+                // 다음 액티비티 설정
+                setNextActivity(ThinkWriteActivity::class.java)
             }
-            setNextActivity(ThinkWriteActivity::class.java) // 다음 액티비티 설정
+            openFragment(fragment)
         }
-        openFragment(fragment)
     }
 
-
-    private fun openFragment(fragment: Fragment) {
+    fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)

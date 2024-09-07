@@ -10,10 +10,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -23,64 +19,70 @@ class HomeFragment : Fragment() {
 
     private lateinit var textBox: TextView
     private lateinit var dateTextView: TextView
-    private lateinit var dDayTextView: TextView
+    private lateinit var dDayTextView: TextView // moodScoreTextView를 dDayTextView로 변경
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // 레이아웃을 Inflate합니다.
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 뷰를 초기화합니다.
         textBox = view.findViewById(R.id.textBox)
-        dateTextView = view.findViewById(R.id.dateTextView)
-        dDayTextView = view.findViewById(R.id.dDayTextView)
+        dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
+        dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
         val mainCharacterContainer = view.findViewById<RelativeLayout>(R.id.mainCharacterContainer)
 
+        // 말풍선 클릭 리스너 추가
         textBox.setOnClickListener {
             changeMessage()
         }
 
+        // 현재 날짜 및 요일 설정
         updateDateAndDay()
 
-        // 코루틴을 사용하여 비동기로 D-Day 계산
-        viewLifecycleOwner.lifecycleScope.launch {
-            calculateDDay()
-        }
+        // 앱 설치 날짜를 기반으로 디데이 계산
+        calculateDDay()
 
+        // 이미지 버튼 초기화
         val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
+
+        // 클릭 리스너 설정
         notificationButton.setOnClickListener {
+            // 버튼 클릭 시 동작 정의
             Toast.makeText(requireContext(), "알림 버튼이 클릭되었습니다!", Toast.LENGTH_SHORT).show()
+            // 여기서 알림 관련 로직 추가 가능
         }
     }
 
     private fun updateDateAndDay() {
+        // 현재 날짜를 가져옵니다.
         val currentDate = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("M월 d일 EEEE", Locale.KOREA)
-        dateTextView.text = dateFormat.format(currentDate.time)
+        dateTextView.text = dateFormat.format(currentDate.time) // 날짜 및 요일 설정
     }
 
-    private suspend fun calculateDDay() {
-        // 비동기적으로 SharedPreferences에서 설치 날짜를 가져옴
-        val dDay = withContext(Dispatchers.IO) {
-            val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            val installDateMillis = sharedPreferences.getLong("install_date", -1)
+    private fun calculateDDay() {
+        // 앱 설치 날짜를 SharedPreferences에서 가져옵니다.
+        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val installDateMillis = sharedPreferences.getLong("install_date", -1)
 
-            if (installDateMillis == -1L) {
-                val currentDateMillis = System.currentTimeMillis()
-                sharedPreferences.edit().putLong("install_date", currentDateMillis).apply()
-                0 // 설치 첫날
-            } else {
-                val currentDateMillis = System.currentTimeMillis()
-                ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24)).toInt()
-            }
+        // 설치 날짜가 없다면 현재 날짜를 설치 날짜로 설정
+        if (installDateMillis == -1L) {
+            val currentDateMillis = System.currentTimeMillis()
+            sharedPreferences.edit().putLong("install_date", currentDateMillis).apply()
+            dDayTextView.text = "D+0"
+        } else {
+            // 설치 날짜를 기준으로 D-Day 계산
+            val currentDateMillis = System.currentTimeMillis()
+            val dDay = ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24)).toInt() // 일수로 변환
+            dDayTextView.text = "D+$dDay"
         }
-
-        // UI 업데이트는 메인 스레드에서 수행
-        dDayTextView.text = "D+$dDay"
     }
 
     private fun changeMessage() {

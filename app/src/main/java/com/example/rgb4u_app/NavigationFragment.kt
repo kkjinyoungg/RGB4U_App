@@ -51,13 +51,10 @@ class NavigationFragment : Fragment() {
         // FloatingActionButton 참조
         fabThink = view.findViewById(R.id.fab_think)
         fabThink.setOnClickListener {
-            navigateToDiaryWriteActivity()
+            // DiaryWriteActivity로 이동
+            val intent = Intent(activity, DiaryWriteActivity::class.java)
+            startActivity(intent)
         }
-    }
-
-    private fun navigateToDiaryWriteActivity() {
-        val intent = Intent(activity, DiaryWriteActivity::class.java)
-        startActivity(intent)
     }
 
     private fun onNavigationButtonClicked(menuItem: MenuItem, fragment: Fragment) {
