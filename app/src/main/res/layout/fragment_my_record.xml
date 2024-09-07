@@ -79,13 +79,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background" />
+            android:background="@color/gray_200" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background" />
+            android:background="@color/gray_200" />
 
         <View
             android:layout_width="0dp"
@@ -100,44 +100,50 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="그때 어떤 감정을 느꼈어?"
+        android:text="어떤 상황이었어?"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/chipGroup"
+        app:layout_constraintBottom_toTopOf="@id/squareView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressbar" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+
+    <!-- 회색 테두리를 가진 입력칸 추가 -->
+    <View
+        android:id="@+id/squareView"
         android:layout_width="0dp"
         android:layout_height="240dp"
         android:layout_marginTop="24dp"
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/questionment"
-        android:padding="16dp"
-        app:singleLine="true"
-        app:singleSelection="false"
-        app:chipSpacing="8dp"/>
+        app:layout_constraintTop_toBottomOf="@id/questionment" />
 
+    <EditText
+        android:id="@+id/inputField"
+        android:layout_width="360dp"
+        android:layout_height="190dp"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_background"
+        android:maxLength="150"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/squareView" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
+    <!-- 글자 수 카운트 표시용 TextView 추가 -->
+    <TextView
+        android:id="@+id/charCountTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabMode="fixed"
-        app:tabGravity="fill"
-        app:layout_constraintTop_toBottomOf="@id/chipGroup" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        app:layout_constraintBottom_toTopOf="@id/buttonNext" />
+        android:layout_gravity="end"
+        android:text="0/150"
+        app:layout_constraintEnd_toEndOf="@id/inputField"
+        app:layout_constraintTop_toBottomOf="@id/inputField" />
+
 
     <Button
         android:id="@+id/buttonNext"
@@ -148,7 +154,8 @@
         android:text="다음으로"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.493" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,27 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="홈"
-        app:showAsAction="withText" />
-
+        android:title="홈"/>
     <item
-        android:id="@+id/navigation_search"
-        android:icon="@drawable/ic_search"
-        android:title="나의 기록"
-        app:showAsAction="withText"/>
-
+        android:id="@+id/nav_my_record"
+        android:icon="@drawable/ic_my_record"
+        android:title="나의 기록"/>
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_analyze"
-        android:title="분석"
-        app:showAsAction="withText" />
-
+        android:id="@+id/nav_analysis"
+        android:icon="@drawable/ic_analysis"
+        android:title="분석"/>
     <item
-        android:id="@+id/navigation_profile"
+        android:id="@+id/nav_my_page"
         android:icon="@drawable/ic_profile"
-        android:title="마이페이지"
-        app:showAsAction="withText" />
+        android:title="마이페이지"/>
 </menu>

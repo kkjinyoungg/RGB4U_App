@@ -12,22 +12,22 @@ class LoginActivity : AppCompatActivity() {
 
         // 카카오 로그인 버튼 클릭 리스너 설정
         findViewById<Button>(R.id.btnKakaoLogin).setOnClickListener {
-            startSignUpActivity()
+            startSignUpActivity1()
         }
 
         // 네이버 로그인 버튼 클릭 리스너 설정
         findViewById<Button>(R.id.btnNaverLogin).setOnClickListener {
-            startSignUpActivity()
+            startSignUpActivity1()
         }
 
         // 구글 로그인 버튼 클릭 리스너 설정
         findViewById<Button>(R.id.btnGoogleLogin).setOnClickListener {
-            startSignUpActivity()
+            startSignUpActivity1()
         }
     }
 
-    private fun startSignUpActivity() {
-        val intent = Intent(this, SignUpActivity::class.java)
+    private fun startSignUpActivity1() {
+        val intent = Intent(this, SignUpActivity1::class.java)
         startActivity(intent)
     }
 }
