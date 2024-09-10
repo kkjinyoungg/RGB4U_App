@@ -123,17 +123,19 @@
 
     <EditText
         android:id="@+id/inputField"
-        android:layout_width="360dp"
-        android:layout_height="190dp"
-        android:imeOptions="actionDone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_background"
+        android:imeOptions="actionDone"
         android:maxLength="150"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/squareView" />
+        app:layout_constraintTop_toBottomOf="@id/squareView"
+        app:layout_constraintBottom_toTopOf="@id/charCountTextView" /> <!-- 수정된 부분 -->
 
-    <!-- 글자 수 카운트 표시용 TextView 추가 -->
+    <!-- 글자 수 카운트 표시용 TextView -->
     <TextView
         android:id="@+id/charCountTextView"
         android:layout_width="wrap_content"
@@ -142,14 +144,14 @@
         android:layout_gravity="end"
         android:text="0/150"
         app:layout_constraintEnd_toEndOf="@id/inputField"
-        app:layout_constraintTop_toBottomOf="@id/inputField" />
+        app:layout_constraintTop_toBottomOf="@id/inputField" /> <!-- 수정된 부분 -->
 
 
-    <Button
+    <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button_gray"
         android:text="다음으로"
         app:layout_constraintBottom_toBottomOf="parent"

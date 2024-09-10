@@ -1,10 +1,11 @@
 package com.example.rgb4u_app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
-class ThinkWriteActivity : AppCompatActivity() {
+class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +18,7 @@ class ThinkWriteActivity : AppCompatActivity() {
                     putString("questionText", "그때 어떤 생각이 들었어?")
                     putInt("currentStep", 2)  // 현재 단계 설정
                 }
-                setNextActivity(EmotionSelectActivity::class.java)
+
             }
             openFragment(fragment)
         }
@@ -28,5 +29,18 @@ class ThinkWriteActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    // NavigationListener 인터페이스 구현
+    override fun onNextButtonClicked() {
+        // EmotionSelectActivity로 이동
+        val intent = Intent(this, EmotionSelectActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onBackButtonClicked() {
+        // DiaryWriteActivity로 이동
+        val intent = Intent(this, DiaryWriteActivity::class.java)
+        startActivity(intent)
     }
 }

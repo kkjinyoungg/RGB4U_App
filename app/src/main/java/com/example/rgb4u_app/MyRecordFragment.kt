@@ -1,11 +1,10 @@
 package com.example.rgb4u_app
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +12,20 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class MyRecordFragment : Fragment() {
+
+    interface NavigationListener {
+        fun onNextButtonClicked()
+        fun onBackButtonClicked()
+    }
+
+    private var listener: NavigationListener? = null
 
     private lateinit var dateTextView: TextView
 
@@ -27,11 +34,15 @@ class MyRecordFragment : Fragment() {
 
     private lateinit var progressBar: LinearLayout
 
-    private lateinit var buttonNext: Button
-    private var nextActivityClass: Class<*>? = null
+    private lateinit var nextButton: Button
 
-    fun setNextActivity(activityClass: Class<*>) {
-        nextActivityClass = activityClass
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NavigationListener) {
+            listener = context
+        } else {
+            throw ClassCastException("$context must implement NavigationListener")
+        }
     }
 
     override fun onCreateView(
@@ -51,18 +62,23 @@ class MyRecordFragment : Fragment() {
 
         inputField = view.findViewById(R.id.inputField)
         charCountTextView = view.findViewById(R.id.charCountTextView)
+        nextButton = view.findViewById(R.id.buttonNext) // 버튼 초기화
 
-        // TextWatcher를 사용하여 글자 수 업데이트
+        // TextWatcher를 사용하여 글자 수 업데이트 및 버튼 활성화/비활성화
         inputField.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val textLength = s?.length ?: 0
                 charCountTextView.text = "$textLength/150"
+
+                // 텍스트 길이에 따라 버튼 활성화/비활성화
+                nextButton.isEnabled = textLength > 0
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
 
         // Arguments에서 questionText 가져오기
         val questionText = arguments?.getString("questionText")
@@ -75,20 +91,24 @@ class MyRecordFragment : Fragment() {
         val currentStep = arguments?.getInt("currentStep", 1) ?: 1
         updateProgressBar(currentStep)
 
+        // 뒤로가기 버튼
+        val backButton: AppCompatImageButton = view.findViewById(R.id.backButton) // ID를 맞게 수정
+        backButton.setOnClickListener {
+            listener?.onBackButtonClicked()
+        }
+
+        // 다음 버튼
+        val nextButton: Button = view.findViewById(R.id.buttonNext) // ID를 맞게 수정
+        nextButton.setOnClickListener {
+            listener?.onNextButtonClicked()
+        }
+
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        buttonNext = view.findViewById(R.id.buttonNext)
-        buttonNext.setOnClickListener {
-            Log.d("MyRecordFragment", "Next button clicked") // 로그 추가
-            nextActivityClass?.let {
-                val intent = Intent(activity, it)
-                startActivity(intent)
-            }
-        }
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     private fun updateProgressBar(step: Int) {
