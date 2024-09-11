@@ -8,6 +8,8 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapte
 
     val emotions = listOf("놀람", "두려움", "슬픔", "분노", "혐오")
 
+
+
     override fun getItemCount(): Int = emotions.size
 
     override fun createFragment(position: Int): Fragment {
