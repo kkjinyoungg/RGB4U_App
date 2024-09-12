@@ -1,0 +1,21 @@
+<!-- res/drawable/custom_progress.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background for the SeekBar (empty part) -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="5dp" />
+            <solid android:color="#E0E0E0" /> <!-- 회색 백그라운드 -->
+        </shape>
+    </item>
+
+    <!-- Progress part of the SeekBar (filled part) -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="5dp" />
+                <solid android:color="#FF4081" /> <!-- 진행된 부분 색상, 핑크로 설정 -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

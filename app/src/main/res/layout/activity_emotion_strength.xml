@@ -122,7 +122,7 @@
         app:singleSelection="false"
         app:chipSpacing="8dp"/>
 
-    <!-- SeekBar와 TextView를 ChipGroup 아래에 배치 -->
+    <!-- SeekBar와 단계 라벨을 함께 묶는 LinearLayout -->
     <LinearLayout
         android:id="@+id/seekBarLayout"
         android:layout_width="match_parent"
@@ -134,18 +134,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chipGroup">
 
+        <!-- SeekBar 위 텍스트 라벨을 수평으로 배치 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="보통"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="보통"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="보통"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="보통"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="보통"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <!-- SeekBar -->
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="4" /> <!-- 0부터 4까지 총 5단계 -->
+            android:max="4"
+            android:progressDrawable="@drawable/custom_progress"
+            android:thumb="@drawable/custom_thumb" />
 
-        <TextView
-            android:id="@+id/stepName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="단계 이름" />
     </LinearLayout>
 
     <android.widget.Button

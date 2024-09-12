@@ -12,31 +12,17 @@ import java.util.Locale
 
 class EmotionStrengthActivity : AppCompatActivity() {
     private lateinit var seekBar: SeekBar
-    private lateinit var stepName: TextView
     private lateinit var dateTextView: TextView
-
-    val stepNames = arrayOf("단계 1", "단계 2", "단계 3", "단계 4", "단계 5")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_strength)
 
+        // SeekBar 초기화
         seekBar = findViewById(R.id.seekBar)
-        stepName = findViewById(R.id.stepName)
 
         // SeekBar의 최대값을 4로 설정
         seekBar.max = 4
-
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                // 체크 포인트에 맞춰 단계 이름 변경
-                stepName.text = stepNames[progress]
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
 
         // dateTextView 초기화
         dateTextView = findViewById(R.id.dateTextView)
