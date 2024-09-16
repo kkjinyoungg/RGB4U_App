@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
         <ImageButton
             android:id="@+id/buttonBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_back"
+            android:contentDescription="@string/back_button"
             android:scaleType="fitCenter"
-            android:contentDescription="@string/back_button"/>
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:text="회원 가입"
             android:textAlignment="center"
             android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/gray_200"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:background="@color/gray_200" />
 
     <!-- 진한 회색과 옅은 회색으로 나누어진 박스 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background"/> <!-- 진한 회색 -->
+            android:background="@color/background" /> <!-- 진한 회색 -->
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/gray_200"/> <!-- 옅은 회색 -->
+            android:background="@color/gray_200" /> <!-- 옅은 회색 -->
     </LinearLayout>
 
     <TextView
@@ -65,7 +71,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="닉네임이 뭐야?"
-        android:textSize="24sp" /> <!-- 크기 변경 -->
+        android:textSize="20sp" /> <!-- 크기 변경 -->
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,11 +89,11 @@
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="닉네임을 적어줘"
-            android:maxLength="10"
-            android:inputType="text"
             android:backgroundTint="@android:color/darker_gray"
-            android:paddingTop="8dp"/>
+            android:hint="닉네임을 적어줘"
+            android:inputType="text"
+            android:maxLength="10"
+            android:paddingTop="8dp" />
 
         <TextView
             android:id="@+id/charCount"
@@ -95,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="4dp"
-            android:text="0/10"/>
+            android:text="0/10" />
 
     </RelativeLayout>
 
@@ -103,20 +109,20 @@
         android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_red_light"
         android:layout_marginTop="8dp"
-        android:visibility="gone"/> <!-- 초기에는 보이지 않도록 설정 -->
+        android:textColor="@android:color/holo_red_light"
+        android:visibility="gone" /> <!-- 초기에는 보이지 않도록 설정 -->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="2" />
 
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="다음으로"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"/>
+        android:background="@drawable/rounded_button"
+        android:text="다음으로" />
 </LinearLayout>

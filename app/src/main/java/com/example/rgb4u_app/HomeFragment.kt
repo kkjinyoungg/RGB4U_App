@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -36,7 +35,6 @@ class HomeFragment : Fragment() {
         textBox = view.findViewById(R.id.textBox)
         dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
         dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
-        val mainCharacterContainer = view.findViewById<RelativeLayout>(R.id.mainCharacterContainer)
 
         // 말풍선 클릭 리스너 추가
         textBox.setOnClickListener {
@@ -68,7 +66,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun calculateDDay() {
-        // 앱 설치 날짜를 SharedPreferences에서 가져옵니다.
+        // SharedPreferences에서 설치 날짜를 가져옵니다.
         val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val installDateMillis = sharedPreferences.getLong("install_date", -1)
 
@@ -76,14 +74,15 @@ class HomeFragment : Fragment() {
         if (installDateMillis == -1L) {
             val currentDateMillis = System.currentTimeMillis()
             sharedPreferences.edit().putLong("install_date", currentDateMillis).apply()
-            dDayTextView.text = "D+0"
+            dDayTextView.text = "D+1"  // 설치 날을 1일로 간주합니다.
         } else {
             // 설치 날짜를 기준으로 D-Day 계산
             val currentDateMillis = System.currentTimeMillis()
-            val dDay = ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24)).toInt() // 일수로 변환
+            val dDay = ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24) + 1).toInt() // 일수로 변환 (1일 추가)
             dDayTextView.text = "D+$dDay"
         }
     }
+
 
     private fun changeMessage() {
         val messages = arrayOf(

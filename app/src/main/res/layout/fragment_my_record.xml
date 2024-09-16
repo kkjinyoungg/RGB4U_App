@@ -7,48 +7,55 @@
     tools:context=".MyRecordFragment">
 
     <!-- 상단 수평 배치용 가로 레이아웃 -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- 뒤로가기 이미지 버튼 -->
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <!-- 오늘 날짜 텍스트 -->
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center"
             android:text="6월 19일 수요일"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="center" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/exitButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 나가기 이미지 버튼 -->
         <ImageButton
             android:id="@+id/exitButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_exit"
-            android:contentDescription="나가기" />
+            android:contentDescription="나가기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 구분선 추가 -->
     <View
@@ -96,46 +103,57 @@
 
     <TextView
         android:id="@+id/questionment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="어떤 상황이었어?"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/squareView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressbar" />
+        app:layout_constraintEnd_toStartOf="@id/helpButton"
+        android:layout_marginEnd="8dp" />
 
+    <ImageButton
+        android:id="@+id/helpButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_help"
+        android:contentDescription="도움말 버튼"
+        app:layout_constraintTop_toTopOf="@id/questionment"
+        app:layout_constraintBottom_toBottomOf="@id/questionment"
+        app:layout_constraintStart_toEndOf="@id/questionment" />
 
     <!-- 회색 테두리를 가진 입력칸 추가 -->
     <View
         android:id="@+id/squareView"
         android:layout_width="0dp"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:layout_marginTop="24dp"
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/questionment" />
 
     <EditText
         android:id="@+id/inputField"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_background"
+        android:gravity="top|start"
         android:imeOptions="actionDone"
         android:maxLength="150"
-        android:gravity="top|start"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@id/charCountTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/squareView"
-        app:layout_constraintBottom_toTopOf="@id/charCountTextView" />
+        app:layout_constraintTop_toBottomOf="@id/squareView" />
 
     <!-- 글자 수 카운트 -->
     <TextView
@@ -145,11 +163,10 @@
         android:layout_marginTop="8dp"
         android:text="0/150"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="@id/inputField"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputField"
         android:layout_gravity="end"
         android:paddingEnd="16dp" />
-
 
     <android.widget.Button
         android:id="@+id/buttonNext"
@@ -160,8 +177,6 @@
         android:text="다음으로"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

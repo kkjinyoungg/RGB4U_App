@@ -1,6 +1,7 @@
 package com.example.rgb4u_app
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +35,7 @@ class MyRecordFragment : Fragment() {
     private lateinit var progressBar: LinearLayout
     private lateinit var nextButton: Button
     private lateinit var backButton: AppCompatImageButton
+    private lateinit var exitButton: AppCompatImageButton  // exitButton 속성 추가
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,23 +51,19 @@ class MyRecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_my_record, container, false)
+
+        // UI 요소 초기화
         dateTextView = view.findViewById(R.id.dateTextView)
-
-        // 현재 날짜 가져오기
-        val calendar = Calendar.getInstance()
-        val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
-        val currentDate = sdf.format(calendar.time)
-
-        // TextView에 날짜 설정
-        dateTextView.text = currentDate
-
         inputField = view.findViewById(R.id.inputField)
         charCountTextView = view.findViewById(R.id.charCountTextView)
         nextButton = view.findViewById(R.id.buttonNext)
-        backButton = view.findViewById(R.id.backButton)  // 뒤로가기 버튼 초기화
+        backButton = view.findViewById(R.id.backButton)
+        exitButton = view.findViewById(R.id.exitButton)
 
-        // 초기 버튼 상태 설정 (처음에는 비활성화)
-        setButtonState(false)
+        // 현재 날짜 설정
+        val calendar = Calendar.getInstance()
+        val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
+        dateTextView.text = sdf.format(calendar.time)
 
         // 글자 수에 따라 버튼 활성화
         inputField.addTextChangedListener(object : TextWatcher {
@@ -72,36 +71,53 @@ class MyRecordFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val inputText = s.toString()
-                charCountTextView.text = "${inputText.length}/150"  // 글자 수 업데이트
-                validateInput(inputText)
+                charCountTextView.text = "${inputText.length}/150"
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                val inputText = s.toString()
+                if (inputText.length > 150) {
+                    inputField.setText(inputText.substring(0, 150))
+                    inputField.setSelection(150)
+                    charCountTextView.text = "150/150"
+                    charCountTextView.setTextColor(Color.RED) // 150자 초과 시 빨간색
+                } else {
+                    charCountTextView.setTextColor(Color.BLACK) // 150자 이하일 때 검정색
+                }
+                validateInput(inputText)
+            }
         })
 
-        // 뒤로가기 버튼 동작
-        backButton.setOnClickListener {
-            listener?.onBackButtonClicked()
+
+        // 각 버튼에 클릭 리스너 설정
+        backButton.setOnClickListener { listener?.onBackButtonClicked() }
+        nextButton.setOnClickListener { listener?.onNextButtonClicked() }
+        exitButton.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
-        // 다음 버튼 동작
-        nextButton.setOnClickListener {
-            listener?.onNextButtonClicked()
-        }
-
-        // Arguments에서 questionText 가져오기
+        // 질문 텍스트 설정
         val questionText = arguments?.getString("questionText")
-        val questionment: TextView = view.findViewById(R.id.questionment)  // ID에 맞게 수정
-        questionment.text = questionText  // 텍스트 설정
+        val questionment: TextView = view.findViewById(R.id.questionment)
+        questionment.text = questionText
 
+        // progressBar 업데이트
         progressBar = view.findViewById(R.id.progressbar)
-
-        // 현재 단계에 따라 progressbar 업데이트
         val currentStep = arguments?.getInt("currentStep", 1) ?: 1
         updateProgressBar(currentStep)
 
+        // helpButton 설정
+        val helpButton: ImageButton = view.findViewById(R.id.helpButton)
+        helpButton.setOnClickListener {
+            val bottomSheet = HelpBottomSheetFragment()
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
+
         return view
     }
+
 
     override fun onDetach() {
         super.onDetach()
