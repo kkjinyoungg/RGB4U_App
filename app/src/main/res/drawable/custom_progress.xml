@@ -1,20 +1,19 @@
-<!-- res/drawable/custom_progress.xml -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Background for the SeekBar (empty part) -->
-    <item android:id="@android:id/background">
+    <!-- SeekBar 배경 -->
+    <item>
         <shape>
-            <corners android:radius="5dp" />
-            <solid android:color="#E0E0E0" /> <!-- 회색 백그라운드 -->
+            <corners android:radius="8dp" />
+            <solid android:color="#D3D3D3" />
+            <size android:height="28dp" /> <!-- 비선택 부분의 색상 -->
         </shape>
     </item>
-
-    <!-- Progress part of the SeekBar (filled part) -->
+    <!-- SeekBar 선택된 부분 -->
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <corners android:radius="5dp" />
-                <solid android:color="#FF4081" /> <!-- 진행된 부분 색상, 핑크로 설정 -->
+                <corners android:radius="8dp" />
+                <solid android:color="#A4B6D8" />
+                <size android:height="28dp"/><!-- 선택된 부분의 색상 -->
             </shape>
         </clip>
     </item>

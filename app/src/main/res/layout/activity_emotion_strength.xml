@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:windowSoftInputMode="adjustResize">
 
-    <!-- 프래그먼트가 화면 전체를 차지하도록 설정 -->
+    <!-- FrameLayout for fragment -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- MyRecordFragment -->
     <fragment
         android:id="@+id/myrecordFragment"
         android:name="com.example.rgb4u_app.ui.fragment.MyRecordFragment"
@@ -23,17 +24,67 @@
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_my_record" />
 
-
-
-    <!-- 스퀘어 뷰 -->
+    <!-- Square view for illustrations -->
     <View
         android:id="@+id/squareView"
         android:layout_width="315dp"
         android:layout_height="169dp"
-        android:layout_marginTop="414dp"
+        android:layout_marginTop="225dp"
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- SeekBar 위에 표시될 텍스트 -->
+    <TextView
+        android:id="@+id/dynamicTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="460dp"
+        android:text="너무 심하게 느꼈어"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 시크바 하단의 레이블 -->
+    <TextView
+        android:id="@+id/leftLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="낮음"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dynamicTextView" />
+
+    <TextView
+        android:id="@+id/rightLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="강함"
+        android:textSize="10sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/dynamicTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- SeekBar -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="4"
+        android:progressDrawable="@drawable/custom_progress"
+        android:thumb="@drawable/custom_thumb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/leftLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

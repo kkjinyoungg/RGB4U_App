@@ -31,11 +31,12 @@ class MyRecordFragment : Fragment() {
     private lateinit var subQuestionment: TextView
     private lateinit var nextButton: Button
     private lateinit var backButton: AppCompatImageButton
-    private lateinit var exitButton: AppCompatImageButton  // exitButton 속성 추가
+    private lateinit var exitButton: AppCompatImageButton
     private lateinit var iconSituation: ImageView
     private lateinit var iconThought: ImageView
     private lateinit var iconEmotionStrength: ImageView
     private lateinit var iconEmotionType: ImageView
+    private lateinit var helpButton: ImageButton
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,6 +64,7 @@ class MyRecordFragment : Fragment() {
         iconThought = view.findViewById(R.id.icon_thought)
         iconEmotionStrength = view.findViewById(R.id.icon_emotion_strength)
         iconEmotionType = view.findViewById(R.id.icon_emotion_type)
+        helpButton = view.findViewById(R.id.helpButton) // Initialize here
 
         // 현재 날짜 설정
         val calendar = Calendar.getInstance()
@@ -78,8 +80,7 @@ class MyRecordFragment : Fragment() {
             activity?.finish()
         }
 
-        // helpButton 설정
-        val helpButton: ImageButton = view.findViewById(R.id.helpButton)
+        // helpButton 클릭 리스너 설정
         helpButton.setOnClickListener {
             val bottomSheet = HelpBottomSheetFragment()
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
@@ -128,5 +129,13 @@ class MyRecordFragment : Fragment() {
             3 -> iconEmotionStrength.visibility = View.VISIBLE
             4 -> iconEmotionType.visibility = View.VISIBLE
         }
+    }
+
+    fun setHelpButtonEnabled(enabled: Boolean) {
+        helpButton.isEnabled = enabled
+    }
+
+    fun setHelpButtonVisibility(visible: Boolean) {
+        helpButton.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }

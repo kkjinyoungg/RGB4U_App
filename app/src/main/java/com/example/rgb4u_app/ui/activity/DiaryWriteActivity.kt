@@ -34,6 +34,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val charCountTextView = findViewById<TextView>(R.id.charCountTextView)
         val buttonNext = myRecordFragment.view?.findViewById<Button>(R.id.buttonNext)
 
+        // 초기 상태로 버튼 비활성화
+        buttonNext?.isEnabled = false
+
         // 텍스트 필드 변화에 따라 버튼 활성화/비활성화 및 글자 수 업데이트
         inputField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -62,7 +65,6 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
 
         // 버튼 클릭 시 onNextButtonClicked 호출
         buttonNext?.setOnClickListener {

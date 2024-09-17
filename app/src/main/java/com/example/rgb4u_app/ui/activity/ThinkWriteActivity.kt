@@ -18,7 +18,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_write_diary)
+        setContentView(R.layout.activity_think_write) // 레이아웃이 동일할 경우, 다른 레이아웃 파일로 변경 필요
 
         // 프래그먼트 초기화
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
@@ -33,6 +33,9 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val inputField = findViewById<EditText>(R.id.inputField)
         val charCountTextView = findViewById<TextView>(R.id.charCountTextView)
         val buttonNext = myRecordFragment.view?.findViewById<Button>(R.id.buttonNext)
+
+        // 초기 상태로 버튼 비활성화
+        buttonNext?.isEnabled = false
 
         // 텍스트 필드 변화에 따라 버튼 활성화/비활성화 및 글자 수 업데이트
         inputField.addTextChangedListener(object : TextWatcher {
@@ -63,7 +66,6 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-
         // 버튼 클릭 시 onNextButtonClicked 호출
         buttonNext?.setOnClickListener {
             onNextButtonClicked()
@@ -80,6 +82,6 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // "Back" 버튼 클릭 시 이동
         val intent = Intent(this, DiaryWriteActivity::class.java)
         startActivity(intent)
-        finish() //
+        finish() // 현재 Activity를 종료하여 뒤로가기 시 DiaryWriteActivity로 돌아가도록 합니다.
     }
 }
