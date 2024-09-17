@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
 
+
     // ViewPager2 의존성 추가
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 

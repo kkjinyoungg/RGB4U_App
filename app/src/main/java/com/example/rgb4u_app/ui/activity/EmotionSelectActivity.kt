@@ -2,89 +2,107 @@ package com.example.rgb4u_app.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ViewPagerAdapter
+import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-class EmotionSelectActivity : AppCompatActivity() {
+class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager
-    private lateinit var dateTextView: TextView
-    private lateinit var chipGroup: ChipGroup
+    private lateinit var myRecordFragment: MyRecordFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
 
-        // dateTextView 초기화
-        dateTextView = findViewById(R.id.dateTextView)
+        // Initialize fragment
+        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
 
-        // 현재 날짜 가져오기
-        val currentDate = getCurrentDate()
+        // Set text and icon for fragment
+        myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
+        myRecordFragment.showIconForStep(4)
 
-        // 현재 날짜를 TextView에 설정하기
-        dateTextView.text = currentDate
+        // Emotion categories and chip labels
+        val emotions = mapOf(
+            "Surprise" to listOf("어안이 벙벙한", "아찔한", "황당한", "깜짝 놀란", "움찔하는", "충격적인"),
+            "Fear" to listOf("걱정스러운", "암담한", "겁나는", "무서운", "불안한", "긴장된"),
+            "Sadness" to listOf("기운 없는", "슬픈", "눈물이 나는", "우울한", "비참한", "서운한"),
+            "Anger" to listOf("화난", "끓어오르는", "분한", "짜증나는", "약 오른", "억울한"),
+            "Disgust" to listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
+        )
 
-        chipGroup = findViewById(R.id.chipGroup)
+        // LayoutInflater for creating chips
+        val inflater = LayoutInflater.from(this)
 
-        val tabLayout: TabLayout = findViewById(R.id.tabLayout)
-        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        // Access existing ChipGroups from XML
+        val surpriseChipGroup = findViewById<ChipGroup>(R.id.surpriseChipGroup)
+        val fearChipGroup = findViewById<ChipGroup>(R.id.fearChipGroup)
+        val sadnessChipGroup = findViewById<ChipGroup>(R.id.sadnessChipGroup)
+        val angerChipGroup = findViewById<ChipGroup>(R.id.angerChipGroup)
+        val disgustChipGroup = findViewById<ChipGroup>(R.id.disgustChipGroup)
 
-        val adapter = ViewPagerAdapter(this)
-        viewPager.adapter = adapter
+        // Map ChipGroups to their respective emotions
+        val chipGroupMap = mapOf(
+            "Surprise" to surpriseChipGroup,
+            "Fear" to fearChipGroup,
+            "Sadness" to sadnessChipGroup,
+            "Anger" to angerChipGroup,
+            "Disgust" to disgustChipGroup
+        )
 
-        // TabLayoutMediator에서 getItem 대신 emotions 리스트를 사용
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = adapter.emotions[position]
-        }.attach()
-
-        // 뒤로가기 버튼 클릭 리스너
-        findViewById<ImageButton>(R.id.backButton).setOnClickListener {
-            val intent = Intent(this, ThinkWriteActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 나가기 버튼 클릭 리스너
-        findViewById<ImageButton>(R.id.exitButton).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish() // 현재 액티비티 종료
-        }
-
-        // 다음 버튼 클릭 리스너 추가
-        findViewById<Button>(R.id.buttonNext).setOnClickListener {
-            val intent = Intent(this, EmotionStrengthActivity::class.java)
-            startActivity(intent)
-        }
-
-    }
-
-    fun onEmotionSelected(emotion: String) {
-        val chip = Chip(this).apply {
-            text = emotion
-            isCloseIconVisible = true
-            setOnCloseIconClickListener {
-                chipGroup.removeView(this)
+        // Add chips to ChipGroups
+        for ((category, labels) in emotions) {
+            val chipGroup = chipGroupMap[category] ?: continue
+            for (label in labels) {
+                val chip = inflater.inflate(R.layout.single_chip_item, chipGroup, false) as Chip
+                chip.text = label
+                chip.isCheckable = true
+                chip.setTextColor(getColor(R.color.white))
+                chip.setOnCheckedChangeListener { _, isChecked ->
+                    // Apply color based on the category when selected
+                    when (category) {
+                        "Surprise" -> chip.chipBackgroundColor = getColorStateList(R.color.surpriseColor)
+                        "Fear" -> chip.chipBackgroundColor = getColorStateList(R.color.fearColor)
+                        "Sadness" -> chip.chipBackgroundColor = getColorStateList(R.color.sadnessColor)
+                        "Anger" -> chip.chipBackgroundColor = getColorStateList(R.color.angerColor)
+                        "Disgust" -> chip.chipBackgroundColor = getColorStateList(R.color.disgustColor)
+                    }
+                    // Reset color if not checked
+                    if (!isChecked) {
+                        chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
+                    }
+                    // 텍스트 색상 고정
+                    chip.setTextColor(getColor(R.color.white))  // 선택 상태에서도 텍스트 색상 유지
+                    // Update the state of the next button based on chip selection
+                    updateNextButtonState(chipGroup.checkedChipIds.size)
+                }
+                chipGroup.addView(chip)
             }
         }
-        chipGroup.addView(chip)
+
+        // Disable and hide the helpButton
+        myRecordFragment.setHelpButtonEnabled(false)
+        myRecordFragment.setHelpButtonVisibility(false)
     }
 
-    private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
-        return dateFormat.format(Date())
+    // Update the state of the next button
+    private fun updateNextButtonState(selectedChipCount: Int) {
+        myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..3)
     }
+
+    override fun onNextButtonClicked() {
+        // Handle next button click (proceed to the next activity or step)
+        Toast.makeText(this, "Next button clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackButtonClicked() {
+        // Handle back button click (return to the MainActivity)
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish() // Finish the current activity
+    }
+
 }
