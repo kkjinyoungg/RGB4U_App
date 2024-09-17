@@ -100,7 +100,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
 
     override fun onBackButtonClicked() {
         // Handle back button click (return to the MainActivity)
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, EmotionStrengthActivity::class.java)
         startActivity(intent)
         finish() // Finish the current activity
     }
