@@ -12,7 +12,10 @@
         android:layout_gravity="bottom"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleVerticalOffset="10dp"
+        app:fabAlignmentMode="end"
         app:backgroundTint="@color/white"/>
+
 
     <!-- BottomNavigationView -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,11 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="56dp"
-        app:srcCompat="@drawable/ic_think"
-        app:backgroundTint="@color/gray_200"
-        app:fabSize="normal"
-        app:tint="@null"
-        app:iconSize="30dp"/>
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitCenter"
+        app:backgroundTint="@color/selected_yellow"
+        app:srcCompat="@drawable/ic_think" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

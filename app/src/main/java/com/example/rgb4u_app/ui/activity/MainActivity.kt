@@ -1,9 +1,11 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.rgb4u_app.ui.fragment.HomeFragment
+import com.example.rgb4u_app.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

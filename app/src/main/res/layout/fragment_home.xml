@@ -92,7 +92,7 @@
         android:layout_height="250dp"
         android:contentDescription="메인 캐릭터"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_character"
+        android:src="@drawable/circle_background"
         app:layout_constraintBottom_toTopOf="@+id/navigationBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -103,7 +103,7 @@
 
     <fragment
         android:id="@+id/navigationBar"
-        android:name="com.example.rgb4u_app.NavigationFragment"
+        android:name="com.example.rgb4u_app.ui.fragment.NavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

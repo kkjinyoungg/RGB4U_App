@@ -1,4 +1,4 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ViewPagerAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout

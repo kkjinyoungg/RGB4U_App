@@ -1,4 +1,4 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rgb4u_app.ChatAdapter
+import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ChatViewModel
 
 class ChatFragment : Fragment() {
     private lateinit var viewModel: ChatViewModel

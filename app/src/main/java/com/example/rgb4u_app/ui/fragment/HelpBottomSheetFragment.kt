@@ -1,9 +1,10 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.rgb4u_app.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class HelpBottomSheetFragment : BottomSheetDialogFragment() {

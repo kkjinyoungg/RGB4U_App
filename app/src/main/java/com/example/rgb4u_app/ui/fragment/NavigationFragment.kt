@@ -1,4 +1,4 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.DiaryWriteActivity
+import com.example.rgb4u_app.ui.activity.MainActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -69,12 +72,24 @@ class NavigationFragment : Fragment() {
         val menu = bottomAppBar.menu
         for (i in 0 until menu.size()) {
             val item = menu.getItem(i)
+            when (item.itemId) {
+                R.id.nav_home -> item.setIcon(R.drawable.ic_home) // 기본 아이콘으로 설정
+                R.id.nav_my_record -> item.setIcon(R.drawable.ic_my_record) // 기본 아이콘으로 설정
+                R.id.nav_analysis -> item.setIcon(R.drawable.ic_analysis) // 기본 아이콘으로 설정
+                R.id.nav_my_page -> item.setIcon(R.drawable.ic_profile) // 기본 아이콘으로 설정
+            }
             item.icon?.alpha = 128 // 흐릿하게 설정 (0-255)
-            item.title = item.title.toString() // 텍스트 변경 없음
         }
     }
 
     private fun setMenuItemActive(menuItem: MenuItem) {
-        menuItem.icon?.alpha = 255 // 원래 상태로 설정
+        when (menuItem.itemId) {
+            R.id.nav_home -> menuItem.setIcon(R.drawable.ic_home_selected) // 선택된 아이콘으로 변경
+            R.id.nav_my_record -> menuItem.setIcon(R.drawable.ic_my_record_selected) // 선택된 아이콘으로 변경
+            R.id.nav_analysis -> menuItem.setIcon(R.drawable.ic_analysis_selected) // 선택된 아이콘으로 변경
+            R.id.nav_my_page -> menuItem.setIcon(R.drawable.ic_profile_selected) // 선택된 아이콘으로 변경
+        }
+        menuItem.icon?.alpha = 255 // 선택된 항목은 명확하게 설정
     }
+
 }

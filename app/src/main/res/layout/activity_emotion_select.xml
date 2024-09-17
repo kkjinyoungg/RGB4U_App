@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyRecordFragment">
+    tools:context=".ui.fragment.MyRecordFragment">
 
     <!-- 상단 수평 배치용 가로 레이아웃 -->
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.rgb4u_app.HomeFragment"
+        android:name="com.example.rgb4u_app.ui.fragment.HomeFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_app.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.rgb4u_app.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
