@@ -11,4 +11,11 @@
         <item name="android:layout_marginRight">1dp</item> <!-- 테두리 추가 -->
         <!-- 더 이상 사용하지 않는 항목들 제거 -->
     </style>
+    <!-- res/values/styles.xml -->
+    <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">false</item> <!-- 배경을 흐리게 하지 않음 -->
+    </style>
+
 </resources>

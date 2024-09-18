@@ -18,7 +18,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_think_write) // 레이아웃이 동일할 경우, 다른 레이아웃 파일로 변경 필요
+        setContentView(R.layout.activity_think_write)
 
         // 프래그먼트 초기화
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
@@ -73,15 +73,23 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     }
 
     override fun onNextButtonClicked() {
-        // "Next" 버튼 클릭 시 이동
+        val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+
+        // EmotionStrengthActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, EmotionStrengthActivity::class.java)
+        intent.putExtra("EXTRA_SITUATION_TEXT", situationText)  // DiaryWriteActivity에서 전달받은 데이터
+        intent.putExtra("EXTRA_THOUGHT_TEXT", inputText)  // thoughtText로 전달할 데이터
         startActivity(intent)
     }
 
+
+
+
     override fun onBackButtonClicked() {
-        // "Back" 버튼 클릭 시 이동
+        // "Back" 버튼 클릭 시 DiaryWriteActivity로 이동
         val intent = Intent(this, DiaryWriteActivity::class.java)
         startActivity(intent)
-        finish() // 현재 Activity를 종료하여 뒤로가기 시 DiaryWriteActivity로 돌아가도록 합니다.
+        finish()
     }
 }

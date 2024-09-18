@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
@@ -66,7 +67,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 val chip = inflater.inflate(R.layout.single_chip_item, chipGroup, false) as Chip
                 chip.text = label
                 chip.isCheckable = true
-                chip.setTextColor(getColor(R.color.white))
+                chip.setTextColor(getColor(R.color.black))
 
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     val selectedChipCount = selectedChipGroup.childCount
@@ -98,9 +99,16 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
 
     private fun showLoadingDialog() {
         if (!loadingDialog.isShowing) {
+            // 다이얼로그를 풀스크린 스타일로 설정
+            loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            loadingDialog.window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT
+            )
             loadingDialog.show()
         }
     }
+
 
     private fun hideLoadingDialog() {
         if (loadingDialog.isShowing) {
@@ -174,13 +182,21 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     override fun onNextButtonClicked() {
         showLoadingDialog()
 
-        // Simulate loading time or processing time
+        // 이전 화면에서 전달받은 데이터
+        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+        val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+
+        // 2초 후에 SummaryMainActivity로 이동
         Handler().postDelayed({
             hideLoadingDialog()
+
+            // SummaryMainActivity로 데이터 전달
             val intent = Intent(this, SummaryMainActivity::class.java)
+            intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
+            intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
             startActivity(intent)
             finish()
-        }, 2000) // 2초 후에 SummaryMainActivity로 이동
+        }, 2000) // 2초 동안 로딩
     }
 
     override fun onBackButtonClicked() {

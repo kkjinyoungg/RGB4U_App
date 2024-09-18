@@ -73,10 +73,16 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     }
 
     override fun onNextButtonClicked() {
-        // "Next" 버튼 클릭 시 ThinkWriteActivity로 이동
+        val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+
+        // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
+        intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
         startActivity(intent)
     }
+
+
+
 
     override fun onBackButtonClicked() {
         // "Back" 버튼 클릭 시 MainActivity로 이동

@@ -57,9 +57,16 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
     }
 
     override fun onNextButtonClicked() {
+        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+        val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+
         val intent = Intent(this, EmotionSelectActivity::class.java)
+        intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
+        intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
         startActivity(intent)
     }
+
+
 
     override fun onBackButtonClicked() {
         val intent = Intent(this, ThinkWriteActivity::class.java)
