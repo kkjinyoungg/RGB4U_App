@@ -14,13 +14,26 @@
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_my_record" />
 
+    <!-- 선택된 칩을 표시할 ChipGroup 추가 -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/selectedChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:singleLine="true"
+        tools:layout_editor_absoluteX="16dp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="198dp"
+        android:layout_marginTop="238dp"
+        android:layout_marginBottom="100dp"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/myrecordFragment"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/myrecordFragment">
 
         <LinearLayout
             android:id="@+id/emotionLayout"
@@ -47,11 +60,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="132dp"
                 android:text="두려움"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="150dp" />  <!-- 마진 추가 -->
+                android:textStyle="bold" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/fearChipGroup"
@@ -63,11 +76,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="132dp"
                 android:text="슬픔"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="150dp" />  <!-- 마진 추가 -->
+                android:textStyle="bold" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/sadnessChipGroup"
@@ -79,11 +92,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="132dp"
                 android:text="화남"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="150dp" />  <!-- 마진 추가 -->
+                android:textStyle="bold" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/angerChipGroup"
@@ -95,11 +108,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="132dp"
                 android:text="혐오"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="150dp" />  <!-- 마진 추가 -->
+                android:textStyle="bold" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/disgustChipGroup"

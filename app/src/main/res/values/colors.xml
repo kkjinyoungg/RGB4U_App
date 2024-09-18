@@ -8,7 +8,7 @@
     <color name="light_gray">#CCCCCC</color>
     <color name="selected_yellow">#FFE661</color>
 
-    <color name="defaultChipColor">#E0E0E0</color>
+    <color name="defaultChipColor">#33FFFFFF</color>
     <color name="surpriseColor">#8ED9C3</color>
     <color name="fearColor">#64BACB</color>
     <color name="sadnessColor">#51AAE4</color>

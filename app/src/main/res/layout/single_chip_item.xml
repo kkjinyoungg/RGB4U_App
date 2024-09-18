@@ -7,7 +7,8 @@
     android:text="Sample Chip"
     android:clickable="true"
     android:checkable="true"
-    app:chipCornerRadius="16dp"
+    app:chipCornerRadius="50dp"
     app:chipBackgroundColor="@color/defaultChipColor"
-    android:textColor="#FFFFFF"
-    />
+    android:textColor="#262627"
+    app:chipStrokeWidth="0dp"
+    app:chipStrokeColor="@android:color/transparent" />
