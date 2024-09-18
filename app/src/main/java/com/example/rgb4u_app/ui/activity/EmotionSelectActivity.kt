@@ -1,8 +1,11 @@
 package com.example.rgb4u_app.ui.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
@@ -15,10 +18,17 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
+    private lateinit var loadingDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
+
+        // Initialize loading dialog
+        loadingDialog = Dialog(this)
+        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        loadingDialog.setContentView(R.layout.summary_loading)
+        loadingDialog.setCancelable(false)
 
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
         myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
@@ -86,6 +96,18 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         myRecordFragment.setHelpButtonVisibility(false)
     }
 
+    private fun showLoadingDialog() {
+        if (!loadingDialog.isShowing) {
+            loadingDialog.show()
+        }
+    }
+
+    private fun hideLoadingDialog() {
+        if (loadingDialog.isShowing) {
+            loadingDialog.dismiss()
+        }
+    }
+
     private fun addChipToSelectedGroup(chip: Chip, category: String) {
         val selectedChip = Chip(this)
         selectedChip.text = chip.text
@@ -150,7 +172,15 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     }
 
     override fun onNextButtonClicked() {
-        Toast.makeText(this, "Next button clicked", Toast.LENGTH_SHORT).show()
+        showLoadingDialog()
+
+        // Simulate loading time or processing time
+        Handler().postDelayed({
+            hideLoadingDialog()
+            val intent = Intent(this, SummaryMainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }, 2000) // 2초 후에 SummaryMainActivity로 이동
     }
 
     override fun onBackButtonClicked() {
