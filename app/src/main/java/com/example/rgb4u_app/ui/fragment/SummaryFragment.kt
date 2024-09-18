@@ -25,6 +25,7 @@ class SummaryFragment : Fragment() {
     var summarizedContent: String? = null
     var whySummaryReason: String? = null
     var titleText: String? = null
+    var summaryLabelText: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +64,11 @@ class SummaryFragment : Fragment() {
             whySummaryTextView.text = it
         }
 
+        // Set the summary label text (received from the activity)
+        summaryLabelText?.let {
+            view.findViewById<TextView>(R.id.summaryLableTextView).text = it
+        }
+
         // Toggle visibility of user content with the toggle button
         toggleButton.setOnClickListener {
             if (userContentTextView.visibility == View.GONE) {
@@ -84,7 +90,6 @@ class SummaryFragment : Fragment() {
             activity?.finish()
         }
     }
-
 
     companion object {
         fun newInstance(): SummaryFragment {

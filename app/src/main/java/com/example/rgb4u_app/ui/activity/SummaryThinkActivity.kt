@@ -25,5 +25,6 @@ class SummaryThinkActivity : AppCompatActivity() {
         summaryFragment.summarizedContent = "요약된 생각 표현"
         summaryFragment.whySummaryReason = "이유에 대한 텍스트가 여기에 나타납니다."
         summaryFragment.titleText = "이런 생각에서"
+        summaryFragment.summaryLabelText = "요약된 생각 표현"
     }
 }
