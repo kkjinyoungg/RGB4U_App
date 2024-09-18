@@ -29,18 +29,32 @@ class SummaryMainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.situationTextView).text = situationText
         findViewById<TextView>(R.id.thoughtTextView).text = thoughtText
 
-        // 버튼 클릭 리스너 설정
+        // Back 버튼 클릭 리스너 설정
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
             // EmotionSelectActivity로 이동
             startActivity(Intent(this, EmotionSelectActivity::class.java))
             finish()
         }
 
+        // Exit 버튼 클릭 리스너 설정
         findViewById<ImageButton>(R.id.exitButton).setOnClickListener {
             // MainActivity로 이동
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-    }
 
+        // situationDetailButton 클릭 리스너 추가
+        findViewById<ImageButton>(R.id.situationDetailButton).setOnClickListener {
+            // SummarySituationActivity로 이동
+            val intent = Intent(this, SummarySituationActivity::class.java)
+            startActivity(intent)
+        }
+
+        // thoughtDetailButton 클릭 리스너 추가
+        findViewById<ImageButton>(R.id.thoughtDetailButton).setOnClickListener {
+            // SummaryThinkActivity로 이동
+            val intent = Intent(this, SummaryThinkActivity::class.java)
+            startActivity(intent)
+        }
+    }
 }

@@ -53,6 +53,7 @@ dependencies {
 
     // ViewPager2 의존성 추가
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation(libs.androidx.navigation.ui.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
