@@ -9,7 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.SummaryMainActivity
+import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 
 class SummaryFragment : Fragment() {
 

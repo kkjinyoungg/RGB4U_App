@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity
+package com.example.rgb4u_app.ui.activity.login
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -18,6 +18,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
 import java.util.Calendar
 
 class SignUpActivity2 : AppCompatActivity() {

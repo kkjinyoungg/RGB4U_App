@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity
+package com.example.rgb4u_app.ui.activity.diary
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {

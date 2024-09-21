@@ -14,32 +14,44 @@
         android:theme="@style/Theme.RGB4U_App"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.SummaryThinkActivity"
+            android:name=".ui.activity.mypage.MyPageServiceCheck"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SummarySituationActivity"
+            android:name=".ui.activity.mypage.MyPageNotificationSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.mypage.MyPageProfileEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.mypage.MyPageMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.summary.SummaryThinkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.summary.SummarySituationActivity"
             android:exported="false"
             android:theme="@style/Theme.RGB4U_App" />
         <activity
-            android:name=".ui.activity.SummaryMainActivity"
+            android:name=".ui.activity.summary.SummaryMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.EmotionStrengthActivity"
+            android:name=".ui.activity.diary.EmotionStrengthActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.EmotionSelectActivity"
+            android:name=".ui.activity.diary.EmotionSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ThinkWriteActivity"
+            android:name=".ui.activity.diary.ThinkWriteActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SignUpActivity2"
+            android:name=".ui.activity.login.SignUpActivity2"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SignUpActivity1"
+            android:name=".ui.activity.login.SignUpActivity1"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.activity.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -54,7 +66,7 @@
             android:name=".ui.activity.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.activity.DiaryWriteActivity"
+            android:name=".ui.activity.diary.DiaryWriteActivity"
             android:exported="false" />
     </application>
 

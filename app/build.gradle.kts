@@ -36,6 +36,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -49,11 +50,14 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
+    implementation("com.google.android.material:material:1.9.0")
+
 
 
     // ViewPager2 의존성 추가
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.androidx.navigation.ui.ktx)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

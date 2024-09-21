@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity
+package com.example.rgb4u_app.ui.activity.diary
 
 import android.app.Dialog
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup

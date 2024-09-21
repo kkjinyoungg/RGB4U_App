@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.DiaryWriteActivity
+import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton

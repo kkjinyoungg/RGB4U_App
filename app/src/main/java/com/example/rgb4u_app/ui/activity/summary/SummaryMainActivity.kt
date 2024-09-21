@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity
+package com.example.rgb4u_app.ui.activity.summary
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
