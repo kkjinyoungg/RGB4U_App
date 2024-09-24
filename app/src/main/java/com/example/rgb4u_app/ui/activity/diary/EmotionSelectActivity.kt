@@ -38,12 +38,13 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         diaryViewModel = (application as MyApplication).diaryViewModel
 
         // 관찰자 추가
-        diaryViewModel.emotionTypes.observe(this) { selectedEmotions ->
-            this.selectedEmotions.clear() // 기존 선택 감정 리스트 초기화
-            this.selectedEmotions.addAll(selectedEmotions) // 새로운 선택 감정 리스트 추가
+        diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
+            Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
+        }
 
-            updateSelectedChipGroup() // 선택된 칩 그룹 업데이트
-            updateNextButtonState(selectedEmotions.size)
+        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
+        if (selectedEmotions.isNotEmpty()) {
+            diaryViewModel.emotionTypes.value = selectedEmotions
         }
 
 
@@ -230,10 +231,14 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     override fun onNextButtonClicked() {
         // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
         Log.d("EmotionSelectActivity", "Before saving: $selectedEmotions") // 선택된 감정 로그
-        if (selectedEmotions.size > 0) {
+        if (selectedEmotions.isNotEmpty()) {
             diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
-            Log.d("EmotionSelectActivity", "Selected emotions: $selectedEmotions") // selectedEmotions 출력
-            Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: ${diaryViewModel.emotionTypes.value}")//확인용
+
+            // LiveData의 값이 변경되었음을 확인하기 위해 observe를 사용하여 로그 찍기
+            diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
+                Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes") // 확인용
+            }
+
             diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
             val intent = Intent(this, SummaryMainActivity::class.java)
