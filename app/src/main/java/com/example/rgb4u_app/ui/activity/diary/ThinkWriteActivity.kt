@@ -13,6 +13,8 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.example.rgb4u_app.MyApplication
 
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -23,8 +25,15 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_think_write)
 
-        // ViewModel 초기화
-        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
+        // ViewModel 관찰자 추가
+        diaryViewModel.thoughts.observe(this) { savedThoughts ->
+            if (savedThoughts != null && savedThoughts.isNotEmpty()) {
+                findViewById<EditText>(R.id.inputField).setText(savedThoughts)
+            }
+        }
 
         // 프래그먼트 초기화
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment

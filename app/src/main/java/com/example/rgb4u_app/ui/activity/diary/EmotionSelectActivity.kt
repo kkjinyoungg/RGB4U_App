@@ -16,6 +16,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.example.rgb4u_appclass.DiaryViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.example.rgb4u_app.MyApplication
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -30,8 +32,18 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
 
-        // ViewModel 초기화
-        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
+        // 관찰자 추가
+        diaryViewModel.emotionTypes.observe(this) { selectedEmotions ->
+            this.selectedEmotions.clear() // 기존 선택 감정 리스트 초기화
+            this.selectedEmotions.addAll(selectedEmotions) // 새로운 선택 감정 리스트 추가
+
+            updateSelectedChipGroup() // 선택된 칩 그룹 업데이트
+            updateNextButtonState(selectedEmotions.size)
+        }
+
 
         // Initialize loading dialog
         loadingDialog = Dialog(this)
@@ -99,12 +111,32 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                     updateNextButtonState(selectedChipGroup.childCount)
                 }
 
+                // 선택된 감정에 해당하는 경우 칩 선택 상태 유지
+                chip.isChecked = selectedEmotions.contains(label)
+
                 chipGroup.addView(chip)
             }
         }
 
         myRecordFragment.setHelpButtonEnabled(false)
         myRecordFragment.setHelpButtonVisibility(false)
+    }
+
+    private fun updateSelectedChipGroup() { // 선택된 칩 그룹 업데이트
+        selectedChipGroup.removeAllViews() // 기존의 칩 제거
+        selectedEmotions.forEach { emotion ->
+            val selectedChip = Chip(this).apply {
+                text = emotion
+                isCloseIconVisible = true
+                setTextColor(getColor(R.color.black))
+                setOnCloseIconClickListener {
+                    selectedChipGroup.removeView(this)
+                    diaryViewModel.emotionTypes.value = diaryViewModel.emotionTypes.value?.filter { it != emotion }
+                }
+                chipBackgroundColor = getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 설정
+            }
+            selectedChipGroup.addView(selectedChip)
+        }
     }
 
     private fun showLoadingDialog() {
@@ -186,31 +218,40 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     }
 
     private fun updateNextButtonState(selectedChipCount: Int) {
-        myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..maxSelectableChips)
+        //myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..maxSelectableChips)
     }
 
     override fun onNextButtonClicked() {
-        showLoadingDialog()
+        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
+        if (selectedEmotions.size > 0) {
+            showLoadingDialog()
+            diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
+            diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
+
+            val intent = Intent(this, SummaryMainActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+        }
 
         // 이전 화면에서 전달받은 데이터
         //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
         //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
 
         //diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
-        diaryViewModel.emotionTypes.postValue(selectedEmotions)// ViewModel을 통해 감정 저장
-        diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
-
+        //diaryViewModel.emotionTypes.postValue(selectedEmotions)// ViewModel을 통해 감정 저장
+        //diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
         // 2초 후에 SummaryMainActivity로 이동
-        Handler().postDelayed({
-            hideLoadingDialog()
-
+        /*Handler().postDelayed({
+            //hideLoadingDialog()
             // SummaryMainActivity로 데이터 전달
             /*val intent = Intent(this, SummaryMainActivity::class.java)
             intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
             intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
             startActivity(intent)*/
             finish()
-        }, 2000) // 2초 동안 로딩
+        }, 2000)*/ // 2초 동안 로딩
     }
 
     override fun onBackButtonClicked() {

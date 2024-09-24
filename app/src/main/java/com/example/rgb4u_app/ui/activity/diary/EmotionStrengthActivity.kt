@@ -9,6 +9,8 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.example.rgb4u_app.MyApplication
 
 class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -21,8 +23,17 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_strength)
 
-        // ViewModel 초기화
-        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
+        // ViewModel 관찰자 추가
+        diaryViewModel.emotionDegree.observe(this) { progress ->
+            seekBar.progress = progress ?: 0
+        }
+
+        diaryViewModel.emotionString.observe(this) { emotionText ->
+            dynamicTextView.text = emotionText ?: ""
+        }
 
         // Initialize views
         seekBar = findViewById(R.id.seekBar)
