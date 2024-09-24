@@ -16,10 +16,14 @@ import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_diary)
+
+        // ViewModel 초기화
+        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
 
         // 프래그먼트 초기화
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
@@ -76,14 +80,14 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     override fun onNextButtonClicked() {
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
 
+        // ViewModel에 입력된 상황 텍스트 저장
+        diaryViewModel.situation.value = inputText
+
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
         intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
         startActivity(intent)
     }
-
-
-
 
     override fun onBackButtonClicked() {
         // "Back" 버튼 클릭 시 MainActivity로 이동

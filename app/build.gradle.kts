@@ -54,7 +54,6 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
 
 
-
     // ViewPager2 의존성 추가
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.androidx.navigation.ui.ktx)
@@ -66,4 +65,5 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.3.0")) //파이어베이스
     implementation("com.google.firebase:firebase-analytics") //파이어베이스
+    implementation 'com.google.firebase:firebase-database-ktx' //파이어베이스 실시간 SDK
 }
