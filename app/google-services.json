@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "538491861151",
+    "project_id": "rgb4u-c6b85",
+    "storage_bucket": "rgb4u-c6b85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538491861151:android:5d10f8ce1206a101598aaa",
+        "android_client_info": {
+          "package_name": "com.example.rgb4u_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_XOxPI3QMrSkJMO-TdsXkmiHzkEA7eM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
