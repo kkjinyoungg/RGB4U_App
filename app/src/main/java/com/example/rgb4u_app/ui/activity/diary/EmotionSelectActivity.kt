@@ -18,6 +18,8 @@ import com.example.rgb4u_appclass.DiaryViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.rgb4u_app.MyApplication
+import android.util.Log
+
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -101,11 +103,15 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                         chip.chipBackgroundColor = getChipColor(category)
                         addChipToSelectedGroup(chip, category)
                         selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
+                        Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
+
                     } else {
                         // 칩 취소 시 디폴트 색상으로 변경
                         chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
                         removeChipFromSelectedGroup(chip.text.toString())
                         selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
+                        Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
+
                     }
 
                     updateNextButtonState(selectedChipGroup.childCount)
@@ -223,9 +229,11 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
 
     override fun onNextButtonClicked() {
         // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
+        Log.d("EmotionSelectActivity", "Before saving: $selectedEmotions") // 선택된 감정 로그
         if (selectedEmotions.size > 0) {
-            showLoadingDialog()
             diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
+            Log.d("EmotionSelectActivity", "Selected emotions: $selectedEmotions") // selectedEmotions 출력
+            Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: ${diaryViewModel.emotionTypes.value}")//확인용
             diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
             val intent = Intent(this, SummaryMainActivity::class.java)

@@ -35,6 +35,23 @@ class DiaryViewModel : ViewModel() {
                     "string" to emotionString.value
                 ),
                 "emotionTypes" to emotionTypes.value
+            ),
+            "aiAnalysis" to mapOf(
+                "firstAnalysis" to mapOf(
+                    "situation" to "AI 분석 상황", // AI 분석 상황 (임시 데이터)
+                    "thoughts" to "AI 분석 생각", // AI 분석 생각 (임시 데이터)
+                    "emotion" to "AI 분석 감정", // AI 분석 감정 (임시 데이터)
+                    "situationReason" to "AI 분석 이유", // AI 분석 이유 (임시 데이터)
+                    "thoughtsReason" to "AI 생각 분석 이유" // AI 생각 분석 이유 (임시 데이터)
+                ),
+                "secondAnalysis" to mapOf(
+                    "badCharacters" to listOf("캐릭터1", "캐릭터2"), // AI 분석 불안정한 캐릭터 (임시 데이터)
+                    "alternativeThoughts" to "대안적 생각 문장" // 대안적 생각 문장 (임시 데이터)
+                )
+            ),
+            "reMeasuredEmotion" to mapOf(
+                "int" to 5, // 재측정된 감정 (임시 데이터)
+                "string" to "보통" // 감정 상태 (임시 데이터)
             )
         )
 
