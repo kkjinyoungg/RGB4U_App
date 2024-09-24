@@ -30,8 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_back"
-        app:layout_constraintEnd_toStartOf="@id/btn_placeholder"
-        app:layout_constraintHorizontalBias="0.5"/>
+        app:layout_constraintEnd_toStartOf="@id/btn_placeholder" />
 
     <!-- 뒤로가기 버튼과 대칭을 맞추기 위한 빈 공간 -->
     <View

@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_appclass.DiaryViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -81,7 +83,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
 
         // ViewModel에 입력된 상황 텍스트 저장
-        diaryViewModel.situation.value = inputText
+        diaryViewModel.situation.postValue(inputText)
+        //diaryViewModel.situation.value = inputText
+
 
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)

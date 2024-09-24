@@ -14,6 +14,8 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.example.rgb4u_appclass.DiaryViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -194,7 +196,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
         //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
 
-        diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
+        //diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
+        diaryViewModel.emotionTypes.postValue(selectedEmotions)// ViewModel을 통해 감정 저장
         diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
         // 2초 후에 SummaryMainActivity로 이동

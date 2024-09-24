@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_appclass.DiaryViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -80,7 +82,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
 
         // ViewModel에 입력된 생각 텍스트 저장
-        diaryViewModel.thoughts.value = inputText
+        diaryViewModel.thoughts.postValue(inputText)
+        //원래 코드 : diaryViewModel.thoughts.value = inputText
 
         //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
 

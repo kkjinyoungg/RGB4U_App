@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_appclass.DiaryViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -48,8 +50,10 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
                 myRecordFragment.setButtonNextEnabled(progress in 0..4)
 
                 // ViewModel에 감정 정도 값, 텍스트 저장
-                diaryViewModel.emotionDegree.value = progress
-                diaryViewModel.emotionString.value = dynamicTextView.text.toString()
+                diaryViewModel.emotionDegree.postValue(progress) // 감정 정도 저장
+                diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+                //diaryViewModel.emotionDegree.value = progress
+                //diaryViewModel.emotionString.value = dynamicTextView.text.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
