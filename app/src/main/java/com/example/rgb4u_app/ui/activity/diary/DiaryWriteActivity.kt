@@ -85,7 +85,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
-        intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
+        //intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
         startActivity(intent)
     }
 

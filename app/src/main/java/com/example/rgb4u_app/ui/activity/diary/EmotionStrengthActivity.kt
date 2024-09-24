@@ -11,12 +11,16 @@ import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private lateinit var seekBar: SeekBar
     private lateinit var dynamicTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_strength)
+
+        // ViewModel 초기화
+        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
 
         // Initialize views
         seekBar = findViewById(R.id.seekBar)
@@ -42,6 +46,10 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
                 }
                 // Enable or disable the next button based on the SeekBar progress
                 myRecordFragment.setButtonNextEnabled(progress in 0..4)
+
+                // ViewModel에 감정 정도 값, 텍스트 저장
+                diaryViewModel.emotionDegree.value = progress
+                diaryViewModel.emotionString.value = dynamicTextView.text.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -57,12 +65,16 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
     }
 
     override fun onNextButtonClicked() {
-        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
-        val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+        // EmotionStrengthActivity로 넘어갈 때 ViewModel에서 값 가져오기
+        //val progress = seekBar.progress
+        //val emotionString = dynamicTextView.text.toString()
+
+        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+        //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
 
         val intent = Intent(this, EmotionSelectActivity::class.java)
-        intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-        intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
+        //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
+        //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
         startActivity(intent)
     }
 

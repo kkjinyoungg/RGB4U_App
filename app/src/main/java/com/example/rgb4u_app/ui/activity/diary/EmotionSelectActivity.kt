@@ -18,6 +18,8 @@ import com.google.android.material.chip.ChipGroup
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
+    private val selectedEmotions = mutableListOf<String>() // 선택된 감정 리스트
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
@@ -25,6 +27,9 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
+
+        // ViewModel 초기화
+        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
 
         // Initialize loading dialog
         loadingDialog = Dialog(this)
@@ -81,10 +86,12 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                         // 칩 선택 시 레이블 색상으로 변경
                         chip.chipBackgroundColor = getChipColor(category)
                         addChipToSelectedGroup(chip, category)
+                        selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
                     } else {
                         // 칩 취소 시 디폴트 색상으로 변경
                         chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
                         removeChipFromSelectedGroup(chip.text.toString())
+                        selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
                     }
 
                     updateNextButtonState(selectedChipGroup.childCount)
@@ -184,18 +191,21 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         showLoadingDialog()
 
         // 이전 화면에서 전달받은 데이터
-        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
-        val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+        //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+
+        diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
+        diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
         // 2초 후에 SummaryMainActivity로 이동
         Handler().postDelayed({
             hideLoadingDialog()
 
             // SummaryMainActivity로 데이터 전달
-            val intent = Intent(this, SummaryMainActivity::class.java)
+            /*val intent = Intent(this, SummaryMainActivity::class.java)
             intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
             intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
-            startActivity(intent)
+            startActivity(intent)*/
             finish()
         }, 2000) // 2초 동안 로딩
     }

@@ -15,10 +15,14 @@ import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_think_write)
+
+        // ViewModel 초기화
+        diaryViewModel = ViewModelProvider(this).get(DiaryViewModel::class.java)
 
         // 프래그먼트 초기화
         myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
@@ -74,17 +78,18 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     override fun onNextButtonClicked() {
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
-        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
+
+        // ViewModel에 입력된 생각 텍스트 저장
+        diaryViewModel.thoughts.value = inputText
+
+        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
 
         // EmotionStrengthActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, EmotionStrengthActivity::class.java)
-        intent.putExtra("EXTRA_SITUATION_TEXT", situationText)  // DiaryWriteActivity에서 전달받은 데이터
-        intent.putExtra("EXTRA_THOUGHT_TEXT", inputText)  // thoughtText로 전달할 데이터
+        //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)  // DiaryWriteActivity에서 전달받은 데이터
+        //intent.putExtra("EXTRA_THOUGHT_TEXT", inputText)  // thoughtText로 전달할 데이터
         startActivity(intent)
     }
-
-
-
 
     override fun onBackButtonClicked() {
         // "Back" 버튼 클릭 시 DiaryWriteActivity로 이동

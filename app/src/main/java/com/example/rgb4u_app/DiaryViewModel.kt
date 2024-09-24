@@ -1,4 +1,8 @@
-package com.example.rgb4u_app
+package com.example.rgb4u_appclass
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.database.FirebaseDatabase
 
 class DiaryViewModel : ViewModel() {
     // LiveData로 상황, 생각, 감정 정보를 저장
@@ -18,6 +22,7 @@ class DiaryViewModel : ViewModel() {
 
         // 저장할 데이터 구조
         val diaryData = mapOf(
+            "date" to getCurrentDate(), // 현재 날짜 추가
             "userInput" to mapOf(
                 "situation" to situation.value,
                 "thoughts" to thoughts.value,
@@ -26,16 +31,25 @@ class DiaryViewModel : ViewModel() {
                     "string" to emotionString.value
                 ),
                 "emotionTypes" to emotionTypes.value
+            ),
+            "aiAnalysis" to mapOf(), // AI 분석 부분은 나중에 추가
+            "reMeasuredEmotion" to mapOf(
+                "int" to emotionDegree.value,
+                "string" to emotionString.value
             )
         )
 
         // 데이터 저장
-        database.child(diaryId).setValue(diaryData)
-            .addOnSuccessListener {
-                Log.d("DiaryViewModel", "일기 저장 성공")
-            }
-            .addOnFailureListener {
-                Log.e("DiaryViewModel", "일기 저장 실패", it)
-            }
+        database.child(diaryId).setValue(diaryData).addOnSuccessListener {
+            Log.d("DiaryViewModel", "일기 저장 성공")
+        }.addOnFailureListener {
+            Log.e("DiaryViewModel", "일기 저장 실패", it)
+        }
+    }
+
+    private fun getCurrentDate(): String {
+        // 현재 날짜 포맷팅
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return sdf.format(Date())
     }
 }

@@ -65,5 +65,5 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.3.0")) //파이어베이스
     implementation("com.google.firebase:firebase-analytics") //파이어베이스
-    implementation 'com.google.firebase:firebase-database-ktx' //파이어베이스 실시간 SDK
+    implementation ("com.google.firebase:firebase-database-ktx") //파이어베이스 실시간 SDK
 }
