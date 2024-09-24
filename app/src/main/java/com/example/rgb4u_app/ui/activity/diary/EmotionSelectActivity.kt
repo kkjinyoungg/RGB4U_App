@@ -47,7 +47,6 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             diaryViewModel.emotionTypes.value = selectedEmotions
         }
 
-
         // Initialize loading dialog
         loadingDialog = Dialog(this)
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -248,6 +247,18 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
         }
 
+        showLoadingDialog()
+        // 2초 후에 SummaryMainActivity로 이동
+        Handler().postDelayed({
+            hideLoadingDialog()
+            // SummaryMainActivity로 데이터 전달
+            val intent = Intent(this, SummaryMainActivity::class.java)
+            //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
+            //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
+            startActivity(intent)
+            finish()
+        }, 2000) // 2초 동안 로딩
+
         // 이전 화면에서 전달받은 데이터
         //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
         //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
@@ -255,16 +266,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         //diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
         //diaryViewModel.emotionTypes.postValue(selectedEmotions)// ViewModel을 통해 감정 저장
         //diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
-        // 2초 후에 SummaryMainActivity로 이동
-        /*Handler().postDelayed({
-            //hideLoadingDialog()
-            // SummaryMainActivity로 데이터 전달
-            /*val intent = Intent(this, SummaryMainActivity::class.java)
-            intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-            intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
-            startActivity(intent)*/
-            finish()
-        }, 2000)*/ // 2초 동안 로딩
+
     }
 
     override fun onBackButtonClicked() {
