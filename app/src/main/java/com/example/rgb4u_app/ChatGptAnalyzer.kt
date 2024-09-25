@@ -1,10 +1,11 @@
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.database.FirebaseDatabase
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import java.io.IOException
 
 class ChatGptAnalyzer {
     private val client = OkHttpClient()
-    private val db = FirebaseFirestore.getInstance()
+    private val database = FirebaseDatabase.getInstance()
 
     fun classifyText(situation: String, thoughts: String, apiKey: String, callback: (String?, String?, String?) -> Unit) {
         val url = "https://api.openai.com/v1/chat/completions"
@@ -23,11 +24,11 @@ class ChatGptAnalyzer {
             }
         """.trimIndent()
 
-        val requestBody = RequestBody.create(MediaType.parse("application/json"), json)
+        val requestBody = RequestBody.create("application/json".toMediaType(), json)
 
         val request = Request.Builder()
             .url(url)
-            .addHeader("sk--uSlihn9WK8ak3cCDzDHkWdlNQv5L2lU6bsAUBlmMGT3BlbkFJ51EWtuW95cvjpElOrkwhkHHECut5mZE6SoCrcxJ7sA", "Bearer $apiKey")
+            .addHeader("Authorization", "Bearer $apiKey")
             .post(requestBody)
             .build()
 
@@ -60,7 +61,7 @@ class ChatGptAnalyzer {
         return null
     }
 
-    fun saveResultsToFirebase(userId: String, diaryId: String, emotion: String?, situation: String?, thought: String?) {
+    fun saveResultsToRealtimeDatabase(userId: String, diaryId: String, emotion: String?, situation: String?, thought: String?) {
         val resultData = hashMapOf(
             "situation" to situation,
             "thoughts" to thought,
@@ -69,10 +70,10 @@ class ChatGptAnalyzer {
             "thoughtsReason" to "AI 생각 분석 이유" // 이유는 추가적으로 정의 필요
         )
 
-        db.collection("users").document(userId)
-            .collection("diaries").document(diaryId)
-            .collection("aiAnalysis").document("firstAnalysis")
-            .set(resultData)
+        database.reference.child("users").child(userId)
+            .child("diaries").child(diaryId)
+            .child("aiAnalysis").child("firstAnalysis")
+            .setValue(resultData)
             .addOnSuccessListener {
                 // 성공적으로 저장됨
             }

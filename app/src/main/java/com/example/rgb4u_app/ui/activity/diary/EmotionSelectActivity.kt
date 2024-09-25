@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.rgb4u_app.MyApplication
 import android.util.Log
+import com.example.rgb4u_app.ChatGptAnalyzer
 
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
@@ -29,10 +30,13 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
+    private lateinit var chatGptAnalyzer: ChatGptAnalyzer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
+
+        chatGptAnalyzer = ChatGptAnalyzer() //초기화
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -58,6 +62,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         myRecordFragment.showIconForStep(4)
 
         selectedChipGroup = findViewById(R.id.selectedChipGroup)
+
+        val ChatGptAnalyzer = ChatGptAnalyzer() // 변수로 선언
 
         val emotions = mapOf(
             "Surprise" to listOf("어안이 벙벙한", "아찔한", "황당한", "깜짝 놀란", "움찔하는", "충격적인"),
@@ -245,8 +251,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             val situationText = "사용자가 입력한 상황" // Firebase에서 가져온 상황 텍스트
             val thoughtsText = "사용자가 입력한 생각" // Firebase에서 가져온 생각 텍스트
 
-            chatGptAnalyzer.classifyText(situationText, thoughtsText, "YOUR_API_KEY") { emotion, situation, thought ->
-                chatGptAnalyzer.saveResultsToFirebase("userId", "diaryId", emotion, situation, thought) // diaryId는 적절히 설정
+            ChatGptAnalyzer.classifyText(situationText, thoughtsText, "YOUR_API_KEY") { emotion: String?, situation: String?, thought: String? ->
+                ChatGptAnalyzer.saveResultsToRealtimeDatabase("userId", "diaryId", emotion, situation, thought) // diaryId는 적절히 설정
             }
 
             // 2초 후에 SummaryMainActivity로 이동
