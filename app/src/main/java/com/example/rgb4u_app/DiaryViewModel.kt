@@ -7,6 +7,7 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.example.rgb4u_app.AiSummary //AiSummary 추가
 
 class DiaryViewModel : ViewModel() {
     // LiveData로 상황, 생각, 감정 정보를 저장
@@ -16,13 +17,17 @@ class DiaryViewModel : ViewModel() {
     val emotionString = MutableLiveData<String>()
     val emotionTypes = MutableLiveData<List<String>>()
 
+    // 파이어베이스에 저장된 diaryId를 다른 곳에서 참조할 수 있게 변수로 저장
+    var diaryId: String? = null
+
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
         // 파이어베이스 참조
         val database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
         // 일기 아이디를 생성
-        val diaryId = database.push().key ?: return
+        diaryId = database.push().key //diaryId 변수를 업데이트
+        if (diaryId == null) return // diaryId가 null인 경우 return
 
         // 저장할 데이터 구조
         val diaryData = mapOf(
@@ -56,16 +61,25 @@ class DiaryViewModel : ViewModel() {
         )
 
         // 데이터 저장
-        database.child(diaryId).setValue(diaryData).addOnSuccessListener {
-            Log.d("DiaryViewModel", "일기 저장 성공")
-        }.addOnFailureListener {
-            Log.e("DiaryViewModel", "일기 저장 실패", it)
-        }
+        database.child(diaryId!!).setValue(diaryData)
+            .addOnSuccessListener {
+                Log.d("DiaryViewModel", "일기 저장 성공")
+                analyzeDiaryWithAI(userId, diaryId!!) //AI 분석 호출
+            }.addOnFailureListener {
+                Log.e("DiaryViewModel", "일기 저장 실패", it)
+            }
     }
 
+    // AI 분석을 수행하는 함수
+    private fun analyzeDiaryWithAI(userId: String, diaryId: String) {
+        Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId") // AI 분석 호출 로그
+        val aiSummary = AiSummary()
+        aiSummary.analyzeDiary(userId, diaryId)
+    }
+
+    // 현재 날짜를 "yyyy-MM-dd" 형식으로 반환하는 함수
     private fun getCurrentDate(): String {
-        // 현재 날짜 포맷팅
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return sdf.format(Date())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
     }
 }
