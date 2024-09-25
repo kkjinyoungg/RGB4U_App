@@ -12,6 +12,8 @@ class MypageCommonHeaderFragment : Fragment() {
     private var _binding: FragmentMypageCommonHeaderBinding? = null
     private val binding get() = _binding!!
 
+    private var backButtonListener: View.OnClickListener? = null
+
     companion object {
         private const val ARG_TITLE = "arg_title"
 
@@ -36,13 +38,13 @@ class MypageCommonHeaderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 기본 타이틀 설정
-        val title = arguments?.getString(ARG_TITLE)
+        val title = arguments?.getString(ARG_TITLE) ?: "기본 타이틀"
         binding.tvTitle.text = title
 
-        // 뒤로가기 버튼 클릭 리스너
-        binding.btnBack.setOnClickListener {
-            activity?.onBackPressed()
-        }
+        // 뒤로가기 버튼 리스너 설정
+        binding.btnBack.setOnClickListener(backButtonListener ?: View.OnClickListener {
+            activity?.onBackPressed() // 기본 동작
+        })
     }
 
     fun setTitle(title: String) {
@@ -50,12 +52,8 @@ class MypageCommonHeaderFragment : Fragment() {
     }
 
     fun setBackButtonListener(listener: View.OnClickListener) {
+        backButtonListener = listener
         binding.btnBack.setOnClickListener(listener) // 리스너 설정 메서드
-    }
-
-    // btn_back에 대한 공개 메서드
-    fun getBackButton(): View {
-        return binding.btnBack
     }
 
     override fun onDestroyView() {

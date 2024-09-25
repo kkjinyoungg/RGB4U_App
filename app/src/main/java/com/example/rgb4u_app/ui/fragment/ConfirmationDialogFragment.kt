@@ -11,6 +11,7 @@ import com.example.rgb4u_app.R
 class ConfirmationDialogFragment(
     private val title: String,
     private val message: String,
+    private val confirmButtonText: String, // 추가된 코드
     private val onConfirm: () -> Unit
 ) : DialogFragment() {
 
@@ -27,6 +28,9 @@ class ConfirmationDialogFragment(
         tvTitle.text = title
         tvMessage.text = message
 
+        // 버튼 텍스트 설정
+        btnConfirm.text = confirmButtonText // 추가된 코드
+
         btnConfirm.setOnClickListener {
             onConfirm()
             dismiss()
@@ -40,4 +44,5 @@ class ConfirmationDialogFragment(
         return builder.create()
     }
 }
+
 
