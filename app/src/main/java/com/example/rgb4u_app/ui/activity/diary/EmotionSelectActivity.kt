@@ -238,35 +238,21 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes") // 확인용
             }
 
+            showLoadingDialog()
             diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
-            val intent = Intent(this, SummaryMainActivity::class.java)
-            startActivity(intent)
-            finish()
+            // 2초 후에 SummaryMainActivity로 이동
+            Handler().postDelayed({
+                hideLoadingDialog() //로딩다이얼로그 숨기기
+                val intent = Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
+                //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
+                //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
+                startActivity(intent)
+                finish()
+            }, 2000) //2초 동안 로딩
         } else {
             Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
         }
-
-        showLoadingDialog()
-        // 2초 후에 SummaryMainActivity로 이동
-        Handler().postDelayed({
-            hideLoadingDialog()
-            // SummaryMainActivity로 데이터 전달
-            val intent = Intent(this, SummaryMainActivity::class.java)
-            //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-            //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
-            startActivity(intent)
-            finish()
-        }, 2000) // 2초 동안 로딩
-
-        // 이전 화면에서 전달받은 데이터
-        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
-        //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
-
-        //diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel을 통해 감정 저장
-        //diaryViewModel.emotionTypes.postValue(selectedEmotions)// ViewModel을 통해 감정 저장
-        //diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
-
     }
 
     override fun onBackButtonClicked() {
