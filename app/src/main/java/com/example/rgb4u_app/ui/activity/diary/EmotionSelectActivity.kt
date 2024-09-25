@@ -37,7 +37,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
 
-        // 관찰자 추가
+        // 관찰자 추가.
         diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
             Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
         }
