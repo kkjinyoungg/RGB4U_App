@@ -241,6 +241,14 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             showLoadingDialog()
             diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
+            // Firebase에서 사용자 입력을 가져와 분석 수행
+            val situationText = "사용자가 입력한 상황" // Firebase에서 가져온 상황 텍스트
+            val thoughtsText = "사용자가 입력한 생각" // Firebase에서 가져온 생각 텍스트
+
+            chatGptAnalyzer.classifyText(situationText, thoughtsText, "YOUR_API_KEY") { emotion, situation, thought ->
+                chatGptAnalyzer.saveResultsToFirebase("userId", "diaryId", emotion, situation, thought) // diaryId는 적절히 설정
+            }
+
             // 2초 후에 SummaryMainActivity로 이동
             Handler().postDelayed({
                 hideLoadingDialog() //로딩다이얼로그 숨기기

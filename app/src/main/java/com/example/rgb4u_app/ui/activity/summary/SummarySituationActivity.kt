@@ -69,6 +69,6 @@ class SummarySituationActivity : AppCompatActivity() {
                 Log.w("SummarySituationActivity", "loadPost:onCancelled", databaseError.toException())
             }
         }
-        myRef.addValueEventListener(postListener)
+        myRef.addListenerForSingleValueEvent(postListener)
     }
 }
