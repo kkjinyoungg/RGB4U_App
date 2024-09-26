@@ -7,6 +7,7 @@
     <color name="divider_view_color">#CCCCCC</color>
     <color name="light_gray">#CCCCCC</color>
     <color name="selected_yellow">#FFE661</color>
+    <color name="main">#FFE661</color>
 
     <color name="defaultChipColor">#33FFFFFF</color>
     <color name="surpriseColor">#8ED9C3</color>
