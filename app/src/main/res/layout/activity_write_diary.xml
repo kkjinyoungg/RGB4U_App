@@ -19,7 +19,7 @@
     <FrameLayout
         android:layout_width="328dp"
         android:layout_height="188dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="280dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/edittext_background"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:gravity="top|start"
             android:hint="사실을 있는 그대로 적어주세요! \n내 생각과 감정은 나중에 적을 수 있어요."
             android:imeOptions="actionDone"
@@ -37,10 +38,9 @@
             android:padding="13dp"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:textColorHint="@color/white"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:fontFamily="@font/nanumsquareroundregular"/>
+            android:textColorHint="@color/white"
+            android:textSize="14sp" />
 
         <!-- 글자 수 카운트 (EditText 위에 오버레이) -->
         <TextView
@@ -52,7 +52,7 @@
             android:paddingBottom="8dp"
             android:text="0/150"
             android:textColor="@android:color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <FrameLayout
             android:id="@+id/fragment_container"

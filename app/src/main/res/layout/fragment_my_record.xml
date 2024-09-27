@@ -15,8 +15,8 @@
 
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back_wh"
@@ -53,13 +53,11 @@
 
     <LinearLayout
         android:id="@+id/navigationLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -89,8 +87,8 @@
         <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/ic_next" />
 
         <LinearLayout
@@ -118,8 +116,8 @@
         <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/ic_next" />
 
         <LinearLayout
@@ -147,8 +145,8 @@
         <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/ic_next" />
 
         <LinearLayout
@@ -228,13 +226,14 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/rounded_button"
-        android:fontFamily="@font/nanumsquareroundextrabold"
+        android:fontFamily="@font/nanumsquareroundbold"
         android:text="다음"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
