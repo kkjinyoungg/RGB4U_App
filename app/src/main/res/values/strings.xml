@@ -1,4 +1,6 @@
 <resources>
+    // 일지 도움말 버튼
+    <string name = "btn_helpbutton"> <u>생각 예시 보기</u> </string>
     <string name="app_name">생각모아</string>
     <string name="home_button">홈</string>
     <string name="my_record_button">나의 기록</string>

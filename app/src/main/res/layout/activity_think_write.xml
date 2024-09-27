@@ -17,9 +17,12 @@
 
     <!-- 텍스트 필드와 글자 수 카운터를 함께 담는 FrameLayout -->
     <FrameLayout
-        android:layout_width="328dp"
-        android:layout_height="188dp"
-        android:layout_marginTop="300dp"
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,14 +35,16 @@
             android:background="@drawable/edittext_background"
             android:gravity="top|start"
             android:hint="어떤 내용이든 괜찮아요! \n내 생각을 솔직하게 적어보세요."
+            android:fontFamily="@font/nanumsquareroundregular"
             android:imeOptions="actionDone"
             android:maxLength="150"
-            android:padding="13dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColor="#FFFFFF"
+            android:lineSpacingExtra="8dp"
             android:textColorHint="@color/white"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <!-- 글자 수 카운트 (EditText 위에 오버레이) -->
         <TextView
@@ -50,6 +55,7 @@
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:text="0/150"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
