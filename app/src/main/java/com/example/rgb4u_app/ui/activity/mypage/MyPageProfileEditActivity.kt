@@ -1,6 +1,5 @@
 package com.example.rgb4u_app.ui.activity.mypage
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -78,18 +78,7 @@ class MyPageProfileEditActivity : AppCompatActivity() {
 
         // 달력 버튼 클릭 리스너
         calendarButton.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePickerDialog =
-                DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-                    val formattedDate = "${selectedYear}년 ${selectedMonth + 1}월 ${selectedDay}일"
-                    birthdateEditText.setText(formattedDate)
-                }, year, month, day)
-
-            datePickerDialog.show()
+            showDatePickerDialog() // NumberPicker 다이얼로그 표시
         }
 
         // 완료 버튼 클릭 리스너
@@ -110,6 +99,45 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun showDatePickerDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.number_picker_dialog, null)
+
+        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.yearPicker)
+        val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
+        val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
+
+
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        yearPicker.minValue = currentYear - 100
+        yearPicker.maxValue = currentYear
+        yearPicker.setFormatter { value -> "${value.toString()}년" }
+
+        monthPicker.minValue = 1
+        monthPicker.maxValue = 12
+        monthPicker.setFormatter { value -> "${value.toString()}월" }
+
+        dayPicker.minValue = 1
+        dayPicker.maxValue = 31
+        dayPicker.setFormatter { value -> "${value.toString()}일" }
+
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val selectedDay = dayPicker.value
+            val formattedDate = "${selectedYear}년 ${selectedMonth}월 ${selectedDay}일"
+
+            birthdateEditText.setText(formattedDate)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
     private fun validateNickname(nickname: String): Boolean {
         val isValid = nickname.length in 1..10

@@ -13,17 +13,29 @@
         android:layout_height="56dp"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- 닉네임 레이블 추가 -->
+    <TextView
+        android:id="@+id/tv_nickname_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="닉네임"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/nicknameLayout"
+        app:layout_constraintTop_toBottomOf="@id/fragment_container" />
+
     <!-- 닉네임 텍스트필드와 글자수 오버레이를 위한 FrameLayout -->
     <FrameLayout
         android:id="@+id/nicknameLayout"
         android:layout_width="328dp"
         android:layout_height="48dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname_label">
 
-        <!-- 닉네임 입력 EditText -->
+
+    <!-- 닉네임 입력 EditText -->
         <EditText
             android:id="@+id/et_nickname"
             android:layout_width="match_parent"
