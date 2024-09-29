@@ -46,7 +46,9 @@ class MyPageServiceCheck : AppCompatActivity() {
 
     private fun navigateToMyPageMainActivity() {
         val intent = Intent(this, MyPageMainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
     }
+
 }

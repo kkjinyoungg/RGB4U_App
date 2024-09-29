@@ -27,7 +27,7 @@
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="88dp"
-            android:text="생각뭉치 서비스 이용약관"
+            android:text="생각모아 서비스 이용약관"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

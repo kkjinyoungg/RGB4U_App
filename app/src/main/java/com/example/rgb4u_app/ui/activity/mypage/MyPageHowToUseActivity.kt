@@ -15,12 +15,12 @@ class MyPageHowToUseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_page_how_to_use)
 
         // Fragment를 추가하고 타이틀 설정
-        val headerFragment = MypageCommonHeaderFragment.newInstance("(앱 이름) 이야기")
+        val headerFragment = MypageCommonHeaderFragment.newInstance("생각모아 이야기")
         supportFragmentManager.commit {
             replace(R.id.fragment_container, headerFragment)
         }
 
-        // 뒤로가기 버튼 설정
+        // Fragment의 setBackButtonListener를 호출하지 않고 Fragment 내부에서 처리
         headerFragment.setBackButtonListener(View.OnClickListener {
             navigateToMyPageMainActivity()
         })

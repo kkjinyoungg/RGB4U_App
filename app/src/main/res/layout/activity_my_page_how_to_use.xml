@@ -18,7 +18,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,7 +37,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/textView_description1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -46,10 +46,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview1"
+                    android:id="@+id/imageView_storyImage1"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_1" />
             </LinearLayout>
 
             <!-- 두 번째 세트 -->
@@ -61,7 +62,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textView_description2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -70,10 +71,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview2"
+                    android:id="@+id/imageView_storyImage2"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_2" />
             </LinearLayout>
 
             <!-- 세 번째 세트 -->
@@ -85,7 +87,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textView_description3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -94,10 +96,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview3"
+                    android:id="@+id/imageView_storyImage3"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_3" />
             </LinearLayout>
 
             <!-- 네 번째 세트 -->
@@ -109,7 +112,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView_description4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -118,10 +121,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview4"
+                    android:id="@+id/imageView_storyImage4"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_4" />
             </LinearLayout>
 
             <!-- 다섯 번째 세트 -->
@@ -133,7 +137,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/textView_description5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -142,10 +146,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview5"
+                    android:id="@+id/imageView_storyImage5"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_5" />
             </LinearLayout>
 
             <!-- 여섯 번째 세트 -->
@@ -156,7 +161,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView_description6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -165,10 +170,11 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/imageview6"
+                    android:id="@+id/imageView_storyImage6"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:src="@drawable/rounded_rectangle" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_6" />
             </LinearLayout>
 
             <android.widget.Button

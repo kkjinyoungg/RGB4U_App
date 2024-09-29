@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="232dp"
         android:fontFamily="@font/uhbeezziba"
-        android:text="생각뭉치"
+        android:text="생각모아"
         android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold"

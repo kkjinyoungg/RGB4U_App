@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
 
-class MyPagePasswordEditActivity : AppCompatActivity() {
+class MyPagePasswordSettingActivity : AppCompatActivity() {
     private var password = "" // 입력된 비밀번호 저장
     private var confirmPassword = "" // 확인용 비밀번호 저장
     private lateinit var imageViews: Array<ImageView>
@@ -24,14 +24,14 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         R.drawable.ic_image_for_digit_4
     )
 
-    private lateinit var tvPasswordTitle: TextView
-    private lateinit var tvPasswordDescription: TextView
+    private lateinit var tvNewPasswordTitle: TextView
+    private lateinit var tvNewPasswordDescription: TextView
     private var isConfirmingPassword = false
     private var selectedButtonId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_page_password_edit)
+        setContentView(R.layout.activity_my_page_password_setting)
 
         // 이미지 뷰 초기화
         imageViews = arrayOf(
@@ -42,8 +42,8 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         )
 
         // 타이틀과 설명 텍스트뷰 초기화
-        tvPasswordTitle = findViewById(R.id.tv_new_password_title)
-        tvPasswordDescription = findViewById(R.id.tv_new_password_description)
+        tvNewPasswordTitle = findViewById(R.id.tv_new_password_title)
+        tvNewPasswordDescription = findViewById(R.id.tv_new_password_description)
 
         // 각 번호 버튼에 대해 클릭 리스너 설정
         val buttons = listOf(
@@ -78,10 +78,11 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
                 confirmPassword += number
                 updatePasswordImages(true)
 
+                // 선택된 숫자의 색상 변경
                 val buttonId = getButtonId(number)
                 resetSelectedButtonColor()
                 buttonId?.let {
-                    findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color))
+                    findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color)) // 선택 색상
                     selectedButtonId = it
                 }
             }
@@ -94,17 +95,20 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
                 password += number
                 updatePasswordImages(false)
 
+                // 선택된 숫자의 색상 변경
                 val buttonId = getButtonId(number)
                 resetSelectedButtonColor()
                 buttonId?.let {
-                    findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color))
+                    findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color)) // 선택 색상
                     selectedButtonId = it
                 }
             }
 
             if (password.length >= 4) {
-                tvPasswordTitle.text = "비밀번호 다시 입력"
-                tvPasswordDescription.text = "확인을 위해 한 번 더 입력해 주세요"
+                tvNewPasswordTitle.text = "비밀번호 다시 입력"
+                tvNewPasswordDescription.text = "확인을 위해 한 번 더 입력해 주세요"
+
+                // **숫자 색상 초기화**
                 resetAllButtonColors()
                 isConfirmingPassword = true
             }
@@ -119,20 +123,21 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         )
 
         buttons.forEach { id ->
-            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 색상으로 초기화
         }
     }
+
 
     private fun onBackspaceClick() {
         if (isConfirmingPassword && confirmPassword.isNotEmpty()) {
             val lastChar = confirmPassword.last().toString()
             confirmPassword = confirmPassword.dropLast(1)
-            resetButtonColor(lastChar)
+            resetButtonColor(lastChar, true)
             updatePasswordImages(true)
         } else if (!isConfirmingPassword && password.isNotEmpty()) {
             val lastChar = password.last().toString()
             password = password.dropLast(1)
-            resetButtonColor(lastChar)
+            resetButtonColor(lastChar, false)
             updatePasswordImages(false)
         }
     }
@@ -156,7 +161,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetButtonColor(lastChar: String) {
+    private fun resetButtonColor(lastChar: String, isConfirming: Boolean) {
         val buttonId = getButtonId(lastChar)
         resetButtonColorById(buttonId)
     }
@@ -167,7 +172,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
 
     private fun resetButtonColorById(buttonId: Int?) {
         buttonId?.let {
-            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 검정색
         }
     }
 
@@ -190,29 +195,41 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
     private fun checkPasswordMatch() {
         if (password == confirmPassword) {
             Toast.makeText(this, "비밀번호가 설정되었어요", Toast.LENGTH_SHORT).show()
+
+            // 토글 상태 저장
+            val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+            with(sharedPreferences.edit()) {
+                putBoolean("switchPassword", true) // 비밀번호 설정 후 토글을 켠 상태로 저장
+                apply()
+            }
+
+            // MyPageMainActivity로 이동
             val intent = Intent(this, MyPageMainActivity::class.java)
-            intent.putExtra("passwordSet", true)
+            intent.putExtra("passwordSet", true) // 비밀번호 설정 상태 전달
             startActivity(intent)
             finish()
         } else {
-            tvPasswordDescription.text = "비밀번호가 일치하지 않습니다"
-            tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
+            tvNewPasswordDescription.text = "비밀번호가 일치하지 않습니다"
+            tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color)) // 빨간색
 
+            // 2초 후에 비밀번호 입력 초기화
             android.os.Handler().postDelayed({
                 resetPasswordInput()
-            }, 2000)
+            }, 2000) // 2초 대기
         }
     }
+
+
 
     private fun resetPasswordInput() {
         password = ""
         confirmPassword = ""
-        updatePasswordImages(false)
-        updatePasswordImages(true)
-        tvPasswordTitle.text = "새로운 비밀번호 입력"
-        tvPasswordDescription.text = "새로운 비밀번호를 입력해주세요"
-        tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+        updatePasswordImages(false) // 초기 비밀번호 이미지 리셋
+        updatePasswordImages(true)  // 확인 비밀번호 이미지 리셋
+        tvNewPasswordTitle.text = "비밀번호 입력"
+        tvNewPasswordDescription.text = "사용할 비밀번호를 입력해주세요"
+        tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 검정색으로 초기화
         isConfirmingPassword = false
-        resetSelectedButtonColor()
+        resetSelectedButtonColor()  // 버튼 색상 초기화
     }
 }

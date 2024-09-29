@@ -187,10 +187,12 @@
 
                     <TextView
                         android:id="@+id/tv_change_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:text="비밀번호 변경"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:textSize="14sp"/>
 
                     <ImageButton
                         android:id="@+id/btn_change_password"
@@ -199,9 +201,9 @@
                         android:src="@drawable/ic_next"
                         android:scaleType="fitCenter"
                         android:contentDescription="상세보기"
-                        android:background="?attr/selectableItemBackground" />
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_marginEnd="16dp" />
                 </LinearLayout>
-
 
                 <!-- 도움말 섹션 -->
                 <TextView
@@ -225,7 +227,7 @@
                         android:id="@+id/tv_how_to_use"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="생각뭉치 사용법"
+                        android:text="생각모아 사용법"
                         android:textSize="14sp"
                         android:layout_weight="1"/>
 

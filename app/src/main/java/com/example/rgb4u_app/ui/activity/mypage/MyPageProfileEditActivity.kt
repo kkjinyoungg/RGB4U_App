@@ -37,17 +37,15 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
 
+        // 뒤로가기 버튼 클릭 리스너 설정
+        fragment.setBackButtonListener(View.OnClickListener {
+            onBackPressed()
+        })
+
         // UI 요소 초기화
         initializeUI()
-
-        // 뒤로가기 버튼 클릭 리스너 설정
-        // Fragment의 View가 완전히 초기화된 이후에 Listener를 설정하도록 변경 필요
-        supportFragmentManager.addOnBackStackChangedListener {
-            fragment.view?.findViewById<View>(R.id.btn_back)?.setOnClickListener {
-                onBackPressed()
-            }
-        }
     }
+
 
     private fun initializeUI() {
         nicknameEditText = findViewById(R.id.et_nickname)
@@ -68,16 +66,15 @@ class MyPageProfileEditActivity : AppCompatActivity() {
                 val charCount = s?.length ?: 0
                 charCountTextView.text = "$charCount/10"
 
-                if (charCount > 10) {
-                    charCountTextView.setTextColor(Color.RED)
-                } else {
-                    charCountTextView.setTextColor(Color.BLACK)
-                }
+                // 글자 수가 10자를 넘는 경우 텍스트 색상 변경
+                charCountTextView.setTextColor(if (charCount > 10) Color.RED else Color.BLACK)
+
                 validateNickname(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
 
         // 달력 버튼 클릭 리스너
         calendarButton.setOnClickListener {
@@ -115,13 +112,30 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     }
 
     private fun validateNickname(nickname: String): Boolean {
-        val isValid = nickname.length in 1..10 // 1~10자일 경우만 유효
-        buttonNext.isEnabled = isValid // 버튼 활성화/비활성화
-        errorTextView.text = if (nickname.length > 10) {
-            "10글자 이하로 입력해 줘!"
+        val isValid = nickname.length in 1..10
+        buttonNext.isEnabled = isValid
+
+        if (nickname.length > 10) {
+            setErrorState("10글자 이하로 입력해 줘!")
         } else {
-            ""
+            clearErrorState()
         }
+
         return isValid
     }
+
+    private fun setErrorState(message: String) {
+        errorTextView.text = message
+        errorTextView.visibility = View.VISIBLE
+        nicknameEditText.setBackgroundResource(R.drawable.et_nickname_error_background)
+    }
+
+    private fun clearErrorState() {
+        errorTextView.text = ""
+        errorTextView.visibility = View.GONE
+        nicknameEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
+    }
+
+
+
 }

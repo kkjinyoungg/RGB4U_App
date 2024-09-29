@@ -53,7 +53,7 @@ class MypageCommonHeaderFragment : Fragment() {
 
     fun setBackButtonListener(listener: View.OnClickListener) {
         backButtonListener = listener
-        binding.btnBack.setOnClickListener(listener) // 리스너 설정 메서드
+        // 기존 리스너를 다시 설정하지 않음
     }
 
     override fun onDestroyView() {
