@@ -5,6 +5,9 @@
     <string name="analysis_button">분석</string>
     <string name="my_page_button">마이페이지</string>
 
+    <string name="kakao_app_key">4288983c581d3d3569498e21690e8e6e</string>
+    <string name="kakao_redirect_scheme">kakao4288983c581d3d3569498e21690e8e6e</string>
+
     <string name="back_button">뒤로가기</string>
     <string name="calendar_icon">달력 아이콘</string>
     <string name="icon_description">아이콘 설명</string>
