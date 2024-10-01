@@ -1,4 +1,3 @@
-
 package com.example.rgb4u_appclass
 //re
 import androidx.lifecycle.MutableLiveData
