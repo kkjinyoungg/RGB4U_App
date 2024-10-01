@@ -41,76 +41,68 @@ class SummarySituationActivity : AppCompatActivity() {
             commit()  // 트랜잭션 적용
         }
 
-        //getData()
-
         if (diaryId != null) {
-            // Realtime Database에서 diaryId로 데이터 조회
-            database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
-            database.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // Realtime Database에서 situation 가져오기
-                        val situation = dataSnapshot.child("situation").getValue(String::class.java) ?: "상황 정보 없음"
-                        val situationreason = dataSnapshot.child("situationReason").getValue(String::class.java) ?: "상황 이유 정보 없음"
-                        // Fragment에 Realtime Database에서 가져온 값 설정
-                        summaryFragment.summarizedContent = situation
-                        summaryFragment.whySummaryReason = situationreason
-                        // UI 업데이트 호출
-                        summaryFragment.updateUI()
-                    } else {
-                        // 데이터가 존재하지 않는 경우
-                        summaryFragment.summarizedContent = "상황 데이터가 존재하지 않습니다"
-                        summaryFragment.whySummaryReason = "상황 이유 데이터가 존재하지 않습니다"
-                        // UI 업데이트 호출
-                        summaryFragment.updateUI()
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // 오류 처리
-                    summaryFragment.summarizedContent = "오류 발생: ${databaseError.message}"
-                    summaryFragment.whySummaryReason = "오류 발생: ${databaseError.message}"
-                    // UI 업데이트 호출
-                    summaryFragment.updateUI()
-                }
-            })
+            // 첫 번째 경로에서 데이터 조회
+            loadAiAnalysisData(userId, diaryId, summaryFragment)
+            // 두 번째 경로에서 데이터 조회
+            loadUserInputData(userId, diaryId, summaryFragment)
         } else {
-            // diaryId가 null인 경우 처리
-            summaryFragment.summarizedContent = "일기 ID를 찾을 수 없음"
-            summaryFragment.whySummaryReason = "일기 ID를 찾을 수 없음"
+            // 데이터가 존재하지 않는 경우
+            summaryFragment.summarizedContent = "상황 데이터가 존재하지 않습니다"
+            summaryFragment.whySummaryReason = "상황 이유 데이터가 존재하지 않습니다"
             // UI 업데이트 호출
             summaryFragment.updateUI()
         }
-        // Activity에서 SummaryFragment에 데이터를 전달하는 경우
-        summaryFragment.userContent = "내가 작성한 글이다"
+
+        // Activity에서 SummaryFragment에 데이터를 전달
+        //summaryFragment.userContent = "내가 작성한 글이다"
         //summaryFragment.summarizedContent = "요약된 상황 표현"
         //summaryFragment.whySummaryReason = "이유에 대한 텍스트가 여기에 나타납니다."
         summaryFragment.titleText = "이런 상황에서" //고정 제목
         summaryFragment.summaryLabelText = "요약된 상황 표현" //고정 제목
     }
 
-    /*fun getData() {
-        val database = FirebaseDatabase.getInstance() // FirebaseDatabase 인스턴스 가져오기
-        val myRef = database.getReference("users/$userId/diaries")
-
-        val postListener = object : ValueEventListener {
+    private fun loadAiAnalysisData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                Log.d("SummarySituationActivity", dataSnapshot.toString())
-                // ...
-                for (dataModel in dataSnapshot.children){
-                    Log.d("SummarySituationActivity", dataModel.toString())
-                    val item = dataModel.getValue(DiaryViewModel::class.java) //모델 형태로 데이터 받기
-                    Log.d("SummarySituationActivity", item.toString())
-
+                if (dataSnapshot.exists()) {
+                    val situation = dataSnapshot.child("situation").getValue(String::class.java) ?: "상황 정보 없음"
+                    val situationreason = dataSnapshot.child("situationReason").getValue(String::class.java) ?: "상황 이유 정보 없음"
+                    summaryFragment.summarizedContent = situation
+                    summaryFragment.whySummaryReason = situationreason
+                } else {
+                    summaryFragment.summarizedContent = "상황 데이터가 존재하지 않습니다"
+                    summaryFragment.whySummaryReason = "상황 이유 데이터가 존재하지 않습니다"
                 }
+                summaryFragment.updateUI()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w("SummarySituationActivity", "loadPost:onCancelled", databaseError.toException())
+                summaryFragment.summarizedContent = "오류 발생: ${databaseError.message}"
+                summaryFragment.whySummaryReason = "오류 발생: ${databaseError.message}"
+                summaryFragment.updateUI()
             }
-        }
-        myRef.addListenerForSingleValueEvent(postListener)
-    }*/
+        })
+    }
+
+    private fun loadUserInputData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/userInput")
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val userInputSituation = dataSnapshot.child("situation").getValue(String::class.java) ?: "사용자 입력 상황 정보 없음"
+                    summaryFragment.userContent = userInputSituation
+                } else {
+                    summaryFragment.userContent = "사용자 입력 데이터가 존재하지 않습니다"
+                }
+                summaryFragment.updateUI()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                summaryFragment.userContent = "오류 발생: ${databaseError.message}"
+                summaryFragment.updateUI()
+            }
+        })
+    }
 }
