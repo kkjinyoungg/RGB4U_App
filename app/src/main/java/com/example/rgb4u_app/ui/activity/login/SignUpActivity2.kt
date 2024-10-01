@@ -1,19 +1,16 @@
 package com.example.rgb4u_app.ui.activity.login
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -80,75 +77,41 @@ class SignUpActivity2 : AppCompatActivity() {
     }
 
     private fun showDateSpinnerDialog() {
-        val years = (1900..Calendar.getInstance().get(Calendar.YEAR)).toList()
-        val months = (1..12).toList()
-        val days = (1..31).toList()
+        val dialogView = layoutInflater.inflate(R.layout.number_picker_dialog, null)
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("생년월일 선택")
+        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.yearPicker)
+        val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
+        val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
 
-        // 스피너 배열 생성
-        val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
-        val monthAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, months)
-        val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
 
-        // 선택된 값 저장
-        var selectedYear = years.first()
-        var selectedMonth = months.first()
-        var selectedDay = days.first()
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        yearPicker.minValue = currentYear - 100
+        yearPicker.maxValue = currentYear
+        yearPicker.setFormatter { value -> "${value.toString()}년" }
 
-        // 스피너 레이아웃 생성
-        val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
+        monthPicker.minValue = 1
+        monthPicker.maxValue = 12
+        monthPicker.setFormatter { value -> "${value.toString()}월" }
 
-        val yearSpinner = Spinner(this)
-        yearSpinner.adapter = yearAdapter
-        yearSpinner.setSelection(years.size - 1) // 현재 연도로 설정
+        dayPicker.minValue = 1
+        dayPicker.maxValue = 31
+        dayPicker.setFormatter { value -> "${value.toString()}일" }
 
-        val monthSpinner = Spinner(this)
-        monthSpinner.adapter = monthAdapter
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
 
-        val daySpinner = Spinner(this)
-        daySpinner.adapter = dayAdapter
+        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val selectedDay = dayPicker.value
+            val formattedDate = "${selectedYear}년 ${selectedMonth}월 ${selectedDay}일"
 
-        // 스피너 선택 리스너
-        yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                selectedYear = years[position]
-                updateDays(daySpinner, selectedYear, selectedMonth)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+            birthdayInput.setText(formattedDate)
+            dialog.dismiss()
         }
 
-        monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                selectedMonth = months[position]
-                updateDays(daySpinner, selectedYear, selectedMonth)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-
-        daySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                selectedDay = days[position]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-
-        layout.addView(yearSpinner)
-        layout.addView(monthSpinner)
-        layout.addView(daySpinner)
-
-        builder.setView(layout)
-        builder.setPositiveButton("확인") { _, _ ->
-            birthdayInput.setText(String.format("%04d년 %02d월 %02d일", selectedYear, selectedMonth, selectedDay))
-        }
-        builder.setNegativeButton("취소", null)
-
-        builder.show()
+        dialog.show()
     }
 
     private fun updateDays(daySpinner: Spinner, year: Int, month: Int) {
