@@ -20,13 +20,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import java.util.Calendar
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 
 class SignUpActivity2 : AppCompatActivity() {
 
     private lateinit var birthdayInput: EditText
     private lateinit var buttonNext: Button
-    private lateinit var buttonBack: ImageButton
     private lateinit var calendarIcon: ImageView
+    private lateinit var buttonBack: ImageButton // 뒤로가기 버튼을 위한 변수 추가
+    private lateinit var database: DatabaseReference //데이터베이스 접근용 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,9 @@ class SignUpActivity2 : AppCompatActivity() {
         buttonNext = findViewById(R.id.buttonNext)
         buttonBack = findViewById(R.id.buttonBack)
         calendarIcon = findViewById(R.id.calendarIcon)
+
+        // Firebase Database 초기화
+        database = FirebaseDatabase.getInstance().reference
 
         // 버튼 초기 상태 설정 (비활성화)
         buttonNext.isEnabled = false
@@ -56,13 +62,22 @@ class SignUpActivity2 : AppCompatActivity() {
             val birthday = birthdayInput.text.toString()
             if (birthday.isNotEmpty()) {
                 Log.d("SignUpActivity2", "Birthday is valid: $birthday")
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("BIRTHDAY", birthday)
-                startActivity(intent)
-                finish()
-            } else {
-                Log.d("SignUpActivity2", "Birthday is empty")
-                Toast.makeText(this, "생일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                val userId = "userId" // 실제 사용자 ID로 변경
+                database.child("users").child(userId).child("birthday").setValue(birthday) //생일 저장
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("SignUpActivity2", "save Birth successfully")
+                            // 저장 성공 시 다음 단계로 이동
+                            val intent = Intent(this, MainActivity::class.java)
+                            //intent.putExtra("BIRTHDAY", birthday)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Log.d("SignUpActivity2", "Birthday is empty")
+                            Toast.makeText(this, "생일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
             }
         }
 
