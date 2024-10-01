@@ -13,11 +13,7 @@ class AiSummary {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val client = OkHttpClient()
-<<<<<<< HEAD
-    private val apiKey = "API키 넣기"  // API 키 설정
-=======
-    private val apiKey = "API키 여기에"  // API 키 설정
->>>>>>> origin/backend
+    private val apiKey = ""  // API 키 설정
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
