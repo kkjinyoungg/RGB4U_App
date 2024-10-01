@@ -10,7 +10,7 @@ import java.util.Locale
 import com.example.rgb4u_app.AiSummary //AiSummary 추가
 
 class DiaryViewModel : ViewModel() {
-    // LiveData로 상황, 생각, 감정 정보를 저장
+    //.LiveData로 상황, 생각, 감정 정보를 저장
     val situation = MutableLiveData<String>()
     val thoughts = MutableLiveData<String>()
     val emotionDegree = MutableLiveData<Int>()

@@ -13,7 +13,11 @@ class AiSummary {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val client = OkHttpClient()
+<<<<<<< HEAD
     private val apiKey = "API키 넣기"  // API 키 설정
+=======
+    private val apiKey = "API키 여기에"  // API 키 설정
+>>>>>>> origin/backend
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
@@ -33,7 +37,7 @@ class AiSummary {
 
             // ChatGPT API로 분석 요청 보내기
             val prompt = """
-                너는 인지행동치료 전문가로, 사람들이 쓴 글에서 감정, 상황, 생각을 정확히 분리하고 분류 이유를 설명하는 역할을 해. 
+                너는 인지행동치료 전문가로, 사람들이 쓴 글에서 감정, 상황, 생각을 정확히 분리하고 상황을 상황으로 분류한 이유와 생각을 생각으로 분류한 이유를 설명하는 역할을 해. 
                 참고할 정의와 예시는 다음과 같아:
                 
                 감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이야. 예시로는 '슬프다', '화가 난다', '기쁘다' 등이 있어.
