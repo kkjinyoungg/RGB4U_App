@@ -7,7 +7,9 @@ import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+
 
 class AiSummary {
 
@@ -17,7 +19,7 @@ class AiSummary {
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
-    fun analyzeDiary(userId: String, diaryId: String) {
+    fun analyzeDiary(userId: String, diaryId: String, callback: () -> Unit) {
         val userRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/userInput")
 
         // 파이어베이스에서 situation과 thoughts 가져오기
@@ -94,7 +96,8 @@ class AiSummary {
             requestBody.put("function_call", JSONObject().put("name", "analyze_text"))
 
             // RequestBody 생성
-            val body = RequestBody.create("application/json; charset=utf-8".toMediaType(), requestBody.toString())
+            val body = requestBody.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+
 
             // 로그: API 요청 정보
             Log.d(TAG, "Request Body: $requestBody")
@@ -105,11 +108,13 @@ class AiSummary {
                 .addHeader("Authorization", "Bearer $apiKey")
                 .build()
 
+            //API 요청 후 응답 처리
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "API Request Failed: ${e.message}")
                 }
 
+                //응답처리로직
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string() // 응답 바디를 안전하게 가져옴
@@ -129,6 +134,7 @@ class AiSummary {
                         val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
                         analysisRef.setValue(aiAnalysis).addOnSuccessListener {
                             Log.d(TAG, "Analysis successfully saved to Firebase.")
+                            callback() // 분석 완료 후 콜백 호출
                         }.addOnFailureListener { e ->
                             Log.e(TAG, "Failed to save analysis to Firebase: ${e.message}")
                         }

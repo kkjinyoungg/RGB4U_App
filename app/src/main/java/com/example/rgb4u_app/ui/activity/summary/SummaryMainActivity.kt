@@ -37,7 +37,7 @@ class SummaryMainActivity : AppCompatActivity() {
         val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
 
         //diaryId, ID 수신
-        val diaryId = diaryViewModel.diaryId
+        val diaryId = intent.getStringExtra("DIARY_ID")
         val userId = "userId" // 실제 사용자 ID로 변경해야 함
 
         if (diaryId != null) {
@@ -55,8 +55,8 @@ class SummaryMainActivity : AppCompatActivity() {
                         thoughtTextView.text = thoughts
                     } else {
                         // 데이터가 존재하지 않는 경우
-                        situationTextView.text = "상황 정보 없음"
-                        thoughtTextView.text = "생각 정보 없음"
+                        situationTextView.text = "데이터가 존재하지 않습니다"
+                        thoughtTextView.text = "데이터가 존재하지 않습니다"
                     }
                 }
 

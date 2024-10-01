@@ -241,15 +241,14 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             showLoadingDialog()
             diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
-            // 2초 후에 SummaryMainActivity로 이동
-            Handler().postDelayed({
-                hideLoadingDialog() //로딩다이얼로그 숨기기
+            // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동
+            diaryViewModel.onDiarySaved = {
+                hideLoadingDialog() // 로딩 다이얼로그 숨기기
                 val intent = Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
-                //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-                //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
+                intent.putExtra("DIARY_ID", DiaryViewModel.diaryId) // diaryId를 Intent에 추가
                 startActivity(intent)
                 finish()
-            }, 2000) //2초 동안 로딩
+            }
         } else {
             Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
         }
