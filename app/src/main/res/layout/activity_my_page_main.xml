@@ -16,7 +16,7 @@
         android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="86dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="horizontal_center"
                 android:padding="16dp"
                 android:gravity="start">
 
@@ -68,6 +68,7 @@
                         android:id="@+id/tv_welcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="안녕, 오늘도 반가워!"
                         android:fontFamily="@font/own_mongmongday"
                         android:textColor="@color/blue2"
@@ -83,6 +84,7 @@
                             android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop = "4dp"
                             android:text="나서진"
                             android:textSize="20sp"
                             android:textColor="@color/black"
@@ -94,6 +96,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginTop = "8dp"
                             android:src="@drawable/ic_pencil"
                             android:contentDescription="프로필 수정"
                             android:background="?attr/selectableItemBackground"
@@ -119,8 +122,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="start"
-        android:padding="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintTop_toBottomOf="@id/top_section"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -130,11 +132,12 @@
             android:id="@+id/tv_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="설정"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanumsquareroundbold"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="24dp"/>
 
         <!-- 알림 설정 -->
         <LinearLayout
@@ -148,6 +151,7 @@
                 android:id="@+id/tv_notification_settings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="알림 설정"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -159,6 +163,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_next"
+                android:layout_marginRight="16dp"
                 android:contentDescription="상세보기"
                 android:scaleType="fitCenter"
                 android:background="?attr/selectableItemBackground" />
@@ -176,6 +181,7 @@
                 android:id="@+id/tv_password_settings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="비밀번호 설정"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -185,7 +191,8 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_password"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"/>
         </LinearLayout>
 
         <!-- 비밀번호 변경 메뉴 (비밀번호 설정이 켜질 때만 표시) -->
@@ -202,11 +209,12 @@
             android:id="@+id/tv_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="도움말"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanumsquareroundbold"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="24dp"/>
 
         <!-- 생각뭉치 사용법 -->
         <LinearLayout
@@ -220,6 +228,7 @@
                 android:id="@+id/tv_how_to_use"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="생각모아 사용법"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -230,6 +239,7 @@
                 android:id="@+id/btn_how_to_use_details"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginRight="16dp"
                 android:src="@drawable/ic_next"
                 android:scaleType="fitCenter"
                 android:contentDescription="상세보기"
@@ -247,6 +257,7 @@
                 android:id="@+id/tv_terms_of_service"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="서비스 이용약관"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -257,6 +268,7 @@
                 android:id="@+id/btn_terms_of_service_details"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_marginRight="16dp"
                 android:src="@drawable/ic_next"
                 android:scaleType="fitCenter"
                 android:contentDescription="상세보기"
@@ -268,11 +280,12 @@
             android:id="@+id/tv_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="계정"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:fontFamily="@font/nanumsquareroundbold"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="24dp"/>
 
         <!-- 로그아웃 -->
         <LinearLayout
@@ -286,6 +299,8 @@
                 android:id="@+id/tv_logout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="로그아웃"
                 android:textSize="16sp"
                 android:textColor="@color/black"
@@ -305,6 +320,8 @@
                 android:id="@+id/tv_delete_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/nanumsquareroundregular"
                 android:text="회원탈퇴"
@@ -326,6 +343,8 @@
                 android:gravity="right"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1"
                 android:textColor="@color/gray2"
                 android:fontFamily="@font/nanumsquareroundregular"

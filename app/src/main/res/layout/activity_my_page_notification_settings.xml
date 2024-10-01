@@ -22,11 +22,10 @@
     <!-- 뭉치의 메시지 레이블, 설명 텍스트, 토글을 하나의 레이아웃으로 묶음 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/message_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_marginTop="24dp"
+
         app:layout_constraintTop_toBottomOf="@id/header_fragment_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -38,7 +37,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="14dp"
             android:text="모아의 메시지"
+            android:textColor="@color/black"
             android:textSize="16sp"
+            android:fontFamily="@font/nanumsquareroundbold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,13 +47,12 @@
             android:id="@+id/tv_message_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="14dp"
-            android:paddingTop="4dp"
-            android:text="하루에 한 번 기록을 까먹지 않게 도와줄게"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:layout_marginLeft="16dp"
+            android:text="하루에 한 번 기록을 까먹지 않도록 알려드려요"
+            android:textColor="@color/gray2"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +62,7 @@
         android:id="@+id/switch_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_message_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -69,11 +70,9 @@
     <!-- 뭉치의 분석 레이블, 설명 텍스트, 토글을 하나의 레이아웃으로 묶음 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/analysis_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message_container">
@@ -84,7 +83,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="14dp"
-            android:text="모아의 분석"
+            android:text="모아의 AI 하루 분석"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -93,13 +94,11 @@
             android:id="@+id/tv_analysis_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="14dp"
-            android:paddingTop="4dp"
-            android:text="기록을 분석한 결과가 나오면 알려줄게"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="기록한 내용을 AI로 분석한 결과가 나오면 알려드려요"
+            android:textColor="@color/gray2"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,6 +108,7 @@
             android:id="@+id/switch_analysis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_analysis_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
