@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // 투명
+    <color name="white_0"> #00FFFFFF</color>
 
     // Gray Scale
     <color name="black">#262627</color>
