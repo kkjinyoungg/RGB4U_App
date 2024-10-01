@@ -22,7 +22,6 @@ class SummarySituationActivity : AppCompatActivity() {
     // Realtime Database 참조 선언
     private lateinit var database: DatabaseReference
     private val diaryViewModel: DiaryViewModel by viewModels()
-    //private lateinit var userId: String // userId 변수 추가
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
