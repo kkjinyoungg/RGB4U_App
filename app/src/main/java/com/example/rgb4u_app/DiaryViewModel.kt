@@ -1,5 +1,5 @@
 package com.example.rgb4u_appclass
-
+//re
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
@@ -10,15 +10,20 @@ import java.util.Locale
 import com.example.rgb4u_app.AiSummary //AiSummary 추가
 
 class DiaryViewModel : ViewModel() {
-    // LiveData로 상황, 생각, 감정 정보를 저장
+    //.LiveData로 상황, 생각, 감정 정보를 저장
     val situation = MutableLiveData<String>()
     val thoughts = MutableLiveData<String>()
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
     val emotionTypes = MutableLiveData<List<String>>()
 
-    // 파이어베이스에 저장된 diaryId를 다른 곳에서 참조할 수 있게 변수로 저장
-    var diaryId: String? = null
+    // 전역 변수로 diaryId를 저장
+    companion object {
+        var diaryId: String? = null
+    }
+
+    // 콜백 함수 추가
+    var onDiarySaved: (() -> Unit)? = null
 
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
@@ -74,7 +79,12 @@ class DiaryViewModel : ViewModel() {
     private fun analyzeDiaryWithAI(userId: String, diaryId: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId") // AI 분석 호출 로그
         val aiSummary = AiSummary()
-        aiSummary.analyzeDiary(userId, diaryId)
+
+        // 콜백을 전달하여 분석이 완료된 후 onDiarySaved 호출
+        aiSummary.analyzeDiary(userId, diaryId) {
+            // 분석이 완료된 후 onDiarySaved 콜백 호출
+            onDiarySaved?.invoke()
+        }
     }
 
     // 현재 날짜를 "yyyy-MM-dd" 형식으로 반환하는 함수
