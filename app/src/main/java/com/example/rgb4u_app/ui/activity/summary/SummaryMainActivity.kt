@@ -37,7 +37,7 @@ class SummaryMainActivity : AppCompatActivity() {
         val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
 
         //diaryId, ID 수신
-        val diaryId = intent.getStringExtra("DIARY_ID")
+        val diaryId = DiaryViewModel.diaryId
         val userId = "userId" // 실제 사용자 ID로 변경해야 함
 
         if (diaryId != null) {
@@ -90,6 +90,7 @@ class SummaryMainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.situationDetailButton).setOnClickListener {
             // SummarySituationActivity로 이동
             val intent = Intent(this, SummarySituationActivity::class.java)
+            intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
             startActivity(intent)
         }
 
@@ -97,6 +98,7 @@ class SummaryMainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.thoughtDetailButton).setOnClickListener {
             // SummaryThinkActivity로 이동
             val intent = Intent(this, SummaryThinkActivity::class.java)
+            intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
             startActivity(intent)
         }
     }
