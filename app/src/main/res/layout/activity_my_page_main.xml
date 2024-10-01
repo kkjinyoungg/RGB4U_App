@@ -6,11 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <include
-            layout="@layout/toolbar_mypage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            layout="@layout/toolbar_base1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" /> <!-- 툴바 아래 남은 공간을 차지하도록 설정 -->
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/top_section"

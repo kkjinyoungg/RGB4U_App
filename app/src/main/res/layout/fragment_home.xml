@@ -5,15 +5,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_home_before_record"
-    android:padding="16dp">
+    android:background="@drawable/img_home_before_record" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" /> <!-- 툴바 아래 남은 공간을 차지하도록 설정 -->
+    </LinearLayout>
 
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="16dp"
         android:fontFamily="@font/nanumsquareroundbold"
         android:text="8월 17일 토요일"
         android:textColor="@android:color/white"
@@ -21,23 +38,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/notificationButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="알림 버튼"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_notification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="100dp"
         android:layout_marginRight="16dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/white_20"
@@ -94,7 +100,7 @@
         android:id="@+id/mainCharacterContainer"
         android:layout_width="280dp"
         android:layout_height="280dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="60dp"
         android:contentDescription="메인 캐릭터"
         android:scaleType="fitCenter"
         android:src="@drawable/img_ch_home"
