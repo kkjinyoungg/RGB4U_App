@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_home"
+    android:background="@drawable/img_home_before_record"
     android:padding="16dp">
 
     <TextView
@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/notificationButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="알림 버튼"
@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginRight="16dp"
+        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/white_20"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +55,7 @@
                 android:id="@+id/characterImage"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginLeft="8dp"
                 android:contentDescription="캐릭터 이미지"
                 android:src="@drawable/ic_minicharacter" />
 

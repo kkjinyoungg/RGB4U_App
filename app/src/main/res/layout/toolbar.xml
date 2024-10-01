@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/white_0" >
+        android:background="@color/blue1" >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/isBack"

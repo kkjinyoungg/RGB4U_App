@@ -54,7 +54,8 @@
                     android:id="@+id/img_character"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/img_ch_mypage" />
+                    android:src="@drawable/img_ch_mypage"
+                    android:layout_gravity="center_horizontal"/>
 
                 <!-- 텍스트와 프로필 수정 버튼을 수직 및 수평으로 배치 -->
                 <LinearLayout
@@ -68,7 +69,6 @@
                         android:id="@+id/tv_welcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:text="안녕, 오늘도 반가워!"
                         android:fontFamily="@font/own_mongmongday"
                         android:textColor="@color/blue2"
@@ -77,14 +77,15 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
 
                         <!-- 사용자 닉네임 -->
                         <TextView
                             android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop = "4dp"
+                            android:layout_gravity="center"
                             android:text="나서진"
                             android:textSize="20sp"
                             android:textColor="@color/black"
@@ -93,10 +94,10 @@
                         <!-- 프로필 수정 버튼 -->
                         <ImageButton
                             android:id="@+id/btn_edit_profile"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop = "8dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="4dp"
                             android:src="@drawable/ic_pencil"
                             android:contentDescription="프로필 수정"
                             android:background="?attr/selectableItemBackground"
