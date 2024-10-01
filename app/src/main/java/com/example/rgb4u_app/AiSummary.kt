@@ -1,5 +1,5 @@
 package com.example.rgb4u_app
-
+//re
 import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -15,7 +15,7 @@ class AiSummary {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val client = OkHttpClient()
-    private val apiKey = "API키"  // API 키 설정
+    private val apiKey = "여기에 키 넣기"  // API 키 설정
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수

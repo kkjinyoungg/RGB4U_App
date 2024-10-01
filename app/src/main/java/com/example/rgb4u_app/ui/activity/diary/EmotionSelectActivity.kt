@@ -1,262 +1,103 @@
-package com.example.rgb4u_app.ui.activity.diary
-
-import android.app.Dialog
+package com.example.rgb4u_app.ui.activity.summary
+//re
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.view.LayoutInflater
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Toast
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
-import com.example.rgb4u_app.ui.fragment.MyRecordFragment
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
+import com.google.firebase.database.* // Realtime Database 사용을 위한 import
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import com.example.rgb4u_appclass.DiaryViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.example.rgb4u_app.MyApplication
-import android.util.Log
+import androidx.activity.viewModels // ViewModel을 액티비티에서 가져오기 위한 import
 
 
-class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
+class SummaryMainActivity : AppCompatActivity() {
 
-    private lateinit var myRecordFragment: MyRecordFragment
-    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
-    private val selectedEmotions = mutableListOf<String>() // 선택된 감정 리스트
-    private lateinit var selectedChipGroup: ChipGroup
-    private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
-    private lateinit var loadingDialog: Dialog
+    // Realtime Database 참조 선언
+    private lateinit var database: DatabaseReference
+    private val diaryViewModel: DiaryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_emotion_select)
+        setContentView(R.layout.activity_summary_main)
 
-        // Application에서 ViewModel 가져오기
-        diaryViewModel = (application as MyApplication).diaryViewModel
+        // 상단 날짜 설정
+        val calendar = Calendar.getInstance()
+        val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
+        findViewById<TextView>(R.id.dateTextView).text = sdf.format(calendar.time)
 
-        // 관찰자 추가.
-        diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
-            Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
-        }
+        // situationTextView와 thoughtTextView 참조
+        val situationTextView = findViewById<TextView>(R.id.situationTextView)
+        val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
 
-        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
-        if (selectedEmotions.isNotEmpty()) {
-            diaryViewModel.emotionTypes.value = selectedEmotions
-        }
+        //diaryId, ID 수신
+        val diaryId = intent.getStringExtra("DIARY_ID")
+        val userId = "userId" // 실제 사용자 ID로 변경해야 함
 
-        // Initialize loading dialog
-        loadingDialog = Dialog(this)
-        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        loadingDialog.setContentView(R.layout.summary_loading)
-        loadingDialog.setCancelable(false)
+        if (diaryId != null) {
+            // Realtime Database에서 diaryId로 데이터 조회
+            database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
+            database.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Realtime Database에서 situation과 thoughts 가져오기
+                        val situation = dataSnapshot.child("situation").getValue(String::class.java) ?: "상황 정보 없음"
+                        val thoughts = dataSnapshot.child("thoughts").getValue(String::class.java) ?: "생각 정보 없음"
 
-        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
-        myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
-        myRecordFragment.showIconForStep(4)
-
-        selectedChipGroup = findViewById(R.id.selectedChipGroup)
-
-        val emotions = mapOf(
-            "Surprise" to listOf("어안이 벙벙한", "아찔한", "황당한", "깜짝 놀란", "움찔하는", "충격적인"),
-            "Fear" to listOf("걱정스러운", "암담한", "겁나는", "무서운", "불안한", "긴장된"),
-            "Sadness" to listOf("기운 없는", "슬픈", "눈물이 나는", "우울한", "비참한", "서운한"),
-            "Anger" to listOf("화난", "끓어오르는", "분한", "짜증나는", "약 오른", "억울한"),
-            "Disgust" to listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
-        )
-
-        val inflater = LayoutInflater.from(this)
-
-        val surpriseChipGroup = findViewById<ChipGroup>(R.id.surpriseChipGroup)
-        val fearChipGroup = findViewById<ChipGroup>(R.id.fearChipGroup)
-        val sadnessChipGroup = findViewById<ChipGroup>(R.id.sadnessChipGroup)
-        val angerChipGroup = findViewById<ChipGroup>(R.id.angerChipGroup)
-        val disgustChipGroup = findViewById<ChipGroup>(R.id.disgustChipGroup)
-
-        val chipGroupMap = mapOf(
-            "Surprise" to surpriseChipGroup,
-            "Fear" to fearChipGroup,
-            "Sadness" to sadnessChipGroup,
-            "Anger" to angerChipGroup,
-            "Disgust" to disgustChipGroup
-        )
-
-        for ((category, labels) in emotions) {
-            val chipGroup = chipGroupMap[category] ?: continue
-            for (label in labels) {
-                val chip = inflater.inflate(R.layout.single_chip_item, chipGroup, false) as Chip
-                chip.text = label
-                chip.isCheckable = true
-                chip.setTextColor(getColor(R.color.black))
-
-                chip.setOnCheckedChangeListener { _, isChecked ->
-                    val selectedChipCount = selectedChipGroup.childCount
-
-                    if (isChecked && selectedChipCount >= maxSelectableChips) {
-                        // 이미 3개 선택된 상태에서 추가 선택 시 체크 해제하고 토스트 메시지 출력
-                        chip.isChecked = false
-                        Toast.makeText(this, "3개 이하로 골라주세요", Toast.LENGTH_SHORT).show()
-                    } else if (isChecked) {
-                        // 칩 선택 시 레이블 색상으로 변경
-                        chip.chipBackgroundColor = getChipColor(category)
-                        addChipToSelectedGroup(chip, category)
-                        selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
-                        Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
-
+                        // TextView에 Realtime Database에서 가져온 값 설정
+                        situationTextView.text = situation
+                        thoughtTextView.text = thoughts
                     } else {
-                        // 칩 취소 시 디폴트 색상으로 변경
-                        chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
-                        removeChipFromSelectedGroup(chip.text.toString())
-                        selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
-                        Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
-
+                        // 데이터가 존재하지 않는 경우
+                        situationTextView.text = "데이터가 존재하지 않습니다"
+                        thoughtTextView.text = "데이터가 존재하지 않습니다"
                     }
-
-                    updateNextButtonState(selectedChipGroup.childCount)
                 }
 
-                // 선택된 감정에 해당하는 경우 칩 선택 상태 유지
-                chip.isChecked = selectedEmotions.contains(label)
-
-                chipGroup.addView(chip)
-            }
-        }
-
-        myRecordFragment.setHelpButtonEnabled(false)
-        myRecordFragment.setHelpButtonVisibility(false)
-    }
-
-    private fun updateSelectedChipGroup() { // 선택된 칩 그룹 업데이트
-        selectedChipGroup.removeAllViews() // 기존의 칩 제거
-        selectedEmotions.forEach { emotion ->
-            val selectedChip = Chip(this).apply {
-                text = emotion
-                isCloseIconVisible = true
-                setTextColor(getColor(R.color.black))
-                setOnCloseIconClickListener {
-                    selectedChipGroup.removeView(this)
-                    diaryViewModel.emotionTypes.value = diaryViewModel.emotionTypes.value?.filter { it != emotion }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // 오류 처리
+                    situationTextView.text = "오류 발생: ${databaseError.message}"
+                    thoughtTextView.text = "오류 발생: ${databaseError.message}"
                 }
-                chipBackgroundColor = getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 설정
-            }
-            selectedChipGroup.addView(selectedChip)
-        }
-    }
-
-    private fun showLoadingDialog() {
-        if (!loadingDialog.isShowing) {
-            // 다이얼로그를 풀스크린 스타일로 설정
-            loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            loadingDialog.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT
-            )
-            loadingDialog.show()
-        }
-    }
-
-
-    private fun hideLoadingDialog() {
-        if (loadingDialog.isShowing) {
-            loadingDialog.dismiss()
-        }
-    }
-
-    private fun addChipToSelectedGroup(chip: Chip, category: String) {
-        val selectedChip = Chip(this)
-        selectedChip.text = chip.text
-        selectedChip.isCloseIconVisible = true
-        selectedChip.setTextColor(getColor(R.color.black))
-
-        // 기본 색상으로 설정
-        selectedChip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
-        // 원형 모양 설정
-        selectedChip.chipCornerRadius = 50f // 적절한 값으로 설정 (dp 단위로 변경 필요)
-
-        selectedChip.setOnCloseIconClickListener {
-            selectedChipGroup.removeView(selectedChip)
-            uncheckChipInGroup(selectedChip.text.toString())
-        }
-
-        selectedChipGroup.addView(selectedChip)
-    }
-
-    private fun getChipColor(category: String) = when (category) {
-        "Surprise" -> getColorStateList(R.color.surpriseColor)
-        "Fear" -> getColorStateList(R.color.fearColor)
-        "Sadness" -> getColorStateList(R.color.sadnessColor)
-        "Anger" -> getColorStateList(R.color.angerColor)
-        "Disgust" -> getColorStateList(R.color.disgustColor)
-        else -> getColorStateList(R.color.defaultChipColor) // 기본 색상
-    }
-
-    private fun removeChipFromSelectedGroup(chipText: String) {
-        for (i in 0 until selectedChipGroup.childCount) {
-            val chip = selectedChipGroup.getChildAt(i) as Chip
-            if (chip.text == chipText) {
-                selectedChipGroup.removeView(chip)
-                break
-            }
-        }
-    }
-
-    private fun uncheckChipInGroup(chipText: String) {
-        val chipGroups = listOf(
-            findViewById<ChipGroup>(R.id.surpriseChipGroup),
-            findViewById<ChipGroup>(R.id.fearChipGroup),
-            findViewById<ChipGroup>(R.id.sadnessChipGroup),
-            findViewById<ChipGroup>(R.id.angerChipGroup),
-            findViewById<ChipGroup>(R.id.disgustChipGroup)
-        )
-
-        for (chipGroup in chipGroups) {
-            for (i in 0 until chipGroup.childCount) {
-                val chip = chipGroup.getChildAt(i) as Chip
-                if (chip.text == chipText) {
-                    chip.isChecked = false
-                    chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 변경
-                    break
-                }
-            }
-        }
-    }
-
-    private fun updateNextButtonState(selectedChipCount: Int) {
-        //myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..maxSelectableChips)
-    }
-
-    override fun onNextButtonClicked() {
-        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
-        Log.d("EmotionSelectActivity", "Before saving: $selectedEmotions") // 선택된 감정 로그
-        if (selectedEmotions.isNotEmpty()) {
-            diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
-
-            // LiveData의 값이 변경되었음을 확인하기 위해 observe를 사용하여 로그 찍기
-            diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
-                Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes") // 확인용
-            }
-
-            showLoadingDialog()
-            diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
-
-            // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동
-            diaryViewModel.onDiarySaved = {
-                hideLoadingDialog() // 로딩 다이얼로그 숨기기
-                val intent = Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
-                intent.putExtra("DIARY_ID", DiaryViewModel.diaryId) // diaryId를 Intent에 추가
-                startActivity(intent)
-                finish()
-            }
+            })
         } else {
-            Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+            // diaryId가 null인 경우 처리
+            situationTextView.text = "일기 ID를 찾을 수 없음"
+            thoughtTextView.text = "일기 ID를 찾을 수 없음"
         }
-    }
 
-    override fun onBackButtonClicked() {
-        val intent = Intent(this, EmotionStrengthActivity::class.java)
-        startActivity(intent)
-        finish()
+        // Back 버튼 클릭 리스너 설정
+        findViewById<ImageButton>(R.id.backButton).setOnClickListener {
+            // EmotionSelectActivity로 이동
+            startActivity(Intent(this, EmotionSelectActivity::class.java))
+            finish()
+        }
+
+        // Exit 버튼 클릭 리스너 설정
+        findViewById<ImageButton>(R.id.exitButton).setOnClickListener {
+            // MainActivity로 이동
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
+        // situationDetailButton 클릭 리스너 추가
+        findViewById<ImageButton>(R.id.situationDetailButton).setOnClickListener {
+            // SummarySituationActivity로 이동
+            val intent = Intent(this, SummarySituationActivity::class.java)
+            startActivity(intent)
+        }
+
+        // thoughtDetailButton 클릭 리스너 추가
+        findViewById<ImageButton>(R.id.thoughtDetailButton).setOnClickListener {
+            // SummaryThinkActivity로 이동
+            val intent = Intent(this, SummaryThinkActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
