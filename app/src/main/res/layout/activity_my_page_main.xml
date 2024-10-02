@@ -203,6 +203,7 @@
                 android:layout_weight="1"/>
 
                 <Switch
+                android:id="@+id/switch_password"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginRight="16dp"

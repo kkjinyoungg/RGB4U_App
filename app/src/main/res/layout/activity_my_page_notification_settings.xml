@@ -59,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_message_label" />
 
         <Switch
+            android:id="@+id/switch_message"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
@@ -113,6 +114,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_analysis_label" />
         <Switch
+            android:id="@+id/switch_analysis"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
