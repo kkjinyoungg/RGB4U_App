@@ -106,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="14dp"
             android:text="기록한 내용을 AI로 분석한 결과가 나오면 알려드려요"
             android:textColor="@color/gray2"
             android:textSize="14sp"
