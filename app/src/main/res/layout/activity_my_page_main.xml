@@ -202,11 +202,18 @@
                 android:fontFamily="@font/nanumsquareroundregular"
                 android:layout_weight="1"/>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch_password"
+                <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"/>
+                android:layout_height="32dp"
+                android:layout_marginRight="16dp"
+                android:track="@drawable/switch_track_selector"
+                android:thumb="@drawable/switch_thumb"/>
+
+<!--            <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                android:id="@+id/switch_password"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginRight="16dp"/>-->
         </LinearLayout>
 
         <!-- 비밀번호 변경 메뉴 (비밀번호 설정이 켜질 때만 표시) -->

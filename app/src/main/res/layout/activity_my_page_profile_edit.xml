@@ -53,7 +53,7 @@
             android:padding="16dp"
             android:text="나서진"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <!-- 글자수 TextView 오버레이 -->
         <TextView
@@ -62,10 +62,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="14dp"
             android:text="0/10"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_error_message"
@@ -95,35 +96,65 @@
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
     <!-- 생일 입력 필드 -->
-    <Button
-        android:id="@+id/et_birthdate"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@drawable/profile_edit_text_background"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/profile_edit_text_background"
-        android:clickable="false"
-        android:focusable="false"
-        android:padding="16dp"
-        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_birthdate_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_birthdate_label">
 
-    <!-- 달력 버튼 -->
-    <ImageButton
-        android:id="@+id/button_calendar"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_calendar"
-        app:layout_constraintEnd_toEndOf="@id/et_birthdate"
-        app:layout_constraintBottom_toBottomOf="@id/et_birthdate"
-        app:layout_constraintTop_toTopOf="@id/et_birthdate"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="2010년 6월 25일"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="270dp"
+            android:src="@drawable/ic_calendar" />
+
+    </LinearLayout>
+
+<!--    <Button-->
+<!--        android:id="@+id/et_birthdate"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@drawable/profile_edit_text_background"-->
+<!--        android:text="2010년 6월 25일"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:fontFamily="@font/nanumsquareroundregular"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_birthdate_label" />-->
+
+<!--    &lt;!&ndash; 달력 버튼 &ndash;&gt;-->
+<!--    <ImageButton-->
+<!--        android:id="@+id/button_calendar"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        android:src="@drawable/ic_calendar"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/et_birthdate"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/et_birthdate"-->
+<!--        app:layout_constraintTop_toTopOf="@id/et_birthdate"-->
+<!--        android:background="?attr/selectableItemBackgroundBorderless"/>-->
 
     <!-- 완료 버튼 -->
     <android.widget.Button

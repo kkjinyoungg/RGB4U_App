@@ -68,13 +68,13 @@
     </FrameLayout>
 
     <Button
-        android:id="@+id/helpButton"
+        android:id="@+id/diary_helpButton"
         style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/btn_helpbutton"
+        android:text="@string/btn_diary_helpbutton"
         android:textColor="#D2DAEA"
         android:textSize="14sp"
         android:fontFamily="@font/nanumsquareroundregular"
