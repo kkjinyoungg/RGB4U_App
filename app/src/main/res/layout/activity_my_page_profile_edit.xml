@@ -96,33 +96,37 @@
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2" />
 
     <!-- 생일 입력 필드 -->
-    <LinearLayout
+    <EditText
+        android:id="@+id/et_birthdate"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/tv_birthdate_label">
+        android:layout_height="48dp"
+        android:background="@drawable/profile_edit_text_background"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="2020년 6월 1일"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textSize="16sp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_birthdate_label" />
 
-        <EditText
-            android:id="@+id/et_birthdate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_edittext"
-            android:focusable="false"
-            android:hint="YYYY년 MM월 DD일"
-            android:padding="12dp"
-            android:textAlignment="center"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/button_calendar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@string/calendar_icon"
-            android:src="@drawable/ic_calendar" />
-    </LinearLayout>
+    <!-- 달력 버튼 -->
+    <ImageButton
+        android:id="@+id/button_calendar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintEnd_toEndOf="@id/et_birthdate"
+        app:layout_constraintBottom_toBottomOf="@id/et_birthdate"
+        app:layout_constraintTop_toTopOf="@id/et_birthdate"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
 <!--    <Button-->
 <!--        android:id="@+id/et_birthdate"-->
