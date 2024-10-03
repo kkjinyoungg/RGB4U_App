@@ -18,7 +18,13 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
 import java.util.Calendar
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
-
+//파이어베이스
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import android.util.Log
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseError
 
 class MyPageProfileEditActivity : AppCompatActivity() {
 
@@ -28,10 +34,15 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     private lateinit var charCountTextView: TextView
     private lateinit var errorTextView: TextView
     private lateinit var buttonNext: Button
+    private lateinit var database: DatabaseReference
+    private val userId = "userId" // 실제 사용자 ID로 변경
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_profile_edit)
+
+        // Firebase Database 초기화
+        database = FirebaseDatabase.getInstance().reference
 
         // Fragment 설정
         val fragment = MypageCommonHeaderFragment.newInstance("프로필 수정")
@@ -47,6 +58,9 @@ class MyPageProfileEditActivity : AppCompatActivity() {
 
         // UI 요소 초기화
         initializeUI()
+
+        // 사용자 프로필 로드
+        loadUserProfile()  // 기존 사용자 정보 로드
     }
 
 
@@ -88,20 +102,80 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         // 완료 버튼 클릭 리스너
         buttonNext.setOnClickListener {
             val nickname = nicknameEditText.text.toString()
+            val birthday = birthdateEditText.text.toString()
+
             if (validateNickname(nickname)) {
-                // 닉네임 저장 로직 추가
+                val userId = "userId" // 실제 사용자 ID로 변경
 
-                // 토스트 메시지 표시
-                Toast.makeText(this, "프로필이 변경되었어요", Toast.LENGTH_SHORT).show()
+                // Firebase에서 현재 닉네임과 생일을 읽어오기
+                database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val existingNickname = dataSnapshot.child("nickname").getValue(String::class.java)
+                        val existingBirthday = dataSnapshot.child("birthday").getValue(String::class.java)
 
-                // MyPageMainActivity로 이동
-                val intent = Intent(this, MyPageMainActivity::class.java)
-                startActivity(intent)
-                finish() // 현재 액티비티 종료
+                        // 기존 값과 비교
+                        if (nickname == existingNickname && birthday == existingBirthday) {
+                            //닉네임과 생일 둘 다 바뀐 것이 없이 값이 모두 같으면 Toast 메시지를 출력하지 않음
+                            //Toast.makeText(this@MyPageProfileEditActivity, "변경된 사항이 없습니다.", Toast.LENGTH_SHORT).show(
+
+                            // MyPageMainActivity로 이동
+                            val intent = Intent(this@MyPageProfileEditActivity, MyPageMainActivity::class.java)
+                            startActivity(intent)
+                            finish() // 현재 액티비티 종료
+                            return
+                        }
+
+                        // 닉네임과 생일을 Firebase에 저장
+                        val nicknameUpdateTask = database.child("users").child(userId).child("nickname").setValue(nickname)
+                        val birthdayUpdateTask = database.child("users").child(userId).child("birthday").setValue(birthday)
+
+                        // 모든 저장 작업이 완료된 후에 토스트 메시지 표시
+                        nicknameUpdateTask.addOnCompleteListener { nicknameTask ->
+                            birthdayUpdateTask.addOnCompleteListener { birthdayTask ->
+                                if (nicknameTask.isSuccessful && birthdayTask.isSuccessful) {
+                                    // 저장 성공 시
+                                    Toast.makeText(this@MyPageProfileEditActivity, "프로필이 변경되었어요", Toast.LENGTH_SHORT).show()
+
+                                    // MyPageMainActivity로 이동
+                                    val intent = Intent(this@MyPageProfileEditActivity, MyPageMainActivity::class.java)
+                                    startActivity(intent)
+                                    finish() // 현재 액티비티 종료
+                                } else {
+                                    // 저장 실패 시
+                                    Toast.makeText(this@MyPageProfileEditActivity, "프로필 저장에 실패했습니다. 프로필을 다시 변경해 주세요.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // 오류 처리
+                        Toast.makeText(this@MyPageProfileEditActivity, "데이터를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                })
             } else {
                 Toast.makeText(this, "유효한 닉네임을 입력해 주세요", Toast.LENGTH_SHORT).show()
             }
         }
+
+    }
+
+    private fun loadUserProfile() {
+        // Firebase에서 사용자 정보를 읽어오기
+        database.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nickname = dataSnapshot.child("nickname").getValue(String::class.java)
+                val birthday = dataSnapshot.child("birthday").getValue(String::class.java)
+
+                // EditText에 값 설정
+                nicknameEditText.setText(nickname)
+                birthdateEditText.setText(birthday)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // 오류 처리
+                Log.e("MyPageProfileEditActivity", "마이페이지 프로필 정보를 파이어베이스에서 불러오는 데 실패했습니다: ${databaseError.message}")            }
+        })
     }
 
     private fun showDatePickerDialog() {

@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import android.widget.Spinner // Spinner import 추가
 
+
 class SignUpActivity2 : AppCompatActivity() {
 
     private lateinit var birthdayInput: EditText
