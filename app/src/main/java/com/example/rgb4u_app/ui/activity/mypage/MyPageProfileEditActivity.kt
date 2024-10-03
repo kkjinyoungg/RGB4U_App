@@ -38,9 +38,10 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             .commit()
 
         // 뒤로가기 버튼 클릭 리스너 설정
-        fragment.setBackButtonListener(View.OnClickListener {
-            onBackPressed()
-        })
+        fragment.setBackButtonListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
 
         // UI 요소 초기화
         initializeUI()
@@ -54,6 +55,7 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         charCountTextView = findViewById(R.id.tv_char_count)
         errorTextView = findViewById(R.id.tv_error_message) // XML에서 미리 정의
         buttonNext = findViewById(R.id.buttonNext)
+        clearErrorState()
 
         // 닉네임 글자 수 제한을 11자로 설정
         nicknameEditText.filters = arrayOf(InputFilter.LengthFilter(11))
@@ -107,19 +109,46 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
         val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
 
+        // 현재 날짜 가져오기
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         yearPicker.minValue = currentYear - 100
         yearPicker.maxValue = currentYear
-        yearPicker.setFormatter { value -> "${value.toString()}년" }
+        yearPicker.value = currentYear // 현재 연도로 기본 설정
+        yearPicker.setFormatter { value -> "${value}년" }
 
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
-        monthPicker.setFormatter { value -> "${value.toString()}월" }
+        monthPicker.value = currentMonth // 현재 월로 기본 설정
+        monthPicker.setFormatter { value -> "${value}월" }
 
         dayPicker.minValue = 1
         dayPicker.maxValue = 31
-        dayPicker.setFormatter { value -> "${value.toString()}일" }
+        dayPicker.value = currentDay // 현재 일로 기본 설정
+        dayPicker.setFormatter { value -> "${value}일" }
+
+        // MonthPicker나 YearPicker가 변경될 때마다 dayPicker의 최대 일수를 업데이트
+        val updateDayPicker = {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val maxDays = when (selectedMonth) {
+                2 -> if (isLeapYear(selectedYear)) 29 else 28
+                4, 6, 9, 11 -> 30
+                else -> 31
+            }
+            dayPicker.maxValue = maxDays
+            // 현재 선택된 날짜가 최대 일수를 초과하지 않도록 설정
+            if (dayPicker.value > maxDays) {
+                dayPicker.value = maxDays
+            }
+        }
+
+        // MonthPicker와 YearPicker에 변경 리스너 추가
+        monthPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
+        yearPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
 
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(dialogView)
@@ -137,6 +166,11 @@ class MyPageProfileEditActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
+    private fun isLeapYear(year: Int): Boolean {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+    }
+
 
 
     private fun validateNickname(nickname: String): Boolean {

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
@@ -23,7 +22,7 @@ class SignUpActivity2 : AppCompatActivity() {
     private lateinit var birthdayInput: EditText
     private lateinit var buttonNext: Button
     private lateinit var buttonBack: ImageButton
-    private lateinit var calendarIcon: ImageView
+    private lateinit var calendarBtn: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +31,14 @@ class SignUpActivity2 : AppCompatActivity() {
         birthdayInput = findViewById(R.id.birthdayInput)
         buttonNext = findViewById(R.id.buttonNext)
         buttonBack = findViewById(R.id.buttonBack)
-        calendarIcon = findViewById(R.id.calendarIcon)
+        calendarBtn = findViewById(R.id.calendarBtn)
 
         // 버튼 초기 상태 설정 (비활성화)
         buttonNext.isEnabled = false
         buttonNext.alpha = 0.5f
 
-        // 달력 아이콘 클릭 시 스피너 방식으로 생년월일 선택
-        calendarIcon.setOnClickListener {
+        // 달력 버튼 클릭 시 스피너 방식으로 생년월일 선택
+        calendarBtn.setOnClickListener {
             showDateSpinnerDialog()
         }
 
@@ -83,19 +82,44 @@ class SignUpActivity2 : AppCompatActivity() {
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
         val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
 
+        val calendar = Calendar.getInstance() // 현재 날짜를 가져옵니다.
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1 // MONTH는 0부터 시작하므로 1을 더합니다.
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         yearPicker.minValue = currentYear - 100
         yearPicker.maxValue = currentYear
-        yearPicker.setFormatter { value -> "${value.toString()}년" }
+        yearPicker.value = currentYear // 초기값으로 현재 연도 설정
+        yearPicker.setFormatter { value -> "${value}년" }
 
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
-        monthPicker.setFormatter { value -> "${value.toString()}월" }
+        monthPicker.value = currentMonth // 초기값으로 현재 월 설정
+        monthPicker.setFormatter { value -> "${value}월" }
 
         dayPicker.minValue = 1
         dayPicker.maxValue = 31
-        dayPicker.setFormatter { value -> "${value.toString()}일" }
+        dayPicker.value = currentDay // 초기값으로 현재 일 설정
+        dayPicker.setFormatter { value -> "${value}일" }
+
+        // MonthPicker나 YearPicker가 변경될 때마다 dayPicker의 최대 일수를 업데이트
+        val updateDayPicker = {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val maxDays = when (selectedMonth) {
+                2 -> if (isLeapYear(selectedYear)) 29 else 28
+                4, 6, 9, 11 -> 30
+                else -> 31
+            }
+            dayPicker.maxValue = maxDays
+            if (dayPicker.value > maxDays) {
+                dayPicker.value = maxDays // 현재 일자가 최대 일자를 초과할 경우 최대 일자로 설정
+            }
+        }
+
+        // MonthPicker와 YearPicker에 변경 리스너 추가
+        monthPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
+        yearPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
 
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(dialogView)
@@ -113,6 +137,8 @@ class SignUpActivity2 : AppCompatActivity() {
 
         dialog.show()
     }
+
+
 
     private fun updateDays(daySpinner: Spinner, year: Int, month: Int) {
         val daysInMonth = when (month) {
