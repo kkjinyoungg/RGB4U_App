@@ -61,8 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="생일에 뭉치가 축하해 줄게!"
-        android:textSize="16sp"/>
+        android:text="생일에 모아가 축하해 줄게!"
+        android:textSize="16sp" />
 
     <!-- 생일 입력 필드와 달력 버튼을 감싸는 FrameLayout -->
     <FrameLayout

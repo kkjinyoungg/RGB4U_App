@@ -12,6 +12,13 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.login.LoginActivity
 import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
 import com.google.android.material.switchmaterial.SwitchMaterial
+//파이어베이스
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import android.util.Log
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class MyPageMainActivity : AppCompatActivity() {
 
@@ -24,10 +31,20 @@ class MyPageMainActivity : AppCompatActivity() {
     private lateinit var tvLogout: TextView
     private lateinit var tvDeleteAccount: TextView
     private lateinit var btnHowToUseDetails: ImageButton
+    private lateinit var database: DatabaseReference
+    private lateinit var tvnickname: TextView //마이페이지 이름
+    private val userId = "userId" // 실제 사용자 ID로 변경
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_main)
+
+        // Firebase Database 초기화
+        database = FirebaseDatabase.getInstance().reference
+
+        // 사용자 프로필 로드
+        loadUserProfile()  // 기존 사용자 정보 로드
 
         // 비밀번호 설정 토글과 비밀번호 변경 메뉴
         switchPassword = findViewById(R.id.switch_password)
@@ -36,6 +53,7 @@ class MyPageMainActivity : AppCompatActivity() {
         tvLogout = findViewById(R.id.tv_logout)
         tvDeleteAccount = findViewById(R.id.tv_delete_account)
         btnHowToUseDetails = findViewById(R.id.btn_how_to_use_details)
+        tvnickname = findViewById(R.id.tv_nickname) //마이페이지 이름
 
         // 버튼 초기화
         btnNotificationDetails = findViewById(R.id.btn_notification_details)
@@ -164,5 +182,20 @@ class MyPageMainActivity : AppCompatActivity() {
         } else {
             changePasswordLayout.visibility = View.GONE
         }
+    }
+
+    private fun loadUserProfile() {
+        // Firebase에서 사용자 정보를 읽어오기
+        database.child("users").child(userId).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val nickname = dataSnapshot.child("nickname").getValue(String::class.java)
+                // EditText에 값 설정
+                tvnickname.setText(nickname)
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // 오류 처리
+                Log.e("MyPageMainActivity", "마이페이지 메인 닉네임을 파이어베이스에서 불러오는 데 실패했습니다: ${databaseError.message}")            }
+        })
     }
 }
