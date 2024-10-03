@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="탈퇴하시겠습니까?"
-        android:textStyle="bold"
-        android:textSize="18sp"
+        android:fontFamily="@font/nanumsquareroundbold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"/>
@@ -22,8 +23,12 @@
         android:id="@+id/dialogMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(앱 이름)을 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. 계속하시겠습니까?"
-        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:text="생각모아를 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. 계속하시겠습니까?"
+        android:textSize="16sp"
+        android:lineSpacingExtra="8dp"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/gray2"
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
 
@@ -39,8 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="취소"
-            android:backgroundTint="@color/light_gray"
-            android:textColor="@android:color/black"/>
+            android:textColor="@color/black"
+            android:backgroundTint="@color/gray3" />
 
         <Button
             android:id="@+id/btnConfirm"

@@ -4,24 +4,28 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     android:gravity="center"
-    android:background="#6F6F6F">
+    android:background="@drawable/background_defult">
 
     <ImageView
         android:id="@+id/illustration"
-        android:layout_width="223dp"
-        android:layout_height="223dp"
-        android:src="@drawable/rounded_divider_view"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/img_loading"
         android:layout_centerHorizontal="true" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="작성했던 내용을 \n요약할게"
-        android:textColor="#FFFFFF"
+        android:fontFamily="@font/own_mongmongday"
+        android:text="적어주신 내용을 요약하고 있어요"
         android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp" />
+
 
 </RelativeLayout>
