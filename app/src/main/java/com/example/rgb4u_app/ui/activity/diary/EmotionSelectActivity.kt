@@ -14,10 +14,18 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.example.rgb4u_appclass.DiaryViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.example.rgb4u_app.MyApplication
+import android.util.Log
+
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
+    private val selectedEmotions = mutableListOf<String>() // 선택된 감정 리스트
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
@@ -26,13 +34,27 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
 
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
+        // 관찰자 추가.
+        diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
+            Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
+        }
+
+        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
+        if (selectedEmotions.isNotEmpty()) {
+            diaryViewModel.emotionTypes.value = selectedEmotions
+        }
+
         // Initialize loading dialog
         loadingDialog = Dialog(this)
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         loadingDialog.setContentView(R.layout.summary_loading)
         loadingDialog.setCancelable(false)
 
-        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+        myRecordFragment =
+            supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
         myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
         myRecordFragment.showIconForStep(4)
 
@@ -81,14 +103,23 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                         // 칩 선택 시 레이블 색상으로 변경
                         chip.chipBackgroundColor = getChipColor(category)
                         addChipToSelectedGroup(chip, category)
+                        selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
+                        Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
+
                     } else {
                         // 칩 취소 시 디폴트 색상으로 변경
                         chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
                         removeChipFromSelectedGroup(chip.text.toString())
+                        selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
+                        Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
+
                     }
 
                     updateNextButtonState(selectedChipGroup.childCount)
                 }
+
+                // 선택된 감정에 해당하는 경우 칩 선택 상태 유지
+                chip.isChecked = selectedEmotions.contains(label)
 
                 chipGroup.addView(chip)
             }
@@ -96,6 +127,24 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
 
         myRecordFragment.setHelpButtonEnabled(false)
         myRecordFragment.setHelpButtonVisibility(false)
+    }
+
+    private fun updateSelectedChipGroup() { // 선택된 칩 그룹 업데이트
+        selectedChipGroup.removeAllViews() // 기존의 칩 제거
+        selectedEmotions.forEach { emotion ->
+            val selectedChip = Chip(this).apply {
+                text = emotion
+                isCloseIconVisible = true
+                setTextColor(getColor(R.color.black))
+                setOnCloseIconClickListener {
+                    selectedChipGroup.removeView(this)
+                    diaryViewModel.emotionTypes.value =
+                        diaryViewModel.emotionTypes.value?.filter { it != emotion }
+                }
+                chipBackgroundColor = getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 설정
+            }
+            selectedChipGroup.addView(selectedChip)
+        }
     }
 
     private fun showLoadingDialog() {
@@ -169,7 +218,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 val chip = chipGroup.getChildAt(i) as Chip
                 if (chip.text == chipText) {
                     chip.isChecked = false
-                    chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 변경
+                    chip.chipBackgroundColor =
+                        getColorStateList(R.color.defaultChipColor) // 디폴트 색상으로 변경
                     break
                 }
             }
@@ -177,27 +227,38 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     }
 
     private fun updateNextButtonState(selectedChipCount: Int) {
-        myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..maxSelectableChips)
+        //myRecordFragment.setButtonNextEnabled(selectedChipCount in 1..maxSelectableChips)
     }
 
     override fun onNextButtonClicked() {
-        showLoadingDialog()
+        // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
+        Log.d("EmotionSelectActivity", "Before saving: $selectedEmotions") // 선택된 감정 로그
+        if (selectedEmotions.isNotEmpty()) {
+            diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
 
-        // 이전 화면에서 전달받은 데이터
-        val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
-        val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
+            // LiveData의 값이 변경되었음을 확인하기 위해 observe를 사용하여 로그 찍기
+            diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
+                Log.d(
+                    "EmotionSelectActivity",
+                    "Selected emotions in ViewModel: $emotionTypes"
+                ) // 확인용
+            }
 
-        // 2초 후에 SummaryMainActivity로 이동
-        Handler().postDelayed({
-            hideLoadingDialog()
+            showLoadingDialog()
+            diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
 
-            // SummaryMainActivity로 데이터 전달
-            val intent = Intent(this, SummaryMainActivity::class.java)
-            intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-            intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
-            startActivity(intent)
-            finish()
-        }, 2000) // 2초 동안 로딩
+            // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동
+            diaryViewModel.onDiarySaved = {
+                hideLoadingDialog() // 로딩 다이얼로그 숨기기
+                val intent =
+                    Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
+                intent.putExtra("DIARY_ID", DiaryViewModel.diaryId) // diaryId를 Intent에 추가
+                startActivity(intent)
+                finish()
+            }
+        } else {
+            Toast.makeText(this, "하나 이상의 감정을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onBackButtonClicked() {

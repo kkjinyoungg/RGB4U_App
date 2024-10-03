@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
+import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
+
 
 class MyPageHowToUseActivity : AppCompatActivity() {
 
