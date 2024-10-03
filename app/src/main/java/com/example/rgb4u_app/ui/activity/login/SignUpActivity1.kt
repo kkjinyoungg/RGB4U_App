@@ -72,7 +72,7 @@ class SignUpActivity1 : AppCompatActivity() {
 
     private fun validateNickname(nickname: String) {
         when {
-            nickname.length == 11 -> { // 11자를 입력한 경우
+            nickname.length == 11 -> {
                 errorMessage.text = "10자 이내로 작성해 주세요"
                 errorMessage.visibility = TextView.VISIBLE
 
