@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="64dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -42,15 +43,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="하루 동안 학교에서, 집에서 지내다 보면 많은 일들이 생겨요. \n이렇게 우리가 겪는 여러 가지 순간들을 상황이라고 해요."
-                    android:textSize="18sp" />
+                    android:text="하루 동안 학교에서, 집에서 \n 지내다 보면 많은 일들이 생겨요."
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
 
                 <ImageView
                     android:id="@+id/imageView_storyImage1"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ai_mypagestory_1" />
+                <TextView
+                    android:id="@+id/textView_description1.1"
+                    android:layout_marginTop="32dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="이렇게 우리가 겪는 여러 가지 순간들을 \n 상황이라고 해요."
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
             <!-- 두 번째 세트 -->
@@ -67,15 +81,46 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="우리는 상황 속에서 이런저런 생각을 떠올려요. \n예를 들어 친구가 나와 밥을 먹지 않는 상황에서는 \n‘친구가 나를 피하는 것 같아’ 라는 생각이 머릿속을 스쳐갈 수 있어요."
+                    android:text="우리는 상황 속에서 이런저런 생각을 떠올려요."
+                    android:fontFamily="@font/nanumsquareroundextrabold"
                     android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/imageView_storyImage2"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ai_mypagestory_2" />
+
+                <TextView
+                    android:id="@+id/textView_description2.1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서는"
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/textView_description2.2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="‘친구가 나를 피하는 것 같아’"
+                    android:textColor="@color/blue2"
+                    android:fontFamily="@font/own_mongmongday"
+                    android:textSize="24sp" />
+                <TextView
+                    android:id="@+id/textView_description2.3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="라는 생각이 머릿속을 스쳐갈 수 있어요."
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- 세 번째 세트 -->
