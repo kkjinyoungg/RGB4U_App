@@ -226,10 +226,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="4dp"
-            android:text="5단계: 여유구"
+            android:text="감정 강도"
             android:textSize="14sp"
             android:textColor="#FFFFFF" />
+
+        <!-- 감정 강도 이미지뷰와 텍스트뷰 수평 배치 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:id="@+id/emotionIntensityImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/rounded_divider_view"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/emotionIntensityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="감정 강도 5"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- 감정 레이블 텍스트뷰들 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="선택한 감정"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="내가 쓴 감정"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
+
 
     <!-- 정리 끝 버튼 -->
     <android.widget.Button

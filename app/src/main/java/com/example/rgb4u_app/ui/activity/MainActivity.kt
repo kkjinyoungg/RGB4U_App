@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.rgb4u_app.ui.fragment.HomeFragment
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.fragment.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             openFragment(HomeFragment())
         }
+
     }
 
     fun openFragment(fragment: Fragment) {

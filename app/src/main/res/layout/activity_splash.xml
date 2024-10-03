@@ -9,7 +9,7 @@
         android:id="@+id/tvSplashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="생각뭉치"
+        android:text="생각모아"
         android:textSize="54sp"
         android:textStyle="bold"
         android:textColor="@color/white"

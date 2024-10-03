@@ -1,12 +1,17 @@
 <resources>
+    <string name="app_name">생각모아</string>
+
     // 일지 도움말 버튼
     <string name = "btn_diary_helpbutton"> <u>상황 예시 보기</u> </string>
     <string name = "btn_think_helpbutton"> <u>생각 예시 보기</u> </string>
-    <string name="app_name">생각모아</string>
+
     <string name="home_button">홈</string>
     <string name="my_record_button">나의 기록</string>
     <string name="analysis_button">분석</string>
     <string name="my_page_button">마이페이지</string>
+
+    <string name="kakao_app_key">4288983c581d3d3569498e21690e8e6e</string>
+    <string name="kakao_redirect_scheme">kakao4288983c581d3d3569498e21690e8e6e</string>
 
     <string name="back_button">뒤로가기</string>
     <string name="calendar_icon">달력 아이콘</string>

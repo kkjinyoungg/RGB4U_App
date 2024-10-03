@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-
+    <!-- 마이페이지 툴바 -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -32,34 +32,19 @@
         android:layout_marginTop="86dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--        &lt;!&ndash; 상단 텍스트 "마이페이지" &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/tv_title"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:paddingBottom="8dp"-->
-<!--            android:text="마이페이지"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        &lt;!&ndash; 첫 번째 구분선 &ndash;&gt;-->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:background="#D3D3D3" />-->
-
-        <!-- 캐릭터 이미지, 환영 메시지, 닉네임, 프로필 수정 버튼을 담은 수평 레이아웃 -->
-
-            <!-- 사용자 정보 섹션 -->
+        <!-- 사용자 정보 섹션 -->
             <LinearLayout
+                android:id="@+id/user_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:padding="16dp"
                 android:gravity="start">
 
                 <!-- 캐릭터 이미지 -->
@@ -87,40 +72,37 @@
                         android:textColor="@color/blue2"
                         android:textSize="18sp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
+                        <!-- 이름, 프로필 수정 -->
+                        <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                        <!-- 사용자 닉네임 -->
-                        <TextView
-                            android:id="@+id/tv_nickname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="나서진"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/nanumsquareroundbold" />
+                                    <!-- 사용자 닉네임 -->
+                                    <TextView
+                                        android:id="@+id/tv_nickname"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="나서진"
+                                        android:textSize="20sp"
+                                        android:textColor="@color/black"
+                                        android:fontFamily="@font/nanumsquareroundbold" />
 
-                        <!-- 프로필 수정 버튼 -->
-                        <ImageButton
-                            android:id="@+id/btn_edit_profile"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="4dp"
-                            android:src="@drawable/ic_pencil"
-                            android:contentDescription="프로필 수정"
-                            android:background="?attr/selectableItemBackground"
-                            android:scaleType="fitCenter" />
+                                    <!-- 프로필 수정 버튼 -->
+                                    <androidx.appcompat.widget.AppCompatImageButton
+                                        android:id="@+id/btn_edit_profile"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginStart="8dp"
+                                        android:background="?attr/selectableItemBackground"
+                                        android:contentDescription="프로필 수정"
+                                        android:scaleType="fitCenter"
+                                        android:src="@drawable/ic_pencil" />
+                                </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
-
-        <!-- 두 번째 구분선 -->
     </LinearLayout>
+        <!-- 두 번째 구분선 -->
 
     <View
         android:layout_width="match_parent"
@@ -129,7 +111,7 @@
         app:layout_constraintBottom_toTopOf="@+id/settings_section"
         app:layout_constraintTop_toBottomOf="@+id/top_section" />
 
-    <!-- 설정 섹션 왼쪽 정렬 -->
+    <!-- 왼쪽 정렬 -->
     <LinearLayout
         android:id="@+id/settings_section"
         android:layout_width="match_parent"
@@ -218,13 +200,34 @@
         </LinearLayout>
 
         <!-- 비밀번호 변경 메뉴 (비밀번호 설정이 켜질 때만 표시) -->
-        <TextView
-            android:id="@+id/tv_change_password"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="비밀번호 변경"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
+        <LinearLayout
+                    android:id="@+id/layout_change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_change_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호 변경"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:textSize="14sp"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_change_password"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_next"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="상세보기"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_marginEnd="16dp" />
+                </LinearLayout>
 
         <!-- 도움말 섹션 -->
         <TextView
@@ -238,7 +241,7 @@
             android:fontFamily="@font/nanumsquareroundbold"
             android:layout_marginTop="24dp"/>
 
-        <!-- 생각뭉치 사용법 -->
+        <!-- 생각모아 사용법 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -268,6 +271,7 @@
                 android:background="?attr/selectableItemBackground" />
         </LinearLayout>
 
+        <!-- 서비스 이용약관 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -317,17 +321,26 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tv_logout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:text="로그아웃"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tv_logout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="로그아웃"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/nanumsquareroundregular"
+                        android:layout_weight="1"
+                        android:clickable="true" />
+
+                    <ImageView
+                        android:id="@+id/btn_logout_details"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="상세보기"
+                        android:background="?attr/selectableItemBackground" />
         </LinearLayout>
 
         <!-- 회원 탈퇴 -->
@@ -338,19 +351,26 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tv_delete_account"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:text="회원탈퇴"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_delete_account"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="회원탈퇴"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:clickable="true" />
 
+                    <ImageView
+                        android:id="@+id/btn_delete_account_details"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:scaleType="fitCenter"
+                        android:contentDescription="상세보기"
+                        android:background="?attr/selectableItemBackground" />
+         </LinearLayout>
 
         <!-- 버전 정보 -->
         <LinearLayout
@@ -373,14 +393,7 @@
                 android:text="버전 1.0.0"
                 android:textSize="14sp" />
         </LinearLayout>
-<!--        <TextView-->
-<!--            android:id="@+id/tv_version_info"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="버전 1.0.0"-->
-<!--            android:textSize="12sp"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginTop="16dp"/>-->
+
     </LinearLayout>
 
     <!-- 하단 네비게이션 프래그먼트 -->

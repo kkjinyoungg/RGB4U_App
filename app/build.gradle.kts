@@ -37,6 +37,15 @@ android {
         viewBinding = true
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
 }
 
 dependencies {
@@ -52,7 +61,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-
+    implementation ("com.kakao.sdk:v2-user:2.20.6") // 최신 버전 사용
 
 
     // ViewPager2 의존성 추가
