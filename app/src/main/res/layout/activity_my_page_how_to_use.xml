@@ -277,15 +277,16 @@
 
             <android.widget.Button
                 android:id="@+id/buttonNext"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="56dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/rounded_button"
                 android:text="완료"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:fontFamily="@font/nanumsquareroundbold"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 
