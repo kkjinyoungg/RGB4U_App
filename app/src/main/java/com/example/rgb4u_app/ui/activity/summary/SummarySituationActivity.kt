@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.SummaryFragment
 import com.google.firebase.database.* // Firebase Realtime Database 관련 클래스
-//import com.google.firebase.auth.FirebaseAuth // Firebase Authentication 관련 클래스
 import android.util.Log // 로그 관련 클래스
 import androidx.activity.viewModels
 import com.example.rgb4u_appclass.DiaryViewModel
@@ -15,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.example.rgb4u_app.MyApplication
 import androidx.activity.viewModels // ViewModel을 액티비티에서 가져오기 위한 import
+import com.google.firebase.auth.FirebaseAuth
 
 
 class SummarySituationActivity : AppCompatActivity() {
@@ -29,7 +29,8 @@ class SummarySituationActivity : AppCompatActivity() {
 
         //diaryId, ID
         val diaryId = intent.getStringExtra("DIARY_ID") ?: "defaultDiaryId"
-        val userId = "userId" // 실제 사용자 ID로 변경해야 함
+        // 현재 로그인된 사용자의 UID를 가져오는 함수
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
 
         // SummaryFragment 인스턴스 생성
         val summaryFragment = SummaryFragment.newInstance()
@@ -40,7 +41,7 @@ class SummarySituationActivity : AppCompatActivity() {
             commit()  // 트랜잭션 적용
         }
 
-        if (diaryId != null) {
+        if (userId != null && diaryId != null) {
             // 첫 번째 경로에서 데이터 조회
             loadAiAnalysisData(userId, diaryId, summaryFragment)
             // 두 번째 경로에서 데이터 조회
@@ -52,11 +53,6 @@ class SummarySituationActivity : AppCompatActivity() {
             // UI 업데이트 호출
             summaryFragment.updateUI()
         }
-
-        // Activity에서 SummaryFragment에 데이터를 전달
-        //summaryFragment.userContent = "내가 작성한 글이다"
-        //summaryFragment.summarizedContent = "요약된 상황 표현"
-        //summaryFragment.whySummaryReason = "이유에 대한 텍스트가 여기에 나타납니다."
         summaryFragment.titleText = "이런 상황에서" //고정 제목
         summaryFragment.summaryLabelText = "요약된 상황 표현" //고정 제목
     }

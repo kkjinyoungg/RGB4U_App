@@ -43,8 +43,7 @@ class MyPageMainActivity : AppCompatActivity() {
     }
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
-    private val userId: String?
-        get() = FirebaseAuth.getInstance().currentUser?.uid
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
