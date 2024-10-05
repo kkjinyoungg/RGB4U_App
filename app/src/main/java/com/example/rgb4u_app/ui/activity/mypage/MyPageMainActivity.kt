@@ -153,23 +153,22 @@ class MyPageMainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "deleteAccountConfirmation")
         }
 
-        // Firebase Realtime Database에서 사용자 데이터 삭제
-        private fun deleteUserFromDatabase(userId: String) {
-            val userRef = database.child("users").child(userId)
-            userRef.removeValue().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("회원 탈퇴", "사용자 데이터 삭제 완료")
-                } else {
-                    Log.e("회원 탈퇴", "사용자 데이터 삭제 실패: ${task.exception?.message}")
-                }
-            }
-        }
-
-
         // 도움말 클릭 리스너
         btnHowToUseDetails.setOnClickListener {
             val intent = Intent(this, MyPageHowToUseActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    // Firebase Realtime Database에서 사용자 데이터 삭제
+    private fun deleteUserFromDatabase(userId: String) {
+        val userRef = database.child("users").child(userId)
+        userRef.removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("회원 탈퇴", "사용자 데이터 삭제 완료")
+            } else {
+                Log.e("회원 탈퇴", "사용자 데이터 삭제 실패: ${task.exception?.message}")
+            }
         }
     }
 
