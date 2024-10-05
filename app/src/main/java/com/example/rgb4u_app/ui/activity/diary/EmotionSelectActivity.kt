@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.rgb4u_app.MyApplication
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
@@ -29,6 +30,10 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
+
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
+    private val userId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -245,7 +250,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             }
 
             showLoadingDialog()
-            diaryViewModel.saveDiaryToFirebase("userId") // 파이어베이스에 데이터 저장 [ID 잘 설정해야]
+            diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
 
             // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동
             diaryViewModel.onDiarySaved = {

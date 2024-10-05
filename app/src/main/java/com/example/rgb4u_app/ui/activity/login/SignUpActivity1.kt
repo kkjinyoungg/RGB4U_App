@@ -16,6 +16,7 @@ import com.example.rgb4u_app.R
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity1 : AppCompatActivity() {
 
@@ -66,20 +67,26 @@ class SignUpActivity1 : AppCompatActivity() {
         buttonNext.setOnClickListener {
             val nickname = editTextNickname.text.toString()
             if (isNicknameValid(nickname)) {
-                val userId = "userId" // 실제 사용자 ID로 변경
-                database.child("users").child(userId).child("nickname").setValue(nickname)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // 저장 성공 시 다음 단계로 이동
-                            val intent = Intent(this, SignUpActivity2::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Log.e("FirebaseError", "닉네임 저장에 실패했습니다: ${task.exception?.message}")
-                            // errorMessage.text = "닉네임 저장에 실패했습니다."
-                            // errorMessage.visibility = TextView.VISIBLE
+                // 현재 로그인된 사용자의 UID를 가져오는 함수
+                val user = FirebaseAuth.getInstance().currentUser
+                val userId = user?.uid
+
+                if (userId != null) {
+                    database.child("users").child(userId).child("nickname").setValue(nickname)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                // 저장 성공 시 다음 단계로 이동
+                                val intent = Intent(this, SignUpActivity2::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Log.e("FirebaseError", "닉네임 저장에 실패했습니다: ${task.exception?.message}")
+                                //Toast.makeText(this, "닉네임 저장에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
+                } else {
+                    Log.e("FirebaseAuthError", "User ID가 NULL입니다. 로그인 상태를 확인하세요.")
+                }
             }
         }
         // 초기 버튼 상태 설정

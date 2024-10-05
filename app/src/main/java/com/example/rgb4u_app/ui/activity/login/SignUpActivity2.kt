@@ -19,6 +19,7 @@ import java.util.Calendar
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import android.widget.Spinner // Spinner import 추가
+import com.google.firebase.auth.FirebaseAuth
 
 
 class SignUpActivity2 : AppCompatActivity() {
@@ -61,20 +62,33 @@ class SignUpActivity2 : AppCompatActivity() {
             val birthday = birthdayInput.text.toString()
             if (birthday.isNotEmpty()) {
                 Log.d("SignUpActivity2", "Birthday is valid: $birthday")
-                val userId = "userId" // 실제 사용자 ID로 변경
-                database.child("users").child(userId).child("birthday").setValue(birthday) // 생일 저장
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d("SignUpActivity2", "save Birth successfully")
-                            // 저장 성공 시 다음 단계로 이동
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Log.d("SignUpActivity2", "Birthday is empty")
-                            Toast.makeText(this, "생일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+
+                // 현재 로그인된 사용자의 UID를 가져오는 함수
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+                if (userId != null) {
+                    // UID가 null이 아닌 경우에만 데이터를 저장
+                    database.child("users").child(userId).child("birthday").setValue(birthday)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("SignUpActivity2", "Birth saved successfully")
+                                // 저장 성공 시 다음 단계로 이동
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Log.e("FirebaseError", "ID는 있지만 생일 저장에 실패했습니다: ${task.exception?.message}")
+                                //Toast.makeText(this, "저장에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
+                } else {
+                    // UID가 null인 경우 처리
+                    Log.e("FirebaseAuthError", "로그인이 되지 않아 생일 저장에 실패했습니다")
+                    //Toast.makeText(this, "로그인이 되지 않았어요", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Log.d("SignUpActivity2", "Birthday is empty")
+                Toast.makeText(this, "생일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
             }
         }
 

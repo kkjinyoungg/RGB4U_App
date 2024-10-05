@@ -15,6 +15,7 @@ import java.util.Locale
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.example.rgb4u_app.MyApplication
 import androidx.activity.viewModels // ViewModel을 액티비티에서 가져오기 위한 import
+import com.google.firebase.auth.FirebaseAuth
 
 
 class SummaryMainActivity : AppCompatActivity() {
@@ -38,9 +39,11 @@ class SummaryMainActivity : AppCompatActivity() {
 
         //diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId
-        val userId = "userId" // 실제 사용자 ID로 변경해야 함
 
-        if (diaryId != null) {
+        // 현재 로그인된 사용자의 UID를 가져오는 함수
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId != null && diaryId != null) {
             // Realtime Database에서 diaryId로 데이터 조회
             database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
             database.addListenerForSingleValueEvent(object : ValueEventListener {
