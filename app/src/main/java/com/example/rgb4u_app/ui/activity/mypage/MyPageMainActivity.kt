@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class MyPageMainActivity : AppCompatActivity() {
 
@@ -35,7 +36,15 @@ class MyPageMainActivity : AppCompatActivity() {
     private lateinit var btnHowToUseDetails: ImageButton
     private lateinit var database: DatabaseReference
     private lateinit var tvnickname: TextView //마이페이지 이름
-    private val userId = "userId" // 실제 사용자 ID로 변경
+    private lateinit var googleSignInClient: GoogleSignInClient
+
+    companion object {
+        private const val TAG = "MyPageMainActivity"
+    }
+
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
+    private val userId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +52,14 @@ class MyPageMainActivity : AppCompatActivity() {
 
         // Firebase Database 초기화
         database = FirebaseDatabase.getInstance().reference
+
+        // GoogleSignInClient 초기화
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.client_Id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // 사용자 프로필 로드
         loadUserProfile()  // 기존 사용자 정보 로드
@@ -107,8 +124,9 @@ class MyPageMainActivity : AppCompatActivity() {
 
                     // 구글 로그아웃 처리
                     auth.signOut()
-                    GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
-                    Log.d("로그아웃", "로그아웃 성공")
+                    googleSignInClient.signOut().addOnCompleteListener {
+                        Log.d(TAG, "구글 로그아웃 성공")
+                    }
 
                     // 로그인 화면으로 이동
                     val intent = Intent(this, LoginActivity::class.java)
@@ -181,15 +199,25 @@ class MyPageMainActivity : AppCompatActivity() {
     }
 
     private fun loadUserProfile() {
-        database.child("users").child(userId).addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val nickname = dataSnapshot.child("nickname").getValue(String::class.java)
-                tvnickname.setText(nickname)
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.e("MyPageMainActivity", "닉네임을 불러오는 데 실패했습니다: ${databaseError.message}")
-            }
-        })
+        userId?.let { uid ->
+            database.child("users").child(uid).addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val nickname = dataSnapshot.child("nickname").getValue(String::class.java)
+                    tvnickname.setText(nickname)
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("MyPageMainActivity", "닉네임을 불러오는 데 실패했습니다: ${databaseError.message}")
+                }
+            })
+        } ?: run {
+            Log.e(TAG, "사용자가 로그인되지 않았습니다.")
+            Toast.makeText(this, "로그인 후 이용해 주세요.", Toast.LENGTH_SHORT).show()
+            // 로그인 화면으로 리다이렉트
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
+
