@@ -62,11 +62,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("com.kakao.sdk:v2-user:2.20.6") // 최신 버전 사용
+    //implementation ("com.kakao.sdk:v2-user:2.20.6") // 최신 버전 사용
 
     // ViewPager2 의존성 추가
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.auth)
 
 
     testImplementation(libs.junit)
@@ -77,4 +78,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics") //파이어베이스
     implementation ("com.google.firebase:firebase-database-ktx") //파이어베이스 실시간 SDK
     implementation("com.squareup.okhttp3:okhttp:4.9.1") //okHttp
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.5.0") //구글 플레이 서비스 (로그인)
 }
