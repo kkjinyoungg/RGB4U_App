@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Google Sign-In 옵션 설정
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.android_client_Id)) // 클라이언트 OAUTH ID 사용
+            .requestIdToken(getString(R.string.client_Id)) // 클라이언트 OAUTH ID 사용
             .requestEmail()
             .build()
 
@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             firebaseAuthWithGoogle(account)
         } catch (e: ApiException) {
             // 로그인 실패 처리
-            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            Log.w(TAG, "signInResult:failed code=${e.statusCode}, message=${e.message}")
         }
     }
 
