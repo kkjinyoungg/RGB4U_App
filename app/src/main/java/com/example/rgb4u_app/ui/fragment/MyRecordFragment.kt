@@ -1,7 +1,6 @@
 package com.example.rgb4u_app.ui.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -22,21 +19,23 @@ class MyRecordFragment : Fragment() {
 
     interface NavigationListener {
         fun onNextButtonClicked()
-        fun onBackButtonClicked()
+        fun onToolbarAction1Clicked()  // 첫 번째 버튼 클릭
+        fun onToolbarAction2Clicked()  // 두 번째 버튼 클릭
     }
 
     private var listener: NavigationListener? = null
-    private lateinit var dateTextView: TextView
+
     private lateinit var questionment: TextView
     private lateinit var subQuestionment: TextView
+
     private lateinit var nextButton: Button
-    private lateinit var backButton: AppCompatImageButton
-    private lateinit var exitButton: AppCompatImageButton
+
     private lateinit var iconSituation: ImageView
     private lateinit var iconThought: ImageView
     private lateinit var iconEmotionStrength: ImageView
     private lateinit var iconEmotionType: ImageView
-    private lateinit var helpButton: ImageButton
+
+    private lateinit var toolbarTitle: TextView  // 툴바에 있는 제목 텍스트 뷰
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,37 +53,31 @@ class MyRecordFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_record, container, false)
 
         // UI 요소 초기화
-        dateTextView = view.findViewById(R.id.dateTextView)
         questionment = view.findViewById(R.id.questionment)
         subQuestionment = view.findViewById(R.id.subQuestionment)
         nextButton = view.findViewById(R.id.buttonNext)
-        backButton = view.findViewById(R.id.backButton)
-        exitButton = view.findViewById(R.id.exitButton)
         iconSituation = view.findViewById(R.id.icon_situation)
         iconThought = view.findViewById(R.id.icon_thought)
         iconEmotionStrength = view.findViewById(R.id.icon_emotion_strength)
         iconEmotionType = view.findViewById(R.id.icon_emotion_type)
-        // helpButton = view.findViewById(R.id.helpButton) // Initialize here
 
-        // 현재 날짜 설정
+        // 툴바에서 제목 텍스트 뷰 찾기
+        toolbarTitle = view.findViewById(R.id.toolbar_write_title)
+
+        // 현재 날짜 설정 (툴바에 있는 텍스트 뷰에 적용)
         val calendar = Calendar.getInstance()
         val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
-        dateTextView.text = sdf.format(calendar.time)
+        toolbarTitle.text = sdf.format(calendar.time)  // 툴바에 날짜 설정
+
+        val toolbarAction1 = view.findViewById<ImageButton>(R.id.button_write_action1)
+        val toolbarAction2 = view.findViewById<ImageButton>(R.id.button_write_action2)
+
+        // Toolbar 버튼 클릭 리스너 설정
+        toolbarAction1.setOnClickListener { listener?.onToolbarAction1Clicked() }
+        toolbarAction2.setOnClickListener { listener?.onToolbarAction2Clicked() }
 
         // 각 버튼에 클릭 리스너 설정
-        backButton.setOnClickListener { listener?.onBackButtonClicked() }
         nextButton.setOnClickListener { listener?.onNextButtonClicked() }
-        exitButton.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
-        }
-        /*
-        // helpButton 클릭 리스너 설정
-        helpButton.setOnClickListener {
-            val bottomSheet = HelpBottomSheetFragment()
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        } */
 
         // 기본 상태로 아이콘 모두 숨기기
         hideAllIcons()
@@ -131,11 +124,12 @@ class MyRecordFragment : Fragment() {
         }
     }
 
-    fun setHelpButtonEnabled(enabled: Boolean) {
-        helpButton.isEnabled = enabled
+    fun setToolbarButtonListeners(backAction: () -> Unit, exitAction: () -> Unit) {
+        val toolbarAction1 = view?.findViewById<ImageButton>(R.id.button_write_action1)
+        val toolbarAction2 = view?.findViewById<ImageButton>(R.id.button_write_action2)
+
+        toolbarAction1?.setOnClickListener { backAction() }
+        toolbarAction2?.setOnClickListener { exitAction() }
     }
 
-    fun setHelpButtonVisibility(visible: Boolean) {
-        helpButton.visibility = if (visible) View.VISIBLE else View.GONE
-    }
 }

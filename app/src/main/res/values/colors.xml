@@ -67,4 +67,11 @@
     <color name="angerColor_dark">#C771C7</color>
     <color name="disgustColor_dark">#7461D1</color>
 
+    //swich 버튼 전용 버튼색
+    <color name="on_thumb_color">#FFFFFF</color>
+    <color name="off_thumb_color">#FFFFFF</color>
+    <color name="on_track_color">#FFE661</color>
+    <color name="off_track_color">#D9D9D9</color>
+
+
 </resources>

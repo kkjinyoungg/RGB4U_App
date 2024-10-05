@@ -19,7 +19,7 @@
         android:id="@+id/selectedChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="230dp"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,11 +29,11 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="238dp"
+        android:layout_marginTop="280dp"
         android:layout_marginBottom="100dp"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myrecordFragment">
+        app:layout_constraintTop_toBottomOf="@id/selectedChipGroup">
 
         <LinearLayout
             android:id="@+id/emotionLayout"
@@ -45,15 +45,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:text="놀람"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="14sp" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/surpriseChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="84dp"
+                android:layout_marginBottom="8dp"
                 app:singleSelection="false" />
 
             <!-- 두려움 레이블 -->
@@ -61,64 +62,68 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="132dp"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:text="두려움"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="14sp" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/fearChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="false" />
+                android:layout_height="84dp"
+                app:singleSelection="false"
+                android:layout_marginBottom="8dp"/>
 
             <!-- 슬픔 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="132dp"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:text="슬픔"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="14sp" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/sadnessChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="false" />
+                android:layout_height="84dp"
+                app:singleSelection="false"
+                android:layout_marginBottom="8dp"/>
 
             <!-- 화남 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="132dp"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:text="화남"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nanumsquareroundbold"
-                android:textSize="14sp" />  <!-- 마진 추가 -->
+                android:textSize="14sp"/>
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/angerChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="false" />
+                android:layout_height="84dp"
+                app:singleSelection="false"
+                android:layout_marginBottom="8dp"/>
 
             <!-- 혐오 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="132dp"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:text="혐오"
                 android:textColor="@color/white"
-                android:fontFamily="@font/nanumsquareroundbold"
-                android:textSize="14sp"/>  <!-- 마진 추가 -->
+                android:textSize="14sp" />  <!-- 마진 추가 -->
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/disgustChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:singleSelection="false" />
+                android:layout_height="84dp"
+                app:singleSelection="false"
+                android:layout_marginBottom="8dp"/>
 
         </LinearLayout>
     </ScrollView>

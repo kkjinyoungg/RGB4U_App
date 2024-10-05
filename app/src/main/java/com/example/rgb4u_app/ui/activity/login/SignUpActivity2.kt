@@ -9,16 +9,15 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.NumberPicker
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
-import java.util.Calendar
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
-import android.widget.Spinner // Spinner import 추가
+import com.google.firebase.database.FirebaseDatabase
+import java.util.Calendar
 
 
 class SignUpActivity2 : AppCompatActivity() {
@@ -27,7 +26,6 @@ class SignUpActivity2 : AppCompatActivity() {
     private lateinit var buttonNext: Button
     private lateinit var buttonBack: ImageButton
     private lateinit var calendarBtn: ImageButton
-    private lateinit var calendarIcon: ImageView
     private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
