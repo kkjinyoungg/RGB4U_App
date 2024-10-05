@@ -83,7 +83,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1") // OkHttp
 
     // Google Play services
-    implementation 'com.google.gms:google-services:4.3.15' // Google Services
+    implementation("com.google.gms:google-services:4.3.15") // Google Services
     implementation("com.google.android.gms:play-services-auth:20.5.0") // Google Play Services (Login)
 
     // Credential manager
