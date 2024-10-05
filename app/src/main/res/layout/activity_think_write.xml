@@ -7,14 +7,6 @@
     android:windowSoftInputMode="adjustResize">
 
     <!-- 프래그먼트가 화면 전체를 차지하도록 설정 -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <fragment
         android:id="@+id/myrecordFragment"
@@ -25,9 +17,12 @@
 
     <!-- 텍스트 필드와 글자 수 카운터를 함께 담는 FrameLayout -->
     <FrameLayout
-        android:layout_width="328dp"
-        android:layout_height="188dp"
-        android:layout_marginTop="204dp"
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,14 +35,16 @@
             android:background="@drawable/edittext_background"
             android:gravity="top|start"
             android:hint="어떤 내용이든 괜찮아요! \n내 생각을 솔직하게 적어보세요."
+            android:fontFamily="@font/nanumsquareroundregular"
             android:imeOptions="actionDone"
             android:maxLength="150"
-            android:padding="13dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColorHint="@color/white"
+            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:lineSpacingExtra="8dp"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
 
         <!-- 글자 수 카운트 (EditText 위에 오버레이) -->
         <TextView
@@ -58,19 +55,30 @@
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:text="0/150"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@android:color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
     </FrameLayout>
 
-    <!-- 스퀘어 뷰 -->
-    <View
-        android:id="@+id/squareView"
-        android:layout_width="315dp"
-        android:layout_height="169dp"
-        android:layout_marginTop="414dp"
-        android:background="@color/light_gray"
+    <Button
+        android:id="@+id/think_helpButton"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/btn_think_helpbutton"
+        android:textColor="#D2DAEA"
+        android:textSize="14sp"
+        android:fontFamily="@font/nanumsquareroundregular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

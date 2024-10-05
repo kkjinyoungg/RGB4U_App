@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="64dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -41,16 +42,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginTop="24dp"
                     android:gravity="center"
-                    android:text="하루 동안 학교에서, 집에서 지내다 보면 많은 일들이 생겨요. \n이렇게 우리가 겪는 여러 가지 순간들을 상황이라고 해요."
-                    android:textSize="18sp" />
+                    android:text="하루 동안 학교에서, 집에서 \n 지내다 보면 많은 일들이 생겨요."
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
 
                 <ImageView
                     android:id="@+id/imageView_storyImage1"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ai_mypagestory_1" />
+                <TextView
+                    android:id="@+id/textView_description1.1"
+                    android:layout_marginTop="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="이렇게 우리가 겪는 여러 가지 순간들을 \n 상황이라고 해요."
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
             <!-- 두 번째 세트 -->
@@ -67,15 +82,47 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="우리는 상황 속에서 이런저런 생각을 떠올려요. \n예를 들어 친구가 나와 밥을 먹지 않는 상황에서는 \n‘친구가 나를 피하는 것 같아’ 라는 생각이 머릿속을 스쳐갈 수 있어요."
+                    android:text="우리는 상황 속에서 이런저런 생각을 떠올려요."
+                    android:fontFamily="@font/nanumsquareroundextrabold"
                     android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/imageView_storyImage2"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ai_mypagestory_2" />
+
+                <TextView
+                    android:id="@+id/textView_description2.1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서는"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/textView_description2.2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="‘친구가 나를 피하는 것 같아’"
+                    android:textColor="@color/blue2"
+                    android:fontFamily="@font/own_mongmongday"
+                    android:textSize="24sp" />
+                <TextView
+                    android:id="@+id/textView_description2.3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="라는 생각이 머릿속을 스쳐갈 수 있어요."
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- 세 번째 세트 -->
@@ -86,21 +133,26 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView_description3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center"
-                    android:text="이런 생각이 들면 \n우리는 슬프고 속상한 감정을 느낄 수 있어요."
-                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/imageView_storyImage3"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ai_mypagestory_3" />
+
+                <TextView
+                    android:id="@+id/textView_description3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="이런 생각이 들면 \n우리는 슬프고 속상한 감정을 느낄 수 있어요."
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:lineSpacingExtra="8dp"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- 네 번째 세트 -->
@@ -111,21 +163,25 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/imageView_storyImage4"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_4" />
+
                 <TextView
                     android:id="@+id/textView_description4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="이처럼 상황, 생각, 감정은 서로 이어져 있어요. \n상황 속에서 내가 어떤 생각을 하는지에 따라 \n느끼는 감정이 달라질 수 있어요."
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:lineSpacingExtra="8dp"
                     android:textSize="18sp" />
-
-                <ImageView
-                    android:id="@+id/imageView_storyImage4"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ai_mypagestory_4" />
             </LinearLayout>
 
             <!-- 다섯 번째 세트 -->
@@ -136,21 +192,46 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/imageView_storyImage5"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ai_mypagestory_5" />
+
                 <TextView
-                    android:id="@+id/textView_description5"
+                    android:id="@+id/textView_description5.1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서."
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
+
+                <TextView
+                    android:id="@+id/textView_description5.2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서 \n‘친구가 바쁜가 보다’라고 생각하면 \n슬픈 마음이 덜해질 수 있어요."
-                    android:textSize="18sp" />
+                    android:text="‘친구가 바쁜가 보다’라고 생각하면"
+                    android:textColor="@color/blue2"
+                    android:fontFamily="@font/own_mongmongday"
+                    android:textSize="24sp" />
 
-                <ImageView
-                    android:id="@+id/imageView_storyImage5"
+                <TextView
+                    android:id="@+id/textView_description5.3"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ai_mypagestory_5" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="슬픈 마음이 덜해질 수 있어요"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
             <!-- 여섯 번째 세트 -->
@@ -166,28 +247,46 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="이제 하루에 한 번씩 (캐릭터 이름)에게 \n하루 동안 어떤 상황이 있었고, \n그때 어떤 생각이 떠올랐는지, \n그리고 어떤 감정을 느꼈는지 들려주세요. \n\n(캐릭터 이름)과 함께 내 마음을 더 잘 알게 될 거예요."
-                    android:textSize="18sp" />
+                    android:text="이제 하루에 한 번씩 모아에게 \n하루 동안 어떤 상황이 있었고, \n그때 어떤 생각이 떠올랐는지, \n그리고 어떤 감정을 느꼈는지 들려주세요."
+                    android:textSize="18sp"
+                    android:lineSpacingExtra="8dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
 
                 <ImageView
                     android:id="@+id/imageView_storyImage6"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"
+                    android:layout_marginTop="24dp"
                     android:src="@drawable/ai_mypagestory_6" />
+
+                <TextView
+                    android:id="@+id/textView_description6.1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="모아와 함께 내 마음을 더 잘 알게 될 거예요."
+                    android:textSize="18sp"
+                    android:lineSpacingExtra="8dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
             <android.widget.Button
                 android:id="@+id/buttonNext"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="56dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/rounded_button"
                 android:text="완료"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:fontFamily="@font/nanumsquareroundbold"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 

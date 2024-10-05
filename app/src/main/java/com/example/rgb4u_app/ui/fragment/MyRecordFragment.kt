@@ -64,7 +64,7 @@ class MyRecordFragment : Fragment() {
         iconThought = view.findViewById(R.id.icon_thought)
         iconEmotionStrength = view.findViewById(R.id.icon_emotion_strength)
         iconEmotionType = view.findViewById(R.id.icon_emotion_type)
-        helpButton = view.findViewById(R.id.helpButton) // Initialize here
+        // helpButton = view.findViewById(R.id.helpButton) // Initialize here
 
         // 현재 날짜 설정
         val calendar = Calendar.getInstance()
@@ -79,12 +79,12 @@ class MyRecordFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
         }
-
+        /*
         // helpButton 클릭 리스너 설정
         helpButton.setOnClickListener {
             val bottomSheet = HelpBottomSheetFragment()
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        }
+        } */
 
         // 기본 상태로 아이콘 모두 숨기기
         hideAllIcons()

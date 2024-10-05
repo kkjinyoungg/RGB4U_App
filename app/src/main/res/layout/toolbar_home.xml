@@ -1,0 +1,27 @@
+
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_record"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="@color/white_0" >
+
+    <ImageButton
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_wh"
+        android:contentDescription="동작 버튼"
+        android:layout_gravity="start"
+        android:background="@android:color/transparent"/>
+
+    <ImageButton
+        android:id="@+id/notificationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_notification"
+        android:contentDescription="동작 버튼"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent" />
+</androidx.appcompat.widget.Toolbar>
