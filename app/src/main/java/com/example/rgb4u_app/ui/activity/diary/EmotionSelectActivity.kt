@@ -3,24 +3,22 @@ package com.example.rgb4u_app.ui.activity.diary
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.example.rgb4u_appclass.DiaryViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import com.example.rgb4u_app.MyApplication
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-
+import com.example.rgb4u_app.MyApplication
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -39,7 +37,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
 
-        // Application에서 ViewModel 가져오기
+        //다이어리뷰모델초기화
         diaryViewModel = (application as MyApplication).diaryViewModel
 
         // 관찰자 추가.
@@ -62,6 +60,12 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
             supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
         myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
         myRecordFragment.showIconForStep(4)
+
+        // 버튼 클릭 리스너 설정
+        myRecordFragment.setToolbarButtonListeners(
+            backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
+            exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
+        )
 
         selectedChipGroup = findViewById(R.id.selectedChipGroup)
 
@@ -129,9 +133,6 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 chipGroup.addView(chip)
             }
         }
-
-        myRecordFragment.setHelpButtonEnabled(false)
-        myRecordFragment.setHelpButtonVisibility(false)
     }
 
     private fun updateSelectedChipGroup() { // 선택된 칩 그룹 업데이트
@@ -266,8 +267,15 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         }
     }
 
-    override fun onBackButtonClicked() {
+    override fun onToolbarAction1Clicked() {
         val intent = Intent(this, EmotionStrengthActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onToolbarAction2Clicked() {
+        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }

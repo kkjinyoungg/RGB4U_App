@@ -9,12 +9,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import com.example.rgb4u_app.MyApplication
 
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -36,13 +36,25 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         }
 
         // 프래그먼트 초기화
-        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+        myRecordFragment =
+            supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+
+        // 버튼 클릭 리스너 설정
+        myRecordFragment.setToolbarButtonListeners(
+            backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
+            exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
+        )
 
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("그때 떠오른 생각을 들려주세요", "그 상황에서 어떤 내용이 머릿속을 스쳐갔나요?")
 
         // 특정 단계의 이미지만 보이도록 설정 (예: 2단계 "생각 적기")
         myRecordFragment.showIconForStep(2)
+
+        // Help 버튼 클릭 리스너 추가
+        findViewById<Button>(R.id.think_helpButton).setOnClickListener {
+            showHelpBottomSheet()
+        }
 
         // 텍스트 필드와 글자 수 카운터 초기화
         val inputField = findViewById<EditText>(R.id.inputField)
@@ -63,7 +75,11 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                     if (byteCount > 300) {
                         inputField.setText(s.toString().take(s.length - 1)) // 마지막 문자 제거
                         inputField.setSelection(inputField.text.length) // 커서 위치를 끝으로 이동
-                        Toast.makeText(this@ThinkWriteActivity, "150자 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@ThinkWriteActivity,
+                            "150자 이하로 작성해주세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     // 글자 수가 1자 이상일 때만 버튼 활성화
@@ -103,10 +119,23 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         startActivity(intent)
     }
 
-    override fun onBackButtonClicked() {
+    override fun onToolbarAction1Clicked() {
         // "Back" 버튼 클릭 시 DiaryWriteActivity로 이동
         val intent = Intent(this, DiaryWriteActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onToolbarAction2Clicked() {
+        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showHelpBottomSheet() {
+        val helpBottomSheetFragment = HelpBottomSheetFragment()
+        helpBottomSheetFragment.setHelpMessage("도움말 내용을 여기에 작성하세요.") // 필요한 내용으로 변경
+        helpBottomSheetFragment.show(supportFragmentManager, helpBottomSheetFragment.tag)
     }
 }

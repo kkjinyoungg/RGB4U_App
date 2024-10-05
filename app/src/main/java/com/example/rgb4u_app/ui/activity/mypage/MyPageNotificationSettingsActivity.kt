@@ -10,7 +10,6 @@ import androidx.fragment.app.commit
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
 
 class MyPageNotificationSettingsActivity : AppCompatActivity() {
 
@@ -30,6 +29,17 @@ class MyPageNotificationSettingsActivity : AppCompatActivity() {
         // Switch 버튼 초기화
         switchMessage = findViewById(R.id.switch_message)
         switchAnalysis = findViewById(R.id.switch_analysis)
+
+        // Switch 색상 설정
+        // Switch 색상 설정
+        switchMessage.thumbTintList = resources.getColorStateList(R.color.switch_thumb_color, null)
+        switchMessage.trackTintList = resources.getColorStateList(R.color.switch_track_color, null)
+
+        switchAnalysis.thumbTintList = resources.getColorStateList(R.color.switch_thumb_color, null)
+        switchAnalysis.trackTintList = resources.getColorStateList(R.color.switch_track_color, null)
+
+        // Switch 상태 초기화
+        initializeSwitchStates()
 
         // Fragment LifecycleCallbacks를 이용하여 Fragment의 View가 생성된 후에 Listener 설정
         supportFragmentManager.registerFragmentLifecycleCallbacks(
@@ -69,4 +79,11 @@ class MyPageNotificationSettingsActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun initializeSwitchStates() {
+        val preferences = getSharedPreferences("notification_settings", MODE_PRIVATE)
+        switchMessage.isChecked = preferences.getBoolean("message_enabled", false) // 기본값 false
+        switchAnalysis.isChecked = preferences.getBoolean("analysis_enabled", false) // 기본값 false
+    }
+
 }

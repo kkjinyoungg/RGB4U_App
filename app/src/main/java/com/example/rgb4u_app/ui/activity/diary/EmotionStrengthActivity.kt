@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import com.example.rgb4u_app.MyApplication
 
 class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -40,11 +39,18 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
         dynamicTextView = findViewById(R.id.dynamicTextView)
 
         // Initialize fragment
-        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+        myRecordFragment =
+            supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
 
         // Set text and icon for fragment
         myRecordFragment.setQuestionText("그때 부정적인 감정이 \n얼마나 심했는지 알려주세요", "")
         myRecordFragment.showIconForStep(3)
+
+        // 버튼 클릭 리스너 설정
+        myRecordFragment.setToolbarButtonListeners(
+            backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
+            exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
+        )
 
         // Set SeekBar listener
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -73,10 +79,6 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
 
         // Initialize the Next button state based on the initial SeekBar progress
         myRecordFragment.setButtonNextEnabled(seekBar.progress in 1..4)
-
-        // Disable and hide the helpButton
-        myRecordFragment.setHelpButtonEnabled(false)
-        myRecordFragment.setHelpButtonVisibility(false)
     }
 
     override fun onNextButtonClicked() {
@@ -93,11 +95,17 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
         startActivity(intent)
     }
 
-
-
-    override fun onBackButtonClicked() {
+    override fun onToolbarAction1Clicked() {
         val intent = Intent(this, ThinkWriteActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    override fun onToolbarAction2Clicked() {
+        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 }

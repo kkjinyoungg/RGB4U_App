@@ -3,11 +3,11 @@ package com.example.rgb4u_app.ui.activity.mypage
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
-import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
 
 
 class MyPageHowToUseActivity : AppCompatActivity() {
@@ -26,6 +26,13 @@ class MyPageHowToUseActivity : AppCompatActivity() {
         headerFragment.setBackButtonListener(View.OnClickListener {
             navigateToMyPageMainActivity()
         })
+
+        val buttonNext: Button = findViewById(R.id.buttonNext)
+        buttonNext.setOnClickListener {
+            // MyPageMainActivity로 이동
+            val intent = Intent(this, MyPageMainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun navigateToMyPageMainActivity() {
