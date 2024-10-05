@@ -12,13 +12,15 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.login.LoginActivity
 import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
 import com.google.android.material.switchmaterial.SwitchMaterial
-//파이어베이스
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import android.util.Log
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 class MyPageMainActivity : AppCompatActivity() {
 
@@ -35,7 +37,6 @@ class MyPageMainActivity : AppCompatActivity() {
     private lateinit var tvnickname: TextView //마이페이지 이름
     private val userId = "userId" // 실제 사용자 ID로 변경
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_main)
@@ -46,7 +47,7 @@ class MyPageMainActivity : AppCompatActivity() {
         // 사용자 프로필 로드
         loadUserProfile()  // 기존 사용자 정보 로드
 
-        // 비밀번호 설정 토글과 비밀번호 변경 메뉴
+        // UI 요소 초기화
         switchPassword = findViewById(R.id.switch_password)
         changePasswordLayout = findViewById(R.id.layout_change_password)
         tvChangePassword = findViewById(R.id.tv_change_password)
@@ -62,28 +63,18 @@ class MyPageMainActivity : AppCompatActivity() {
 
         // SharedPreferences에서 토글 상태 확인
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-
-        // SharedPreferences에서 저장된 값이 있으면 불러오고, 없으면 false로 기본값 설정 (스위치를 끈 상태로 시작)
         val switchState = sharedPreferences.getBoolean("switchPassword", false)
-
-        // 불러온 값을 바탕으로 스위치 초기 상태 설정 (false일 경우 스위치가 OFF)
         switchPassword.isChecked = switchState
-
-        // 비밀번호 변경 레이아웃 상태 설정
         changePasswordLayout.visibility = if (switchState) View.VISIBLE else View.GONE
 
         // 스위치 상태 변경 리스너 설정
         switchPassword.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                // 비밀번호 설정 화면으로 이동
                 val intent = Intent(this, MyPagePasswordSettingActivity::class.java)
-                intent.putExtra("switchPasswordState", true) // 현재 상태 전달
+                intent.putExtra("switchPasswordState", true)
                 startActivity(intent)
             } else {
-                // 스위치가 꺼진 상태일 경우 비밀번호 변경 레이아웃 숨김
                 changePasswordLayout.visibility = View.GONE
-
-                // 스위치 상태를 SharedPreferences에 저장 (OFF 상태 저장)
                 with(sharedPreferences.edit()) {
                     putBoolean("switchPassword", false)
                     apply()
@@ -93,32 +84,14 @@ class MyPageMainActivity : AppCompatActivity() {
 
         // 이전 액티비티에서 전달받은 인텐트 데이터 처리
         val isPasswordSet = intent.getBooleanExtra("passwordSet", false)
-
         if (isPasswordSet) {
-            // 비밀번호가 설정되었을 경우에만 스위치를 켬
             switchPassword.isChecked = true
             changePasswordLayout.visibility = View.VISIBLE
         }
 
-        val btnChangePassword: ImageButton = findViewById(R.id.btn_change_password)
-        btnChangePassword.setOnClickListener {
+        // 비밀번호 변경 버튼 클릭 리스너
+        findViewById<ImageButton>(R.id.btn_change_password).setOnClickListener {
             val intent = Intent(this, MyPagePasswordEditActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 버튼 클릭 리스너 설정
-        btnNotificationDetails.setOnClickListener {
-            val intent = Intent(this, MyPageNotificationSettingsActivity::class.java)
-            startActivity(intent)
-        }
-
-        btnTermsOfServiceDetails.setOnClickListener {
-            val intent = Intent(this, MyPageServiceCheck::class.java)
-            startActivity(intent)
-        }
-
-        btnEditProfile.setOnClickListener {
-            val intent = Intent(this, MyPageProfileEditActivity::class.java)
             startActivity(intent)
         }
 
@@ -126,12 +99,21 @@ class MyPageMainActivity : AppCompatActivity() {
         tvLogout.setOnClickListener {
             val dialog = ConfirmationDialogFragment(
                 title = "로그아웃하시겠습니까?",
-                message = "", // 메시지를 빈 문자열로 설정하여 보이지 않게 함
+                message = "",
                 confirmButtonText = "로그아웃",
                 onConfirm = {
+                    // FirebaseAuth 인스턴스 초기화
+                    val auth = FirebaseAuth.getInstance()
+
+                    // 구글 로그아웃 처리
+                    auth.signOut()
+                    GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
+                    Log.d("로그아웃", "로그아웃 성공")
+
+                    // 로그인 화면으로 이동
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
-                    finish()  // 로그아웃 동작
+                    finish()
                 }
             )
             dialog.show(supportFragmentManager, "logoutConfirmation")
@@ -144,18 +126,45 @@ class MyPageMainActivity : AppCompatActivity() {
                 message = "(앱 이름)을 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. \n계속하시겠습니까?",
                 confirmButtonText = "탈퇴",
                 onConfirm = {
-                    // 회원 탈퇴 처리 로직
-                    // 예: Firebase에서 사용자 계정 삭제 등
-                    Toast.makeText(this, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    // FirebaseAuth 인스턴스 초기화
+                    val auth = FirebaseAuth.getInstance()
+                    val user = auth.currentUser
 
-                    // MyPageDeleteaccoutActivity로 이동
-                    val intent = Intent(this, MyPageDeleteaccoutActivity::class.java)
-                    startActivity(intent)
-                    finish() // 현재 액티비티 종료
+                    user?.let {
+                        // Firebase Realtime Database에서 사용자 데이터 삭제
+                        deleteUserFromDatabase(user.uid)
+
+                        // Firebase Auth에서 사용자 삭제
+                        user.delete().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(this, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+
+                                // 로그인 화면으로 이동
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(this, "회원 탈퇴에 실패했습니다: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                 }
             )
             dialog.show(supportFragmentManager, "deleteAccountConfirmation")
         }
+
+        // Firebase Realtime Database에서 사용자 데이터 삭제
+        private fun deleteUserFromDatabase(userId: String) {
+            val userRef = database.child("users").child(userId)
+            userRef.removeValue().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("회원 탈퇴", "사용자 데이터 삭제 완료")
+                } else {
+                    Log.e("회원 탈퇴", "사용자 데이터 삭제 실패: ${task.exception?.message}")
+                }
+            }
+        }
+
 
         // 도움말 클릭 리스너
         btnHowToUseDetails.setOnClickListener {
@@ -164,38 +173,24 @@ class MyPageMainActivity : AppCompatActivity() {
         }
     }
 
-
-
     override fun onResume() {
         super.onResume()
-
-        // SharedPreferences에서 토글 상태 확인
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val isSwitchPasswordOn = sharedPreferences.getBoolean("switchPassword", false)
-
-        // 토글 버튼 상태 유지
         switchPassword.isChecked = isSwitchPasswordOn
-
-        // 토글 상태에 따른 비밀번호 변경 레이아웃 표시/숨기기
-        if (isSwitchPasswordOn) {
-            changePasswordLayout.visibility = View.VISIBLE
-        } else {
-            changePasswordLayout.visibility = View.GONE
-        }
+        changePasswordLayout.visibility = if (isSwitchPasswordOn) View.VISIBLE else View.GONE
     }
 
     private fun loadUserProfile() {
-        // Firebase에서 사용자 정보를 읽어오기
         database.child("users").child(userId).addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val nickname = dataSnapshot.child("nickname").getValue(String::class.java)
-                // EditText에 값 설정
                 tvnickname.setText(nickname)
             }
             override fun onCancelled(databaseError: DatabaseError) {
-                // 오류 처리
-                Log.e("MyPageMainActivity", "마이페이지 메인 닉네임을 파이어베이스에서 불러오는 데 실패했습니다: ${databaseError.message}")            }
+                Log.e("MyPageMainActivity", "닉네임을 불러오는 데 실패했습니다: ${databaseError.message}")
+            }
         })
     }
 }
