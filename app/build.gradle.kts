@@ -74,10 +74,19 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.3.0")) //파이어베이스
-    implementation("com.google.firebase:firebase-analytics") //파이어베이스
-    implementation ("com.google.firebase:firebase-database-ktx") //파이어베이스 실시간 SDK
-    implementation("com.squareup.okhttp3:okhttp:4.9.1") //okHttp
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.android.gms:play-services-auth:20.5.0") //구글 플레이 서비스 (로그인)
+    //파이어베이스
+    implementation(platform("com.google.firebase:firebase-bom:33.3.0")) // Firebase BOM
+    implementation("com.google.firebase:firebase-analytics") // Firebase Analytics
+    implementation("com.google.firebase:firebase-database-ktx") // Firebase Realtime Database
+    implementation("com.google.firebase:firebase-auth-ktx") // Firebase Authentication
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.1") // OkHttp
+
+    // Google Play services
+    implementation 'com.google.gms:google-services:4.3.15' // Google Services
+    implementation("com.google.android.gms:play-services-auth:20.5.0") // Google Play Services (Login)
+
+    // Credential manager
+    implementation("androidx.credentials:credentials:1.5.0-alpha05")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0-alpha05")
 }
