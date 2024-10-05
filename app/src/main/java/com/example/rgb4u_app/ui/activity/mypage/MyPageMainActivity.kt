@@ -175,6 +175,12 @@ class MyPageMainActivity : AppCompatActivity() {
             val intent = Intent(this, MyPageHowToUseActivity::class.java)
             startActivity(intent)
         }
+
+        // 도움말 클릭 리스너
+        btnEditProfile.setOnClickListener {
+            val intent = Intent(this, MyPageProfileEditActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     // Firebase Realtime Database에서 사용자 데이터 삭제
