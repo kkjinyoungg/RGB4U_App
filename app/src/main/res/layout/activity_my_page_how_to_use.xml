@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="64dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="40dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -286,7 +286,7 @@
                 android:text="완료"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

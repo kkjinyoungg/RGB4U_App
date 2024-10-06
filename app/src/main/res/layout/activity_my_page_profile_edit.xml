@@ -18,7 +18,7 @@
         android:id="@+id/tv_nickname_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="닉네임"
         android:textSize="16sp"
         android:textColor="@color/black"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
             android:text="0/10"
             android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
     </FrameLayout>
 
@@ -76,6 +76,7 @@
         android:textColor="@android:color/holo_red_light"
         android:textSize="12sp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/nanumsquareroundregular"
         app:layout_constraintTop_toBottomOf="@id/nicknameLayout"
         app:layout_constraintStart_toStartOf="@id/nicknameLayout"
         android:visibility="visible" />
@@ -86,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="@font/nanumsquareroundbold"
         android:text="생일"
         android:textColor="@color/black"
@@ -100,13 +101,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/profile_edit_text_background"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:clickable="false"
         android:focusable="false"
         android:text="2020년 6월 1일"
         android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +133,7 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
