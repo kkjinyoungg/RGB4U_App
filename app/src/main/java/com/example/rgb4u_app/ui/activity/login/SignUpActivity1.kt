@@ -13,6 +13,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity1 : AppCompatActivity() {
 
@@ -20,7 +24,8 @@ class SignUpActivity1 : AppCompatActivity() {
     private lateinit var charCount: TextView
     private lateinit var errorMessage: TextView
     private lateinit var buttonNext: Button
-    private lateinit var buttonBack: ImageButton
+    private lateinit var buttonBack: ImageButton // 중복된 선언 제거
+    private lateinit var database: DatabaseReference // 데이터베이스 접근용 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,9 @@ class SignUpActivity1 : AppCompatActivity() {
 
         // EditText의 최대 입력 길이를 11자로 설정
         editTextNickname.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(11))
+
+        // Firebase Database 초기화
+        database = FirebaseDatabase.getInstance().reference
 
         editTextNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -59,13 +67,28 @@ class SignUpActivity1 : AppCompatActivity() {
         buttonNext.setOnClickListener {
             val nickname = editTextNickname.text.toString()
             if (isNicknameValid(nickname)) {
-                // 닉네임이 유효할 경우 다음 단계로 이동
-                val intent = Intent(this, SignUpActivity2::class.java)
-                startActivity(intent)
-                finish() // 현재 액티비티 종료
+                // 현재 로그인된 사용자의 UID를 가져오는 함수
+                val user = FirebaseAuth.getInstance().currentUser
+                val userId = user?.uid
+
+                if (userId != null) {
+                    database.child("users").child(userId).child("nickname").setValue(nickname)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                // 저장 성공 시 다음 단계로 이동
+                                val intent = Intent(this, SignUpActivity2::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Log.e("FirebaseError", "닉네임 저장에 실패했습니다: ${task.exception?.message}")
+                                //Toast.makeText(this, "닉네임 저장에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                } else {
+                    Log.e("FirebaseAuthError", "User ID가 NULL입니다. 로그인 상태를 확인하세요.")
+                }
             }
         }
-
         // 초기 버튼 상태 설정
         setButtonState(false)
     }

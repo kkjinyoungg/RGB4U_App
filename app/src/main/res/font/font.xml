@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+        <!-- ExtraBold -->
+        <font
+            android:font="@font/nanumsquareroundextrabold"
+            android:fontStyle="normal" />
+
+         <!-- Bold -->
+        <font
+            android:font="@font/nanumsquareroundbold"
+            android:fontStyle="normal"/>
+
+         <!-- Regular -->
+        <font
+            android:font="@font/nanumsquareroundregular"
+            android:fontStyle="normal"/>
+
+            />
+</font-family>

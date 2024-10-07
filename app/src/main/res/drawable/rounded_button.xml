@@ -1,13 +1,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="#D3D3D3" /> <!-- 비활성 상태 색상 (연회색) -->
+            <solid android:color="#33FFE661" /> <!-- 비활성 상태 색상 (연회색) -->
             <corners android:radius="50dp" /> <!-- 둥근 모서리 -->
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#6F6F6F" /> <!-- 활성 상태 색상 (진한 회색) -->
+            <solid android:color="#FFE661" /> <!-- 활성 상태 색상 (진한 회색) -->
             <corners android:radius="50dp" /> <!-- 둥근 모서리 -->
         </shape>
     </item>
