@@ -8,11 +8,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.activity.ActivityType
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
+import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 
@@ -20,6 +23,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
+    private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +139,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     private fun showHelpBottomSheet() {
         val helpBottomSheetFragment = HelpBottomSheetFragment()
-        helpBottomSheetFragment.setHelpMessage("도움말 내용을 여기에 작성하세요.") // 필요한 내용으로 변경
+        helpViewModel.setSituations(ActivityType.ACTIVITY_THINK) // 상황 리스트 설정
+        helpBottomSheetFragment.setSituations(helpViewModel.situations.value ?: emptyList()) // 상황 리스트 전달
         helpBottomSheetFragment.show(supportFragmentManager, helpBottomSheetFragment.tag)
     }
 }

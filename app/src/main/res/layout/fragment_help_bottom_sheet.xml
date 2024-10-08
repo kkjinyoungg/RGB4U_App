@@ -1,15 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/messageTextView"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel" />
+    </data>
+
+        <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</LinearLayout>
+        <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="상황 예시 보기"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/refreshButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_refresh"
+                android:contentDescription="새로고침"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp" />
+        </LinearLayout>
+
+        <!-- 첫 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp" />
+
+        <!-- 구분선 추가 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <!-- 두 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp" />
+
+        <!-- 구분선 추가 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <!-- 세 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp" />
+
+    </LinearLayout>
+</layout>

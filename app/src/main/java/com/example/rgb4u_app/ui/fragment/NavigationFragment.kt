@@ -94,7 +94,12 @@ class NavigationFragment : Fragment() {
         resetMenuItems()
         setMenuItemActive(menuItem)
 
-        (activity as MainActivity).openFragment(fragment)
+        if (activity is MainActivity) {
+            (activity as MainActivity).openFragment(fragment)
+        } else {
+            // MainActivity가 아닌 경우의 처리 (예: 로그 남기기)
+            // 예외처리나 다른 화면 전환을 고려할 수 있습니다.
+        }
     }
 
     private fun resetMenuItems() {

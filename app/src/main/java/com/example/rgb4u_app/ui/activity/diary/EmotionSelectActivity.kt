@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
@@ -16,9 +17,8 @@ import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
-import com.example.rgb4u_app.MyApplication
 
 class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -181,7 +181,10 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         // 기본 색상으로 설정
         selectedChip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
         // 원형 모양 설정
-        selectedChip.chipCornerRadius = 50f // 적절한 값으로 설정 (dp 단위로 변경 필요)
+        val shapeAppearanceModel = ShapeAppearanceModel.builder()
+            .setAllCornerSizes(50f) // 적절한 값으로 설정 (dp 단위로 변경 필요)
+            .build()
+        selectedChip.shapeAppearanceModel = shapeAppearanceModel
 
         selectedChip.setOnCloseIconClickListener {
             selectedChipGroup.removeView(selectedChip)
