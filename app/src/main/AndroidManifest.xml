@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RGB4U_App"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activity.diary.CognitiveDistortionActivity"
+            android:exported="false" />
         <!-- Google Sign-In -->
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
@@ -93,14 +96,13 @@
             android:exported="true" />
         <activity
             android:name=".ui.activity.diary.DiaryWriteActivity"
-            android:exported="false" />
-
-        <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
+            android:exported="false" /> <!-- 카카오 로그인, 인가코드를 받기 위한 액티비티 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
