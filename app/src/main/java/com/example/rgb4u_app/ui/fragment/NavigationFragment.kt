@@ -94,12 +94,7 @@ class NavigationFragment : Fragment() {
         resetMenuItems()
         setMenuItemActive(menuItem)
 
-        if (activity is MainActivity) {
-            (activity as MainActivity).openFragment(fragment)
-        } else {
-            // MainActivity가 아닌 경우의 처리 (예: 로그 남기기)
-            // 예외처리나 다른 화면 전환을 고려할 수 있습니다.
-        }
+        (activity as MainActivity).openFragment(fragment)
     }
 
     private fun resetMenuItems() {
@@ -107,50 +102,22 @@ class NavigationFragment : Fragment() {
         for (i in 0 until menu.size()) {
             val item = menu.getItem(i)
             when (item.itemId) {
-                R.id.nav_home -> {
-                    item.setIcon(R.drawable.ic_home)
-                    item.title = "홈"
-                }
-                R.id.nav_my_record -> {
-                    item.setIcon(R.drawable.ic_my_record)
-                    item.title = "나의 기록"
-                }
-                R.id.nav_analysis -> {
-                    item.setIcon(R.drawable.ic_analysis)
-                    item.title = "일지 분석"
-                }
-                R.id.nav_my_page -> {
-                    item.setIcon(R.drawable.ic_profile)
-                    item.title = "마이페이지"
-                }
+                R.id.nav_home -> item.setIcon(R.drawable.ic_home)
+                R.id.nav_my_record -> item.setIcon(R.drawable.ic_my_record)
+                R.id.nav_analysis -> item.setIcon(R.drawable.ic_analysis)
+                R.id.nav_my_page -> item.setIcon(R.drawable.ic_profile)
             }
-            // colorFilter 제거
-            item.icon?.colorFilter = null
-
+            item.icon?.alpha = 128
         }
     }
-
 
     private fun setMenuItemActive(menuItem: MenuItem) {
         when (menuItem.itemId) {
-            R.id.nav_home -> {
-                menuItem.setIcon(R.drawable.ic_home_selected) // 선택된 이미지
-                menuItem.title = "홈" // 선택된 텍스트
-            }
-            R.id.nav_my_record -> {
-                menuItem.setIcon(R.drawable.ic_my_record_selected)
-                menuItem.title = "나의 기록"
-            }
-            R.id.nav_analysis -> {
-                menuItem.setIcon(R.drawable.ic_analysis_selected)
-                menuItem.title = "일지 분석"
-            }
-            R.id.nav_my_page -> {
-                menuItem.setIcon(R.drawable.ic_profile_selected)
-                menuItem.title = "마이페이지"
-            }
+            R.id.nav_home -> menuItem.setIcon(R.drawable.ic_home_selected)
+            R.id.nav_my_record -> menuItem.setIcon(R.drawable.ic_my_record_selected)
+            R.id.nav_analysis -> menuItem.setIcon(R.drawable.ic_analysis_selected)
+            R.id.nav_my_page -> menuItem.setIcon(R.drawable.ic_profile_selected)
         }
+        menuItem.icon?.alpha = 255
     }
-
-
 }

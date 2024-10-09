@@ -26,15 +26,14 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
         viewModel = ViewModelProvider(this).get(HelpBottomSheetViewModel::class.java)
 
         // 상황 텍스트뷰 설정
-        val situationTextView = view.findViewById<TextView>(R.id.titleTextView)
         val refreshButton = view.findViewById<ImageButton>(R.id.refreshButton)
 
         // 초기 상황 설정
-        updateSituations(situationTextView)
+        updateSituations(view)
 
         // 새로고침 버튼 클릭 리스너
         refreshButton.setOnClickListener {
-            updateSituation(situationTextView)
+            updateSituations(view)
         }
 
         return view
@@ -43,10 +42,11 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
     // 상황 리스트 설정
     fun setSituations(situations: List<String>) {
         this.situationList = situations
-        updateSituations(null) // 초기 상황을 설정합니다.
+        // view가 null이 아닌 경우에만 updateSituations를 호출합니다.
+        view?.let { updateSituations(it) } // 초기 상황을 설정합니다.
     }
 
-    private fun updateSituations(situationTextView: TextView?) {
+    private fun updateSituations(view: View) {
         // 랜덤으로 3개의 새로운 상황 선택
         val availableSituations = situationList.filter { !currentSituations.contains(it) }
         currentSituations.clear()
@@ -56,11 +56,13 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         // 텍스트뷰에 새로운 상황 설정
-        situationTextView?.text = currentSituations.joinToString("\n")
-    }
+        val exampleTextView1 = view.findViewById<TextView>(R.id.exampleTextView1)
+        val exampleTextView2 = view.findViewById<TextView>(R.id.exampleTextView2)
+        val exampleTextView3 = view.findViewById<TextView>(R.id.exampleTextView3)
 
-    private fun updateSituation(situationTextView: TextView) {
-        // 새로운 상황을 업데이트
-        updateSituations(situationTextView)
+        // 상황을 각 TextView에 설정
+        exampleTextView1.text = if (currentSituations.size > 0) currentSituations[0] else ""
+        exampleTextView2.text = if (currentSituations.size > 1) currentSituations[1] else ""
+        exampleTextView3.text = if (currentSituations.size > 2) currentSituations[2] else ""
     }
 }

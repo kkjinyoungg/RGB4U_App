@@ -124,10 +124,31 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     }
 
     override fun onToolbarAction1Clicked() {
-        // 툴바의 "Back" 버튼 클릭 시 MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish() // 현재 Activity를 종료하여 뒤로가기 시 MainActivity로 돌아가도록 합니다.
+        // TemporarySaveDialogFragment 인스턴스 생성
+        val dialog = TemporarySaveDialogFragment()
+
+        // dialog의 리스너 설정
+        dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
+            override fun onTemporarySave() {
+                // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
+                val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+                diaryViewModel.situation.postValue(inputText)
+
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onDelete() {
+                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 팝업 표시
+        dialog.show(supportFragmentManager, "TemporarySaveDialog")
     }
 
     override fun onToolbarAction2Clicked() {

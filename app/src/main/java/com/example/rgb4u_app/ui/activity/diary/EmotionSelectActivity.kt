@@ -14,6 +14,7 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -277,9 +278,30 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
     }
 
     override fun onToolbarAction2Clicked() {
-        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        // TemporarySaveDialogFragment 인스턴스 생성
+        val dialog = TemporarySaveDialogFragment()
+
+        // dialog의 리스너 설정
+        dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
+            override fun onTemporarySave() {
+
+                diaryViewModel.emotionTypes.postValue(selectedEmotions)
+
+                val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onDelete() {
+                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
+                val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 팝업 표시
+        dialog.show(supportFragmentManager, "TemporarySaveDialog")
     }
 }
+
