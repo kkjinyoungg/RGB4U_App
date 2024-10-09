@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:maxImageSize="73dp"
+        app:maxImageSize="81dp"
         app:tint="@null"
         app:layout_anchor="@id/main_bottom_appBar"
         app:backgroundTint="@android:color/transparent"
