@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -7,12 +8,13 @@
             type="com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel" />
     </data>
 
-        <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
+    <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@android:color/white">
 
         <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
         <LinearLayout
@@ -46,33 +48,36 @@
             android:id="@+id/exampleTextView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp" />
 
         <!-- 구분선 추가 -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/gray3" />
 
         <!-- 두 번째 예시 텍스트뷰 -->
         <TextView
             android:id="@+id/exampleTextView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp" />
 
         <!-- 구분선 추가 -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/gray3" />
 
         <!-- 세 번째 예시 텍스트뷰 -->
         <TextView
             android:id="@+id/exampleTextView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp" />
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </layout>

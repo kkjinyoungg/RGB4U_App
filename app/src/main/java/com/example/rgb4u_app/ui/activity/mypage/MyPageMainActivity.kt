@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -11,17 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.login.LoginActivity
 import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DataSnapshot
-import android.util.Log
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class MyPageMainActivity : AppCompatActivity() {
 
@@ -176,9 +176,20 @@ class MyPageMainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 도움말 클릭 리스너
+        // 프로필 수정 클릭 리스너
         btnEditProfile.setOnClickListener {
             val intent = Intent(this, MyPageProfileEditActivity::class.java)
+            startActivity(intent)
+        }
+
+        //알림 설정 클릭 리스너
+        btnNotificationDetails.setOnClickListener{
+            val intent = Intent(this, MyPageNotificationSettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnTermsOfServiceDetails.setOnClickListener{
+            val intent = Intent(this, MyPageServiceCheck::class.java)
             startActivity(intent)
         }
     }
