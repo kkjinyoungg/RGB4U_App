@@ -37,7 +37,7 @@
             android:text="모아의 메시지"
             android:fontFamily="@font/nanumsquareroundbold"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +51,7 @@
             android:layout_marginLeft="16dp"
             android:text="하루에 한 번 기록을 까먹지 않도록 알려드려요"
             android:textColor="@color/gray2"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
             android:text="모아의 AI 하루 분석"
             android:textColor="@color/black"
             android:fontFamily="@font/nanumsquareroundbold"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,7 +120,7 @@
             android:layout_marginTop="8dp"
             android:text="기록한 내용을 AI로 분석한 결과가 나오면 알려드려요"
             android:textColor="@color/gray2"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.mypage.MyPageHowToUseActivity">
+    tools:context=".ui.activity.mypage.MyPageHowToUseActivity"
+    android:background="@color/background">
 
     <!-- MypageCommonHeaderFragment를 위한 FragmentContainer -->
     <FrameLayout
@@ -46,7 +47,7 @@
                     android:gravity="center"
                     android:text="하루 동안 학교에서, 집에서 \n 지내다 보면 많은 일들이 생겨요."
                     android:lineSpacingExtra="8dp"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
 
                 <ImageView
@@ -64,7 +65,7 @@
                     android:gravity="center"
                     android:text="이렇게 우리가 겪는 여러 가지 순간들을 \n 상황이라고 해요."
                     android:lineSpacingExtra="8dp"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
@@ -84,7 +85,7 @@
                     android:gravity="center"
                     android:text="우리는 상황 속에서 이런저런 생각을 떠올려요."
                     android:fontFamily="@font/nanumsquareroundextrabold"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/imageView_storyImage2"
@@ -103,7 +104,7 @@
                     android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서는"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/textView_description2.2"
                     android:layout_width="match_parent"
@@ -113,7 +114,7 @@
                     android:text="‘친구가 나를 피하는 것 같아’"
                     android:textColor="@color/blue2"
                     android:fontFamily="@font/own_mongmongday"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
                 <TextView
                     android:id="@+id/textView_description2.3"
                     android:layout_width="match_parent"
@@ -122,7 +123,7 @@
                     android:gravity="center"
                     android:text="라는 생각이 머릿속을 스쳐갈 수 있어요."
                     android:fontFamily="@font/nanumsquareroundextrabold"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- 세 번째 세트 -->
@@ -152,7 +153,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"
                     android:lineSpacingExtra="8dp"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- 네 번째 세트 -->
@@ -181,7 +182,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"
                     android:lineSpacingExtra="8dp"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!-- 다섯 번째 세트 -->
@@ -207,7 +208,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="예를 들어 친구가 나와 밥을 먹지 않는 상황에서."
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
 
@@ -220,7 +221,7 @@
                     android:text="‘친구가 바쁜가 보다’라고 생각하면"
                     android:textColor="@color/blue2"
                     android:fontFamily="@font/own_mongmongday"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/textView_description5.3"
@@ -229,7 +230,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="슬픈 마음이 덜해질 수 있어요"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
@@ -248,7 +249,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="이제 하루에 한 번씩 모아에게 \n하루 동안 어떤 상황이 있었고, \n그때 어떤 생각이 떠올랐는지, \n그리고 어떤 감정을 느꼈는지 들려주세요."
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:lineSpacingExtra="8dp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
@@ -269,7 +270,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="모아와 함께 내 마음을 더 잘 알게 될 거예요."
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:lineSpacingExtra="8dp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
@@ -286,7 +287,7 @@
                 android:text="완료"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>
 

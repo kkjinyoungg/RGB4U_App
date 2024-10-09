@@ -21,7 +21,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:text="닉네임"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_container" />
@@ -51,7 +51,7 @@
             android:padding="16dp"
             android:text="나서진"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <!-- 글자수 TextView 오버레이 -->
         <TextView
@@ -64,7 +64,7 @@
             android:fontFamily="@font/nanumsquareroundregular"
             android:text="0/10"
             android:textColor="@color/gray2"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </FrameLayout>
 
@@ -91,7 +91,7 @@
         android:layout_marginTop="72dp"
         android:text="생일"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nicknameLayout" />
 
@@ -109,7 +109,7 @@
         android:text="2020년 6월 1일"
         android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +141,7 @@
         android:text="완료"
         android:fontFamily="@font/nanumsquareroundbold"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
