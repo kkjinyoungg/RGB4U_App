@@ -46,6 +46,7 @@
                     android:layout_marginTop="24dp"
                     android:gravity="center"
                     android:text="하루 동안 학교에서, 집에서 \n 지내다 보면 많은 일들이 생겨요."
+                    android:textColor="@color/black"
                     android:lineSpacingExtra="8dp"
                     android:textSize="14sp"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
@@ -66,6 +67,7 @@
                     android:text="이렇게 우리가 겪는 여러 가지 순간들을 \n 상황이라고 해요."
                     android:lineSpacingExtra="8dp"
                     android:textSize="14sp"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"/>
             </LinearLayout>
 
@@ -84,6 +86,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:text="우리는 상황 속에서 이런저런 생각을 떠올려요."
+                    android:textColor="@color/black"
                     android:fontFamily="@font/nanumsquareroundextrabold"
                     android:textSize="14sp" />
 
@@ -123,6 +126,7 @@
                     android:gravity="center"
                     android:text="라는 생각이 머릿속을 스쳐갈 수 있어요."
                     android:fontFamily="@font/nanumsquareroundextrabold"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 

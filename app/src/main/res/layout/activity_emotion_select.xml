@@ -53,9 +53,10 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/surpriseChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="84dp"
+                android:layout_height="100dp"
                 android:layout_marginBottom="8dp"
-                app:singleSelection="false" />
+                app:singleSelection="false"
+                android:background="@android:color/white" />
 
             <!-- 두려움 레이블 -->
             <TextView

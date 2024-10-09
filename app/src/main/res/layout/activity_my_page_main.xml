@@ -78,7 +78,7 @@
                                 android:text="안녕, 오늘도 반가워!"
                                 android:fontFamily="@font/own_mongmongday"
                                 android:textColor="@color/blue2"
-                                android:textSize="18sp" />
+                                android:textSize="16sp" />
 
                             <!-- 이름, 프로필 수정 -->
                             <LinearLayout
@@ -90,8 +90,9 @@
                                     android:id="@+id/tv_nickname"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:text="나서진"
-                                    android:textSize="20sp"
+                                    android:textSize="18sp"
                                     android:textColor="@color/black"
                                     android:fontFamily="@font/nanumsquareroundbold" />
 
