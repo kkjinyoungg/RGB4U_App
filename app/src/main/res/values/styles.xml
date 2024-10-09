@@ -1,8 +1,8 @@
 <resources>
-    <style name="BottomAppBarShapeAppearance" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerSizeTopRight">16dp</item>
+    <!-- BottomAppBar 기본 스타일 -->
+    <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="android:background">@color/white</item>
+        <item name="cornerRadius">16dp</item> <!-- 원하는 모서리 반경을 설정 -->
     </style>
 
     <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">

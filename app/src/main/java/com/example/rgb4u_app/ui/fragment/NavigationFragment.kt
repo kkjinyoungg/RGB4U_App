@@ -124,7 +124,9 @@ class NavigationFragment : Fragment() {
                     item.title = "마이페이지"
                 }
             }
-            item.icon?.alpha = 128 // 선택되지 않은 아이콘의 투명도 설정
+            // colorFilter 제거
+            item.icon?.colorFilter = null
+
         }
     }
 
@@ -148,7 +150,6 @@ class NavigationFragment : Fragment() {
                 menuItem.title = "마이페이지"
             }
         }
-        menuItem.icon?.alpha = 255 // 선택된 아이콘의 투명도 설정
     }
 
 

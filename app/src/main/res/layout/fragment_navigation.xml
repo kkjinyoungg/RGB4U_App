@@ -10,37 +10,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="10dp"
+        app:fabCradleMargin="16dp"
         app:fabCradleRoundedCornerRadius="30dp"
-        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleVerticalOffset="30dp"
+        app:elevation="0dp"
         app:fabAlignmentMode="center"
-        app:backgroundTint="@color/white"/>
+        app:backgroundTint="@color/white">
 
-    <!-- BottomNavigationView -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/rounded_navigation_bar_background"
-        app:itemBackground="@color/white"
-        app:itemRippleColor="@color/white"
-        app:itemIconSize="24dp"
-        app:menu="@menu/bottom_navigation_menu"
-        app:labelVisibilityMode="labeled"/>
+        <!-- BottomNavigationView 설정 -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            app:background="@android:color/transparent"
+            app:itemBackground="@color/white"
+            app:itemRippleColor="@color/white"
+            android:layout_marginRight="8dp"
+            app:itemIconSize="24dp"
+            app:itemTextColor="@color/navigation_item_text_color"
+            app:itemIconTint="@null"
+            app:menu="@menu/bottom_navigation_menu"
+            app:labelVisibilityMode="labeled"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
 
     <!-- FloatingActionButton -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_think"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
         android:layout_marginBottom="16dp"
-        android:scaleType="fitCenter"
-        app:maxImageSize = "81dp"
+        app:maxImageSize="73dp"
         app:tint="@null"
+        app:layout_anchor="@id/main_bottom_appBar"
         app:backgroundTint="@android:color/transparent"
         app:srcCompat="@drawable/ic_think"
         app:fabSize="normal"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
