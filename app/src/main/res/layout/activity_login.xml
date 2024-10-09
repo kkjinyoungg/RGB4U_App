@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.widget.ImageButton
-        android:id="@+id/btn_kakao"
+        android:id="@+id/btn_google"
         android:layout_width="328dp"
         android:layout_height="48dp"
         android:layout_marginTop="120dp"

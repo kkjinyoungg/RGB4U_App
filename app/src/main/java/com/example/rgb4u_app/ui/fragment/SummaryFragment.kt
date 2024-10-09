@@ -46,6 +46,9 @@ class SummaryFragment : Fragment() {
         toggleButton = view.findViewById(R.id.toggleButton)
         backButton = view.findViewById(R.id.backButton)
 
+        // UI 업데이트
+        updateUI() // UI 업데이트 메서드 호출
+
         // Set the text for the title (received from the activity)
         titleText?.let {
             titleTextView.text = it
@@ -88,6 +91,19 @@ class SummaryFragment : Fragment() {
 
             // 현재 Activity를 종료하는 경우, 필요에 따라 추가
             activity?.finish()
+        }
+
+    }
+
+    fun updateUI() {
+        titleTextView.text = titleText ?: "기본 제목"
+        userContentTextView.text = userContent ?: "기본 사용자 내용"
+        summarizedTextView.text = summarizedContent ?: "기본 요약 내용"
+        whySummaryTextView.text = whySummaryReason ?: "기본 이유 내용"
+
+        // summaryLabelText 설정
+        summaryLabelText?.let {
+            view?.findViewById<TextView>(R.id.summaryLableTextView)?.text = it
         }
     }
 

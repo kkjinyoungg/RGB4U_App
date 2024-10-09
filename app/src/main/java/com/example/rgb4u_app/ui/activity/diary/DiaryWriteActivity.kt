@@ -9,26 +9,53 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_appclass.DiaryViewModel
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_diary)
 
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
+        // ViewModel 관찰자 추가
+        diaryViewModel.situation.observe(this) { savedSituation ->
+            if (savedSituation != null && savedSituation.isNotEmpty()) {
+                findViewById<EditText>(R.id.inputField).setText(savedSituation)
+            }
+        }
+
         // 프래그먼트 초기화
-        myRecordFragment = supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+        myRecordFragment =
+            supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
+
+        // 버튼 클릭 리스너 설정
+        myRecordFragment.setToolbarButtonListeners(
+            backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
+            exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
+        )
 
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("어떤 상황이 있었는지 들려주세요", "오늘 힘들었던 순간이 있었나요?")
 
         // 특정 단계의 이미지만 보이도록 설정 (예: 2단계 "생각 적기")
         myRecordFragment.showIconForStep(1)
+
+        // Help 버튼 클릭 리스너 추가
+        findViewById<Button>(R.id.diary_helpButton).setOnClickListener {
+            showHelpBottomSheet()
+        }
+
 
         // 텍스트 필드와 글자 수 카운터 초기화
         val inputField = findViewById<EditText>(R.id.inputField)
@@ -49,7 +76,11 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                     if (byteCount > 300) {
                         inputField.setText(s.toString().take(s.length - 1)) // 마지막 문자 제거
                         inputField.setSelection(inputField.text.length) // 커서 위치를 끝으로 이동
-                        Toast.makeText(this@DiaryWriteActivity, "150자 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DiaryWriteActivity,
+                            "150자 이하로 작성해주세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     // 글자 수가 1자 이상일 때만 버튼 활성화
@@ -63,7 +94,14 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
@@ -76,19 +114,35 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     override fun onNextButtonClicked() {
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
 
+        // ViewModel에 입력된 상황 텍스트 저장
+        diaryViewModel.situation.postValue(inputText)
+        //diaryViewModel.situation.value = inputText
+
+
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
-        intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
+        //intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
         startActivity(intent)
     }
 
-
-
-
-    override fun onBackButtonClicked() {
-        // "Back" 버튼 클릭 시 MainActivity로 이동
+    override fun onToolbarAction1Clicked() {
+        // 툴바의 "Back" 버튼 클릭 시 MainActivity로 이동
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish() // 현재 Activity를 종료하여 뒤로가기 시 MainActivity로 돌아가도록 합니다.
     }
+
+    override fun onToolbarAction2Clicked() {
+        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun showHelpBottomSheet() {
+        val helpBottomSheetFragment = HelpBottomSheetFragment()
+        helpBottomSheetFragment.setHelpMessage("도움말 내용을 여기에 작성하세요.") // 필요한 내용으로 변경
+        helpBottomSheetFragment.show(supportFragmentManager, helpBottomSheetFragment.tag)
+    }
+
 }

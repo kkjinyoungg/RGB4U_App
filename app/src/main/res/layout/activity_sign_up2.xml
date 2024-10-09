@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- 상단 타이틀 및 뒤로가기 버튼 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,9 +37,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 구분선 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -64,52 +67,53 @@
             android:background="@color/background"/> <!-- 진한 회색으로 수정 -->
     </LinearLayout>
 
-
+    <!-- 타이틀 텍스트 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="생일이 언제야?"
-        android:textSize="20sp" /> <!-- 크기 변경 -->
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="생일에 뭉치가 축하해 줄게!"
-        android:textSize="16sp" /> <!-- 크기 변경 -->
+        android:textSize="16sp"/>
 
-    <LinearLayout
+    <!-- 생일 입력 필드와 달력 버튼을 감싸는 FrameLayout -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp"
-        android:paddingTop="30dp">
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp">
 
+        <!-- 생일 입력 필드 -->
         <EditText
             android:id="@+id/birthdayInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:hint="YYYY년 MM월 DD일"
-            android:focusable="false"
             android:padding="12dp"
             android:background="@drawable/rounded_edittext"
             android:textSize="16sp"
-            android:textAlignment="center"/>
+            android:focusable="false"/>
 
-        <ImageView
-            android:id="@+id/calendarIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+        <!-- 달력 버튼 -->
+        <ImageButton
+            android:id="@+id/calendarBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_calendar"
             android:contentDescription="@string/calendar_icon"
-            android:layout_marginStart="8dp"/>
-    </LinearLayout>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"/>
+    </FrameLayout>
 
-
+    <!-- 버튼 및 여백 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -118,7 +122,7 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="다 했어!"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_button"/>

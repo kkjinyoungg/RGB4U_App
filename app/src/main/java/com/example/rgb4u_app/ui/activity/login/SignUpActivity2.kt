@@ -9,21 +9,25 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
+
 
 class SignUpActivity2 : AppCompatActivity() {
 
     private lateinit var birthdayInput: EditText
     private lateinit var buttonNext: Button
     private lateinit var buttonBack: ImageButton
-    private lateinit var calendarIcon: ImageView
+    private lateinit var calendarBtn: ImageButton
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +36,17 @@ class SignUpActivity2 : AppCompatActivity() {
         birthdayInput = findViewById(R.id.birthdayInput)
         buttonNext = findViewById(R.id.buttonNext)
         buttonBack = findViewById(R.id.buttonBack)
-        calendarIcon = findViewById(R.id.calendarIcon)
+        calendarBtn = findViewById(R.id.calendarBtn)
+
+        // Firebase Database 초기화
+        database = FirebaseDatabase.getInstance().reference
 
         // 버튼 초기 상태 설정 (비활성화)
         buttonNext.isEnabled = false
         buttonNext.alpha = 0.5f
 
-        // 달력 아이콘 클릭 시 스피너 방식으로 생년월일 선택
-        calendarIcon.setOnClickListener {
+        // 달력 버튼 클릭 시 스피너 방식으로 생년월일 선택
+        calendarBtn.setOnClickListener {
             showDateSpinnerDialog()
         }
 
@@ -53,10 +60,30 @@ class SignUpActivity2 : AppCompatActivity() {
             val birthday = birthdayInput.text.toString()
             if (birthday.isNotEmpty()) {
                 Log.d("SignUpActivity2", "Birthday is valid: $birthday")
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("BIRTHDAY", birthday)
-                startActivity(intent)
-                finish()
+
+                // 현재 로그인된 사용자의 UID를 가져오는 함수
+                val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+                if (userId != null) {
+                    // UID가 null이 아닌 경우에만 데이터를 저장
+                    database.child("users").child(userId).child("birthday").setValue(birthday)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("SignUpActivity2", "Birth saved successfully")
+                                // 저장 성공 시 다음 단계로 이동
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Log.e("FirebaseError", "ID는 있지만 생일 저장에 실패했습니다: ${task.exception?.message}")
+                                //Toast.makeText(this, "저장에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                } else {
+                    // UID가 null인 경우 처리
+                    Log.e("FirebaseAuthError", "로그인이 되지 않아 생일 저장에 실패했습니다")
+                    //Toast.makeText(this, "로그인이 되지 않았어요", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Log.d("SignUpActivity2", "Birthday is empty")
                 Toast.makeText(this, "생일을 입력해 주세요.", Toast.LENGTH_SHORT).show()
@@ -83,19 +110,42 @@ class SignUpActivity2 : AppCompatActivity() {
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
         val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
 
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         yearPicker.minValue = currentYear - 100
         yearPicker.maxValue = currentYear
-        yearPicker.setFormatter { value -> "${value.toString()}년" }
+        yearPicker.value = currentYear
+        yearPicker.setFormatter { value -> "${value}년" }
 
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
-        monthPicker.setFormatter { value -> "${value.toString()}월" }
+        monthPicker.value = currentMonth
+        monthPicker.setFormatter { value -> "${value}월" }
 
         dayPicker.minValue = 1
         dayPicker.maxValue = 31
-        dayPicker.setFormatter { value -> "${value.toString()}일" }
+        dayPicker.value = currentDay
+        dayPicker.setFormatter { value -> "${value}일" }
+
+        val updateDayPicker = {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val maxDays = when (selectedMonth) {
+                2 -> if (isLeapYear(selectedYear)) 29 else 28
+                4, 6, 9, 11 -> 30
+                else -> 31
+            }
+            dayPicker.maxValue = maxDays
+            if (dayPicker.value > maxDays) {
+                dayPicker.value = maxDays
+            }
+        }
+
+        monthPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
+        yearPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
 
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(dialogView)
@@ -122,8 +172,7 @@ class SignUpActivity2 : AppCompatActivity() {
         }
         val days = (1..daysInMonth).toList()
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
-        daySpinner.adapter = dayAdapter
-        daySpinner.setSelection(0) // 첫 번째 날로 설정
+        // daySpinner.adapter = dayAdapter // 여전히 daySpinner가 사용되지 않음
     }
 
     private fun isLeapYear(year: Int): Boolean {

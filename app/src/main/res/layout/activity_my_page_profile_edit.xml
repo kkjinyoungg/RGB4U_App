@@ -18,12 +18,12 @@
         android:id="@+id/tv_nickname_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:text="닉네임"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:fontFamily="@font/nanumsquareroundbold"
-        app:layout_constraintStart_toStartOf="@id/nicknameLayout"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_container" />
 
     <!-- 닉네임 텍스트필드와 글자수 오버레이를 위한 FrameLayout -->
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_nickname_label">
 
 
-    <!-- 닉네임 입력 EditText -->
+        <!-- 닉네임 입력 EditText -->
         <EditText
             android:id="@+id/et_nickname"
             android:layout_width="match_parent"
@@ -61,8 +61,8 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="14dp"
-            android:text="0/10"
             android:fontFamily="@font/nanumsquareroundregular"
+            android:text="0/10"
             android:textColor="@color/gray2"
             android:textSize="14sp" />
 
@@ -87,8 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
         android:fontFamily="@font/nanumsquareroundbold"
+        android:layout_marginTop="72dp"
         android:text="생일"
         android:textColor="@color/black"
         android:textSize="16sp"

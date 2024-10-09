@@ -29,7 +29,7 @@
         android:id="@+id/squareView"
         android:layout_width="315dp"
         android:layout_height="169dp"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="260dp"
         android:background="@color/light_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,6 +87,7 @@
         android:max="4"
         android:progressDrawable="@drawable/custom_progress"
         android:thumb="@drawable/custom_thumb"
+        android:splitTrack="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dynamicTextView" />
