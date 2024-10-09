@@ -57,6 +57,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_message_label" />
 
+        <Switch
+            android:id="@+id/switch_message"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginRight="16dp"
+            android:thumb="@drawable/switch_thumb"
+            android:track="@drawable/switch_track_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <!--<Switch
             android:id="@+id/switch_message"
             android:layout_width="wrap_content"
@@ -67,14 +77,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />-->
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:thumbTint="@color/switch_thumb_color"
-            android:trackTint="@color/switch_track_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_message_label" />
+<!--        <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--            android:id="@+id/switch_message"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:thumbTint="@color/switch_thumb_color"-->
+<!--            android:trackTint="@color/switch_track_color"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/tv_message_label" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 뭉치의 분석 레이블, 설명 텍스트, 토글을 하나의 레이아웃으로 묶음 -->
@@ -115,24 +125,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_analysis_label" />
-        <!--<Switch
+
+<!--        <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--            android:id="@+id/switch_analysis"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:thumbTint="@color/switch_thumb_color"-->
+<!--            android:trackTint="@color/switch_track_color"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/tv_analysis_label" />-->
+
+        <Switch
             android:id="@+id/switch_analysis"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
-            android:thumb="@color/switch_thumb_color"
-            android:track="@color/switch_track_color"
+            android:thumb="@drawable/switch_thumb"
+            android:track="@drawable/switch_track_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_analysis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:thumbTint="@color/switch_thumb_color"
-            android:trackTint="@color/switch_track_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_analysis_label" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

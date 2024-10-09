@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import android.util.Log
+import android.widget.Switch
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class MyPageMainActivity : AppCompatActivity() {
 
-    private lateinit var switchPassword: SwitchMaterial
+    private lateinit var switchPassword: Switch
     private lateinit var changePasswordLayout: LinearLayout
     private lateinit var tvChangePassword: TextView
     private lateinit var btnNotificationDetails: ImageButton

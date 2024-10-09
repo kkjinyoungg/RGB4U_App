@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+
     <!-- 마이페이지 툴바 -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +26,7 @@
             android:layout_weight="1" /> <!-- 툴바 아래 남은 공간을 차지하도록 설정 -->
     </LinearLayout>
 
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +44,6 @@
                 android:id="@+id/user_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:gravity="start">
 
@@ -104,15 +104,15 @@
             </LinearLayout>
         <!-- 두 번째 구분선 -->
 
-    <View
+        <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@color/gray4"
         app:layout_constraintBottom_toTopOf="@+id/settings_section"
         app:layout_constraintTop_toBottomOf="@+id/top_section" />
 
-    <!-- 왼쪽 정렬 -->
-    <LinearLayout
+        <!-- 왼쪽 정렬 -->
+        <LinearLayout
         android:id="@+id/settings_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -396,8 +396,8 @@
 
     </LinearLayout>
 
-    <!-- 하단 네비게이션 프래그먼트 -->
-    <fragment
+        <!-- 하단 네비게이션 프래그먼트 -->
+        <fragment
         android:id="@+id/navigationBar"
         android:name="com.example.rgb4u_app.ui.fragment.NavigationFragment"
         android:layout_width="match_parent"
@@ -405,5 +405,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
