@@ -53,7 +53,8 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/surpriseChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 app:singleSelection="false"
                 android:background="@android:color/white" />
@@ -62,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:text="두려움"
                 android:textColor="@color/white"
@@ -71,15 +72,16 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/fearChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="84dp"
+                android:layout_height="120dp"
                 app:singleSelection="false"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
 
             <!-- 슬픔 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:text="슬픔"
                 android:textColor="@color/white"
@@ -88,15 +90,16 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/sadnessChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="84dp"
+                android:layout_height="120dp"
                 app:singleSelection="false"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
 
             <!-- 화남 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:text="화남"
                 android:textColor="@color/white"
@@ -105,15 +108,16 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/angerChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="84dp"
+                android:layout_height="120dp"
                 app:singleSelection="false"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
 
             <!-- 혐오 레이블 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="132dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:text="혐오"
                 android:textColor="@color/white"
@@ -122,8 +126,9 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/disgustChipGroup"
                 android:layout_width="match_parent"
-                android:layout_height="84dp"
+                android:layout_height="120dp"
                 app:singleSelection="false"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
 
         </LinearLayout>
