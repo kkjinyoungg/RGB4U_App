@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.diary
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private lateinit var seekBar: SeekBar
     private lateinit var dynamicTextView: TextView
+    private lateinit var squareView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
         // Initialize views
         seekBar = findViewById(R.id.seekBar)
         dynamicTextView = findViewById(R.id.dynamicTextView)
+        squareView = findViewById(R.id.squareView)
 
         // Initialize fragment
         myRecordFragment =
@@ -71,6 +74,15 @@ class EmotionStrengthActivity : AppCompatActivity(), MyRecordFragment.Navigation
                 diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
                 //diaryViewModel.emotionDegree.value = progress
                 //diaryViewModel.emotionString.value = dynamicTextView.text.toString()
+
+                // 감정 단계에 따라 이미지 변경
+                when (progress) {
+                    0 -> squareView.setImageResource(R.drawable.img_emotion_0)
+                    1 -> squareView.setImageResource(R.drawable.img_emotion_1)
+                    2 -> squareView.setImageResource(R.drawable.img_emotion_2)
+                    3 -> squareView.setImageResource(R.drawable.img_emotion_3)
+                    4 -> squareView.setImageResource(R.drawable.img_emotion_4)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

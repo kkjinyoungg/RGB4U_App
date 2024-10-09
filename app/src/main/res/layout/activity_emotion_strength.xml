@@ -25,29 +25,30 @@
         tools:layout="@layout/fragment_my_record" />
 
     <!-- Square view for illustrations -->
-    <View
+    <ImageView
         android:id="@+id/squareView"
-        android:layout_width="315dp"
-        android:layout_height="169dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
         android:layout_marginTop="260dp"
-        android:background="@color/light_gray"
+        android:src="@drawable/img_emotion_0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <!-- SeekBar 위에 표시될 텍스트 -->
     <TextView
         android:id="@+id/dynamicTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="460dp"
-        android:text="너무 심하게 느꼈어"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/own_mongmongday"
+        android:text="매우 심하지 않았어"
         android:textColor="@android:color/white"
         android:textSize="22sp"
-        android:fontFamily="@font/own_mongmongday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/squareView" />
 
     <!-- 시크바 하단의 레이블 -->
     <TextView

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6F6F6F"
+    android:background="@drawable/background_defult"
     tools:context=".ui.activity.summary.SummaryMainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,9 +70,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="40dp"
         android:gravity="center"
-        android:text="이런 하루를 보냈어"
-        android:textSize="14sp"
-        android:textColor="#FFFFFF"
+        android:text="나의 하루를 AI로 요약했어요"
+        android:textSize="16sp"
+        android:textColor="@color/main"
+        android:fontFamily="@font/nanumsquareroundbold"
         app:layout_constraintTop_toBottomOf="@+id/characterImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -80,9 +81,11 @@
     <!-- 상황 요약 박스 -->
     <LinearLayout
         android:id="@+id/situationLayout"
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/edittext_background"
         android:orientation="horizontal"
         android:padding="16dp"
@@ -102,17 +105,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="상황"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/situationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="4dp"
                 android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
                 android:textSize="14sp"
+                android:lineSpacingExtra="8dp"
+                android:fontFamily="@font/nanumsquareroundregular"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
 
@@ -163,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="생각"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF" />
 
@@ -171,9 +175,10 @@
                 android:id="@+id/thoughtTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="4dp"
                 android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
                 android:textSize="14sp"
+                android:lineSpacingExtra="8dp"
+                android:fontFamily="@font/nanumsquareroundregular"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
 
@@ -218,7 +223,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="감정"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF" />
 
@@ -227,8 +232,8 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="4dp"
             android:text="감정 강도"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF" />
+            android:textSize="12sp"
+            android:textColor="@color/blue2_30" />
 
         <!-- 감정 강도 이미지뷰와 텍스트뷰 수평 배치 -->
         <LinearLayout
@@ -259,31 +264,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="선택한 감정"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF" />
+            android:fontFamily="@font/nanumsquareroundbold"
+            android:textSize="12sp"
+            android:textColor="@color/blue2_30" />
 
         <TextView
             android:id="@+id/emotionTypeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="내가 쓴 감정"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:text="내가 적은 감정"
+            android:textSize="12sp"
+            android:textColor="@color/blue2_30"
+            android:fontFamily="@font/nanumsquareroundbold" />
     </LinearLayout>
 
 
     <!-- 정리 끝 버튼 -->
     <android.widget.Button
         android:id="@+id/buttonNext"
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/rounded_button"
         android:text="정리 끝!"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

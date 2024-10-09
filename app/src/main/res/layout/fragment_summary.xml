@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background_defult"
     android:padding="16dp">
 
     <!-- Back button and centered title -->
@@ -59,7 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="내가 쓴 글"
-                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="16sp"
                 android:layout_weight="1"/>
 
@@ -95,7 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="요약된 상황 표현"
-            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:textSize="16sp"/>
 
         <TextView
@@ -103,6 +106,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="여기에 요약된 상황 표현이 나타납니다."
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
