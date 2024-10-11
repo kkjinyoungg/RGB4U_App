@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,17 +39,12 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/gray_200" />
 
     <!-- 진한 회색과 옅은 회색으로 나누어진 박스 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
@@ -56,13 +52,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background" /> <!-- 진한 회색 -->
+            android:background="@color/main" /> <!-- 진한 회색 -->
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/gray_200" /> <!-- 옅은 회색 -->
+            android:background="@color/gray4" /> <!-- 옅은 회색 -->
     </LinearLayout>
 
     <TextView
@@ -71,13 +67,17 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="닉네임이 뭐야?"
-        android:textSize="20sp" /> <!-- 크기 변경 -->
+        android:textColor="@color/black"
+        android:fontFamily="@font/own_mongmongday"
+        android:textSize="28sp" /> <!-- 크기 변경 -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="앞으로 이 닉네임으로 불러줄게!"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/gray2"
         android:textSize="16sp" /> <!-- 크기 변경 -->
 
     <RelativeLayout
