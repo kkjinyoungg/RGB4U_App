@@ -53,8 +53,8 @@ class SummarySituationActivity : AppCompatActivity() {
             // UI 업데이트 호출
             summaryFragment.updateUI()
         }
-        summaryFragment.titleText = "이런 상황에서" //고정 제목
-        summaryFragment.summaryLabelText = "요약된 상황 표현" //고정 제목
+        summaryFragment.titleText = "상황" //고정 제목
+        summaryFragment.summaryLabelText = "AI로 요약된 상황" //고정 제목
     }
 
     private fun loadAiAnalysisData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
