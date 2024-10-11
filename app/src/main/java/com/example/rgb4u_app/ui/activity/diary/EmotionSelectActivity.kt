@@ -2,6 +2,8 @@ package com.example.rgb4u_app.ui.activity.diary
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList //칩 배경색 추가
+import android.graphics.Color //칩 배경색 추가
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -100,6 +102,9 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 chip.text = label
                 chip.isCheckable = true
                 chip.setTextColor(getColor(R.color.black))
+
+                // 칩 배경색을 설정
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#33FFFFFF"))
 
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     val selectedChipCount = selectedChipGroup.childCount
