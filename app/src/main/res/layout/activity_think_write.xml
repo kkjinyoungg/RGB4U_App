@@ -43,7 +43,7 @@
             android:paddingEnd="16dp"
             android:textColor="#FFFFFF"
             android:textColorHint="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <!-- 글자 수 카운트 (EditText 위에 오버레이) -->
         <TextView

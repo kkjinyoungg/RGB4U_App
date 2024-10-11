@@ -145,9 +145,11 @@
     <!-- 생각 요약 박스 -->
     <LinearLayout
         android:id="@+id/thoughtLayout"
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/edittext_background"
         android:orientation="horizontal"
         android:padding="16dp"
@@ -207,9 +209,11 @@
     <!-- 감정 요약 박스 -->
     <LinearLayout
         android:id="@+id/emotionLayout"
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/edittext_background"
         android:orientation="vertical"
         android:padding="16dp"
@@ -289,7 +293,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:background="@drawable/rounded_button"
-        android:text="정리 끝!"
+        android:text="완료"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

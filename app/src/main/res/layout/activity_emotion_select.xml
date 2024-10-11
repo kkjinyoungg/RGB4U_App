@@ -19,7 +19,7 @@
         android:id="@+id/selectedChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="180dp"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,17 +29,20 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="240dp"
         android:layout_marginBottom="100dp"
-        android:padding="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/edittext_background"
         app:layout_constraintTop_toBottomOf="@id/selectedChipGroup">
 
         <LinearLayout
             android:id="@+id/emotionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp" >
 
             <!-- 놀람 레이블 -->
             <TextView
