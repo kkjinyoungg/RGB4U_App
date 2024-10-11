@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/illustration"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="204dp"
         android:src="@drawable/img_loading" />
 
     <TextView
@@ -20,12 +20,12 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/own_mongmongday"
+        android:fontFamily="@font/nanumsquareroundextrabold"
         android:text="적어주신 내용을 요약하고 있어요"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
-        android:textSize="28sp" />
+        android:textColor="@color/main"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -33,9 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/nanumsquareroundregular"
-        android:text="약 1분 정도 소요됩니다"
+        android:text="약 5초 소요됩니다"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFFFFF"
