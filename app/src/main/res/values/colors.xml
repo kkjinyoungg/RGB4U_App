@@ -21,7 +21,7 @@
     <color name="main_20">#FAF5DB</color>
     <color name="main_30_dark">#7F909E</color>
     <color name="highlight">#FF1E1E</color>
-    <color name="highlight_dark">#F54E4E</color>
+    <color name="highlight_dark">#FAADAD</color>
 
     //배경색
     <color name="background">#F9F9F9</color>
