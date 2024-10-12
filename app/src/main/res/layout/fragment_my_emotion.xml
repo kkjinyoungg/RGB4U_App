@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_defult"
-    tools:context=".ui.fragment.MyRecordFragment">
+    tools:context=".ui.fragment.MyEmotionFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -149,29 +150,19 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_ch_situation"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/questionment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigationLayout"
-        tools:src="@drawable/img_ch_situation" />
 
     <TextView
         android:id="@+id/questionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/nanumsquareroundextrabold"
         android:text="어떤 상황이 있었는지 들려주세요"
+        android:lineSpacingExtra="8dp"
         android:textAlignment="center"
-        android:textColor="#FFE661"
+        android:textColor="@color/main"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/img_ch_situation" />
+        app:layout_constraintTop_toBottomOf="@+id/navigationLayout" />
 
     <TextView
         android:id="@+id/subQuestionment"

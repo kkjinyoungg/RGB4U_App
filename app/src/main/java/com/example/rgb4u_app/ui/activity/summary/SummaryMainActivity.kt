@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log // 추가
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
@@ -37,6 +38,8 @@ class SummaryMainActivity : AppCompatActivity() {
         val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
         val emotionIntensityTextView = findViewById<TextView>(R.id.emotionIntensityTextView)
         val emotionTypeTextView = findViewById<TextView>(R.id.emotionTypeTextView)
+        val emotionIntensityImageView = findViewById<ImageView>(R.id.emotionIntensityImageView)
+
 
         // diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId
@@ -102,6 +105,13 @@ class SummaryMainActivity : AppCompatActivity() {
             thoughtTextView.text = "일기 ID를 찾을 수 없음"
         }
 
+        // 감정 강도 이미지 리소스 ID 관찰
+        diaryViewModel.emotionImageResId.observe(this) { imageResId ->
+            imageResId?.let {
+                // ImageView에 이미지 설정
+                emotionIntensityImageView.setImageResource(it)
+            }
+        }
 
         // Back 버튼 클릭 리스너 설정
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
