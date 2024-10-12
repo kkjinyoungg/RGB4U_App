@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_gravity="center"
-    android:background="@drawable/rounded_corner_background"
-    android:backgroundTint="@android:color/transparent">
+    android:background="@drawable/rounded_corner_background" >
 
     <TextView
         android:id="@+id/dialogTitle"
