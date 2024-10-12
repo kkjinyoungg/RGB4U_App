@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.TemporarySaveDialogFragment">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_corner_background"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="기록을 \n그만두시겠습니까?"
+            android:lineSpacingExtra="8dp"
+            android:fontFamily="@font/nanumsquareroundbold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="기록 중인 내용을 임시 저장하거나 \n삭제할 수 있습니다."
+            android:lineSpacingExtra="8dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/gray2"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnTemporarySave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="임시 저장"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="삭제"
+            android:backgroundTint="@color/gray3"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/highlight"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="취소"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:backgroundTint="@color/gray3"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+
+</FrameLayout>

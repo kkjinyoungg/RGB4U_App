@@ -13,10 +13,9 @@
     <LinearLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -26,16 +25,10 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
             android:text="회원 탈퇴"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:fontFamily="@font/nanumsquareroundregular"/>
-
-        <!-- 구분선 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D3D3D3" />
     </LinearLayout>
 
     <!-- 설명 텍스트 1 -->

@@ -1,15 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/messageTextView"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel" />
+    </data>
+
+    <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:background="@drawable/help_bottom_sheet_background">
 
-</LinearLayout>
+        <!-- 제목과 새로고침 버튼을 수평으로 배치 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상황 예시 보기"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nanumsquareroundextrabold" />
+
+            <ImageButton
+                android:id="@+id/refreshButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_refresh"
+                android:contentDescription="새로고침"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginEnd="0dp" />
+        </LinearLayout>
+
+        <!-- 첫 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <!-- 구분선 추가 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/help_bottom_sheet_line" />
+
+        <!-- 두 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingTop="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+        <!-- 구분선 추가 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/help_bottom_sheet_line" />
+
+        <!-- 세 번째 예시 텍스트뷰 -->
+        <TextView
+            android:id="@+id/exampleTextView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
+            android:paddingTop="8dp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</layout>

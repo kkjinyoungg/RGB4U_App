@@ -8,10 +8,7 @@
     <!-- 배경색 -->
     <solid android:color="@color/white" />
 
-    <!-- 테두리 색상과 두께를 정의 -->
-    <stroke
-        android:width="2dp"
-        android:color="@color/light_gray" />
+
 
     <!-- 패딩을 정의하여 내부 여백 설정 -->
     <padding

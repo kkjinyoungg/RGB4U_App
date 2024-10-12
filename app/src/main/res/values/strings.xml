@@ -3,8 +3,8 @@
     <string name="client_Id">538491861151-jph39qjuc8mmg115oibddniklp27c6lk.apps.googleusercontent.com</string> <!--클라이언트 OAUTH ID-->
 
     // 일지 도움말 버튼
-    <string name = "btn_diary_helpbutton"> <u>상황 예시 보기</u> </string>
-    <string name = "btn_think_helpbutton"> <u>생각 예시 보기</u> </string>
+    <string name="btn_diary_helpbutton"> <u>상황 예시 보기</u> </string>
+    <string name="btn_think_helpbutton"> <u>생각 예시 보기</u> </string>
 
     <string name="home_button">홈</string>
     <string name="my_record_button">나의 기록</string>

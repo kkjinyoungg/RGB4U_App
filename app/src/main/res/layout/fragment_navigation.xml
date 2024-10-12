@@ -10,35 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        style="@style/BottomAppBarCustom"
         app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleRoundedCornerRadius="30dp"
         app:fabCradleVerticalOffset="10dp"
-        app:fabAlignmentMode="end"
-        app:backgroundTint="@color/white"/>
+        app:fabAlignmentMode="center"/>
 
 
-    <!-- BottomNavigationView -->
+    <!-- BottomNavigationView with custom rounded background -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+
+        android:background="@drawable/rounded_navigation_bar_background"
         app:itemBackground="@color/white"
         app:itemRippleColor="@color/white"
         app:itemIconSize="24dp"
         app:menu="@menu/bottom_navigation_menu"
         app:labelVisibilityMode="labeled"/>
 
-    <!-- FloatingActionButton -->
+    <!-- FloatingActionButton for center icon -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_think"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:scaleType="fitCenter"
-        app:backgroundTint="@color/selected_yellow"
-        app:srcCompat="@drawable/ic_think" />
+        app:backgroundTint="@android:color/transparent"
+        app:srcCompat="@drawable/ic_think"
+        app:maxImageSize="75dp"
+        app:tint="@null"
+        app:fabSize="normal"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

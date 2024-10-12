@@ -8,18 +8,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.activity.ActivityType
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
+import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
+    private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,14 +99,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                 }
             }
 
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
@@ -126,22 +124,66 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     }
 
     override fun onToolbarAction1Clicked() {
-        // 툴바의 "Back" 버튼 클릭 시 MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish() // 현재 Activity를 종료하여 뒤로가기 시 MainActivity로 돌아가도록 합니다.
+        // TemporarySaveDialogFragment 인스턴스 생성
+        val dialog = TemporarySaveDialogFragment()
+
+        // dialog의 리스너 설정
+        dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
+            override fun onTemporarySave() {
+                // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
+                val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+                diaryViewModel.situation.postValue(inputText)
+
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onDelete() {
+                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 팝업 표시
+        dialog.show(supportFragmentManager, "TemporarySaveDialog")
     }
 
     override fun onToolbarAction2Clicked() {
-        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        // TemporarySaveDialogFragment 인스턴스 생성
+        val dialog = TemporarySaveDialogFragment()
+
+        // dialog의 리스너 설정
+        dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
+            override fun onTemporarySave() {
+                // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
+                val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+                diaryViewModel.situation.postValue(inputText)
+
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onDelete() {
+                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
+                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 팝업 표시
+        dialog.show(supportFragmentManager, "TemporarySaveDialog")
     }
+
 
     private fun showHelpBottomSheet() {
         val helpBottomSheetFragment = HelpBottomSheetFragment()
-        helpBottomSheetFragment.setHelpMessage("도움말 내용을 여기에 작성하세요.") // 필요한 내용으로 변경
+        helpViewModel.setSituations(ActivityType.ACTIVITY_DIARY) // 상황 리스트 설정
+        helpBottomSheetFragment.setSituations(helpViewModel.situations.value ?: emptyList()) // 상황 리스트 전달
         helpBottomSheetFragment.show(supportFragmentManager, helpBottomSheetFragment.tag)
     }
 

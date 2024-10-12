@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.databinding.FragmentMypageCommonHeaderBinding
 
@@ -42,8 +43,15 @@ class MypageCommonHeaderFragment : Fragment() {
         binding.tvTitle.text = title
 
         // 뒤로가기 버튼 리스너 설정
-        binding.btnBack.setOnClickListener(backButtonListener ?: View.OnClickListener {
-            activity?.onBackPressed() // 기본 동작
+        binding.btnBack.setOnClickListener {
+            backButtonListener?.onClick(it) ?: requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        // onBackPressedCallback 설정 (선택 사항)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backButtonListener?.onClick(binding.btnBack) ?: requireActivity().onBackPressed()
+            }
         })
     }
 

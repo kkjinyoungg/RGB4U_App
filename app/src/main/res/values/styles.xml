@@ -1,14 +1,8 @@
 <resources>
-    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:elevation">4dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="elevation">4dp</item>
-        <item name="android:layout_marginTop">1dp</item> <!-- 테두리 추가 -->
-        <item name="android:layout_marginBottom">1dp</item> <!-- 테두리 추가 -->
-        <item name="android:layout_marginLeft">1dp</item> <!-- 테두리 추가 -->
-        <item name="android:layout_marginRight">1dp</item> <!-- 테두리 추가 -->
-        <!-- 더 이상 사용하지 않는 항목들 제거 -->
+    <!-- BottomAppBar 기본 스타일 -->
+    <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="android:background">@color/white</item>
+        <item name="cornerRadius">16dp</item> <!-- 원하는 모서리 반경을 설정 -->
     </style>
 
     <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">

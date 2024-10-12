@@ -1,11 +1,9 @@
 package com.example.rgb4u_app.ui.activity.mypage
 
+//파이어베이스
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,17 +13,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
-import java.util.Calendar
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
-//파이어베이스
+import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DataSnapshot
-import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.DatabaseError
+import java.util.Calendar
 
 class MyPageProfileEditActivity : AppCompatActivity() {
 
@@ -74,25 +70,16 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         buttonNext = findViewById(R.id.buttonNext)
         clearErrorState()
 
-        // 닉네임 글자 수 제한을 11자로 설정
-        nicknameEditText.filters = arrayOf(InputFilter.LengthFilter(11))
-
-        // charCountTextView에서 글자 수가 10자를 넘으면 텍스트 색상이 빨간색이 되도록 수정
-        nicknameEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val charCount = s?.length ?: 0
-                charCountTextView.text = "$charCount/10"
-
-                // 글자 수가 10자를 넘는 경우 텍스트 색상 변경
-                charCountTextView.setTextColor(if (charCount > 10) Color.RED else Color.BLACK)
-
-                validateNickname(s.toString())
+        // 닉네임 입력 시 테두리 색상 변경
+        nicknameEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // nicknameEditText가 선택되면 테두리 색을 main으로 변경하고 birthdateEditText는 기본 색상으로
+                nicknameEditText.setBackgroundResource(R.drawable.et_nickname_main_background)
+                birthdateEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
+            } else {
+                nicknameEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
             }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        }
 
         // 달력 버튼 클릭 리스너
         calendarButton.setOnClickListener {
@@ -188,7 +175,68 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     }
 
     private fun showDatePickerDialog() {
-        // ... 기존 코드 ...
+
+        val dialogView = layoutInflater.inflate(R.layout.number_picker_dialog, null)
+
+        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.yearPicker)
+        val monthPicker = dialogView.findViewById<NumberPicker>(R.id.monthPicker)
+        val dayPicker = dialogView.findViewById<NumberPicker>(R.id.dayPicker)
+
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1
+        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+        yearPicker.minValue = currentYear - 100
+        yearPicker.maxValue = currentYear
+        yearPicker.value = currentYear
+        yearPicker.setFormatter { value -> "${value}년" }
+
+        monthPicker.minValue = 1
+        monthPicker.maxValue = 12
+        monthPicker.value = currentMonth
+        monthPicker.setFormatter { value -> "${value}월" }
+
+        dayPicker.minValue = 1
+        dayPicker.maxValue = 31
+        dayPicker.value = currentDay
+        dayPicker.setFormatter { value -> "${value}일" }
+
+        val updateDayPicker = {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val maxDays = when (selectedMonth) {
+                2 -> if (isLeapYear(selectedYear)) 29 else 28
+                4, 6, 9, 11 -> 30
+                else -> 31
+            }
+            dayPicker.maxValue = maxDays
+            if (dayPicker.value > maxDays) {
+                dayPicker.value = maxDays
+            }
+        }
+
+        monthPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
+        yearPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
+
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+            val selectedDay = dayPicker.value
+            val formattedDate = "${selectedYear}년 ${selectedMonth}월 ${selectedDay}일"
+
+            birthdateEditText.setText(formattedDate)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        // 날짜 선택 후 birthdateEditText의 테두리 색상을 main으로 변경
+        birthdateEditText.setBackgroundResource(R.drawable.et_nickname_main_background)
+        nicknameEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
     }
 
     private fun isLeapYear(year: Int): Boolean {
@@ -196,6 +244,12 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     }
 
     private fun validateNickname(nickname: String): Boolean {
+        // 닉네임이 공백이거나 입력되지 않았을 때
+        if (nickname.trim().isEmpty()) {
+            setErrorState("닉네임을 입력해 주세요.")
+            return false
+        }
+
         val isValid = nickname.length in 1..10
         buttonNext.isEnabled = isValid
 
