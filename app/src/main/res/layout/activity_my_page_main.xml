@@ -85,6 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
 
                         <!-- 환영 메시지 -->
@@ -92,6 +93,7 @@
                             android:id="@+id/tv_welcome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
                             android:fontFamily="@font/own_mongmongday"
                             android:text="안녕, 오늘도 반가워!"
                             android:textColor="@color/blue2"
@@ -107,7 +109,6 @@
                                 android:id="@+id/tv_nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
                                 android:fontFamily="@font/nanumsquareroundbold"
                                 android:text="나서진"
                                 android:textColor="@color/black"
@@ -119,6 +120,7 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_marginStart="8dp"
+                                android:layout_gravity="center"
                                 android:background="?attr/selectableItemBackground"
                                 android:contentDescription="프로필 수정"
                                 android:scaleType="fitCenter"
