@@ -77,7 +77,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
                 //diaryViewModel.emotionString.value = dynamicTextView.text.toString()
 
                 // 감정 이미지 리소스 ID 설정
-                diaryViewModel.emotionImageResId.postValue(getImageResId(progress)) // 감정 이미지 리소스 저장
+                //diaryViewModel.emotionImageResId.postValue(getImageResId(progress)) // 감정 이미지 리소스 저장
 
                 // 감정 단계에 따라 이미지 변경
                 squareView.setImageResource(getImageResId(progress))
@@ -111,12 +111,12 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         val emotionString = dynamicTextView.text.toString()
 
         // ViewModel에 저장된 감정 정보 업데이트
-        diaryViewModel.emotionDegree.postValue(progress)
-        diaryViewModel.emotionString.postValue(emotionString)
-        diaryViewModel.emotionImageResId.postValue(progress)
+        //diaryViewModel.emotionDegree.postValue(progress)
+        //diaryViewModel.emotionString.postValue(emotionString)
+        //diaryViewModel.emotionImageResId.postValue(progress)
 
-        // 감정 데이터를 Firebase에 저장
-        diaryViewModel.saveDiaryToFirebase("userId") // 실제 사용자 ID로 대체 필요
+        // 감정 데이터를 Firebase에 저장 -> 여기서 저장하면 안 됨!
+        //diaryViewModel.saveDiaryToFirebase("userId") // 실제 사용자 ID로 대체 필요
 
         // 다음 액티비티로 전환
         val intent = Intent(this, EmotionSelectActivity::class.java)

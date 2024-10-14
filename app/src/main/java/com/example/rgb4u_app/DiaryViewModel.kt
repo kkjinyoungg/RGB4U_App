@@ -16,7 +16,7 @@ class DiaryViewModel : ViewModel() {
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
     val emotionTypes = MutableLiveData<List<String>>()
-    val emotionImageResId = MutableLiveData<Int>()
+    //val emotionImageResId = MutableLiveData<Int>() 이미디 ID 저장하지 않음
 
     // 전역 변수로 diaryId를 저장
     companion object {
