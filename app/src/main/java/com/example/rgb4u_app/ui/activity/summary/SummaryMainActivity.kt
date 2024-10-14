@@ -80,7 +80,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 emotionIntensityImageView.setImageResource(getImageResId(emotionDegreeInt))
 
                                 // TextView에 감정 강도 중 숫자
-                                emotionIntensityTextView.text = "5단계 중${emotionDegreeInt}단계"
+                                emotionIntensityTextView.text = "5단계 중 ${emotionDegreeInt}단계"
 
                                 //$emotionDegreeString (심했어)-> 프론트 생기면 연결예정
 
