@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-
+        app:itemActiveIndicatorStyle="@null"
         android:background="@drawable/rounded_navigation_bar_background"
         app:itemBackground="@color/white"
         app:itemRippleColor="@color/white"
