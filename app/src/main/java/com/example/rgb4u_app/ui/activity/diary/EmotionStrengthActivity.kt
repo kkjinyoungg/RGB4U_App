@@ -74,11 +74,6 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
                 // ViewModel에 감정 정도 값, 텍스트 저장
                 diaryViewModel.emotionDegree.postValue(progress) // 감정 정도 저장
                 diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
-                //diaryViewModel.emotionDegree.value = progress
-                //diaryViewModel.emotionString.value = dynamicTextView.text.toString()
-
-                // 감정 이미지 리소스 ID 설정
-                diaryViewModel.emotionImageResId.postValue(getImageResId(progress)) // 감정 이미지 리소스 저장
 
                 // 감정 단계에 따라 이미지 변경
                 squareView.setImageResource(getImageResId(progress))
@@ -111,29 +106,9 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         // 현재 동적 텍스트 가져오기
         val emotionString = dynamicTextView.text.toString()
 
-        // ViewModel에 저장된 감정 정보 업데이트
-        diaryViewModel.emotionDegree.postValue(progress)
-        diaryViewModel.emotionString.postValue(emotionString)
-        diaryViewModel.emotionImageResId.postValue(progress)
-
-        // 감정 데이터를 Firebase에 저장
-        diaryViewModel.saveDiaryToFirebase("userId") // 실제 사용자 ID로 대체 필요
-
         // 다음 액티비티로 전환
         val intent = Intent(this, EmotionSelectActivity::class.java)
         startActivity(intent)
-
-        // EmotionStrengthActivity로 넘어갈 때 ViewModel에서 값 가져오기
-        //val progress = seekBar.progress
-        //val emotionString = dynamicTextView.text.toString()
-
-        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
-        //val thoughtText = intent.getStringExtra("EXTRA_THOUGHT_TEXT")
-
-        // val intent = Intent(this, EmotionSelectActivity::class.java) //기존에 있던거
-        //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)
-        //intent.putExtra("EXTRA_THOUGHT_TEXT", thoughtText)
-        // startActivity(intent) //기존에 있떤거
 
     }
 

@@ -88,6 +88,7 @@ class SummarySituationActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     val userInputSituation = dataSnapshot.child("situation").getValue(String::class.java) ?: "사용자 입력 상황 정보 없음"
                     summaryFragment.userContent = userInputSituation
+                    Log.d("SummaryFragment", "User content: ${summaryFragment.userContent}") //데이터로드확인용-로그캣에서 확인
                 } else {
                     summaryFragment.userContent = "사용자 입력 데이터가 존재하지 않습니다"
                 }

@@ -76,9 +76,16 @@ class SummaryMainActivity : AppCompatActivity() {
                                 // 감정 강도와 감정 종류를 로그에 출력
                                 Log.d("SummaryMainActivity", "감정 강도: $emotionDegreeInt ($emotionDegreeString), 감정 종류: $emotionTypes")
 
-                                // TextView에 감정 강도와 감정 종류 설정
-                                emotionIntensityTextView.text = "$emotionDegreeInt ($emotionDegreeString)"
-                                emotionTypeTextView.text = emotionTypes
+                                //요약 화면 이미지 바꾸는 코드
+                                emotionIntensityImageView.setImageResource(getImageResId(emotionDegreeInt))
+
+                                // TextView에 감정 강도 중 숫자
+                                emotionIntensityTextView.text = "5단계 중 ${emotionDegreeInt}단계"
+
+                                //$emotionDegreeString (심했어)-> 프론트 생기면 연결예정
+
+                                //감정 종류 연결 코드 바꿀 예정
+                                //emotionTypeTextView.text = emotionTypes
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {
@@ -105,13 +112,13 @@ class SummaryMainActivity : AppCompatActivity() {
             thoughtTextView.text = "일기 ID를 찾을 수 없음"
         }
 
-        // 감정 강도 이미지 리소스 ID 관찰
+        /* 감정 강도 이미지 리소스 ID 관찰
         diaryViewModel.emotionImageResId.observe(this) { imageResId ->
             imageResId?.let {
                 // ImageView에 이미지 설정
                 emotionIntensityImageView.setImageResource(it)
             }
-        }
+        }*/
 
         // Back 버튼 클릭 리스너 설정
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
@@ -141,6 +148,17 @@ class SummaryMainActivity : AppCompatActivity() {
             val intent = Intent(this, SummaryThinkActivity::class.java)
             intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
             startActivity(intent)
+        }
+    }
+    // 감정에 따라 이미지 리소스 ID를 반환하는 함수
+    private fun getImageResId(progress: Int): Int {
+        return when (progress) {
+            0 -> R.drawable.img_emotion_0
+            1 -> R.drawable.img_emotion_1
+            2 -> R.drawable.img_emotion_2
+            3 -> R.drawable.img_emotion_3
+            4 -> R.drawable.img_emotion_4
+            else -> R.drawable.img_emotion_0 // 기본 이미지 (예외 처리)
         }
     }
 }
