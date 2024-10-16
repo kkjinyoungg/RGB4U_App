@@ -3,7 +3,8 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/rounded_corner_background">
+    android:background="@drawable/rounded_corner_background"
+    android:elevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,12 +46,13 @@
     <android.widget.Button
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
+        android:elevation="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/main"
+        android:background="@drawable/rounded_button"
         android:src="@drawable/rounded_button"
         android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/black"

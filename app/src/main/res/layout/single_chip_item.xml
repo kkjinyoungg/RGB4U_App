@@ -9,6 +9,8 @@
     android:checkable="true"
     app:chipCornerRadius="50dp"
     app:chipBackgroundColor="@color/white_20"
-    android:textColor="#262627"
+    android:textColor="@color/white"
+    android:fontFamily="@font/nanumsquareroundregular"
+    android:textSize="14sp"
     app:chipStrokeWidth="0dp"
     app:chipStrokeColor="@android:color/transparent" />

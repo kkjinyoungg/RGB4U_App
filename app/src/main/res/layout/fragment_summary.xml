@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp" >
 
@@ -66,14 +67,14 @@
                 android:textSize="16sp"
                 android:layout_weight="1"/>
 
-            <ImageButton
-                android:id="@+id/toggleButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_toggle_down"
-                android:scaleType="fitCenter"
-                android:contentDescription="Toggle Content"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/toggleButton"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_toggle_down"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:contentDescription="Toggle Content"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"/>-->
         </LinearLayout>
 
         <TextView
@@ -82,8 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            android:visibility="gone"
             android:text="여기에 사용자가 쓴 글이 나타납니다."
+            android:lineSpacingExtra="8dp"
             android:textColor="@color/white"
             android:fontFamily="@font/nanumsquareroundregular"
             android:textSize="14sp"
@@ -124,6 +125,7 @@
             android:text="여기에 요약된 상황 표현이 나타납니다."
             android:textColor="@color/white"
             android:fontFamily="@font/nanumsquareroundregular"
+            android:lineSpacingExtra="8dp"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
@@ -154,7 +156,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="왜 이렇게 요약됐을까?"
+                android:text="왜 이렇게 요약되었을까요"
                 android:textColor="@color/white"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="14sp"/>
@@ -166,6 +168,7 @@
             android:text="이유에 대한 텍스트가 여기에 나타납니다."
             android:textSize="14sp"
             android:fontFamily="@font/nanumsquareroundregular"
+            android:lineSpacingExtra="8dp"
             android:textColor="@color/white"
             android:layout_marginTop="8dp"/>
     </LinearLayout>

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="마이페이지"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nanumsquareroundregular" />
     </LinearLayout>
@@ -145,7 +145,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp"
                 android:gravity="start"
                 android:orientation="vertical">
 
@@ -161,6 +160,7 @@
 
                 <!-- 알림 설정 -->
                 <LinearLayout
+                    android:id="@+id/btn_notification_details"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
@@ -179,7 +179,6 @@
                         android:textSize="14sp" />
 
                     <ImageButton
-                        android:id="@+id/btn_notification_details"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="16dp"
@@ -263,6 +262,7 @@
 
                 <!-- 생각뭉치 사용법 -->
                 <LinearLayout
+                    android:id="@+id/btn_how_to_use_details"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
@@ -281,7 +281,6 @@
                         android:textSize="14sp" />
 
                     <ImageButton
-                        android:id="@+id/btn_how_to_use_details"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="16dp"
@@ -293,6 +292,7 @@
 
                 <!-- 서비스 이용약관 -->
                 <LinearLayout
+                    android:id="@+id/btn_terms_of_service_details"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:gravity="center_vertical"
@@ -310,7 +310,6 @@
                         android:textSize="14sp" />
 
                     <ImageButton
-                        android:id="@+id/btn_terms_of_service_details"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="16dp"
