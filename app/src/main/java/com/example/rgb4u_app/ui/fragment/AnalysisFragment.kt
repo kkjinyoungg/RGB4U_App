@@ -146,6 +146,7 @@ class AnalysisFragment : Fragment() {
     private fun fetchEmotionData() {
         // 현재 로그인된 사용자의 UID를 가져옵니다.
         val userId = FirebaseAuth.getInstance().currentUser?.uid
+        Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
 
         // userId가 null인지 확인하여 처리합니다.
         if (userId == null) {
@@ -160,36 +161,34 @@ class AnalysisFragment : Fragment() {
         val monthFormatted = String.format("%04d-%02d", year, month) // "2024-09" 형태로 포맷
 
         // Firebase에서 해당 월의 감정 데이터를 가져옵니다.
-        // Firebase에서 해당 월의 감정 데이터를 가져옵니다.
-        database.child("users").child(userId) // 여기에 현재 로그인된 사용자 ID를 사용합니다.
-            .child("monthlyStats").child(monthFormatted) // 월 정보가 포함된 경로 설정
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        database.child("users").child(userId)
+            .child("monthlyStats").child(monthFormatted).child("emotionsGraph")
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val sadness = snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val anger = snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val disgust = snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val surprise =
+                            snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val fear =
+                            snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val sadness =
+                            snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val anger =
+                            snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val disgust =
+                            snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
 
-                        // 가져온 데이터 로그 출력
-                        Log.d("AnalysisFragment", "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust")
+                        Log.d(
+                            "AnalysisFragment",
+                            "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust"
+                        )
 
-                        // 전체 점수 계산
                         val total = surprise + fear + sadness + anger + disgust
-                        Log.d("AnalysisFragment", "Total Score: $total") // 전체 점수 로그 출력
-
-                        // 전체 점수가 0이 아닐 때 비율 계산
                         val entries = if (total > 0) {
-                            // 비율 계산
                             val surprisePercentage = (surprise / total * 100)
                             val fearPercentage = (fear / total * 100)
                             val sadnessPercentage = (sadness / total * 100)
                             val angerPercentage = (anger / total * 100)
                             val disgustPercentage = (disgust / total * 100)
-
-                            // 비율 로그 출력
-                            Log.d("AnalysisFragment", "Surprise Percentage: $surprisePercentage%, Fear Percentage: $fearPercentage%, Sadness Percentage: $sadnessPercentage%, Anger Percentage: $angerPercentage%, Disgust Percentage: $disgustPercentage%")
 
                             listOf(
                                 PieEntry(surprisePercentage, "놀람"),
@@ -199,13 +198,11 @@ class AnalysisFragment : Fragment() {
                                 PieEntry(disgustPercentage, "혐오")
                             )
                         } else {
-                            Log.d("AnalysisFragment", "All emotion scores are zero. Default value will be used.")
                             listOf(
-                                PieEntry(1f, "없음") // 기본값 추가 (없음)
+                                PieEntry(1f, "없음")
                             )
                         }
 
-                        // 차트 업데이트
                         setupPieChart(entries)
                     } else {
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
@@ -213,13 +210,14 @@ class AnalysisFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "데이터 로딩 실패: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "데이터 로딩 실패: ${error.message}", Toast.LENGTH_SHORT)
+                        .show()
                 }
             })
     }
 
 
-    // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
+        // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
     private fun fetchCardData(): List<CardItem> {
         // 실제 데이터 소스에서 가져온다고 가정
         return listOf(
