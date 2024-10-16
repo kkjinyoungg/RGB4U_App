@@ -19,12 +19,18 @@ import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.firebase.auth.FirebaseAuth
+import android.util.Log
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
+
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
+    private val userId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +139,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                 // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
                 val inputText = findViewById<EditText>(R.id.inputField).text.toString()
                 diaryViewModel.situation.postValue(inputText)
+                diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
 
                 val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
                 startActivity(intent)
@@ -161,6 +168,10 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                 // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
                 val inputText = findViewById<EditText>(R.id.inputField).text.toString()
                 diaryViewModel.situation.postValue(inputText)
+                Log.d("DiaryWriteActivity", "Saving input text: $inputText") // 로그 추가
+
+                diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
+                Log.d("DiaryWriteActivity", "User ID: ${userId ?: "defaultUserId"}") // 로그 추
 
                 val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
                 startActivity(intent)
