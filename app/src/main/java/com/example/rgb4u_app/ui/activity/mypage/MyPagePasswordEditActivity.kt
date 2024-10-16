@@ -120,7 +120,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         )
 
         buttons.forEach { id ->
-            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.black))
         }
     }
 
@@ -168,7 +168,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
 
     private fun resetButtonColorById(buttonId: Int?) {
         buttonId?.let {
-            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.black))
         }
     }
 
@@ -197,7 +197,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
             finish()
         } else {
             tvPasswordDescription.text = "비밀번호가 일치하지 않습니다"
-            tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
+            tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.highlight_dark))
 
             android.os.Handler().postDelayed({
                 resetPasswordInput()
@@ -212,7 +212,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         updatePasswordImages(true)
         tvPasswordTitle.text = "새로운 비밀번호 입력"
         tvPasswordDescription.text = "새로운 비밀번호를 입력해주세요"
-        tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.default_text_color))
+        tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.black))
         isConfirmingPassword = false
         resetSelectedButtonColor()
     }

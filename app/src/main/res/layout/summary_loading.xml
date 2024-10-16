@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_defult">
 
     <ImageView
@@ -10,16 +11,16 @@
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="240dp"
         android:src="@drawable/img_loading" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/illustration"
+        android:layout_below="@+id/lottieAnimationView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-60dp"
         android:fontFamily="@font/nanumsquareroundextrabold"
         android:text="적어주신 내용을 요약하고 있어요"
         android:textAlignment="center"
@@ -41,5 +42,14 @@
         android:textColor="@color/blue2_30"
         android:textSize="16sp" />
 
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/illustration"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-75dp"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading_bar.json"
+        app:lottie_loop="true" />
 </RelativeLayout>

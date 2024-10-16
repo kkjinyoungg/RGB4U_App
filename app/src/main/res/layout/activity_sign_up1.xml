@@ -4,12 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
     android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:padding="16dp">
 
         <ImageButton
@@ -31,8 +30,9 @@
             android:layout_height="wrap_content"
             android:text="회원 가입"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/nanumsquareroundregular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +46,8 @@
         android:layout_height="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="horizontal">
 
         <View
@@ -66,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
         android:text="닉네임이 뭐야?"
         android:textColor="@color/black"
         android:fontFamily="@font/own_mongmongday"
@@ -76,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="앞으로 이 닉네임으로 불러줄게!"
+        android:layout_marginLeft="16dp"
         android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/gray2"
         android:textSize="16sp" /> <!-- 크기 변경 -->
@@ -83,24 +87,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp">
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
 
         <EditText
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/darker_gray"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:hint="닉네임을 적어줘"
+            android:textColor="@color/gray2"
             android:inputType="text"
             android:maxLength="10"
-            android:paddingTop="8dp" />
+            android:padding="16dp"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/charCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:textColor="@color/gray2"
+            android:textSize="12sp"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:text="0/10" />
 
     </RelativeLayout>
@@ -122,7 +134,12 @@
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
-        android:text="다음으로" />
+        android:fontFamily="@font/nanumsquareroundbold"
+        android:textColor="@color/black"
+        android:text="다음" />
 </LinearLayout>

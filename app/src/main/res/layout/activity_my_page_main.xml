@@ -210,9 +210,9 @@
                         android:id="@+id/switch_password"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
                         android:thumbTint="@color/switch_thumb_color"
-                        android:trackTint="@color/switch_track_color"
-                        android:layout_marginRight="16dp" />
+                        android:trackTint="@color/switch_track_color" />
 
                 </LinearLayout>
 

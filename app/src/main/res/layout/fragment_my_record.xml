@@ -7,6 +7,7 @@
     tools:context=".ui.fragment.MyRecordFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="72dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,15 +152,15 @@
 
     <ImageView
         android:id="@+id/img_ch_situation"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@+id/questionment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/navigationLayout"
-        tools:src="@drawable/img_ch_situation" />
+        android:src="@drawable/img_ch_situation" />
 
     <TextView
         android:id="@+id/questionment"
@@ -198,6 +199,7 @@
         android:fontFamily="@font/nanumsquareroundbold"
         android:text="다음"
         android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

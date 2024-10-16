@@ -139,14 +139,14 @@
         app:layout_constraintTop_toBottomOf="@+id/situationLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="12dp"/>
 
     <!-- 생각 요약 박스 -->
     <LinearLayout
         android:id="@+id/thoughtLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/edittext_background"
@@ -203,14 +203,14 @@
         app:layout_constraintTop_toBottomOf="@+id/thoughtLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="12dp"/>
 
     <!-- 감정 요약 박스 -->
     <LinearLayout
         android:id="@+id/emotionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:background="@drawable/edittext_background"
@@ -236,6 +236,7 @@
             android:lineSpacingExtra="4dp"
             android:text="감정 정도"
             android:textSize="12sp"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:textColor="@color/blue2_30" />
 
         <!-- 감정 강도 이미지뷰와 텍스트뷰 수평 배치 -->
@@ -243,6 +244,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:layout_marginTop="8dp">
 
             <ImageView
@@ -252,14 +254,32 @@
                 android:src="@drawable/rounded_divider_view"
                 android:layout_marginEnd="8dp"/>
 
-            <TextView
-                android:id="@+id/emotionIntensityTextView"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:text="5단계 중 4단계"
-                android:textColor="@color/gray3"
-                android:textSize="12sp" />
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/emotionIntensityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanumsquareroundregular"
+                    android:text="5단계 중 4단계"
+                    android:textColor="@color/gray3"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/emotionIntensityTextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/own_mongmongday"
+                    android:text="심했어"
+                    android:textColor="@color/gray3"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- 감정 레이블 텍스트뷰들 -->

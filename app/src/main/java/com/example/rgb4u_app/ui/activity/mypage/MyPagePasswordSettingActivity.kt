@@ -125,7 +125,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         )
 
         buttons.forEach { id ->
-            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 색상으로 초기화
+            findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.black)) // 기본 색상으로 초기화
         }
     }
 
@@ -174,7 +174,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
 
     private fun resetButtonColorById(buttonId: Int?) {
         buttonId?.let {
-            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 검정색
+            findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.black)) // 기본 검정색
         }
     }
 
@@ -212,7 +212,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
             finish()
         } else {
             tvNewPasswordDescription.text = "비밀번호가 일치하지 않습니다"
-            tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color)) // 빨간색
+            tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.highlight_dark)) // 빨간색
 
             // 2초 후에 비밀번호 입력 초기화
             android.os.Handler().postDelayed({
@@ -230,7 +230,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         updatePasswordImages(true)  // 확인 비밀번호 이미지 리셋
         tvNewPasswordTitle.text = "비밀번호 입력"
         tvNewPasswordDescription.text = "사용할 비밀번호를 입력해주세요"
-        tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.default_text_color)) // 기본 검정색으로 초기화
+        tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.black)) // 기본 검정색으로 초기화
         isConfirmingPassword = false
         resetSelectedButtonColor()  // 버튼 색상 초기화
     }
