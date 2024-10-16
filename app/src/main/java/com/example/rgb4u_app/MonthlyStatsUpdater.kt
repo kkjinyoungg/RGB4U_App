@@ -50,6 +50,8 @@ class MonthlyStatsUpdater {
                 monthlyStatsRef.setValue(initialMonthlyData)
                     .addOnSuccessListener {
                         Log.d("MonthlyStatsUpdater", "초기 월간 데이터 저장 성공")
+                        // 초기 데이터 저장 후 감정 수치 업데이트 호출
+                        updateEmotionCounts(monthlyStatsRef, emotionTypes)
                     }.addOnFailureListener {
                         Log.e("MonthlyStatsUpdater", "초기 월간 데이터 저장 실패", it)
                     }
