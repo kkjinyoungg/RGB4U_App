@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log // 추가된 import
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +19,22 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class AnalysisFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var cardAdapter: CardAdapter // 제네릭 제거
+    private lateinit var cardAdapter: CardAdapter
     private lateinit var pieChart: PieChart
     private lateinit var toolbarCalendarTitle: TextView
+    private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +58,6 @@ class AnalysisFragment : Fragment() {
 
         // PieChart 설정
         pieChart = view.findViewById(R.id.pie_chart)
-        setupPieChart()
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
 
@@ -80,8 +87,12 @@ class AnalysisFragment : Fragment() {
             moveToNextDate()
         }
 
+        // Firebase에서 감정 데이터 가져오기
+        fetchEmotionData()
+
         return view
     }
+
     private fun moveToPreviousDate() {
         val currentDate = Calendar.getInstance()
         currentDate.add(Calendar.DAY_OF_MONTH, -1) // 하루 전으로 이동
@@ -96,18 +107,7 @@ class AnalysisFragment : Fragment() {
         toolbarCalendarTitle.text = formattedDate
     }
 
-
-
-    private fun setupPieChart() {
-        // 파이 차트에 들어갈 데이터 설정
-        val entries = listOf(
-            PieEntry(38f, "놀람"),
-            PieEntry(18f, "두려움"),
-            PieEntry(24f, "슬픔"),
-            PieEntry(12f, "분노"),
-            PieEntry(8f, "혐오")
-        )
-
+    private fun setupPieChart(entries: List<PieEntry>) {
         val dataSet = PieDataSet(entries, "감정 비율")
         dataSet.colors = listOf(
             Color.parseColor("#4CAF50"), // 놀람 (녹색)
@@ -136,6 +136,86 @@ class AnalysisFragment : Fragment() {
         pieChart.setEntryLabelTextSize(12f)
 
         pieChart.invalidate() // 차트 새로고침
+
+        // 퍼센트 로그 출력
+        entries.forEach { entry ->
+            Log.d("AnalysisFragment", "${entry.label}: ${entry.value}%")
+        }
+    }
+
+    private fun fetchEmotionData() {
+        // 현재 로그인된 사용자의 UID를 가져옵니다.
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        // userId가 null인지 확인하여 처리합니다.
+        if (userId == null) {
+            Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 현재 날짜를 기반으로 연도와 월을 가져옵니다.
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0부터 시작하므로 +1 필요
+        val monthFormatted = String.format("%04d-%02d", year, month) // "2024-09" 형태로 포맷
+
+        // Firebase에서 해당 월의 감정 데이터를 가져옵니다.
+        // Firebase에서 해당 월의 감정 데이터를 가져옵니다.
+        database.child("users").child(userId) // 여기에 현재 로그인된 사용자 ID를 사용합니다.
+            .child("monthlyStats").child(monthFormatted) // 월 정보가 포함된 경로 설정
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val sadness = snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val anger = snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val disgust = snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
+
+                        // 가져온 데이터 로그 출력
+                        Log.d("AnalysisFragment", "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust")
+
+                        // 전체 점수 계산
+                        val total = surprise + fear + sadness + anger + disgust
+                        Log.d("AnalysisFragment", "Total Score: $total") // 전체 점수 로그 출력
+
+                        // 전체 점수가 0이 아닐 때 비율 계산
+                        val entries = if (total > 0) {
+                            // 비율 계산
+                            val surprisePercentage = (surprise / total * 100)
+                            val fearPercentage = (fear / total * 100)
+                            val sadnessPercentage = (sadness / total * 100)
+                            val angerPercentage = (anger / total * 100)
+                            val disgustPercentage = (disgust / total * 100)
+
+                            // 비율 로그 출력
+                            Log.d("AnalysisFragment", "Surprise Percentage: $surprisePercentage%, Fear Percentage: $fearPercentage%, Sadness Percentage: $sadnessPercentage%, Anger Percentage: $angerPercentage%, Disgust Percentage: $disgustPercentage%")
+
+                            listOf(
+                                PieEntry(surprisePercentage, "놀람"),
+                                PieEntry(fearPercentage, "두려움"),
+                                PieEntry(sadnessPercentage, "슬픔"),
+                                PieEntry(angerPercentage, "분노"),
+                                PieEntry(disgustPercentage, "혐오")
+                            )
+                        } else {
+                            Log.d("AnalysisFragment", "All emotion scores are zero. Default value will be used.")
+                            listOf(
+                                PieEntry(1f, "없음") // 기본값 추가 (없음)
+                            )
+                        }
+
+                        // 차트 업데이트
+                        setupPieChart(entries)
+                    } else {
+                        Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "데이터 로딩 실패: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
 
@@ -145,9 +225,7 @@ class AnalysisFragment : Fragment() {
         return listOf(
             CardItem("흑백성", R.drawable.ic_planet_a),
             CardItem("걱정성", R.drawable.ic_planet_a),
-            CardItem("과장성", R.drawable.ic_planet_a)
-            // 더 많은 아이템을 가져올 수 있습니다.
-        ).take(2) // 원하는 개수만큼 가져오기
+            CardItem("변화성", R.drawable.ic_planet_a)
+        )
     }
-
 }
