@@ -28,12 +28,12 @@ class MyPageMainActivity : AppCompatActivity() {
     private lateinit var switchPassword: SwitchMaterial
     private lateinit var changePasswordLayout: LinearLayout
     private lateinit var tvChangePassword: TextView
-    private lateinit var btnNotificationDetails: ImageButton
-    private lateinit var btnTermsOfServiceDetails: ImageButton
+    private lateinit var btnNotificationDetails: LinearLayout
+    private lateinit var btnTermsOfServiceDetails: LinearLayout
     private lateinit var btnEditProfile: ImageButton
     private lateinit var tvLogout: TextView
     private lateinit var tvDeleteAccount: TextView
-    private lateinit var btnHowToUseDetails: ImageButton
+    private lateinit var btnHowToUseDetails: LinearLayout
     private lateinit var database: DatabaseReference
     private lateinit var tvnickname: TextView //마이페이지 이름
     private lateinit var googleSignInClient: GoogleSignInClient

@@ -6,16 +6,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.mypage.MyPageDeleteaccoutActivity">
+    tools:context=".ui.activity.mypage.MyPageDeleteaccoutActivity"
+    android:background="@color/background">
 
     <!-- 상단바 -->
     <LinearLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -25,15 +25,10 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
             android:text="회원 탈퇴"
-            android:textSize="18sp" />
-
-        <!-- 구분선 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D3D3D3" />
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/nanumsquareroundregular"/>
     </LinearLayout>
 
     <!-- 설명 텍스트 1 -->
@@ -42,13 +37,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:text="생각 모아를 탈퇴했습니다"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_section" />
@@ -59,12 +54,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="87dp"
         android:layout_marginEnd="16dp"
         android:text="마음이 힘들 땐 \n언제든 나를 찾아와!"
         android:fontFamily="@font/own_mongmongday"
         android:textAlignment="center"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_description_1" />
@@ -74,7 +69,7 @@
         android:id="@+id/img_byecharacter"
         android:layout_width="260dp"
         android:layout_height="260dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/ic_deletecharacter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,14 +79,14 @@
     <android.widget.Button
         android:id="@+id/btn_reset"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
         android:text="처음으로"
         android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

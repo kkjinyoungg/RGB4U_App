@@ -46,7 +46,7 @@
             android:paddingEnd="16dp"
             android:textColor="#FFFFFF"
             android:textColorHint="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/charCountTextView"
