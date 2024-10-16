@@ -17,7 +17,7 @@ class SummaryFragment : Fragment() {
     private lateinit var userContentTextView: TextView
     private lateinit var summarizedTextView: TextView
     private lateinit var whySummaryTextView: TextView
-    private lateinit var toggleButton: ImageButton
+    // private lateinit var toggleButton: ImageButton
     private lateinit var backButton: ImageButton
 
     // Variables to store content passed from the activity
@@ -43,7 +43,7 @@ class SummaryFragment : Fragment() {
         userContentTextView = view.findViewById(R.id.userContentTextView)
         summarizedTextView = view.findViewById(R.id.summarizedTextView)
         whySummaryTextView = view.findViewById(R.id.whySummaryTextView)
-        toggleButton = view.findViewById(R.id.toggleButton)
+        // toggleButton = view.findViewById(R.id.toggleButton)
         backButton = view.findViewById(R.id.backButton)
 
         // UI 업데이트
@@ -73,15 +73,15 @@ class SummaryFragment : Fragment() {
         }
 
         // Toggle visibility of user content with the toggle button
-        toggleButton.setOnClickListener {
-            if (userContentTextView.visibility == View.GONE) {
-                userContentTextView.visibility = View.VISIBLE
-                toggleButton.setImageResource(R.drawable.ic_toggle_up) // 펼쳤을 때 이미지
-            } else {
-                userContentTextView.visibility = View.GONE
-                toggleButton.setImageResource(R.drawable.ic_toggle_down) // 접었을 때 이미지
-            }
-        }
+//        toggleButton.setOnClickListener {
+//            if (userContentTextView.visibility == View.GONE) {
+//                userContentTextView.visibility = View.VISIBLE
+//                toggleButton.setImageResource(R.drawable.ic_toggle_up) // 펼쳤을 때 이미지
+//            } else {
+//                userContentTextView.visibility = View.GONE
+//                toggleButton.setImageResource(R.drawable.ic_toggle_down) // 접었을 때 이미지
+//            }
+//        }
 
         // Set up back button listener
         backButton.setOnClickListener {

@@ -2,6 +2,8 @@ package com.example.rgb4u_app.ui.activity.diary
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList //칩 배경색 추가
+import android.graphics.Color //칩 배경색 추가
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +15,7 @@ import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
-import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
@@ -21,9 +23,9 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
 
-class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
+class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 
-    private lateinit var myRecordFragment: MyRecordFragment
+    private lateinit var myEmotionFragment: MyEmotionFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val selectedEmotions = mutableListOf<String>() // 선택된 감정 리스트
     private lateinit var selectedChipGroup: ChipGroup
@@ -57,13 +59,13 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
         loadingDialog.setContentView(R.layout.summary_loading)
         loadingDialog.setCancelable(false)
 
-        myRecordFragment =
-            supportFragmentManager.findFragmentById(R.id.myrecordFragment) as MyRecordFragment
-        myRecordFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
-        myRecordFragment.showIconForStep(4)
+        myEmotionFragment =
+            supportFragmentManager.findFragmentById(R.id.myemotionFragment) as MyEmotionFragment
+        myEmotionFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
+        myEmotionFragment.showIconForStep(4)
 
         // 버튼 클릭 리스너 설정
-        myRecordFragment.setToolbarButtonListeners(
+        myEmotionFragment.setToolbarButtonListeners(
             backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
             exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
         )
@@ -101,6 +103,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyRecordFragment.NavigationLi
                 chip.text = label
                 chip.isCheckable = true
                 chip.setTextColor(getColor(R.color.black))
+                // 칩 배경색을 설정
+                chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#33FFFFFF"))
 
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     val selectedChipCount = selectedChipGroup.childCount

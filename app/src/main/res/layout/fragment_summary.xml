@@ -4,25 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/background_defult">
 
     <!-- Back button and centered title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_margin="16dp">
+        android:gravity="center_vertical">
 
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back_wh" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -30,14 +29,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="이런 상황에서"
+            android:layout_margin="16dp"
+            android:text="상황"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanumsquareroundregular"/>
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
             android:scaleType="fitCenter" />
     </LinearLayout>
 
@@ -46,56 +47,75 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            >
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내가 쓴 글"
-                android:textStyle="bold"
+                android:text="내가 적은 상황"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nanumsquareroundbold"
                 android:textSize="16sp"
                 android:layout_weight="1"/>
 
-            <ImageButton
-                android:id="@+id/toggleButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_toggle_down"
-                android:scaleType="fitCenter"
-                android:contentDescription="Toggle Content"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/toggleButton"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_toggle_down"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:contentDescription="Toggle Content"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"/>-->
         </LinearLayout>
 
         <TextView
             android:id="@+id/userContentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:text="여기에 사용자가 쓴 글이 나타납니다."
+            android:lineSpacingExtra="8dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
+
+    <!-- 구분선 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/summary_line" />
 
     <!-- '요약된 상황 표현' section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" >
 
         <TextView
             android:id="@+id/summaryLableTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="요약된 상황 표현"
-            android:textStyle="bold"
+            android:text="AI로 요약된 상황"
+            android:textColor="@color/main"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:textSize="16sp"/>
 
         <TextView
@@ -103,6 +123,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="여기에 요약된 상황 표현이 나타납니다."
+            android:textColor="@color/white"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:lineSpacingExtra="8dp"
             android:textSize="14sp"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
@@ -111,38 +134,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_rectangle"
-        android:padding="16dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_note"
-            android:scaleType="fitCenter"
-            android:contentDescription="Info Icon"
-            android:layout_marginEnd="8dp"/>
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_situation"
+            android:scaleType="fitCenter"
+            android:contentDescription="Info Icon"
+            android:layout_marginEnd="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="왜 이렇게 요약됐을까?"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/whySummaryTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="이유에 대한 텍스트가 여기에 나타납니다."
-                android:textSize="14sp"
-                android:layout_marginTop="8dp"/>
+                android:text="왜 이렇게 요약되었을까요"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nanumsquareroundbold"
+                android:textSize="14sp"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/whySummaryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이유에 대한 텍스트가 여기에 나타납니다."
+            android:textSize="14sp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:lineSpacingExtra="8dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rounded_corner_background"
-        android:padding="16dp"
         android:gravity="center"
         android:layout_gravity="center">
 
@@ -19,10 +18,12 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
             android:text="기록을 \n그만두시겠습니까?"
+            android:lineSpacingExtra="8dp"
             android:fontFamily="@font/nanumsquareroundbold"
             android:textSize="18sp"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:gravity="center"
             android:layout_marginBottom="8dp" />
 
@@ -30,9 +31,11 @@
             android:id="@+id/tvSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="기록 중인 내용을 임시 저장하거나 \n삭제할 수 있습니다."
+            android:lineSpacingExtra="8dp"
             android:textSize="14sp"
-            android:fontFamily="@font/nanumsquareroundbold"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
             android:gravity="center"
             android:layout_marginBottom="16dp" />
@@ -41,27 +44,37 @@
             android:id="@+id/btnTemporarySave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:text="임시 저장"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:backgroundTint="@color/main"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:text="삭제"
             android:backgroundTint="@color/gray3"
-            android:textColor="#FF0000"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:textColor="@color/highlight"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:text="취소"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:backgroundTint="@color/gray3"
-            android:textColor="#000000" />
+            android:textColor="@color/black" />
     </LinearLayout>
 
 
