@@ -124,34 +124,29 @@ class AnalysisFragment : Fragment() {
 
     private fun setupPieChart(entries: List<PieEntry>) {
         // 파이 차트에 들어갈 데이터 설정
-        val entries = listOf(
-            PieEntry(38f, "놀람"),
-            PieEntry(18f, "두려움"),
-            PieEntry(24f, "슬픔"),
-            PieEntry(12f, "분노"),
-            PieEntry(8f, "혐오")
-        )
+        val dataSet = PieDataSet(entries, "감정 비율").apply {
+            colors = listOf(
+                Color.parseColor("#4CAF50"), // 놀람 (녹색)
+                Color.parseColor("#FF9800"), // 두려움 (주황색)
+                Color.parseColor("#03A9F4"), // 슬픔 (파란색)
+                Color.parseColor("#F44336"), // 분노 (빨간색)
+                Color.parseColor("#9C27B0")  // 혐오 (보라색)
+            )
+        }
 
-        val dataSet = PieDataSet(entries, "감정 비율")
-        dataSet.colors = listOf(
-            Color.parseColor("#4CAF50"), // 놀람 (녹색)
-            Color.parseColor("#FF9800"), // 두려움 (주황색)
-            Color.parseColor("#03A9F4"), // 슬픔 (파란색)
-            Color.parseColor("#F44336"), // 분노 (빨간색)
-            Color.parseColor("#9C27B0")  // 혐오 (보라색)
-        )
+        val pieData = PieData(dataSet).apply {
+            setValueTextSize(12f)
+            setValueTextColor(Color.WHITE)
 
-        val pieData = PieData(dataSet)  // pieData 먼저 생성
-        pieData.setValueTextSize(12f)
-        pieData.setValueTextColor(Color.WHITE)
+            // 퍼센트 형식으로 값 포맷 지정 (소수점 없이 자연수로 표시)
+            setValueFormatter(object : ValueFormatter() {
+                override fun getPieLabel(value: Float, pieEntry: PieEntry?): String {
+                    return "${Math.round(value)}%" // 소수점 반올림 후 자연수 표시
+                }
+            })
+        }
 
-        // 퍼센트 형식으로 값 포맷 지정 (소수점 없이 자연수로 표시)
-        pieData.setValueFormatter(object : ValueFormatter() {
-            override fun getPieLabel(value: Float, pieEntry: PieEntry?): String {
-                return "${Math.round(value)}%" // 소수점 반올림 후 자연수 표시
-            }
-        })
-
+        // 차트 데이터 설정
         pieChart.data = pieData
 
         // 파이 차트 설정
@@ -166,7 +161,7 @@ class AnalysisFragment : Fragment() {
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.setEntryLabelTextSize(12f)
 
-        pieChart.invalidate() // 차트 새로고침
+        pieChart.invalidate() // 차트 새로 고침
 
         // 퍼센트 로그 출력
         entries.forEach { entry ->
@@ -203,42 +198,63 @@ class AnalysisFragment : Fragment() {
 
                         val total = surprise + fear + sadness + anger + disgust
                         val entries: List<PieEntry> = if (total > 0) {
-                            val surprisePercentage = (surprise / total * 100)
-                            val fearPercentage = (fear / total * 100)
-                            val sadnessPercentage = (sadness / total * 100)
-                            val angerPercentage = (anger / total * 100)
-                            val disgustPercentage = (disgust / total * 100)
+                            // 퍼센트 계산
+                            val surprisePercent = (surprise / total * 100)
+                            val fearPercent = (fear / total * 100)
+                            val sadnessPercent = (sadness / total * 100)
+                            val angerPercent = (anger / total * 100)
+                            val disgustPercent = (disgust / total * 100)
 
-                            // 퍼센트가 0보다 큰 경우에만 텍스트 설정 (없으면 안보이게)
-                            percentSurprise.visibility = if (surprisePercentage > 0) View.VISIBLE else View.GONE
-                            percentSurprise.text = "${Math.round(surprisePercentage)}%"
+                            // TextView에 값 설정 및 보이기/숨기기
+                            if (surprisePercent > 0) {
+                                percentSurprise.text = "${Math.round(surprisePercent)}%"
+                                percentSurprise.visibility = View.VISIBLE
+                            } else {
+                                percentSurprise.visibility = View.GONE
+                            }
 
-                            percentFear.visibility = if (fearPercentage > 0) View.VISIBLE else View.GONE
-                            percentFear.text = "${Math.round(fearPercentage)}%"
+                            if (fearPercent > 0) {
+                                percentFear.text = "${Math.round(fearPercent)}%"
+                                percentFear.visibility = View.VISIBLE
+                            } else {
+                                percentFear.visibility = View.GONE
+                            }
 
-                            percentSadness.visibility = if (sadnessPercentage > 0) View.VISIBLE else View.GONE
-                            percentSadness.text = "${Math.round(sadnessPercentage)}%"
+                            if (sadnessPercent > 0) {
+                                percentSadness.text = "${Math.round(sadnessPercent)}%"
+                                percentSadness.visibility = View.VISIBLE
+                            } else {
+                                percentSadness.visibility = View.GONE
+                            }
 
-                            percentAnger.visibility = if (angerPercentage > 0) View.VISIBLE else View.GONE
-                            percentAnger.text = "${Math.round(angerPercentage)}%"
+                            if (angerPercent > 0) {
+                                percentAnger.text = "${Math.round(angerPercent)}%"
+                                percentAnger.visibility = View.VISIBLE
+                            } else {
+                                percentAnger.visibility = View.GONE
+                            }
 
-                            percentDisgust.visibility = if (disgustPercentage > 0) View.VISIBLE else View.GONE
-                            percentDisgust.text = "${Math.round(disgustPercentage)}%"
+                            if (disgustPercent > 0) {
+                                percentDisgust.text = "${Math.round(disgustPercent)}%"
+                                percentDisgust.visibility = View.VISIBLE
+                            } else {
+                                percentDisgust.visibility = View.GONE
+                            }
 
                             listOf(
-                                PieEntry(surprisePercentage, "놀람"),
-                                PieEntry(fearPercentage, "두려움"),
-                                PieEntry(sadnessPercentage, "슬픔"),
-                                PieEntry(angerPercentage, "분노"),
-                                PieEntry(disgustPercentage, "혐오")
+                                PieEntry(surprisePercent, "놀람"),
+                                PieEntry(fearPercent, "두려움"),
+                                PieEntry(sadnessPercent, "슬픔"),
+                                PieEntry(angerPercent, "분노"),
+                                PieEntry(disgustPercent, "혐오")
                             )
                         } else {
-                            listOf(
-                                PieEntry(1f, "없음")
-                            )
+                            // 데이터가 없을 때
+                            listOf(PieEntry(1f, "없음"))
                         }
-
                         setupPieChart(entries)
+                        // 로그 출력으로 entries 확인
+                        Log.d("계산완료", "Entries: $entries")
                     } else {
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
