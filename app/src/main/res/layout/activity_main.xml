@@ -28,15 +28,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout="@layout/fragment_home" />
 
-    <!-- 임시 버튼 추가 (화면 중앙) -->
-    <Button
-        android:id="@+id/btn_test_distortion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="왜곡 유형 테스트"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
