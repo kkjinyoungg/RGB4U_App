@@ -38,7 +38,7 @@ class NavigationFragment : Fragment() {
         bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    onNavigationButtonClicked(menuItem, HomeFragment())
+                    navigateToMainActivity() // MainActivity로 이동
                     true
                 }
                 R.id.nav_my_record -> {
@@ -61,7 +61,7 @@ class NavigationFragment : Fragment() {
         bottomNav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    onNavigationButtonClicked(menuItem, HomeFragment())
+                    navigateToMainActivity() // MainActivity로 이동
                     true
                 }
                 R.id.nav_my_record -> {
@@ -85,6 +85,12 @@ class NavigationFragment : Fragment() {
             val intent = Intent(activity, DiaryWriteActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    // MainActivity로 이동하는 메소드
+    private fun navigateToMainActivity() {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent) // MainActivity로 이동
     }
 
     private fun navigateToMyPageMainActivity() {
@@ -142,12 +148,10 @@ class NavigationFragment : Fragment() {
                 item.title = "마이페이지"
             }
         }
-        item.icon?.alpha = 128 // 선택되지 않은 아이콘의 투명도 설정
+        // item.icon?.alpha = 128 // 이 줄을 주석 처리하거나 제거합니다.
     }
 
-
     private fun setMenuItemActive(menuItem: MenuItem) {
-        // 선택된 아이콘을 설정하는 부분
         when (menuItem.itemId) {
             R.id.nav_home -> {
                 menuItem.setIcon(R.drawable.ic_home_selected) // 선택된 아이콘
@@ -166,7 +170,6 @@ class NavigationFragment : Fragment() {
                 menuItem.title = "마이페이지"
             }
         }
-        menuItem.icon?.alpha = 255 // 선택된 아이콘의 투명도 설정
+        // menuItem.icon?.alpha = 255 // 이 줄도 주석 처리하거나 제거합니다.
     }
-
 }

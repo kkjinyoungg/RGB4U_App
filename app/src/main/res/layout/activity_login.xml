@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"> <!-- 배경색을 흰색으로 변경 -->
+    android:background="@drawable/background_defult"> <!-- 배경색을 흰색으로 변경 -->
 
     <View
         android:id="@+id/viewLogo"
@@ -20,10 +20,10 @@
         android:id="@+id/tvLogo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="380dp"
         android:fontFamily="@font/uhbeezziba"
         android:text="생각모아"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/viewLogo"
@@ -38,7 +38,7 @@
         android:layout_marginBottom="50dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@drawable/ic_kakaologin"
+        android:background="@drawable/ic_googlelogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493" />
