@@ -42,6 +42,9 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentDisgust: TextView
     private lateinit var percentSurprise: TextView
 
+    // 현재 날짜를 저장하는 변수
+    private val currentDate = Calendar.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,20 +78,16 @@ class AnalysisFragment : Fragment() {
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
 
-        // 현재 날짜 가져오기
-        val currentDate = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
-        val formattedDate = dateFormat.format(currentDate)
-
-        // 툴바에 날짜 설정
-        toolbarCalendarTitle.text = formattedDate
+        // 초기 날짜 설정
+        updateToolbarDate()
 
         // 버튼 설정
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
         // button_calendar_action2의 이미지 리소스 변경
-        buttonAction2.setImageResource(R.drawable.ic_back)
+        buttonAction1.setImageResource(R.drawable.ic_analysis_back) //임시라 추후 수정
+        buttonAction2.setImageResource(R.drawable.ic_analysis_next) //임시라 추후 수정
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -108,20 +107,31 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun moveToPreviousDate() {
-        val currentDate = Calendar.getInstance()
-        currentDate.add(Calendar.DAY_OF_MONTH, -1) // 하루 전으로 이동
-        val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale.getDefault()).format(currentDate.time)
-        toolbarCalendarTitle.text = formattedDate
+        currentDate.add(Calendar.MONTH, -1) // 한 달 전으로 이동
+        updateToolbarDate()
     }
 
     private fun moveToNextDate() {
-        val currentDate = Calendar.getInstance()
-        currentDate.add(Calendar.DAY_OF_MONTH, 1) // 하루 후로 이동
-        val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale.getDefault()).format(currentDate.time)
+        currentDate.add(Calendar.MONTH, 1) // 한 달 후로 이동
+        updateToolbarDate()
+    }
+
+    // 툴바의 날짜를 업데이트하는 메소드
+    private fun updateToolbarDate() {
+        val formattedDate = SimpleDateFormat("yyyy년 MM월", Locale("ko", "KR")).format(currentDate.time)
         toolbarCalendarTitle.text = formattedDate
     }
 
     private fun setupPieChart(entries: List<PieEntry>) {
+        // 파이 차트에 들어갈 데이터 설정
+        val entries = listOf(
+            PieEntry(38f, "놀람"),
+            PieEntry(18f, "두려움"),
+            PieEntry(24f, "슬픔"),
+            PieEntry(12f, "분노"),
+            PieEntry(8f, "혐오")
+        )
+
         val dataSet = PieDataSet(entries, "감정 비율")
         dataSet.colors = listOf(
             Color.parseColor("#4CAF50"), // 놀람 (녹색)
@@ -241,14 +251,12 @@ class AnalysisFragment : Fragment() {
             })
     }
 
-
     // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
     private fun fetchCardData(): List<CardItem> {
-        // 실제 데이터 소스에서 가져온다고 가정
         return listOf(
             CardItem("흑백성", R.drawable.ic_planet_a),
             CardItem("걱정성", R.drawable.ic_planet_a),
-            CardItem("변화성", R.drawable.ic_planet_a)
-        )
+            CardItem("과장성", R.drawable.ic_planet_a)
+        ).take(2) // 원하는 개수만큼 가져오기
     }
 }
