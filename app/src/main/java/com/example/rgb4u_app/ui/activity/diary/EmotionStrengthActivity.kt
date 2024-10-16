@@ -11,6 +11,7 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 
 class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
@@ -118,10 +119,32 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
     }
 
     override fun onToolbarAction2Clicked() {
-        // 툴바의 "exit" 버튼 클릭 시 MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        // TemporarySaveDialogFragment 인스턴스 생성
+        val dialog = TemporarySaveDialogFragment()
+
+        // dialog의 리스너 설정
+        dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
+            override fun onTemporarySave() {
+
+                // SeekBar의 현재 진행 상태와 동적 텍스트를 ViewModel에 저장
+                diaryViewModel.emotionDegree.postValue(seekBar.progress) // 감정 정도 저장
+                diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+
+                val intent = Intent(this@EmotionStrengthActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onDelete() {
+                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
+                val intent = Intent(this@EmotionStrengthActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+        // 팝업 표시
+        dialog.show(supportFragmentManager, "TemporarySaveDialog")
     }
 
 }

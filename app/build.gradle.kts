@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services") //파이어베이스 플러그인
+    id("kotlin-parcelize") // 이 줄 추가
 }
 
 android {
@@ -36,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     compileOptions {
@@ -68,6 +70,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.recyclerview)
 
 
     testImplementation(libs.junit)
@@ -84,4 +87,7 @@ dependencies {
 
     // Google Play services
     implementation("com.google.android.gms:play-services-auth:20.5.0")
+
+    // MPAndroidChart 라이브러리 추가
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

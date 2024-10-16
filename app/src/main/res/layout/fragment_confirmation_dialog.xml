@@ -1,20 +1,23 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/rounded_corner_background"
-    android:backgroundTint="@android:color/transparent">
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:background="@drawable/rounded_corner_background" >
 
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
         android:text="탈퇴하시겠습니까?"
         android:fontFamily="@font/nanumsquareroundbold"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"/>
@@ -23,19 +26,24 @@
         android:id="@+id/dialogMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:text="생각모아를 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. 계속하시겠습니까?"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:lineSpacingExtra="8dp"
         android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/gray2"
         android:gravity="center"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center">
 
         <Button
@@ -44,7 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="취소"
+            android:textSize="14sp"
             android:textColor="@color/black"
+            android:fontFamily="@font/nanumsquareroundregular"
             android:backgroundTint="@color/gray3" />
 
         <Button
@@ -53,9 +63,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="탈퇴"
-            android:backgroundTint="#f1ed68"
+            android:textSize="14sp"
+            android:fontFamily="@font/nanumsquareroundregular"
+            android:backgroundTint="@color/main"
             android:textColor="@android:color/black"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="12dp"/>
     </LinearLayout>
 
 </LinearLayout>

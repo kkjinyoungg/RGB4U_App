@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.NumberPicker
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
 
@@ -147,6 +145,9 @@ class SignUpActivity2 : AppCompatActivity() {
         monthPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
         yearPicker.setOnValueChangedListener { _, _, _ -> updateDayPicker() }
 
+        // Update day picker initially
+        updateDayPicker()
+
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
@@ -164,16 +165,6 @@ class SignUpActivity2 : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun updateDays(daySpinner: Spinner, year: Int, month: Int) {
-        val daysInMonth = when (month) {
-            2 -> if (isLeapYear(year)) 29 else 28
-            4, 6, 9, 11 -> 30
-            else -> 31
-        }
-        val days = (1..daysInMonth).toList()
-        val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
-        // daySpinner.adapter = dayAdapter // 여전히 daySpinner가 사용되지 않음
-    }
 
     private fun isLeapYear(year: Int): Boolean {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)

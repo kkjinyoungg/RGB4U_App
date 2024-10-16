@@ -14,10 +14,10 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 class SummaryFragment : Fragment() {
 
     private lateinit var titleTextView: TextView
+    private lateinit var userContentLabelTextView: TextView
     private lateinit var userContentTextView: TextView
     private lateinit var summarizedTextView: TextView
     private lateinit var whySummaryTextView: TextView
-    private lateinit var toggleButton: ImageButton
     private lateinit var backButton: ImageButton
 
     // Variables to store content passed from the activity
@@ -26,6 +26,7 @@ class SummaryFragment : Fragment() {
     var whySummaryReason: String? = null
     var titleText: String? = null
     var summaryLabelText: String? = null
+    var userContentLabelText: String? = null // 추가된 변수
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +41,14 @@ class SummaryFragment : Fragment() {
 
         // Initialize views
         titleTextView = view.findViewById(R.id.titleTextView)
+        userContentLabelTextView = view.findViewById(R.id.userContentLableTextView) // 올바른 변수명 수정
         userContentTextView = view.findViewById(R.id.userContentTextView)
         summarizedTextView = view.findViewById(R.id.summarizedTextView)
         whySummaryTextView = view.findViewById(R.id.whySummaryTextView)
-        toggleButton = view.findViewById(R.id.toggleButton)
         backButton = view.findViewById(R.id.backButton)
 
         // UI 업데이트
-        updateUI() // UI 업데이트 메서드 호출
+        updateUI()
 
         // Set the text for the title (received from the activity)
         titleText?.let {
@@ -72,15 +73,9 @@ class SummaryFragment : Fragment() {
             view.findViewById<TextView>(R.id.summaryLableTextView).text = it
         }
 
-        // Toggle visibility of user content with the toggle button
-        toggleButton.setOnClickListener {
-            if (userContentTextView.visibility == View.GONE) {
-                userContentTextView.visibility = View.VISIBLE
-                toggleButton.setImageResource(R.drawable.ic_toggle_up) // 펼쳤을 때 이미지
-            } else {
-                userContentTextView.visibility = View.GONE
-                toggleButton.setImageResource(R.drawable.ic_toggle_down) // 접었을 때 이미지
-            }
+        // Set the user content label text
+        userContentLabelText?.let {
+            userContentLabelTextView.text = it
         }
 
         // Set up back button listener
@@ -92,7 +87,6 @@ class SummaryFragment : Fragment() {
             // 현재 Activity를 종료하는 경우, 필요에 따라 추가
             activity?.finish()
         }
-
     }
 
     fun updateUI() {
@@ -104,6 +98,11 @@ class SummaryFragment : Fragment() {
         // summaryLabelText 설정
         summaryLabelText?.let {
             view?.findViewById<TextView>(R.id.summaryLableTextView)?.text = it
+        }
+
+        // userContentLabelText 설정
+        userContentLabelText?.let {
+            userContentLabelTextView.text = it
         }
     }
 

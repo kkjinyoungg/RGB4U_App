@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -11,30 +12,28 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.login.LoginActivity
 import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DataSnapshot
-import android.util.Log
-import android.widget.Switch
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 class MyPageMainActivity : AppCompatActivity() {
 
-    private lateinit var switchPassword: Switch
+    private lateinit var switchPassword: SwitchMaterial
     private lateinit var changePasswordLayout: LinearLayout
     private lateinit var tvChangePassword: TextView
-    private lateinit var btnNotificationDetails: ImageButton
-    private lateinit var btnTermsOfServiceDetails: ImageButton
+    private lateinit var btnNotificationDetails: LinearLayout
+    private lateinit var btnTermsOfServiceDetails: LinearLayout
     private lateinit var btnEditProfile: ImageButton
     private lateinit var tvLogout: TextView
     private lateinit var tvDeleteAccount: TextView
-    private lateinit var btnHowToUseDetails: ImageButton
+    private lateinit var btnHowToUseDetails: LinearLayout
     private lateinit var database: DatabaseReference
     private lateinit var tvnickname: TextView //마이페이지 이름
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -83,6 +82,10 @@ class MyPageMainActivity : AppCompatActivity() {
         val switchState = sharedPreferences.getBoolean("switchPassword", false)
         switchPassword.isChecked = switchState
         changePasswordLayout.visibility = if (switchState) View.VISIBLE else View.GONE
+
+        switchPassword.thumbTintList = resources.getColorStateList(R.color.switch_thumb_color, null)
+        switchPassword.trackTintList = resources.getColorStateList(R.color.switch_track_color, null)
+
 
         // 스위치 상태 변경 리스너 설정
         switchPassword.setOnCheckedChangeListener { _, isChecked ->
@@ -177,9 +180,20 @@ class MyPageMainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 도움말 클릭 리스너
+        // 프로필 수정 클릭 리스너
         btnEditProfile.setOnClickListener {
             val intent = Intent(this, MyPageProfileEditActivity::class.java)
+            startActivity(intent)
+        }
+
+        //알림 설정 클릭 리스너
+        btnNotificationDetails.setOnClickListener{
+            val intent = Intent(this, MyPageNotificationSettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnTermsOfServiceDetails.setOnClickListener{
+            val intent = Intent(this, MyPageServiceCheck::class.java)
             startActivity(intent)
         }
     }
