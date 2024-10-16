@@ -83,6 +83,10 @@ class MyPageMainActivity : AppCompatActivity() {
         switchPassword.isChecked = switchState
         changePasswordLayout.visibility = if (switchState) View.VISIBLE else View.GONE
 
+        switchPassword.thumbTintList = resources.getColorStateList(R.color.switch_thumb_color, null)
+        switchPassword.trackTintList = resources.getColorStateList(R.color.switch_track_color, null)
+
+
         // 스위치 상태 변경 리스너 설정
         switchPassword.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
