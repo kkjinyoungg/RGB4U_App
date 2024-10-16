@@ -59,6 +59,7 @@
             android:layout_marginLeft="16dp" >
 
             <TextView
+                android:id="@+id/userContentLableTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="내가 적은 상황"

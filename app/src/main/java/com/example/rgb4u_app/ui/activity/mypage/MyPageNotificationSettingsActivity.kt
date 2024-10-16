@@ -31,7 +31,6 @@ class MyPageNotificationSettingsActivity : AppCompatActivity() {
         switchAnalysis = findViewById(R.id.switch_analysis)
 
         // Switch 색상 설정
-        // Switch 색상 설정
         switchMessage.thumbTintList = resources.getColorStateList(R.color.switch_thumb_color, null)
         switchMessage.trackTintList = resources.getColorStateList(R.color.switch_track_color, null)
 

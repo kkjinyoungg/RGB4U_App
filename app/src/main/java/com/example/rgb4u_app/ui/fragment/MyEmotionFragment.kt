@@ -36,6 +36,8 @@ class MyEmotionFragment : Fragment() {
     private lateinit var iconEmotionType: ImageView
 
     private lateinit var toolbarTitle: TextView  // 툴바에 있는 제목 텍스트 뷰
+    private lateinit var toolbarAction2: ImageButton // 툴바에 있는 두번째 버튼
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -130,6 +132,11 @@ class MyEmotionFragment : Fragment() {
 
         toolbarAction1?.setOnClickListener { backAction() }
         toolbarAction2?.setOnClickListener { exitAction() }
+    }
+
+    // toolbarAction2를 숨기는 메서드
+    fun hideToolbarAction2() {
+        toolbarAction2.visibility = View.GONE
     }
 
 }
