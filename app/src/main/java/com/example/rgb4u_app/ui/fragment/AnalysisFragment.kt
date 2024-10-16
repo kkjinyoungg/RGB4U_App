@@ -19,6 +19,7 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -35,6 +36,11 @@ class AnalysisFragment : Fragment() {
     private lateinit var pieChart: PieChart
     private lateinit var toolbarCalendarTitle: TextView
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private lateinit var percentFear: TextView
+    private lateinit var percentSadness: TextView
+    private lateinit var percentAnger: TextView
+    private lateinit var percentDisgust: TextView
+    private lateinit var percentSurprise: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +51,14 @@ class AnalysisFragment : Fragment() {
         // RecyclerView 설정
         recyclerView = view.findViewById(R.id.recycler_view_cards)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        // TextView 초기화 (놀람, 두려움, 슬픔, 분노, 혐오)
+        percentFear = view.findViewById(R.id.percent_fear)
+        percentSadness = view.findViewById(R.id.percent_sadness)
+        percentAnger = view.findViewById(R.id.percent_anger)
+        percentDisgust = view.findViewById(R.id.percent_disgust)
+        percentSurprise = view.findViewById(R.id.percent_surprise)
+
 
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
@@ -117,9 +131,16 @@ class AnalysisFragment : Fragment() {
             Color.parseColor("#9C27B0")  // 혐오 (보라색)
         )
 
-        val pieData = PieData(dataSet)
+        val pieData = PieData(dataSet)  // pieData 먼저 생성
         pieData.setValueTextSize(12f)
         pieData.setValueTextColor(Color.WHITE)
+
+        // 퍼센트 형식으로 값 포맷 지정 (소수점 없이 자연수로 표시)
+        pieData.setValueFormatter(object : ValueFormatter() {
+            override fun getPieLabel(value: Float, pieEntry: PieEntry?): String {
+                return "${Math.round(value)}%" // 소수점 반올림 후 자연수 표시
+            }
+        })
 
         pieChart.data = pieData
 
@@ -144,51 +165,55 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun fetchEmotionData() {
-        // 현재 로그인된 사용자의 UID를 가져옵니다.
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
 
-        // userId가 null인지 확인하여 처리합니다.
         if (userId == null) {
             Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // 현재 날짜를 기반으로 연도와 월을 가져옵니다.
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0부터 시작하므로 +1 필요
-        val monthFormatted = String.format("%04d-%02d", year, month) // "2024-09" 형태로 포맷
+        val month = calendar.get(Calendar.MONTH) + 1
+        val monthFormatted = String.format("%04d-%02d", year, month)
 
-        // Firebase에서 해당 월의 감정 데이터를 가져옵니다.
         database.child("users").child(userId)
             .child("monthlyStats").child(monthFormatted).child("emotionsGraph")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        val surprise =
-                            snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val fear =
-                            snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val sadness =
-                            snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val anger =
-                            snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
-                        val disgust =
-                            snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val sadness = snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val anger = snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
+                        val disgust = snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
 
-                        Log.d(
-                            "AnalysisFragment",
-                            "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust"
-                        )
+                        Log.d("AnalysisFragment", "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust")
 
                         val total = surprise + fear + sadness + anger + disgust
-                        val entries = if (total > 0) {
+                        val entries: List<PieEntry> = if (total > 0) {
                             val surprisePercentage = (surprise / total * 100)
                             val fearPercentage = (fear / total * 100)
                             val sadnessPercentage = (sadness / total * 100)
                             val angerPercentage = (anger / total * 100)
                             val disgustPercentage = (disgust / total * 100)
+
+                            // 퍼센트가 0보다 큰 경우에만 텍스트 설정 (없으면 안보이게)
+                            percentSurprise.visibility = if (surprisePercentage > 0) View.VISIBLE else View.GONE
+                            percentSurprise.text = "${Math.round(surprisePercentage)}%"
+
+                            percentFear.visibility = if (fearPercentage > 0) View.VISIBLE else View.GONE
+                            percentFear.text = "${Math.round(fearPercentage)}%"
+
+                            percentSadness.visibility = if (sadnessPercentage > 0) View.VISIBLE else View.GONE
+                            percentSadness.text = "${Math.round(sadnessPercentage)}%"
+
+                            percentAnger.visibility = if (angerPercentage > 0) View.VISIBLE else View.GONE
+                            percentAnger.text = "${Math.round(angerPercentage)}%"
+
+                            percentDisgust.visibility = if (disgustPercentage > 0) View.VISIBLE else View.GONE
+                            percentDisgust.text = "${Math.round(disgustPercentage)}%"
 
                             listOf(
                                 PieEntry(surprisePercentage, "놀람"),
@@ -217,7 +242,7 @@ class AnalysisFragment : Fragment() {
     }
 
 
-        // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
+    // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
     private fun fetchCardData(): List<CardItem> {
         // 실제 데이터 소스에서 가져온다고 가정
         return listOf(

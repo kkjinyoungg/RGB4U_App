@@ -96,7 +96,7 @@ class DiaryViewModel : ViewModel() {
         database.child(diaryId!!).setValue(diaryData)
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공")
-
+                analyzeDiaryWithAI(userId, diaryId!!) // AI 분석 호출
                 // 날짜와 emotionTypes를 가져와서 MonthlyStatsUpdater 호출
                 val date = getCurrentDate() // 현재 날짜
                 val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? List<String> ?: emptyList()
@@ -105,8 +105,6 @@ class DiaryViewModel : ViewModel() {
                 MonthlyStatsUpdater().updateMonthlyStats(userId, diaryId!!, date, emotionTypes) // 월간 통계 업데이트
                 // 로그 추가 - MonthlyStatsUpdater 호출 후
                 Log.d("DiaryViewModel", "MonthlyStatsUpdater 호출 완료")
-
-                analyzeDiaryWithAI(userId, diaryId!!) // AI 분석 호출
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
             }

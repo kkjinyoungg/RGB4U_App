@@ -28,16 +28,18 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <!-- RecyclerView -->
+
+    <!-- 감정 비율 타이틀 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_cards"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_emotion_title"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_emotion_title"
         tools:listitem="@layout/item_card_view" />
 
-    <!-- 감정 비율 타이틀 -->
     <TextView
         android:id="@+id/tv_emotion_ratio_title"
         android:layout_width="wrap_content"
@@ -78,29 +80,38 @@
             android:layout_gravity="center_vertical">
 
             <TextView
+                android:id="@+id/percent_surprise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="놀람: 38%"
+                android:text="놀람NN%"
                 android:textSize="16sp" />
+
             <TextView
+                android:id="@+id/percent_fear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="두려움: 18%"
+                android:text="두려움NN%"
                 android:textSize="16sp" />
+
             <TextView
+                android:id="@+id/percent_sadness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="슬픔: 24%"
+                android:text="슬픔NN%"
                 android:textSize="16sp" />
+
             <TextView
+                android:id="@+id/percent_anger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="분노: 12%"
+                android:text="분노NN%"
                 android:textSize="16sp" />
+
             <TextView
+                android:id="@+id/percent_disgust"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="혐오: 8%"
+                android:text="혐오NN%"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
