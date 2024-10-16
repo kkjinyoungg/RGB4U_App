@@ -3,115 +3,88 @@ package com.example.rgb4u_app.ui.activity.distortiontype
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
-import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class EmotionReselectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
+class EmotionReselectActivity : AppCompatActivity() {
 
-    private lateinit var seekBar: SeekBar
     private lateinit var dynamicTextView: TextView
+    private lateinit var seekBar: SeekBar
+    private lateinit var buttonNext: Button
     private lateinit var squareView: ImageView
-    private lateinit var myEmotionFragment: MyEmotionFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_reselect)
 
-        // FragmentManager를 통해 MyEmotionFragment를 추가
-        val fragmentManager: FragmentManager = supportFragmentManager
-        fragmentManager.commit {
-            replace(R.id.fragment_container, MyEmotionFragment())
-        }
-
-        // 프래그먼트가 추가된 후 toolbarAction2 숨기기
-        fragmentManager.addOnBackStackChangedListener {
-            // 현재 액티비티에 있는 MyEmotionFragment를 찾아서 toolbarAction2 숨기기
-            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? MyEmotionFragment
-            fragment?.hideToolbarAction2()  // hideToolbarAction2 메서드 호출
-        }
-
         // 뷰 초기화
-        seekBar = findViewById(R.id.seekBar)
         dynamicTextView = findViewById(R.id.dynamicTextView)
-        squareView = findViewById(R.id.squareView)
-        myEmotionFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as MyEmotionFragment
+        seekBar = findViewById(R.id.seekBar)
+        squareView = findViewById(R.id.squareView) // ImageView 초기화
+        buttonNext = findViewById(R.id.buttonNext)
 
-        // Set text and icon for fragment
-        myEmotionFragment.setQuestionText(
-            "지금은 부정적인 감정이 \n얼마나 심한지 한 번 더 알려주세요",
-            "생각을 살펴보니 감정이 어떻게 바뀌었나요?"
-        )
+        // 초기 상태에서 squareView에 디폴트 이미지 설정
+        squareView.setImageResource(R.drawable.img_emotion_0)
 
-        // SeekBar 리스너 설정
+        // SeekBar의 진행 상태에 따라 dynamicTextView의 텍스트 변경
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                // SeekBar progress에 따라 텍스트 설정
                 dynamicTextView.text = when (progress) {
-                    0 -> "매우 심하지 않았어"
-                    1 -> "심하지 않았어"
-                    2 -> "보통이었어"
-                    3 -> "심했어"
-                    4 -> "매우 심했어"
+                    0 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_0) // 이미지 리소스 설정
+                        "매우 심하지 않았어"
+                    }
+                    1 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_1) // 이미지 리소스 설정
+                        "심하지 않았어"
+                    }
+                    2 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_2) // 이미지 리소스 설정
+                        "보통이었어"
+                    }
+                    3 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_3) // 이미지 리소스 설정
+                        "심했어"
+                    }
+                    4 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_4) // 이미지 리소스 설정
+                        "매우 심했어"
+                    }
                     else -> ""
                 }
-
-                // 버튼 활성화 상태 설정 (progress가 0~4 사이에 있을 때 활성화)
-                myEmotionFragment.setButtonNextEnabled(progress in 1..4)
-
-                // 감정 단계에 따른 이미지 변경
-                squareView.setImageResource(getImageResId(progress))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // 초기 SeekBar 상태에 따라 Next 버튼 상태 설정
-        myEmotionFragment.setButtonNextEnabled(seekBar.progress in 1..4)
+        // toolbar의 button_write_action2 숨기기
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        val buttonWriteAction2 = toolbar.findViewById<ImageButton>(R.id.button_write_action2)
+        buttonWriteAction2.visibility = View.GONE
 
-        // 프래그먼트가 추가된 후 navigationLayout 숨기기
-        fragmentManager.addOnBackStackChangedListener {
-            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? MyEmotionFragment
-            fragment?.let {
-                val navigationLayout = fragment.view?.findViewById<LinearLayout>(R.id.navigationLayout)
-                navigationLayout?.visibility = View.GONE
-            }
+        // toolbar의 날짜를 보여주는 텍스트뷰 가져오기
+        val toolbarTitle = toolbar.findViewById<TextView>(R.id.toolbar_write_title)
+
+        // 현재 날짜 가져와 설정하기
+        val dateFormat = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
+        val currentDate = dateFormat.format(Date())
+        toolbarTitle.text = currentDate
+
+        // "다음" 버튼 클릭 시 다음 액티비티로 이동
+        buttonNext.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java) // 다음 이동 화면 없어서 메인으로 해둠. 추후 수정 필요
+            startActivity(intent)
         }
     }
-
-    // 감정 단계에 따른 이미지 리소스 ID 반환
-    private fun getImageResId(progress: Int): Int {
-        return when (progress) {
-            0 -> R.drawable.img_emotion_0
-            1 -> R.drawable.img_emotion_1
-            2 -> R.drawable.img_emotion_2
-            3 -> R.drawable.img_emotion_3
-            4 -> R.drawable.img_emotion_4
-            else -> R.drawable.img_emotion_0 // 기본 이미지 처리
-        }
-    }
-
-    // MyEmotionFragment에서 "다음" 버튼 클릭 시 호출되는 메서드
-    override fun onNextButtonClicked() {
-        val intent = Intent(this, MainActivity::class.java) // 추후 MainActivity 대신 올바른 액티비티로 변경
-        startActivity(intent)
-    }
-
-    override fun onToolbarAction1Clicked() {
-        // Toolbar의 첫 번째 버튼 클릭 처리
-    }
-
-    override fun onToolbarAction2Clicked() {
-        // Toolbar의 두 번째 버튼을 숨기기
-
-    }
-
 }

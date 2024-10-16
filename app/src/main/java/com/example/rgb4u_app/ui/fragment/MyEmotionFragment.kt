@@ -134,7 +134,6 @@ class MyEmotionFragment : Fragment() {
         toolbarAction2?.setOnClickListener { exitAction() }
     }
 
-    // toolbarAction2를 숨기는 메서드
     fun hideToolbarAction2() {
         toolbarAction2.visibility = View.GONE
     }
