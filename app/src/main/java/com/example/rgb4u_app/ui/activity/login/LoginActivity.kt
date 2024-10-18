@@ -33,15 +33,15 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance() // Firebase Auth 초기화
 
-        // 자동로그인 방지용 이전 세션 로그아웃
-        auth.signOut()
-
+        //googlesigninoptions 설정
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.client_Id))
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient = GoogleSignIn.getClient(this, gso) //googlesigninclient 초기화
+
+        auth.signOut() // 자동로그인 방지용 이전 세션 로그아웃
 
         // ActivityResultLauncher 초기화
         googleSignInLauncher = registerForActivityResult(
@@ -61,9 +61,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginWithGoogle() {
-        // 매번 새로운 인텐트를 생성하여 로그인 창 띄우기
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent) // 계정 선택 창을 띄움
+        // 로그인 시 계정 선택 창을 항상 띄우기 위해 로그아웃
+        googleSignInClient.signOut().addOnCompleteListener {
+            googleSignInClient.revokeAccess().addOnCompleteListener {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            }
+        }
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {

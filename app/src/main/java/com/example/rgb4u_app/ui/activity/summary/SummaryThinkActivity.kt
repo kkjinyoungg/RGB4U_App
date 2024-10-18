@@ -1,20 +1,18 @@
 package com.example.rgb4u_app.ui.activity.summary
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.SummaryFragment
-import com.google.firebase.database.* // Firebase Realtime Database 관련 클래스
-import android.util.Log // 로그 관련 클래스
-import androidx.activity.viewModels
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.example.rgb4u_app.MyApplication
-import androidx.activity.viewModels // ViewModel을 액티비티에서 가져오기 위한 import
-import com.google.firebase.auth.FirebaseAuth
 
 class SummaryThinkActivity : AppCompatActivity() {
 
@@ -55,6 +53,7 @@ class SummaryThinkActivity : AppCompatActivity() {
 
         summaryFragment.titleText = "생각" //고정 제목
         summaryFragment.summaryLabelText = "AI로 요약된 생각" //고정 제목
+        summaryFragment.userContentLabelText = "내가 적은 생각" //고정 제목
     }
 
     private fun loadAiAnalysisData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {

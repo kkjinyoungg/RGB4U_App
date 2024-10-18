@@ -1,5 +1,5 @@
 package com.example.rgb4u_appclass
-//re
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
@@ -7,10 +7,11 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.example.rgb4u_app.AiSummary //AiSummary 추가
+import com.example.rgb4u_app.AiSummary // AiSummary 추가
+import com.example.rgb4u_app.MonthlyStatsUpdater
 
 class DiaryViewModel : ViewModel() {
-    //.LiveData로 상황, 생각, 감정 정보를 저장
+    // LiveData로 상황, 생각, 감정 정보를 저장
     val situation = MutableLiveData<String>()
     val thoughts = MutableLiveData<String>()
     val emotionDegree = MutableLiveData<Int>()
@@ -31,7 +32,7 @@ class DiaryViewModel : ViewModel() {
         val database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
         // 일기 아이디를 생성
-        diaryId = database.push().key //diaryId 변수를 업데이트
+        diaryId = database.push().key // diaryId 변수를 업데이트
         if (diaryId == null) return // diaryId가 null인 경우 return
 
         // 저장할 데이터 구조
@@ -44,6 +45,10 @@ class DiaryViewModel : ViewModel() {
                     "int" to emotionDegree.value,
                     "string" to emotionString.value
                 ),
+                "reMeasuredEmotionDegree" to mapOf(
+                    "int" to 5, // 재측정된 감정 (임시 데이터)
+                    "string" to "보통" // 감정 상태 (임시 데이터)
+                ),
                 "emotionTypes" to emotionTypes.value
             ),
             "aiAnalysis" to mapOf(
@@ -55,13 +60,35 @@ class DiaryViewModel : ViewModel() {
                     "thoughtsReason" to "AI 생각 분석 이유" // AI 생각 분석 이유 (임시 데이터)
                 ),
                 "secondAnalysis" to mapOf(
-                    "badCharacters" to listOf("캐릭터1", "캐릭터2"), // AI 분석 불안정한 캐릭터 (임시 데이터)
-                    "alternativeThoughts" to "대안적 생각 문장" // 대안적 생각 문장 (임시 데이터)
+                    "totalSets" to 0, // 세트 총 개수 (임시 데이터)
+                    "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
+                    "thoughtSets" to mapOf(
+                        "1" to mapOf(
+                            "selectedThoughts" to "AI 분석 생각 중 발췌된 부분",
+                            "characters" to mapOf(
+                                "int" to 5,
+                                "string" to "보통"
+                            ),
+                            "reasoning" to mapOf(
+                                "charactersReason" to "인지적 오류 나온 이유",
+                                "alternativeThoughts" to "대안적 생각 문장",
+                                "alternativeThoughtsReason" to "대안적 생각 이유"
+                            )
+                        ),
+                        "2" to mapOf(
+                            "selectedThoughts" to "AI 분석 생각 중 발췌된 부분",
+                            "characters" to mapOf(
+                                "int" to 5,
+                                "string" to "보통"
+                            ),
+                            "reasoning" to mapOf(
+                                "charactersReason" to "인지적 오류 나온 이유",
+                                "alternativeThoughts" to "대안적 생각 문장",
+                                "alternativeThoughtsReason" to "대안적 생각 이유"
+                            )
+                        )
+                    )
                 )
-            ),
-            "reMeasuredEmotion" to mapOf(
-                "int" to 5, // 재측정된 감정 (임시 데이터)
-                "string" to "보통" // 감정 상태 (임시 데이터)
             )
         )
 
@@ -69,7 +96,15 @@ class DiaryViewModel : ViewModel() {
         database.child(diaryId!!).setValue(diaryData)
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공")
-                analyzeDiaryWithAI(userId, diaryId!!) //AI 분석 호출
+                analyzeDiaryWithAI(userId, diaryId!!) // AI 분석 호출
+                // 날짜와 emotionTypes를 가져와서 MonthlyStatsUpdater 호출
+                val date = getCurrentDate() // 현재 날짜
+                val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? List<String> ?: emptyList()
+                // 로그 추가 - MonthlyStatsUpdater 호출 전에
+                Log.d("DiaryViewModel", "MonthlyStatsUpdater 호출 준비: userId = $userId, diaryId = $diaryId, date = $date, emotionTypes = $emotionTypes")
+                MonthlyStatsUpdater().updateMonthlyStats(userId, diaryId!!, date, emotionTypes) // 월간 통계 업데이트
+                // 로그 추가 - MonthlyStatsUpdater 호출 후
+                Log.d("DiaryViewModel", "MonthlyStatsUpdater 호출 완료")
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
             }

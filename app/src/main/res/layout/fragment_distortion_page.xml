@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/iv_planet_image"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/ic_planet_a" />
+
+    <TextView
+        android:id="@+id/tv_planet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="행성 이름"
+        android:textSize="26sp"
+        android:fontFamily="@font/own_mongmongday"
+        android:textColor="@color/main"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/tv_short_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="짧은 메시지"
+        android:textSize="18sp"
+        android:lineSpacingExtra="4dp"
+        android:fontFamily="@font/own_mongmongday"
+        android:textColor="@color/white"
+        android:layout_marginTop="4dp" />
+
+    <!-- fragment_distortion_page.xml에서 사용 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_sentences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:overScrollMode="never"
+        android:scrollbars="vertical"
+        android:padding="8dp" />
+</LinearLayout>
