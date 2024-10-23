@@ -13,4 +13,5 @@
     android:fontFamily="@font/nanumsquareroundregular"
     android:textSize="14sp"
     app:chipStrokeWidth="0dp"
+    app:chipSurfaceColor="@android:color/transparent"
     app:chipStrokeColor="@android:color/transparent" />
