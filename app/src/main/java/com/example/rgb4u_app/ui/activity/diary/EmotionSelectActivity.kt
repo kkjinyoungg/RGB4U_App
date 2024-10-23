@@ -184,7 +184,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         selectedChip.setTextColor(getColor(R.color.black))
 
         // 기본 색상으로 설정
-        selectedChip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
+        selectedChip.chipBackgroundColor = getChipColor(category)
         // 원형 모양 설정
         val shapeAppearanceModel = ShapeAppearanceModel.builder()
             .setAllCornerSizes(50f) // 적절한 값으로 설정 (dp 단위로 변경 필요)
