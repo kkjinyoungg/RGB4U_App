@@ -1,12 +1,14 @@
 package com.example.rgb4u_app.ui.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log // 추가된 import
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -15,16 +17,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.analysis.CardAdapter
 import com.example.rgb4u_app.ui.activity.analysis.CardItem
+import com.example.rgb4u_app.ui.activity.analysis.FrequentEmotionsActivity
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -41,6 +44,8 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentAnger: TextView
     private lateinit var percentDisgust: TextView
     private lateinit var percentSurprise: TextView
+    private lateinit var overlayView: View // 반투명 막
+    private lateinit var tvViewDetails: LinearLayout // "자세히 보기" 링크
 
     // 현재 날짜를 저장하는 변수
     private val currentDate = Calendar.getInstance()
@@ -62,7 +67,6 @@ class AnalysisFragment : Fragment() {
         percentDisgust = view.findViewById(R.id.percent_disgust)
         percentSurprise = view.findViewById(R.id.percent_surprise)
 
-
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
@@ -70,11 +74,16 @@ class AnalysisFragment : Fragment() {
         cardAdapter = CardAdapter(cardList) { cardItem ->
             // 카드 클릭 시 상세보기로 이동하는 로직
             Toast.makeText(context, "${cardItem.typeName} 상세보기로 이동", Toast.LENGTH_SHORT).show()
+            // 필요한 경우 다른 액티비티로 이동
+            // 예시:
+            // val intent = Intent(context, DetailActivity::class.java)
+            // startActivity(intent)
         }
         recyclerView.adapter = cardAdapter
 
         // PieChart 설정
         pieChart = view.findViewById(R.id.pie_chart)
+        pieChart.isRotationEnabled = false
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
 
@@ -86,22 +95,38 @@ class AnalysisFragment : Fragment() {
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
         // button_calendar_action2의 이미지 리소스 변경
-        buttonAction1.setImageResource(R.drawable.ic_analysis_back) //임시라 추후 수정
-        buttonAction2.setImageResource(R.drawable.ic_analysis_next) //임시라 추후 수정
+        buttonAction1.setImageResource(R.drawable.ic_analysis_back) // 임시라 추후 수정
+        buttonAction2.setImageResource(R.drawable.ic_analysis_next) // 임시라 추후 수정
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
             // 이전 날짜로 이동하는 로직 추가
             moveToPreviousDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         }
 
         buttonAction2.setOnClickListener {
             // 다음 날짜로 이동하는 로직 추가
             moveToNextDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         }
+
+        // overlayView 초기화
+        overlayView = view.findViewById(R.id.overlay_view) // overlay_view의 ID를 사용하여 초기화
 
         // Firebase에서 감정 데이터 가져오기
         fetchEmotionData()
+
+
+        // "자세히 보기" 링크 초기화 및 클릭 리스너 설정
+        tvViewDetails = view.findViewById(R.id.tv_view_details)
+        tvViewDetails.setOnClickListener {
+            Toast.makeText(context, "자세히 보기를 클릭했습니다.", Toast.LENGTH_SHORT).show()
+            // 필요한 경우 다른 액티비티로 이동
+            // 예시:
+            val intent = Intent(context, FrequentEmotionsActivity::class.java)
+            startActivity(intent)
+        }
 
         return view
     }
@@ -109,11 +134,13 @@ class AnalysisFragment : Fragment() {
     private fun moveToPreviousDate() {
         currentDate.add(Calendar.MONTH, -1) // 한 달 전으로 이동
         updateToolbarDate()
+        fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
     private fun moveToNextDate() {
         currentDate.add(Calendar.MONTH, 1) // 한 달 후로 이동
         updateToolbarDate()
+        fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
     // 툴바의 날짜를 업데이트하는 메소드
@@ -157,7 +184,7 @@ class AnalysisFragment : Fragment() {
         pieChart.setTransparentCircleAlpha(0)
         pieChart.holeRadius = 45f
         pieChart.setDrawEntryLabels(false)
-        pieChart.centerText = "감정 분석"
+        // pieChart.centerText = "감정 분석"
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.setEntryLabelTextSize(12f)
 
@@ -170,6 +197,8 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun fetchEmotionData() {
+        overlayView.visibility = View.VISIBLE // 데이터 로드 전 기본적으로 오버레이를 보이게 설정
+
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
 
@@ -178,7 +207,7 @@ class AnalysisFragment : Fragment() {
             return
         }
 
-        val calendar = Calendar.getInstance()
+        val calendar = currentDate // 현재 날짜 사용
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1
         val monthFormatted = String.format("%04d-%02d", year, month)
@@ -188,6 +217,9 @@ class AnalysisFragment : Fragment() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        // 데이터가 있는 경우 오버레이 숨김
+                        overlayView.visibility = View.GONE
+
                         val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
                         val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
                         val sadness = snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
@@ -256,11 +288,14 @@ class AnalysisFragment : Fragment() {
                         // 로그 출력으로 entries 확인
                         Log.d("계산완료", "Entries: $entries")
                     } else {
+                        // 데이터가 없을 때 오버레이 보임
+                        overlayView.visibility = View.VISIBLE
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    overlayView.visibility = View.VISIBLE // 오류 시 오버레이 보이게 설정
                     Toast.makeText(context, "데이터 로딩 실패: ${error.message}", Toast.LENGTH_SHORT)
                         .show()
                 }

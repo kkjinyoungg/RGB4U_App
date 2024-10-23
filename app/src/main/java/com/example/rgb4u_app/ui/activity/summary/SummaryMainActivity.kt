@@ -2,21 +2,27 @@ package com.example.rgb4u_app.ui.activity.summary
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log // 추가
+import android.util.Log
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
-import com.google.firebase.database.* // Realtime Database 사용을 위한 import
+import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import com.example.rgb4u_appclass.DiaryViewModel
-import androidx.activity.viewModels // ViewModel을 액티비티에서 가져오기 위한 import
-import com.google.firebase.auth.FirebaseAuth
 
 class SummaryMainActivity : AppCompatActivity() {
 
@@ -40,12 +46,16 @@ class SummaryMainActivity : AppCompatActivity() {
         val emotionTypeTextView = findViewById<TextView>(R.id.emotionTypeTextView)
         val emotionIntensityImageView = findViewById<ImageView>(R.id.emotionIntensityImageView)
 
+        // 칩 그룹 참조
+        val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
+        val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
 
         // diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId
 
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
+
 
         if (userId != null && diaryId != null) {
             // aiAnalysis 데이터 조회
@@ -86,6 +96,22 @@ class SummaryMainActivity : AppCompatActivity() {
 
                                 //감정 종류 연결 코드 바꿀 예정
                                 //emotionTypeTextView.text = emotionTypes
+
+                                // ChipGroup에 감정 추가
+                                for (emotion in emotionTypesList) {
+                                    val chip = Chip(this@SummaryMainActivity).apply {
+                                        text = emotion
+                                        isCloseIconVisible = false // 닫기 아이콘 숨기기
+                                        isClickable = false // 칩 클릭 비활성화
+                                        isFocusable = false // 포커스 비활성화
+
+                                        shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                                            .setAllCornerSizes(50f) // 모서리 둥글기
+                                            .build()
+                                    }
+                                    // 선택한 감정 추가
+                                    selectedChipGroup.addView(chip)
+                                }
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {
