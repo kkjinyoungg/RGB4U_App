@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.mypage.MyPageNotificationSettingsActivity"
-    android:background="@color/background">
+    android:background="@drawable/background_light_sub">
 
     <!-- MypageCommonHeaderFragment -->
     <FrameLayout
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="16dp"
             android:text="모아의 메시지"
             android:fontFamily="@font/nanumsquareroundbold"
             android:textColor="@color/black"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:text="하루에 한 번 기록을 까먹지 않도록 알려드려요"
             android:fontFamily="@font/nanumsquareroundregular"
@@ -101,8 +101,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="14dp"
-            android:text="모아의 AI 하루 분석"
+            android:layout_marginTop="16dp"
+            android:text="AI 생각 분석 결과"
             android:textColor="@color/black"
             android:fontFamily="@font/nanumsquareroundbold"
             android:textSize="14sp"
@@ -115,9 +115,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
-            android:text="기록한 내용을 AI로 분석한 결과가 나오면 알려드려요"
+            android:text="AI로 분석된 생각 유형을 알려드려요"
             android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
             android:textSize="12sp"
