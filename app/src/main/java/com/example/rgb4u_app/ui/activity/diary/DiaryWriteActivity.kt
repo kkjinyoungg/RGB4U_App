@@ -56,6 +56,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
         )
 
+        // 프레그먼트에서 요구하는 인터페이스 이미지 구현
+        myRecordFragment.setImage(R.drawable.img_ch_situation)
+
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("어떤 상황이 있었는지 들려주세요", "오늘 힘들었던 순간이 있었나요?")
 

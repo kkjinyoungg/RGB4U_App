@@ -27,6 +27,7 @@ class MyRecordFragment : Fragment() {
 
     private lateinit var questionment: TextView
     private lateinit var subQuestionment: TextView
+    private lateinit var imgCharacter : ImageView
 
     private lateinit var nextButton: Button
 
@@ -60,6 +61,7 @@ class MyRecordFragment : Fragment() {
         iconThought = view.findViewById(R.id.icon_thought)
         iconEmotionStrength = view.findViewById(R.id.icon_emotion_strength)
         iconEmotionType = view.findViewById(R.id.icon_emotion_type)
+        imgCharacter = view.findViewById(R.id.imgCharacter)
 
         // 툴바에서 제목 텍스트 뷰 찾기
         toolbarTitle = view.findViewById(R.id.toolbar_write_title)
@@ -102,6 +104,11 @@ class MyRecordFragment : Fragment() {
     fun setQuestionText(mainQuestion: String, subQuestion: String) {
         questionment.text = mainQuestion
         subQuestionment.text = subQuestion
+    }
+
+    // 모아 이미지를 동적으로 설정하는 메서드
+    fun setImage(resourceId: Int) {
+        imgCharacter.setImageResource(resourceId)
     }
 
     // 모든 아이콘 숨기기

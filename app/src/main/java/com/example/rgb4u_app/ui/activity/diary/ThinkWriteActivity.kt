@@ -50,6 +50,9 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
         )
 
+        // 프레그먼트에서 요구하는 인터페이스 이미지 구현
+        myRecordFragment.setImage(R.drawable.img_ch_think)
+
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("그때 떠오른 생각을 들려주세요", "그 상황에서 어떤 내용이 머릿속을 스쳐갔나요?")
 
