@@ -73,10 +73,10 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         selectedChipGroup = findViewById(R.id.selectedChipGroup)
 
         val emotions = mapOf(
-            "Surprise" to listOf("어안이 벙벙한", "아찔한", "황당한", "깜짝 놀란", "움찔하는", "충격적인"),
-            "Fear" to listOf("걱정스러운", "암담한", "겁나는", "무서운", "불안한", "긴장된"),
-            "Sadness" to listOf("기운 없는", "슬픈", "눈물이 나는", "우울한", "비참한", "서운한"),
-            "Anger" to listOf("화난", "끓어오르는", "분한", "짜증나는", "약 오른", "억울한"),
+            "Surprise" to listOf("움찔하는", "황당한", "깜짝 놀란", "어안이 벙벙한", "아찔한", "충격적인"),
+            "Fear" to listOf("걱정스러운", "긴장된", "불안한", "겁나는", "무서운", "암담한"),
+            "Sadness" to listOf("기운 없는", "서운한", "슬픈", "눈물이 나는", "우울한", "비참한"),
+            "Anger" to listOf("약 오른", "짜증나는", "화난", "억울한", "분한", "끓어오르는"),
             "Disgust" to listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
         )
 
@@ -102,7 +102,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 val chip = inflater.inflate(R.layout.single_chip_item, chipGroup, false) as Chip
                 chip.text = label
                 chip.isCheckable = true
-                chip.setTextColor(getColor(R.color.black))
+                chip.setTextColor(getColor(R.color.white))
                 // 칩 배경색을 설정
                 chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#33FFFFFF"))
 
