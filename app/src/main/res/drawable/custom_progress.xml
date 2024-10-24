@@ -1,23 +1,24 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- SeekBar 배경 -->
+    <!-- SeekBar 배경 이미지 설정 -->
+    <item android:id="@android:id/background"
+        android:drawable="@drawable/img_slider_bg"/> <!-- 원하는 이미지 배경 -->
+
+    <!-- SeekBar 비선택 부분 (배경) -->
     <item>
         <shape>
             <corners android:radius="50dp" />
-            <solid android:color="@color/white_20" />
-            <size android:height="30dp" /> <!-- 비선택 부분의 색상 -->
+            <size android:height="30dp" /> <!-- 배경 높이 설정 -->
         </shape>
     </item>
 
-    <!-- SeekBar 선택된 부분 -->
+    <!-- SeekBar 선택된 진행 부분 (커스텀 색상) -->
     <item android:id="@android:id/progress">
         <clip>
             <shape>
                 <corners android:radius="50dp" />
-                <solid android:color="@color/blue2_30" />
-                <size android:height="30dp"/><!-- 선택된 부분의 색상 -->
+                <solid android:color="@color/blue2_30" /> <!-- 진행된 부분 색상 -->
+                <size android:height="30dp" />
             </shape>
         </clip>
     </item>
-
-
 </layer-list>
