@@ -10,7 +10,7 @@
         android:id="@+id/button_calendar_action1"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_back"
+        android:src="@drawable/ic_back_wh"
         android:contentDescription="동작 버튼"
         android:layout_gravity="start"
         android:layout_marginStart="100dp"

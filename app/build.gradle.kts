@@ -93,4 +93,7 @@ dependencies {
 
     // MPAndroidChart 라이브러리 추가
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // FragmentContainerView는 프래그먼트를 위한 보다 권장되는 컨테이너
+    implementation ("androidx.fragment:fragment-ktx:1.5.7") // 최신 버전 사용 권장
 }
