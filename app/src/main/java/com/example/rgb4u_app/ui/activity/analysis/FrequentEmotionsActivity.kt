@@ -4,8 +4,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -83,7 +85,7 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             surpriseCard.visibility = View.GONE
         } else {
             surpriseCard.visibility = View.VISIBLE
-            updateChipGroup(surpriseChipGroup, emotionsData["surprise"]!!)
+            updateChipGroup(surpriseChipGroup, emotionsData["surprise"]!!, "surprise")
         }
 
         // 두려움 카테고리
@@ -91,7 +93,7 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             fearCard.visibility = View.GONE
         } else {
             fearCard.visibility = View.VISIBLE
-            updateChipGroup(fearChipGroup, emotionsData["fear"]!!)
+            updateChipGroup(fearChipGroup, emotionsData["fear"]!!, "fear")
         }
 
         // 슬픔 카테고리
@@ -99,7 +101,7 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             sadnessCard.visibility = View.GONE
         } else {
             sadnessCard.visibility = View.VISIBLE
-            updateChipGroup(sadnessChipGroup, emotionsData["sadness"]!!)
+            updateChipGroup(sadnessChipGroup, emotionsData["sadness"]!!, "sadness")
         }
 
         // 분노 카테고리
@@ -107,7 +109,7 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             angerCard.visibility = View.GONE
         } else {
             angerCard.visibility = View.VISIBLE
-            updateChipGroup(angerChipGroup, emotionsData["anger"]!!)
+            updateChipGroup(angerChipGroup, emotionsData["anger"]!!, "anger")
         }
 
         // 혐오 카테고리
@@ -115,15 +117,27 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             disgustCard.visibility = View.GONE
         } else {
             disgustCard.visibility = View.VISIBLE
-            updateChipGroup(disgustChipGroup, emotionsData["disgust"]!!)
+            updateChipGroup(disgustChipGroup, emotionsData["disgust"]!!, "disgust")
         }
     }
 
-    private fun updateChipGroup(chipGroup: ChipGroup, emotionList: List<String>) {
+    private fun updateChipGroup(chipGroup: ChipGroup, emotionList: List<String>, emotionType: String) {
         chipGroup.removeAllViews() // 기존 Chip들을 모두 제거
+
+        // 감정 카테고리에 따른 텍스트 색상 설정
+        val textColor = when (emotionType) {
+            "surprise" -> Color.parseColor("#33A080")
+            "fear" -> Color.parseColor("#339EB3")
+            "sadness" -> Color.parseColor("#2795DD")
+            "anger" -> Color.parseColor("#C771C7")
+            "disgust" -> Color.parseColor("#7461D1")
+            else -> Color.BLACK // 기본 색상
+        }
+
         for (emotion in emotionList) {
             val chip = Chip(this).apply {
                 text = emotion
+                setTextAppearance(R.style.chipText) // 폰트 적용
 
                 // 모서리를 둥글게 설정 (50dp로 설정)
                 shapeAppearanceModel = ShapeAppearanceModel.builder()
@@ -133,17 +147,24 @@ class FrequentEmotionsActivity : AppCompatActivity() {
                 // 배경색을 흰색으로 설정
                 chipBackgroundColor = ColorStateList.valueOf(Color.WHITE)
 
+                // 텍스트 색상 설정
+                setTextColor(textColor)
+
                 // 칩의 클릭 불가능, 선택 불가능 설정
                 isClickable = false
                 isCheckable = false
 
                 // 테두리 제거
                 chipStrokeWidth = 0f
-            }
 
+                // Chip의 높이 설정
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, // 너비는 내용에 맞춤
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 52f, resources.displayMetrics).toInt()
+                )// 높이는 52dp
+                layoutParams = params // 설정한 LayoutParams 적용
+            }
             chipGroup.addView(chip)
         }
     }
-
-
 }

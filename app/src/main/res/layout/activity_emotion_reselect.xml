@@ -18,7 +18,7 @@
         android:id="@+id/questionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/nanumsquareroundextrabold"
         android:text="지금은 부정적인 감정이 \n얼마나 심한지 한 번 더 알려주세요"
         android:textAlignment="center"
@@ -42,9 +42,9 @@
 
     <ImageView
         android:id="@+id/squareView"
-        android:layout_width="220sp"
-        android:layout_height="220sp"
-        android:layout_marginTop="195dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,14 +54,14 @@
         android:id="@+id/dynamicTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/own_mongmongday"
         android:text="너무 심하게 느꼈어"
         android:textColor="@android:color/white"
         android:textSize="22sp"
-        android:fontFamily="@font/own_mongmongday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/squareView" />
 
     <!-- 시크바 하단의 레이블 -->
     <TextView
@@ -95,13 +95,12 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
         android:max="4"
         android:progressDrawable="@drawable/custom_progress"
         android:splitTrack="false"
         android:thumb="@drawable/custom_thumb"
+        android:thumbOffset="-0.8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dynamicTextView" />
@@ -109,15 +108,15 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="52dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
-        android:fontFamily="@font/nanumsquareroundregular"
+        android:fontFamily="@font/nanumsquareroundbold"
         android:text="다음"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

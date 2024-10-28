@@ -34,7 +34,7 @@
             android:gravity="center"
             android:text="6월 19일 수요일"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/exitButton"
             app:layout_constraintStart_toEndOf="@id/backButton"
@@ -81,7 +81,7 @@
                 android:id="@+id/summaryTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="72dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/nanumsquareroundbold"
                 android:gravity="center"
                 android:text="나의 하루를 AI로 요약했어요"
@@ -127,7 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nanumsquareroundregular"
-                        android:lineSpacingExtra="8dp"
+                        android:lineSpacingExtra="6dp"
                         android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
@@ -249,6 +249,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/nanumsquareroundbold"
                     android:lineSpacingExtra="4dp"
                     android:text="감정 정도"
@@ -273,7 +274,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:layout_marginLeft="4dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -350,16 +351,18 @@
 
     <!-- 정리 끝 버튼 -->
     <android.widget.Button
+        android:stateListAnimator="@null"
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
         android:text="완료"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:fontFamily="@font/nanumsquareroundbold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

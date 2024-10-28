@@ -6,9 +6,11 @@ import android.content.res.ColorStateList //칩 배경색 추가
 import android.graphics.Color //칩 배경색 추가
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.MyApplication
@@ -22,6 +24,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
+import android.content.Context // 칩 높이
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 
@@ -146,7 +151,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             val selectedChip = Chip(this).apply {
                 text = emotion
                 isCloseIconVisible = true
-                setTextColor(getColor(R.color.black))
+                setTextColor(getColor(R.color.white))
                 setOnCloseIconClickListener {
                     selectedChipGroup.removeView(this)
                     diaryViewModel.emotionTypes.value =
@@ -177,14 +182,33 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         }
     }
 
+    fun Int.dpToPx(context: Context): Int {
+        return (this * context.resources.displayMetrics.density).toInt()
+    }
+
     private fun addChipToSelectedGroup(chip: Chip, category: String) {
         val selectedChip = Chip(this)
         selectedChip.text = chip.text
         selectedChip.isCloseIconVisible = true
-        selectedChip.setTextColor(getColor(R.color.black))
+        // CloseIcon의 리소스를 변경
+        selectedChip.setCloseIconResource(R.drawable.ic_emotion_close)
 
         // 기본 색상으로 설정
         selectedChip.chipBackgroundColor = getChipColor(category)
+
+        // 텍스트 스타일 설정
+        selectedChip.setTextAppearance(R.style.selectedchipText) // 스타일 리소스 사용
+
+        // 칩 높이
+        val params = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            48.dpToPx(this) // 52dp를 px로 변환
+        )
+        selectedChip.layoutParams = params
+
+        // 칩 테두리 투명
+        selectedChip.chipStrokeColor = ColorStateList.valueOf(Color.TRANSPARENT)
+
         // 원형 모양 설정
         val shapeAppearanceModel = ShapeAppearanceModel.builder()
             .setAllCornerSizes(50f) // 적절한 값으로 설정 (dp 단위로 변경 필요)

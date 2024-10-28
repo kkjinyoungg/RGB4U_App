@@ -406,7 +406,7 @@
             <android.widget.Button
                 android:id="@+id/buttonNext"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="64dp"
                 android:layout_marginBottom="24dp"

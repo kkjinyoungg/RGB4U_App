@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/background_light_main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.AnalysisFragment">
 
@@ -47,6 +47,9 @@
         android:id="@+id/recycler_view_cards"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +84,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_emotion_ratio_title">
 
         <!-- 감정 비율 PieChart -->
+
+        <!-- 감정 비율 텍스트 수평 정렬 -->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
             android:layout_width="148dp"
@@ -90,7 +95,6 @@
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="24dp" />
 
-        <!-- 감정 비율 텍스트 수평 정렬 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
