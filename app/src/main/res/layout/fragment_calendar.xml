@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/background_defult">
+
+    <!-- 툴바 -->
+    <include
+        android:id="@+id/toolbar_calendar"
+        layout="@layout/toolbar_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 요일 표시 (일 ~ 토) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_marginTop="40dp">
+
+        <!-- 일 ~ 토까지 TextView로 요일 표시 -->
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="일" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="월" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="화" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="수" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="목" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="금" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+        <TextView android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" android:text="토" android:gravity="center" android:textColor="@color/white" android:textSize="12sp" android:fontFamily="@font/nanumsquareroundbold"/>
+    </LinearLayout>
+
+    <!-- 달력 Grid -->
+    <GridLayout
+        android:id="@+id/calendar_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="7"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+        <!-- 각 날짜 셀 예시 -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1">
+
+            <!-- 도장 이미지 -->
+            <ImageView
+                android:id="@+id/stamp_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/img_emotion_0"
+                android:visibility="gone" />
+
+            <!-- 날짜 텍스트 -->
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="1"
+                android:fontFamily="@font/nanumsquareroundregular"
+                android:textColor="@color/white"
+                android:paddingBottom="8dp"/>
+
+            <!-- 오늘 날짜 표시 배경 -->
+            <View
+                android:id="@+id/today_circle"
+                android:layout_width="30dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle_yellow"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </GridLayout>
+
+    <fragment
+        android:id="@+id/navigationBar"
+        android:name="com.example.rgb4u_app.ui.fragment.NavigationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</LinearLayout>

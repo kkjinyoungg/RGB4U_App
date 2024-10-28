@@ -153,17 +153,18 @@ class AnalysisFragment : Fragment() {
         // 파이 차트에 들어갈 데이터 설정
         val dataSet = PieDataSet(entries, "감정 비율").apply {
             colors = listOf(
-                Color.parseColor("#4CAF50"), // 놀람 (녹색)
-                Color.parseColor("#FF9800"), // 두려움 (주황색)
-                Color.parseColor("#03A9F4"), // 슬픔 (파란색)
-                Color.parseColor("#F44336"), // 분노 (빨간색)
-                Color.parseColor("#9C27B0")  // 혐오 (보라색)
+                Color.parseColor("#86DDC4"), // 놀람
+                Color.parseColor("#5CC1D4"), // 두려움
+                Color.parseColor("#5795DC"), // 슬픔
+                Color.parseColor("#EDA4C1"), // 분노
+                Color.parseColor("#AC88F5")  // 혐오
             )
+            valueTextSize = 0f // 데이터 값 텍스트 크기를 0으로 설정하여 텍스트 제거
+            sliceSpace = 2f // 슬라이스 간의 공간 설정 (4dp)
         }
 
         val pieData = PieData(dataSet).apply {
-            setValueTextSize(12f)
-            setValueTextColor(Color.WHITE)
+            setValueTextSize(0f)
 
             // 퍼센트 형식으로 값 포맷 지정 (소수점 없이 자연수로 표시)
             setValueFormatter(object : ValueFormatter() {
@@ -177,16 +178,17 @@ class AnalysisFragment : Fragment() {
         pieChart.data = pieData
 
         // 파이 차트 설정
-        pieChart.setUsePercentValues(true)
+        pieChart.setUsePercentValues(false)
         pieChart.description.isEnabled = false
         pieChart.isDrawHoleEnabled = true
         pieChart.setHoleColor(Color.TRANSPARENT)
         pieChart.setTransparentCircleAlpha(0)
-        pieChart.holeRadius = 45f
+        pieChart.holeRadius = 64f
         pieChart.setDrawEntryLabels(false)
+        pieChart.legend.isEnabled = false   // 하단 설명 비활성화
         // pieChart.centerText = "감정 분석"
-        pieChart.setEntryLabelColor(Color.BLACK)
-        pieChart.setEntryLabelTextSize(12f)
+        // pieChart.setEntryLabelColor(Color.BLACK)
+        // pieChart.setEntryLabelTextSize(12f)
 
         pieChart.invalidate() // 차트 새로 고침
 

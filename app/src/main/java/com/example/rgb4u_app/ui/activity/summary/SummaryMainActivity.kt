@@ -1,6 +1,8 @@
 package com.example.rgb4u_app.ui.activity.summary
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
@@ -8,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
@@ -49,6 +52,8 @@ class SummaryMainActivity : AppCompatActivity() {
         // 칩 그룹 참조
         val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
         val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
+
+        val temporaryEmotions = listOf("행복", "슬픔", "분노", "놀람") // emotionChipGroup 확인용 임시 데이터
 
         // diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId
@@ -97,7 +102,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 //감정 종류 연결 코드 바꿀 예정
                                 //emotionTypeTextView.text = emotionTypes
 
-                                // ChipGroup에 감정 추가
+                                //selectedChipGroup에 감정 추가
                                 for (emotion in emotionTypesList) {
                                     val chip = Chip(this@SummaryMainActivity).apply {
                                         text = emotion
@@ -108,10 +113,37 @@ class SummaryMainActivity : AppCompatActivity() {
                                         shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                                             .setAllCornerSizes(50f) // 모서리 둥글기
                                             .build()
+
+                                        setTextColor(ContextCompat.getColor(this@SummaryMainActivity, R.color.white)) // 텍스트 색상
                                     }
                                     // 선택한 감정 추가
                                     selectedChipGroup.addView(chip)
                                 }
+
+                                //emotionChipGroup에 감정 추가, 테두리 투명 배경 적용 X... 이유 못찾음
+                                for (emotion in temporaryEmotions) {
+                                    val chip = Chip(this@SummaryMainActivity).apply {
+                                        text = emotion
+                                        isCloseIconVisible = false
+                                        isClickable = false
+                                        isFocusable = false
+
+                                        // Chip 속성 설정
+                                        shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                                            .setAllCornerSizes(50f)
+                                            .build()
+
+                                        setTextColor(ContextCompat.getColor(this@SummaryMainActivity, R.color.white)) // 텍스트 색상
+                                        setChipStrokeColorResource(R.color.white) // 테두리 색상
+                                        chipStrokeWidth = 2f // 테두리 두께
+                                        setChipBackgroundColor(ColorStateList.valueOf(Color.TRANSPARENT)) // 배경색
+                                    }
+
+                                    // ChipGroup에 추가
+                                    findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup).addView(chip)
+                                }
+
+
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {

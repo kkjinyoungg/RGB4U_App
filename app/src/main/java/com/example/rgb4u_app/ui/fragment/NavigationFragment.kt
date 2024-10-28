@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.analysis.AnalysisActivity
+import com.example.rgb4u_app.ui.activity.calendar.CalendarHomeActivity
 import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -42,7 +43,7 @@ class NavigationFragment : Fragment() {
                     true
                 }
                 R.id.nav_my_record -> {
-                    onNavigationButtonClicked(menuItem, MyRecordFragment())
+                    navigateToCalendarHomeActivity()
                     true
                 }
                 R.id.nav_analysis -> {
@@ -65,7 +66,7 @@ class NavigationFragment : Fragment() {
                     true
                 }
                 R.id.nav_my_record -> {
-                    onNavigationButtonClicked(menuItem, MyRecordFragment())
+                    navigateToCalendarHomeActivity()
                     true
                 }
                 R.id.nav_analysis -> {
@@ -91,6 +92,11 @@ class NavigationFragment : Fragment() {
     private fun navigateToMainActivity() {
         val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent) // MainActivity로 이동
+    }
+
+    private fun navigateToCalendarHomeActivity() {
+        val intent = Intent(activity, CalendarHomeActivity::class.java)
+        startActivity(intent) // CalendarHomeActivity로 이동
     }
 
     private fun navigateToMyPageMainActivity() {

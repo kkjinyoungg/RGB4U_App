@@ -65,14 +65,15 @@
 
     <!-- ScrollView 추가 -->
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonNext"
         app:layout_constraintTop_toBottomOf="@+id/topLayout">
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -282,7 +283,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanumsquareroundregular"
-                            android:text="5단계 중 4단계"
+                            android:text="4단계"
                             android:textColor="@color/gray3"
                             android:textSize="10sp" />
 
@@ -339,6 +340,9 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     app:chipSpacing="8dp"
+                    app:chipStrokeColor="@color/white"
+                    app:chipStrokeWidth="2dp"
+                    app:chipBackgroundColor="@android:color/transparent"
                     app:closeIconEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -351,7 +355,6 @@
 
     <!-- 정리 끝 버튼 -->
     <android.widget.Button
-        android:stateListAnimator="@null"
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
         android:layout_height="52dp"
