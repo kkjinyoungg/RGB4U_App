@@ -1,6 +1,5 @@
 package com.example.rgb4u_app.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,10 +10,10 @@ import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.calendar.CalendarChangedDayActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -24,6 +23,7 @@ class CalendarFragment : Fragment() {
     private lateinit var calendarGrid: GridLayout
     private lateinit var textCurrentMonth: TextView
     private var currentCalendar = Calendar.getInstance()
+    private lateinit var buttonAction2: ImageButton // 클래스 속성으로 선언
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class CalendarFragment : Fragment() {
 
         // 버튼을 뷰에서 찾기
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
-        val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
+        buttonAction2 = view.findViewById(R.id.button_calendar_action2) // buttonAction2 초기화
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -49,12 +49,31 @@ class CalendarFragment : Fragment() {
 
 
         updateCalendar()
+        checkNextButtonAvailability(Calendar.getInstance()) // 처음 시작할 때 버튼 상태 확인
         return view
     }
 
     private fun changeMonth(monthOffset: Int) {
+        val today = Calendar.getInstance()
+
+        // 현재 날짜가 속한 달보다 이후로 넘어가지 않도록 체크
+        if (monthOffset > 0 && (currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) &&
+            (currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH))) {
+            Toast.makeText(requireContext(), "현재 달보다 이후로 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         currentCalendar.add(Calendar.MONTH, monthOffset)
         updateCalendar()
+        checkNextButtonAvailability(today)
+    }
+
+    private fun checkNextButtonAvailability(today: Calendar) {
+        // currentCalendar가 오늘 날짜를 포함하는 달인지 확인
+        buttonAction2.isEnabled = !(
+                currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                        currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                )
     }
 
     private fun updateCalendar() {
@@ -130,14 +149,14 @@ class CalendarFragment : Fragment() {
     }
 
     private fun navigateToDetail(day: Int) {
-        val selectedDate = SimpleDateFormat("M월 dd일 E요일", Locale.getDefault()).format(currentCalendar.apply {
-            set(Calendar.DAY_OF_MONTH, day)
-        }.time)
+        // 클릭한 날짜에 대한 토스트 메시지 표시
+        Toast.makeText(requireContext(), "${day}일 클릭됨", Toast.LENGTH_SHORT).show()
 
-        // 클릭한 날짜 상세 화면으로 이동
-        val intent = Intent(requireContext(), CalendarChangedDayActivity::class.java)
-        intent.putExtra("SELECTED_DATE", selectedDate) // 키 수정
-        startActivity(intent)
+        // 클릭한 날짜 상세 화면으로 이동 (예시)
+        //val intent = Intent(requireContext(), DetailActivity::class.java)
+        //intent.putExtra("SELECTED_DAY", day)
+        //startActivity(intent)
+
     }
 
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.databinding.FragmentChangedDayBinding
-import com.example.rgb4u_app.ui.activity.calendar.CalendarHomeActivity
+import com.example.rgb4u_app.ui.activity.MainActivity
 
 class ChangedDayFragment : Fragment() {
     private lateinit var binding: FragmentChangedDayBinding
@@ -55,8 +55,8 @@ class ChangedDayFragment : Fragment() {
 
         // 확인 버튼 클릭 리스너
         binding.confirmButton.setOnClickListener {
-            // CalendarHomeActivity로 이동
-            val intent = Intent(requireActivity(), CalendarHomeActivity::class.java)
+            // MainActivity로 이동
+            val intent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
         }
 
