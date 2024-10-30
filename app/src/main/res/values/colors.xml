@@ -41,9 +41,9 @@
     <color name="defaultChipColor">#33FFFFFF</color>
 
     //마이페이지 비번 설정과 변경 파트에서의 텍스트 색상
-    <color name="default_text_color">#000000</color>
+    <color name="default_text_color">#262627</color>
     <color name="selected_text_color">#6883B8</color>
-    <color name="error_text_color">#FF0000</color>
+    <color name="error_text_color">#FAADAD</color>
 
 
     <color name="your_background_color">#D9D9D9</color>
@@ -55,11 +55,11 @@
     <color name="angerColor">#EDA4C1</color>
     <color name="disgustColor">#AC88F5</color>
 
-    <color name="surpriseColor_10">#F4FBF9</color>
-    <color name="fearColor_10">#EFF8FA</color>
-    <color name="sadnessColor_10">#EEF7FC</color>
-    <color name="angerColor_10">#FBF7FB</color>
-    <color name="disgustColor_10">#F4F3FC</color>
+    <color name="surpriseColor_10">#1A86DDC4</color>
+    <color name="fearColor_10">#1A5CC1D4</color>
+    <color name="sadnessColor_10">#1A5795DC</color>
+    <color name="angerColor_10">#1AEDA4C1</color>
+    <color name="disgustColor_10">#1AAC88F5</color>
 
     <color name="surpriseColor_dark">#33A080</color>
     <color name="fearColor_dark">#339EB3</color>

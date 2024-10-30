@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_defult"
-    tools:context=".ui.fragment.MyRecordFragment">
+    tools:context=".ui.fragment.MyThinkFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -151,7 +151,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imgCharacter"
+        android:id="@+id/img_ch_situation"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginTop="24dp"
@@ -171,7 +171,7 @@
         android:textAlignment="center"
         android:textColor="#FFE661"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/imgCharacter" />
+        app:layout_constraintTop_toBottomOf="@+id/img_ch_situation" />
 
     <TextView
         android:id="@+id/subQuestionment"
@@ -189,16 +189,15 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:elevation="0dp"
-        android:stateListAnimator="@null"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/nanumsquareroundbold"
         android:text="다음"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

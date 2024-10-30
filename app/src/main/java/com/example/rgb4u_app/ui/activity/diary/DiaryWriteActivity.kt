@@ -21,6 +21,7 @@ import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
+import android.view.View
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -56,6 +57,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
         )
 
+        // 프레그먼트에서 요구하는 인터페이스 이미지 구현
+        myRecordFragment.setImage(R.drawable.img_ch_situation)
+
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("어떤 상황이 있었는지 들려주세요", "오늘 힘들었던 순간이 있었나요?")
 
@@ -72,6 +76,17 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val inputField = findViewById<EditText>(R.id.inputField)
         val charCountTextView = findViewById<TextView>(R.id.charCountTextView)
         val buttonNext = myRecordFragment.view?.findViewById<Button>(R.id.buttonNext)
+
+        // 텍스트 필드 포커스 변경에 따른 테두리 변경
+        inputField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // 포커스가 있을 때 테두리 추가
+                inputField.setBackgroundResource(R.drawable.edittext_border)
+            } else {
+                // 포커스가 없을 때 테두리 제거
+                inputField.setBackgroundResource(R.drawable.edittext_no_border)
+            }
+        }
 
         // 초기 상태로 버튼 비활성화
         buttonNext?.isEnabled = false

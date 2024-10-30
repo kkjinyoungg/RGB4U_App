@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -50,6 +51,9 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             exitAction = { onToolbarAction2Clicked() } // 나가기 버튼 동작
         )
 
+        // 프레그먼트에서 요구하는 인터페이스 이미지 구현
+        myRecordFragment.setImage(R.drawable.img_ch_think)
+
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
         myRecordFragment.setQuestionText("그때 떠오른 생각을 들려주세요", "그 상황에서 어떤 내용이 머릿속을 스쳐갔나요?")
 
@@ -65,6 +69,18 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         val inputField = findViewById<EditText>(R.id.inputField)
         val charCountTextView = findViewById<TextView>(R.id.charCountTextView)
         val buttonNext = myRecordFragment.view?.findViewById<Button>(R.id.buttonNext)
+
+        // 텍스트 필드 포커스 변경에 따른 테두리 변경
+        inputField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // 포커스가 있을 때 테두리 추가
+                inputField.setBackgroundResource(R.drawable.edittext_border)
+            } else {
+                // 포커스가 없을 때 테두리 제거
+                inputField.setBackgroundResource(R.drawable.edittext_no_border)
+            }
+        }
+
 
         // 초기 상태로 버튼 비활성화
         buttonNext?.isEnabled = false
