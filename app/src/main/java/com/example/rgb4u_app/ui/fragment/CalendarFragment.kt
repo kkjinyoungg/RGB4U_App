@@ -63,6 +63,8 @@ class CalendarFragment : Fragment() {
         val maxDay = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         currentCalendar.set(Calendar.DAY_OF_MONTH, 1)
         val startDay = currentCalendar.get(Calendar.DAY_OF_WEEK) - 1 // 일요일부터 시작
+        val customFont = ResourcesCompat.getFont(requireContext(), R.font.nanumsquareroundregular) // 폰트 리소스 가져오기
+
 
         for (i in 0 until startDay + maxDay) {
             val frameLayout = FrameLayout(requireContext()).apply {
@@ -80,6 +82,8 @@ class CalendarFragment : Fragment() {
                 }
                 gravity = Gravity.CENTER
                 textSize = 12f  // 텍스트 크기를 12sp로 설정
+                typeface = customFont // 폰트 설정
+
                 setTextColor(ResourcesCompat.getColor(resources, R.color.white, null)) // 텍스트 색상 설정
 
                 if (i >= startDay) {
@@ -101,6 +105,7 @@ class CalendarFragment : Fragment() {
                         }
                         frameLayout.addView(todayCircle)
                         setTextColor(ResourcesCompat.getColor(resources, R.color.black, null))
+                        typeface = customFont // 폰트 설정
                     }
 
                     // 도장 이미지 표시 (예: 1일에 도장이 찍힌다고 가정)

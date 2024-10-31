@@ -41,52 +41,38 @@
             app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 구분선 -->
-
-    <LinearLayout
+    <!-- 프로그레스바 -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/main"/> <!-- 진한 회색 -->
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/main"/> <!-- 진한 회색으로 수정 -->
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_singup_birthday_progress" />
 
     <!-- 타이틀 텍스트 -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:text="생일이 언제야?"
-        android:textColor="@color/black"
-        android:fontFamily="@font/own_mongmongday"
-        android:textSize="28sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="생일에 모아가 축하해 줄게요!"
-        android:fontFamily="@font/nanumsquareroundregular"
-        android:textColor="@color/gray2"
+        android:gravity="center"
+        android:text="생일을 선택해주세요"
+        android:textColor="@color/blue2"
+        android:fontFamily="@font/nanumsquareroundextrabold"
         android:textSize="16sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="생일이 되면 축하해드릴게요!"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/gray2"
+        android:textSize="12sp"/>
+
+    <!-- 생일 입력 필드와 달력 버튼을 감싸는 FrameLayout -->
+
+    <!-- 생일 입력 필드 -->
     <!-- 생일 입력 필드와 달력 버튼을 감싸는 FrameLayout -->
     <FrameLayout
         android:layout_width="match_parent"
@@ -101,11 +87,12 @@
             android:id="@+id/birthdayInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="YYYY년 MM월 DD일"
-            android:padding="12dp"
-            android:background="@drawable/rounded_edittext"
+            android:hint="2024년 10월 30일"
+            android:padding="16dp"
+            android:background="@drawable/profile_edit_text_background"
             android:fontFamily="@font/nanumsquareroundregular"
-            android:textColor="@color/gray2"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:focusable="false"/>
 
@@ -115,7 +102,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/ic_calendar"
             android:contentDescription="@string/calendar_icon"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -131,13 +118,15 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:text="완료"
+        android:elevation="0dp"
+        android:textSize="14sp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nanumsquareroundbold"
-        android:textColor="@color/black"
-        android:background="@drawable/rounded_button"/>
+        android:textColor="@color/light_button_text_color"
+        android:background="@drawable/rounded_button_light"/>
 </LinearLayout>

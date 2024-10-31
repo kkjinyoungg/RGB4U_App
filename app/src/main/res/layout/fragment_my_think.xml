@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_defult"
-    tools:context=".ui.fragment.MyThinkFragment">
+    tools:context=".ui.fragment.MyRecordFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -198,7 +198,7 @@
         android:fontFamily="@font/nanumsquareroundbold"
         android:text="다음"
         android:textSize="16sp"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_button_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

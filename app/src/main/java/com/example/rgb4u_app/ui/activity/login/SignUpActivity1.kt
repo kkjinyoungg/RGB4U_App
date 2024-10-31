@@ -37,8 +37,18 @@ class SignUpActivity1 : AppCompatActivity() {
         buttonNext = findViewById(R.id.buttonNext)
         buttonBack = findViewById(R.id.buttonBack)
 
+        // 닉네임 입력 시 테두리 색상 변경
+        editTextNickname.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // nicknameEditText가 선택되면 테두리 색을 main으로 변경하고 birthdateEditText는 기본 색상으로
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_main_background)
+            } else {
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_default_background)
+            }
+        }
+
         // 에러 메시지의 텍스트 색상 빨간색으로 설정
-        errorMessage.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
+        errorMessage.setTextColor(ContextCompat.getColor(this, R.color.highlight))
 
         // EditText의 최대 입력 길이를 11자로 설정
         editTextNickname.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(11))
@@ -100,8 +110,9 @@ class SignUpActivity1 : AppCompatActivity() {
                 errorMessage.visibility = TextView.VISIBLE
 
                 // 11자를 입력하면 charCount와 밑줄 색상을 빨간색으로 변경
-                charCount.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
-                editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.error_text_color)) // 밑줄 색상 변경
+                charCount.setTextColor(ContextCompat.getColor(this, R.color.highlight))
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_error_background)
+                // editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.highlight)) // 밑줄 색상 변경
 
                 setButtonState(false)
             }
@@ -110,8 +121,9 @@ class SignUpActivity1 : AppCompatActivity() {
                 errorMessage.visibility = TextView.VISIBLE
 
                 // charCount와 밑줄 색상을 빨간색으로 변경
-                charCount.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
-                editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.error_text_color)) // 밑줄 색상 변경
+                charCount.setTextColor(ContextCompat.getColor(this, R.color.highlight))
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_error_background)
+                // editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.highlight)) // 밑줄 색상 변경
 
                 setButtonState(false)
             }
@@ -120,7 +132,8 @@ class SignUpActivity1 : AppCompatActivity() {
 
                 // 10자 이내면 charCount와 밑줄 색상을 검정색으로 변경
                 charCount.setTextColor(ContextCompat.getColor(this, android.R.color.black))
-                editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.black)) // 밑줄 색상 원래대로
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_default_background)
+                // editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.black)) // 밑줄 색상 원래대로
 
                 setButtonState(true) // 유효한 경우 버튼 활성화
             }

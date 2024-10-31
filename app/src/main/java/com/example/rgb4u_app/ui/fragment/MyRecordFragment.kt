@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import java.text.SimpleDateFormat
@@ -32,6 +34,7 @@ class MyRecordFragment : Fragment() {
     private lateinit var nextButton: Button
 
     private lateinit var iconSituation: ImageView
+    private lateinit var textSituation: TextView
     private lateinit var iconThought: ImageView
     private lateinit var iconEmotionStrength: ImageView
     private lateinit var iconEmotionType: ImageView
@@ -62,6 +65,7 @@ class MyRecordFragment : Fragment() {
         iconEmotionStrength = view.findViewById(R.id.icon_emotion_strength)
         iconEmotionType = view.findViewById(R.id.icon_emotion_type)
         imgCharacter = view.findViewById(R.id.imgCharacter)
+        textSituation = view.findViewById(R.id.text_situation)
 
         // 툴바에서 제목 텍스트 뷰 찾기
         toolbarTitle = view.findViewById(R.id.toolbar_write_title)
@@ -124,12 +128,53 @@ class MyRecordFragment : Fragment() {
         hideAllIcons() // 우선 모든 아이콘 숨기기
 
         when (step) {
-            1 -> iconSituation.visibility = View.VISIBLE
-            2 -> iconThought.visibility = View.VISIBLE
-            3 -> iconEmotionStrength.visibility = View.VISIBLE
-            4 -> iconEmotionType.visibility = View.VISIBLE
+            1 -> {
+                iconSituation.visibility = View.VISIBLE
+                textSituation.apply {
+                    visibility = View.VISIBLE
+                    setTextColor(ContextCompat.getColor(context, R.color.white_40)) // 선택된 색상으로 변경
+                    typeface = ResourcesCompat.getFont(
+                        context,
+                        R.font.nanumsquareroundbold
+                    ) // 폰트를 bold로 변경
+                }
+            }
+
+            2 -> {
+                iconThought.visibility = View.VISIBLE
+                textSituation.apply {
+                    visibility = View.VISIBLE
+                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
+                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
+                }
+            }
+
+            3 -> {
+                iconEmotionStrength.visibility = View.VISIBLE
+                textSituation.apply {
+                    visibility = View.VISIBLE
+                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
+                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
+                }
+            }
+
+            4 -> {
+                iconEmotionType.visibility = View.VISIBLE
+                textSituation.apply {
+                    visibility = View.VISIBLE
+                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
+                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
+                }
+            }
+//        when (step) {
+//            1 -> iconSituation.visibility = View.VISIBLE
+//            2 -> iconThought.visibility = View.VISIBLE
+//            3 -> iconEmotionStrength.visibility = View.VISIBLE
+//            4 -> iconEmotionType.visibility = View.VISIBLE
+//        }
         }
     }
+
 
     fun setToolbarButtonListeners(backAction: () -> Unit, exitAction: () -> Unit) {
         val toolbarAction1 = view?.findViewById<ImageButton>(R.id.button_write_action1)
