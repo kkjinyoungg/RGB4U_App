@@ -46,6 +46,8 @@ class SignUpActivity2 : AppCompatActivity() {
         // 달력 버튼 클릭 시 스피너 방식으로 생년월일 선택
         calendarBtn.setOnClickListener {
             showDateSpinnerDialog()
+            birthdayInput.setBackgroundResource(R.drawable.et_nickname_main_background) //테두리
+
         }
 
         buttonBack.setOnClickListener {

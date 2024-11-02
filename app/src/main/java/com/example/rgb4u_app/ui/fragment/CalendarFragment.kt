@@ -23,7 +23,6 @@ class CalendarFragment : Fragment() {
     private lateinit var calendarGrid: GridLayout
     private lateinit var textCurrentMonth: TextView
     private var currentCalendar = Calendar.getInstance()
-    private lateinit var buttonAction2: ImageButton // 클래스 속성으로 선언
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +35,7 @@ class CalendarFragment : Fragment() {
 
         // 버튼을 뷰에서 찾기
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
-        buttonAction2 = view.findViewById(R.id.button_calendar_action2) // buttonAction2 초기화
+        val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -49,31 +48,12 @@ class CalendarFragment : Fragment() {
 
 
         updateCalendar()
-        checkNextButtonAvailability(Calendar.getInstance()) // 처음 시작할 때 버튼 상태 확인
         return view
     }
 
     private fun changeMonth(monthOffset: Int) {
-        val today = Calendar.getInstance()
-
-        // 현재 날짜가 속한 달보다 이후로 넘어가지 않도록 체크
-        if (monthOffset > 0 && (currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) &&
-            (currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH))) {
-            Toast.makeText(requireContext(), "현재 달보다 이후로 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         currentCalendar.add(Calendar.MONTH, monthOffset)
         updateCalendar()
-        checkNextButtonAvailability(today)
-    }
-
-    private fun checkNextButtonAvailability(today: Calendar) {
-        // currentCalendar가 오늘 날짜를 포함하는 달인지 확인
-        buttonAction2.isEnabled = !(
-                currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
-                        currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)
-                )
     }
 
     private fun updateCalendar() {
@@ -83,6 +63,8 @@ class CalendarFragment : Fragment() {
         val maxDay = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         currentCalendar.set(Calendar.DAY_OF_MONTH, 1)
         val startDay = currentCalendar.get(Calendar.DAY_OF_WEEK) - 1 // 일요일부터 시작
+        val customFont = ResourcesCompat.getFont(requireContext(), R.font.nanumsquareroundregular) // 폰트 리소스 가져오기
+
 
         for (i in 0 until startDay + maxDay) {
             val frameLayout = FrameLayout(requireContext()).apply {
@@ -99,7 +81,9 @@ class CalendarFragment : Fragment() {
                     gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
                 }
                 gravity = Gravity.CENTER
-                textSize = 14f  // 텍스트 크기를 12sp로 설정
+                textSize = 12f  // 텍스트 크기를 12sp로 설정
+                typeface = customFont // 폰트 설정
+
                 setTextColor(ResourcesCompat.getColor(resources, R.color.white, null)) // 텍스트 색상 설정
 
                 if (i >= startDay) {
@@ -121,6 +105,7 @@ class CalendarFragment : Fragment() {
                         }
                         frameLayout.addView(todayCircle)
                         setTextColor(ResourcesCompat.getColor(resources, R.color.black, null))
+                        typeface = customFont // 폰트 설정
                     }
 
                     // 도장 이미지 표시 (예: 1일에 도장이 찍힌다고 가정)
@@ -158,7 +143,6 @@ class CalendarFragment : Fragment() {
         //startActivity(intent)
 
     }
-
 
     // dpToPx 확장 함수
     private fun Int.dpToPx(): Int {

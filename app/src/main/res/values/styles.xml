@@ -28,8 +28,10 @@
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
     </style>
 
+    <!-- 폰트 스타일 -->
     <style name="Bd2_Bold">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
     </style>
 </resources>

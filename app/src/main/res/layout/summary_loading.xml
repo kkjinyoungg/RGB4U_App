@@ -5,14 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_defult">
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/illustration"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="240dp"-->
+<!--        android:src="@drawable/img_loading" />-->
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/illustration"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="240dp"
-        android:src="@drawable/img_loading" />
+        android:layout_centerHorizontal="true"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading_ch.json"
+        app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/textView2"

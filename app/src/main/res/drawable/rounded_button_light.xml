@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/main_30_dark" /> <!-- 비활성 상태 색상 (연회색) -->
+            <solid android:color="@color/main_20" /> <!-- 비활성 상태 색상 (연회색) -->
             <corners android:radius="50dp" /> <!-- 둥근 모서리 -->
         </shape>
     </item>

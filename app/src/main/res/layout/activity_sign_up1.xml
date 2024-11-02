@@ -41,88 +41,105 @@
 
 
     <!-- 진한 회색과 옅은 회색으로 나누어진 박스 -->
-    <LinearLayout
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="8dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@color/main" /> &lt;!&ndash; 진한 회색 &ndash;&gt;-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@color/gray4" /> &lt;!&ndash; 옅은 회색 &ndash;&gt;-->
+<!--    </LinearLayout>-->
+
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_singup_nickname_progress" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/main" /> <!-- 진한 회색 -->
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/gray4" /> <!-- 옅은 회색 -->
-    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:text="닉네임이 뭐야?"
-        android:textColor="@color/black"
-        android:fontFamily="@font/own_mongmongday"
-        android:textSize="28sp" /> <!-- 크기 변경 -->
+        android:gravity="center"
+        android:text="닉네임을 적어주세요"
+        android:textColor="@color/blue2"
+        android:fontFamily="@font/nanumsquareroundextrabold"
+        android:textSize="16sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="앞으로 이 닉네임으로 불러줄게!"
-        android:layout_marginLeft="16dp"
-        android:fontFamily="@font/nanumsquareroundregular"
-        android:textColor="@color/gray2"
-        android:textSize="16sp" /> <!-- 크기 변경 -->
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="앞으로 닉네임으로 불러드릴게요!"
+        android:gravity="center"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/gray2"
+        android:textSize="12sp" /> <!-- 크기 변경 -->
+
+    <FrameLayout
+        android:id="@+id/nicknameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname_label">
+
 
         <EditText
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/darker_gray"
+            android:layout_height="48dp"
+            android:background="@drawable/profile_edit_text_background"
             android:fontFamily="@font/nanumsquareroundregular"
-            android:hint="닉네임을 적어줘"
-            android:textColor="@color/gray2"
-            android:inputType="text"
+            android:gravity="center_vertical"
             android:maxLength="10"
             android:padding="16dp"
+            android:hint="나중에 언제든지 수정할 수 있어요."
+            android:textColorHint="@color/gray2"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
+        <!-- 글자수 TextView 오버레이 -->
         <TextView
             android:id="@+id/charCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:textColor="@color/gray2"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/nanumsquareroundregular"
-            android:text="0/10" />
+            android:text="0/10"
+            android:textColor="@color/gray2"
+            android:textSize="12sp" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/holo_red_light"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:textColor="@color/highlight"
         android:visibility="gone" /> <!-- 초기에는 보이지 않도록 설정 -->
 
     <View
@@ -133,13 +150,15 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/rounded_button"
+        android:elevation="0dp"
+        android:background="@drawable/rounded_button_light"
         android:fontFamily="@font/nanumsquareroundbold"
-        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textColor="@color/light_button_text_color"
         android:text="다음" />
 </LinearLayout>
