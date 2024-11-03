@@ -112,6 +112,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
 
                 // **숫자 색상 초기화**
                 resetAllButtonColors()
+                resetAllImageResources() // 이미지 초기화
                 isConfirmingPassword = true
             }
         }
@@ -129,6 +130,29 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         }
     }
 
+    private fun resetAllImageResources() {
+        val imageViews = listOf(
+            R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4,
+            // 필요한 만큼 추가
+        )
+
+        // pwbefore 이미지 리소스 ID 설정
+        val defaultImageResIds = listOf(
+            R.drawable.ic_pwbefore_1,
+            R.drawable.ic_pwbefore_2,
+            R.drawable.ic_pwbefore_3,
+            R.drawable.ic_pwbefore_4
+        )
+
+        imageViews.forEachIndexed { index, id ->
+            val resourceId = if (index < defaultImageResIds.size) {
+                defaultImageResIds[index]
+            } else {
+                R.drawable.rounded_divider_view // 기본으로 설정할 이미지
+            }
+            findViewById<ImageView>(id).setImageResource(resourceId)
+        }
+    }
 
     private fun onBackspaceClick() {
         if (isConfirmingPassword && confirmPassword.isNotEmpty()) {
@@ -217,7 +241,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
             // 2초 후에 비밀번호 입력 초기화
             android.os.Handler().postDelayed({
                 resetPasswordInput()
-            }, 2000) // 2초 대기
+            }, 500) // 0.5초 대기
         }
     }
 
@@ -228,9 +252,9 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         confirmPassword = ""
         updatePasswordImages(false) // 초기 비밀번호 이미지 리셋
         updatePasswordImages(true)  // 확인 비밀번호 이미지 리셋
-        tvNewPasswordTitle.text = "비밀번호 입력"
+        tvNewPasswordTitle.text = "새로운 비밀번호 입력"
         tvNewPasswordDescription.text = "사용할 비밀번호를 입력해주세요"
-        tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.black)) // 기본 검정색으로 초기화
+        tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.blue2_30)) // 기본 색으로 초기화
         isConfirmingPassword = false
         resetSelectedButtonColor()  // 버튼 색상 초기화
     }

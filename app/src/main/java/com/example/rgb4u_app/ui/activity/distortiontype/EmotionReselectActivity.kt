@@ -10,7 +10,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.summary.SummaryChangedDayActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -83,7 +83,7 @@ class EmotionReselectActivity : AppCompatActivity() {
 
         // "다음" 버튼 클릭 시 다음 액티비티로 이동
         buttonNext.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java) // 다음 이동 화면 없어서 메인으로 해둠. 추후 수정 필요
+            val intent = Intent(this, SummaryChangedDayActivity::class.java) // SummaryChangedDayActivity로 이동
             startActivity(intent)
         }
     }

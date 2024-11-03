@@ -144,7 +144,7 @@ class MyPageMainActivity : AppCompatActivity() {
         tvDeleteAccount.setOnClickListener {
             val dialog = ConfirmationDialogFragment(
                 title = "회원 탈퇴하시겠습니까?",
-                message = "(앱 이름)을 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. \n계속하시겠습니까?",
+                message = "생각모아를 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. \n계속하시겠습니까?",
                 confirmButtonText = "탈퇴",
                 onConfirm = {
                     // FirebaseAuth 인스턴스 초기화
@@ -160,8 +160,8 @@ class MyPageMainActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
-                                // 로그인 화면으로 이동
-                                val intent = Intent(this, LoginActivity::class.java)
+                                // 탈퇴 확인 화면으로
+                                val intent = Intent(this, MyPageDeleteaccoutActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {

@@ -104,9 +104,10 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
             }
 
             if (password.length >= 4) {
-                tvPasswordTitle.text = "비밀번호 다시 입력"
+                tvPasswordTitle.text = "새로운 비밀번호 다시 입력"
                 tvPasswordDescription.text = "확인을 위해 한 번 더 입력해 주세요"
                 resetAllButtonColors()
+                resetAllImageResources()
                 isConfirmingPassword = true
             }
         }
@@ -121,6 +122,30 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
 
         buttons.forEach { id ->
             findViewById<Button>(id).setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
+    }
+
+    private fun resetAllImageResources() {
+        val imageViews = listOf(
+            R.id.img_1, R.id.img_2, R.id.img_3, R.id.img_4,
+            // 필요한 만큼 추가
+        )
+
+        // pwbefore 이미지 리소스 ID 설정
+        val defaultImageResIds = listOf(
+            R.drawable.ic_pwbefore_1,
+            R.drawable.ic_pwbefore_2,
+            R.drawable.ic_pwbefore_3,
+            R.drawable.ic_pwbefore_4
+        )
+
+        imageViews.forEachIndexed { index, id ->
+            val resourceId = if (index < defaultImageResIds.size) {
+                defaultImageResIds[index]
+            } else {
+                R.drawable.rounded_divider_view // 기본으로 설정할 이미지
+            }
+            findViewById<ImageView>(id).setImageResource(resourceId)
         }
     }
 
@@ -190,7 +215,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
 
     private fun checkPasswordMatch() {
         if (password == confirmPassword) {
-            Toast.makeText(this, "비밀번호가 설정되었어요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "비밀번호가 변경되었어요", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MyPageMainActivity::class.java)
             intent.putExtra("passwordSet", true)
             startActivity(intent)
@@ -201,7 +226,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
 
             android.os.Handler().postDelayed({
                 resetPasswordInput()
-            }, 2000)
+            }, 500) // 0.5초 대기
         }
     }
 
@@ -212,7 +237,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
         updatePasswordImages(true)
         tvPasswordTitle.text = "새로운 비밀번호 입력"
         tvPasswordDescription.text = "새로운 비밀번호를 입력해주세요"
-        tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.black))
+        tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.blue2_30))
         isConfirmingPassword = false
         resetSelectedButtonColor()
     }

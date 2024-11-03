@@ -40,7 +40,7 @@ class SignUpActivity1 : AppCompatActivity() {
         // 닉네임 입력 시 테두리 색상 변경
         editTextNickname.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                // nicknameEditText가 선택되면 테두리 색을 main으로 변경하고 birthdateEditText는 기본 색상으로
+                // nicknameEditText가 선택되면 테두리 색을 main으로 변경
                 editTextNickname.setBackgroundResource(R.drawable.et_nickname_main_background)
             } else {
                 editTextNickname.setBackgroundResource(R.drawable.et_nickname_default_background)
@@ -131,8 +131,8 @@ class SignUpActivity1 : AppCompatActivity() {
                 errorMessage.visibility = TextView.GONE
 
                 // 10자 이내면 charCount와 밑줄 색상을 검정색으로 변경
-                charCount.setTextColor(ContextCompat.getColor(this, android.R.color.black))
-                editTextNickname.setBackgroundResource(R.drawable.et_nickname_default_background)
+                charCount.setTextColor(ContextCompat.getColor(this, R.color.black))
+                editTextNickname.setBackgroundResource(R.drawable.et_nickname_main_background)
                 // editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.black)) // 밑줄 색상 원래대로
 
                 setButtonState(true) // 유효한 경우 버튼 활성화

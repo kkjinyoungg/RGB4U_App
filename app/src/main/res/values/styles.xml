@@ -29,7 +29,19 @@
     </style>
 
     <!-- 폰트 스타일 -->
+    <style name="H1_Bold">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
     <style name="Bd2_Bold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Bd2_Regular">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>

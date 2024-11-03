@@ -56,6 +56,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/own_mongmongday"
         android:text="마음이 힘들 땐 \n언제든 나를 찾아와!"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
