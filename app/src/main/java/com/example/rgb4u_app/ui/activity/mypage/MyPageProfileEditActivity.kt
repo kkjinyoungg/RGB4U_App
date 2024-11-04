@@ -79,10 +79,25 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 현재 글자 수 카운트
                 val length = s?.length ?: 0
-                charCountTextView.text = "$length/10"
+                charCountTextView.text = "$length/10" // 카운트 기준 10자로 설정
 
-                // 글자 수에 따른 유효성 검사
-                validateNickname(s.toString())
+                // 글자 수에 따른 유효성 검사 및 테두리 색상 변경
+                if (length == 0) {
+                    setErrorState("닉네임을 입력해 주세요.")
+                } else if (length > 11) {
+                    setErrorState("11글자까지 입력할 수 있어요.")
+                } else {
+                    clearErrorState() // 에러 메시지 지우고 기본 테두리 색상으로 변경
+                }
+
+                // 테두리 색상 변경
+                nicknameEditText.setBackgroundResource(
+                    when {
+                        length == 0 -> R.drawable.et_nickname_error_background // 입력되지 않았을 때
+                        length > 11 -> R.drawable.et_nickname_error_background // 11자 초과
+                        else -> R.drawable.et_nickname_main_background // 유효한 닉네임
+                    }
+                )
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -91,11 +106,14 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         // 닉네임 입력 시 테두리 색상 변경
         nicknameEditText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                // nicknameEditText가 선택되면 테두리 색을 main으로 변경하고 birthdateEditText는 기본 색상으로
                 nicknameEditText.setBackgroundResource(R.drawable.et_nickname_main_background)
                 birthdateEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
             } else {
-                nicknameEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
+                // 포커스를 잃었을 때 에러 상태를 확인하고 색상 설정
+                val length = nicknameEditText.text.toString().length
+                nicknameEditText.setBackgroundResource(
+                    if (length > 11) R.drawable.et_nickname_error_background else R.drawable.et_nickname_default_background
+                )
             }
         }
 
@@ -268,17 +286,20 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             return false
         }
 
-        val isValid = nickname.length in 1..10
+        val isValid = nickname.length in 1..11 // 1자에서 11자 사이로 변경
         buttonNext.isEnabled = isValid
 
         if (nickname.length > 10) {
-            setErrorState("10글자 이하로 입력해 줘!")
+            // 글자 수가 11자일 때
+            nicknameEditText.setBackgroundResource(R.drawable.et_nickname_error_background) // 오류 상태로 변경
+            setErrorState("닉네임은 10글자 이하로 입력해 주세요.")
         } else {
             clearErrorState()
         }
 
         return isValid
     }
+
 
     private fun setErrorState(message: String) {
         errorTextView.text = message
