@@ -25,6 +25,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Context // 칩 높이
+// import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 
@@ -189,9 +190,11 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     private fun addChipToSelectedGroup(chip: Chip, category: String) {
         val selectedChip = Chip(this)
         selectedChip.text = chip.text
-        selectedChip.isCloseIconVisible = true
         // CloseIcon의 리소스를 변경
         selectedChip.setCloseIconResource(R.drawable.ic_emotion_close)
+        // 로그 추가
+        Log.d("Chip", "Close icon resource: ${R.drawable.ic_emotion_close}")
+        selectedChip.isCloseIconVisible = true
 
         // 기본 색상으로 설정
         selectedChip.chipBackgroundColor = getChipColor(category)
@@ -215,9 +218,18 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             .build()
         selectedChip.shapeAppearanceModel = shapeAppearanceModel
 
+        // ChipGroup을 VISIBLE로 설정 (칩 추가 시)
+//        if (selectedChipGroup.visibility == View.GONE) {
+//            selectedChipGroup.visibility = View.VISIBLE
+//        }
+
         selectedChip.setOnCloseIconClickListener {
             selectedChipGroup.removeView(selectedChip)
             uncheckChipInGroup(selectedChip.text.toString())
+//            // ChipGroup에 칩이 없으면 다시 숨김
+//            if (selectedChipGroup.childCount == 0) {
+//                selectedChipGroup.visibility = View.GONE
+//            }
         }
 
         selectedChipGroup.addView(selectedChip)

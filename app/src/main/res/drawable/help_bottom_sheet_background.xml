@@ -6,11 +6,11 @@
         <shape>
             <solid android:color="@color/white"/> <!-- 배경 색상 -->
             <corners
-                android:topLeftRadius="24dp"
-                android:topRightRadius="24dp"
+                android:topLeftRadius="16dp"
+                android:topRightRadius="16dp"
                 android:bottomLeftRadius="0dp"
                 android:bottomRightRadius="0dp"/> <!-- 둥근 모서리 -->
-            <padding android:left="8dp" android:right="8dp" android:bottom="8dp"/> <!-- 안쪽 패딩 -->
+            <padding android:left="0dp" android:right="0dp" android:bottom="0dp"/> <!-- 안쪽 패딩 -->
         </shape>
     </item>
 

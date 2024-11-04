@@ -19,7 +19,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="24dp"
             android:text="기록을 \n그만두시겠습니까?"
             android:lineSpacingExtra="8dp"
             android:fontFamily="@font/nanumsquareroundbold"
@@ -44,11 +44,11 @@
         <Button
             android:id="@+id/btnTemporarySave"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="임시 저장"
-            android:fontFamily="@font/nanumsquareroundregular"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:backgroundTint="@color/main"
             android:textColor="@color/black"
             android:layout_marginBottom="8dp" />
@@ -56,24 +56,24 @@
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="삭제"
             android:backgroundTint="@color/gray3"
-            android:fontFamily="@font/nanumsquareroundregular"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:textColor="@color/highlight"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="취소"
-            android:fontFamily="@font/nanumsquareroundregular"
+            android:fontFamily="@font/nanumsquareroundbold"
             android:backgroundTint="@color/gray3"
             android:textColor="@color/black" />
     </LinearLayout>

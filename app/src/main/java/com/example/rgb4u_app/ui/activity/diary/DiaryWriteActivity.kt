@@ -22,6 +22,7 @@ import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -100,6 +101,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
                     // 텍스트가 300바이트를 초과할 경우
                     if (byteCount > 300) {
+                        charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.highlight_dark)) // 빨간색
                         inputField.setText(s.toString().take(s.length - 1)) // 마지막 문자 제거
                         inputField.setSelection(inputField.text.length) // 커서 위치를 끝으로 이동
                         Toast.makeText(
@@ -107,6 +109,8 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                             "150자 이하로 작성해주세요",
                             Toast.LENGTH_SHORT
                         ).show()
+                    } else {
+                        charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.gray3)) // 기본 색상
                     }
 
                     // 글자 수가 1자 이상일 때만 버튼 활성화
@@ -117,6 +121,13 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
                     // 글자 수 업데이트
                     charCountTextView.text = "$charCount/150"
+
+                    // 글자 수가 150자를 초과할 경우 색상 변경
+                    if (charCount > 150) {
+                        charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.highlight_dark)) // 빨간색
+                    } else {
+                        charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.gray3)) // 기본 색상
+                    }
                 }
             }
 
