@@ -1,47 +1,23 @@
 package com.example.rgb4u_app.ui.activity.distortiontype
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.example.rgb4u_app.ui.fragment.DistortionFragment
 
 class DistortionPagerAdapter(
-    private val context: Context,
-    private val distortionDataList: List<DistortionData>
-) : RecyclerView.Adapter<DistortionPagerAdapter.ViewHolder>() {
-
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.tv_my_thought_title)
-        val myThought: TextView = view.findViewById(R.id.tv_my_thoughts)
-        val reasonTitle: TextView = view.findViewById(R.id.tv_reason_title)
-        val reason: TextView = view.findViewById(R.id.tv_reason)
-        val suggestionTitle: TextView = view.findViewById(R.id.tv_suggestion_title)
-        val shortSuggestion: TextView = view.findViewById(R.id.tv_short_suggestion)
-        val suggestions: TextView = view.findViewById(R.id.tv_suggestion)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // item_sentence.xml을 inflate
-        val view = LayoutInflater.from(context)
-            .inflate(R.layout.item_sentence, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = distortionDataList[position]
-        holder.title.text = data.myThoughtTitle
-        holder.myThought.text = data.myThought
-        holder.reasonTitle.text = data.reasonTitle
-        holder.reason.text = data.reason
-        holder.suggestionTitle.text = data.suggestionTitle
-        holder.shortSuggestion.text = data.shortSuggestion
-        holder.suggestions.text = data.suggestion
-    }
+    activity: FragmentActivity,
+    private val viewPager: ViewPager2 // ViewPager2를 인자로 추가
+) : FragmentStateAdapter(activity) {
 
     override fun getItemCount(): Int {
-        return distortionDataList.size
+        return DistortionData.distortionTypes.size // DistortionData의 크기를 사용
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        // DistortionData에서 현재 위치의 데이터를 가져옴
+        val distortionType = DistortionData.distortionTypes[position]
+        return DistortionFragment.newInstance(distortionType, viewPager, this) // distortionType을 전달
     }
 }

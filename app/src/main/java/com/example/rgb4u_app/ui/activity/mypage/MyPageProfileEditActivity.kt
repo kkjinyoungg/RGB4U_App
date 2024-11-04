@@ -3,6 +3,8 @@ package com.example.rgb4u_app.ui.activity.mypage
 //파이어베이스
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -69,6 +71,22 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         errorTextView = findViewById(R.id.tv_error_message) // XML에서 미리 정의
         buttonNext = findViewById(R.id.buttonNext)
         clearErrorState()
+
+        // TextWatcher를 추가하여 글자 수 카운트
+        nicknameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 현재 글자 수 카운트
+                val length = s?.length ?: 0
+                charCountTextView.text = "$length/10"
+
+                // 글자 수에 따른 유효성 검사
+                validateNickname(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // 닉네임 입력 시 테두리 색상 변경
         nicknameEditText.setOnFocusChangeListener { _, hasFocus ->

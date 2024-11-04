@@ -47,9 +47,14 @@ class FrequentEmotionsActivity : AppCompatActivity() {
         disgustCard = findViewById(R.id.disgustCard)
         disgustChipGroup = findViewById(R.id.disgustChipGroup)
 
+
         // 툴바 설정
         val toolbar = findViewById<Toolbar>(R.id.toolbar_frequent)
         setSupportActionBar(toolbar)
+
+        // 기본 뒤로가기 버튼, 앱 이름 숨기기
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 툴바 타이틀 설정
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_base1_title)
