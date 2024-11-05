@@ -35,6 +35,54 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 
+    <style name="H1_Regular">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="H2_Bold">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="H2_Regular">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="ST_Bold">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="ST_Regular">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Bd1_ExtraBold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundextrabold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Bd1_Bold">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Bd1_Regular">
+    <item name="android:textSize">16sp</item>
+    <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+    <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
     <style name="Bd2_Bold">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
@@ -43,7 +91,80 @@
 
     <style name="Bd2_Regular">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+    </style>
+
+    <style name="Cp1_Bold">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+    </style>
+
+    <style name="Cp1_Regular">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+    </style>
+
+    <style name="Cp2_Bold">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+    </style>
+
+    <style name="Cp2_Regular">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+    </style>
+
+    <!-- 캐릭터 폰트 스타일 -->
+    <style name="CH_H1">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <style name="CH_H2">
+        <item name="android:textSize">26sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <style name="CH_H3">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <style name="CH_H4">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <style name="CH_ST">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="CH_Bd1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="CH_Bd2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="CH_Cp">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/own_mongmongday</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 </resources>

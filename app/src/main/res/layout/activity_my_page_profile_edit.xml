@@ -48,7 +48,7 @@
             android:background="@drawable/profile_edit_text_background"
             android:fontFamily="@font/nanumsquareroundregular"
             android:gravity="center_vertical"
-            android:maxLength="10"
+            android:maxLength="11"
             android:padding="16dp"
             android:text="나서진"
             android:textColor="@color/black"

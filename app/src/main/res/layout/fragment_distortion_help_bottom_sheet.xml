@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <!-- 내리는 표시 (작대기) -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/gray2" />
+
+
+    <!-- 제목 -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="생각 유형이란?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 첫 번째 이미지와 설명을 포함한 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- 첫 번째 이미지 -->
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="328dp"
+            android:layout_height="128dp"
+            android:src="@drawable/rounded_rectangle"/>
+
+        <!-- 첫 번째 설명 텍스트 -->
+        <TextView
+            android:id="@+id/descriptionTextView_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="우리의 생각에는 여러가지 유형이 있어요..."
+            android:textSize="14sp"
+            android:paddingBottom="8dp"/>
+    </LinearLayout>
+
+    <!-- 두 번째 이미지와 설명을 포함한 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- 두 번째 이미지 -->
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="328dp"
+            android:layout_height="128dp"
+            android:src="@drawable/rounded_rectangle"/>
+
+        <!-- 두 번째 설명 텍스트 -->
+        <TextView
+            android:id="@+id/descriptionTextView_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="우리의 생각에는 여러가지 유형이 있어요..."
+            android:textSize="14sp"
+            android:paddingBottom="8dp"/>
+    </LinearLayout>
+</LinearLayout>

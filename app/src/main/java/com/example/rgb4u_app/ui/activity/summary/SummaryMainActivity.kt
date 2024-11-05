@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.MainActivity
 import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
+import com.example.rgb4u_app.ui.activity.distortiontype.DistortionTypeActivity
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -95,7 +97,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 emotionIntensityImageView.setImageResource(getImageResId(emotionDegreeInt))
 
                                 // TextView에 감정 강도 중 숫자
-                                emotionIntensityTextView.text = "5단계 중 ${emotionDegreeInt}단계"
+                                emotionIntensityTextView.text = "${emotionDegreeInt}단계"
 
                                 //$emotionDegreeString (심했어)-> 프론트 생기면 연결예정
 
@@ -206,6 +208,13 @@ class SummaryMainActivity : AppCompatActivity() {
             val intent = Intent(this, SummaryThinkActivity::class.java)
             intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
             startActivity(intent)
+        }
+
+        // buttonNext 클릭 리스너 추가
+        findViewById<Button>(R.id.buttonNext).setOnClickListener {
+            // DistortionTypeActivity로 이동
+            startActivity(Intent(this, DistortionTypeActivity::class.java))
+            finish()
         }
     }
     // 감정에 따라 이미지 리소스 ID를 반환하는 함수

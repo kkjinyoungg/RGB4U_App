@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_password_edit"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+
+        <!-- 유형, 순서, 설명 및 이미지가 포함된 섹션 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- 사용자 이름과 유형 -->
+                <TextView
+                    android:id="@+id/tv_user_type_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="나서진님의 생각 유형이에요"
+                    style="@style/Cp1_Bold"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- 유형 제목과 페이지 표시 수평 배치 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tv_type_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="흑백성"
+                        style="@style/CH_H1"
+                        android:textColor="@color/main"
+                        android:layout_marginEnd="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_page_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(2/3)"
+                        android:textColor="@color/blue2_30"
+                        style="@style/Cp1_Regular" />
+                </LinearLayout>
+
+                <!-- 유형 설명 -->
+                <TextView
+                    android:id="@+id/tv_type_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="과장성은 부정적인 것을 훨씬 크게, 긍정적인 것은 훨씬 작게 생각하게 해요"
+                    style="@style/CH_Bd1"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:lineSpacingExtra="2dp"/>
+            </LinearLayout>
+
+            <!-- 유형 이미지 -->
+            <ImageView
+                android:id="@+id/iv_type_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_planet_a"
+                android:layout_marginStart="11dp" />
+        </LinearLayout>
+
+        <!-- 둥근 모서리를 가진 흰색 배경 레이아웃 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_top_background"
+            android:orientation="vertical"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginTop="16dp">
+
+            <!-- 상세 설명 -->
+            <TextView
+                android:id="@+id/tv_type_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="흑백성이 나온 생각이에요"
+                style="@style/Cp1_Bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tv_type_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시험에서 100점 맞지 않으면 난 바보야. 시험에서 100점 맞지 않으면 난 바보야."
+                    style="@style/Bd2_Regular"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- 숨겨질 상세 설명 -->
+                <TextView
+                    android:id="@+id/tv_type_detail_extended"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가적인 상세 설명이 여기에 들어갑니다."
+                    android:textColor="@color/gray1"
+                    style="@style/Cp1_Regular"
+                    android:visibility="gone" />
+
+                <!-- '자세히 보기' 토글과 이미지 버튼 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end">
+
+                    <TextView
+                        android:id="@+id/tv_toggle_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자세히 보기"
+                        android:textColor="@color/gray2"
+                        style="@style/Cp1_Regular"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <ImageButton
+                        android:id="@+id/btn_toggle_detail"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_toggle_down"
+                        android:scaleType="fitCenter"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- "이렇게 생각해보면 어떨까요?" 박스 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/rounded_blue2_10_background"
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+                <TextView
+                    android:id="@+id/tv_alternative_thought_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이렇게 생각해보면 어떨까요?"
+                    style="@style/Bd2_Bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- 캐릭터 얼굴 이미지뷰 추가 -->
+                    <ImageView
+                        android:id="@+id/iv_character_face"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_character_face"
+                        android:layout_marginEnd="4dp" />
+
+                    <TextView
+                        android:id="@+id/tv_alternative_thought"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="엄마는 왜 만날 나를 괴롭히고 내가 사는 걸 싫어하고 내가 행복한 꼴을 못 보실까?"
+                        android:textColor="@color/blue2"
+                        style="@style/CH_ST"/>
+                </LinearLayout>
+
+                <!-- 숨겨질 상세 설명 -->
+                <TextView
+                    android:id="@+id/tv_alternative_detail_extended"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가적인 상세 설명이 여기에 들어갑니다."
+                    android:textColor="@color/gray1"
+                    style="@style/Cp1_Regular"
+                    android:visibility="gone" />
+
+                <!-- '자세히 보기' 토글과 이미지 버튼 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/tv_alternative_detail_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="자세히 보기"
+                        style="@style/Cp1_Regular"
+                        android:textColor="@color/gray2"/>
+
+                    <ImageButton
+                        android:id="@+id/btn_alternative_detail_toggle"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_toggle_down"
+                        android:scaleType="fitCenter"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:layout_marginStart="4dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- "다른 생각도 더 보실래요?" -->
+            <TextView
+                android:id="@+id/tv_more_thoughts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다른 생각도 더 보실래요?"
+                android:textColor="@color/gray2"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Cp1_Regular"
+                android:layout_gravity="center"
+                android:autoLink="none"
+                android:textStyle="normal" />
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="80dp"/>-->
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

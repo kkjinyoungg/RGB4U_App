@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="생각을 살펴보니 감정이 어떻게 바뀌었나요?"
+        android:text="생각을 보고 나니 감정이 어떻게 달라졌나요?"
         android:textColor="@color/blue2_30"
         android:fontFamily="@font/nanumsquareroundregular"
         android:textSize="12sp"
