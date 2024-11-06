@@ -48,19 +48,26 @@ class AiSecond {
             val sentences = splitSentences(thoughts)
 
             val results = mutableListOf<JSONObject>()
+            var processedCount = 0
+
             for (sentence in sentences) {
                 Log.d(TAG, "문장 분석 중: $sentence")
-                val apiResponse = analyzeCognitiveDistortions(sentence)
-                results.add(apiResponse)
+                analyzeCognitiveDistortions(sentence) { apiResponse ->
+                    results.add(apiResponse)
+                    processedCount++
+
+                    // 모든 문장 분석이 완료된 경우
+                    if (processedCount == sentences.size) {
+                        val filteredResults = filterResults(results)
+                        Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}")
+
+                        val secondAnalysis = createSecondAnalysis(filteredResults)
+                        Log.d(TAG, "분석 결과 구조화 완료")
+
+                        saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                    }
+                }
             }
-
-            val filteredResults = filterResults(results)
-            Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}")
-
-            val secondAnalysis = createSecondAnalysis(filteredResults)
-            Log.d(TAG, "분석 결과 구조화 완료")
-
-            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
         }.addOnFailureListener { e ->
             Log.e(TAG, "Failed to get thoughts from Firebase: ${e.message}")
         }
@@ -70,23 +77,23 @@ class AiSecond {
         return thoughts.split(Regex("[.!?]\\s+")).map { it.trim() }.filter { it.isNotEmpty() }
     }
 
-    private fun analyzeCognitiveDistortions(sentence: String): JSONObject {
+    private fun analyzeCognitiveDistortions(sentence: String, callback: (JSONObject) -> Unit) {
         Log.d(TAG, "인지 왜곡 분석 요청: $sentence")
         val prompt = """
-            다음 문장이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해줘.
-            
-            판단 시 참고해야 할 인지 왜곡 유형과 정의는 다음과 같아:
-            ${cognitiveDistortions.joinToString("\n")}
-            
-            인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해줘:
-            {
-                "유형": "유형 이름",
-                "문장": "$sentence",
-                "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
-                "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
-                "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘."
-            }
-        """.trimIndent()
+        다음 문장이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해줘.
+        
+        판단 시 참고해야 할 인지 왜곡 유형과 정의는 다음과 같아:
+        ${cognitiveDistortions.joinToString("\n")}
+        
+        인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해줘:
+        {
+            "유형": "유형 이름",
+            "문장": "$sentence",
+            "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
+            "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
+            "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘."
+        }
+    """.trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = JSONObject().apply {
@@ -103,43 +110,41 @@ class AiSecond {
             .addHeader("Authorization", "Bearer $apiKey")
             .build()
 
-        val responseObj = JSONObject()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "API request failed: ${e.message}")
             }
-
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
                         Log.d(TAG, "API 요청 성공")
                         val jsonResponseString = response.body?.string() ?: ""
-
-                        // API 응답을 로그로 출력
-                        Log.d(TAG, "API 응답: $jsonResponseString")  // 이 줄을 추가합니다.
+                        Log.d(TAG, "API 응답: $jsonResponseString")
 
                         try {
                             val json = JSONObject(jsonResponseString)
-                            if (json.has("choices")) {
+                            if (json.has("choices") && json.getJSONArray("choices").length() > 0) {
                                 val choice = json.getJSONArray("choices").getJSONObject(0)
-                                val message = choice.getJSONObject("message")
-                                if (message.has("function_call")) {
-                                    val functionCall = message.getJSONObject("function_call")
-                                    val arguments = functionCall.optString("arguments", "")
-                                    if (arguments.isNotEmpty()) {
-                                        val argsJson = JSONObject(arguments)
-                                        val type = argsJson.optString("유형", "No Type")
-                                        responseObj.put("유형", type)
-                                    } else {
-                                        // arguments가 비어있을 때의 처리
-                                        responseObj.put("유형", "No Arguments")
-                                    }
+                                if (choice.has("message")) {
+                                    val message = choice.getJSONObject("message")
+                                    val content = message.getString("content") // content 가져오기
+                                    val contentJson = JSONObject(content) // content를 JSON으로 변환
+
+                                    Log.d(TAG, "API 응답 JSON: $contentJson")
+
+                                    // 모든 필요한 필드 추출
+                                    val responseObj = JSONObject()
+                                    responseObj.put("유형", contentJson.optString("유형", "유형 없음")) // 유형
+                                    responseObj.put("문장", contentJson.optString("문장", "문장 없음")) // 문장
+                                    responseObj.put("유형 이유", contentJson.optString("유형 이유", "이유 없음")) // 유형 이유
+                                    responseObj.put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음")) // 대안적 생각
+                                    responseObj.put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음")) // 대안적 생각 이유
+
+                                    callback(responseObj) // 콜백으로 응답 전달
                                 } else {
-                                    // function_call이 없을 때의 처리
-                                    Log.d(TAG, "function_call이 없습니다.")
+                                    Log.d(TAG, "message가 없습니다.")
                                 }
                             } else {
-                                // choices가 없을 때의 처리
                                 Log.d(TAG, "choices가 없습니다.")
                             }
                         } catch (e: JSONException) {
@@ -151,7 +156,6 @@ class AiSecond {
                 }
             }
         })
-        return responseObj
     }
 
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
@@ -192,6 +196,10 @@ class AiSecond {
 
     private fun saveSecondAnalysis(userId: String, diaryId: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
         val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
+
+        // secondAnalysis의 내용을 로그로 출력
+        Log.d(TAG, "저장할 secondAnalysis 데이터: $secondAnalysis")
+
         analysisRef.setValue(secondAnalysis).addOnSuccessListener {
             Log.d(TAG, "두 번째 분석 결과 저장 성공")
             callback()
