@@ -90,20 +90,21 @@ class AiSecond {
             
             판단 시 참고해야 할 인지 왜곡 유형과 정의는 다음과 같아:
             ${cognitiveDistortions.joinToString("\n")}
-
-            인지 왜곡에 해당하면 다음을 아래 형식으로 제시해줘.
-            - 문장: $sentence
-            - 유형 번호 : 해당하는 유형의 번호를 작성해줘. 만약 여러 유형에 중복해서 해당될 경우 문장의 내용에 가장 적합한 한 가지만 골라줘.
-            - 유형: 유형 번호에 해당하는 유형 이름을 작성해줘.
-            - 유형 이유: 이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘. 초등학생도 이해하기 쉬운 말로만 작성하고, ~해요 체를 사용해줘.
-            - 대안적 생각: 이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘. 사용자의 말투와 비슷해야 해.
-            - 대안적 생각 이유: 이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘. 초등학생도 이해하기 쉬운 말로만 작성하고, ~해요 체를 사용해줘.
+            
+            인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해줘:
+            {
+            "유형": "유형 이름",
+            "문장": "$sentence",
+            "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
+            "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
+            "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘."
+            }
         """.trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val body = prompt.toRequestBody(mediaType)
         val request = Request.Builder()
-            .url("https://api.openai.com/v1/engines/davinci-codex/completions")
+            .url("https://api.openai.com/v1/chat/completions")
             .post(body)
             .addHeader("Authorization", "Bearer $apiKey")
             .build()
@@ -116,12 +117,31 @@ class AiSecond {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
+                    // 응답 코드와 메시지를 먼저 로그에 기록
+                    Log.d(TAG, "Response Code: ${response.code}")
+                    Log.d(TAG, "Response Message: ${response.message}")
+
                     if (response.isSuccessful) {
                         Log.d(TAG, "API 요청 성공") // 로그 추가
-                        val json = JSONObject(response.body?.string() ?: "")
-                        responseObj = json.getJSONArray("choices").getJSONObject(0)
+                        val jsonResponseString = response.body?.string() ?: ""
+                        Log.d(TAG, "API 응답: $jsonResponseString") // 응답 로깅
+
+                        try {
+                            val json = JSONObject(jsonResponseString)
+                            if (json.has("choices") && json.getJSONArray("choices").length() > 0) {
+                                responseObj = json.getJSONArray("choices").getJSONObject(0)
+                            } else {
+                                Log.e(TAG, "API 응답에 'choices'가 없음") // 추가 오류 로깅
+                            }
+                        } catch (e: JSONException) {
+                            Log.e(TAG, "JSON 파싱 오류: ${e.message}") // JSON 파싱 오류 로깅
+                        }
                     } else {
-                        Log.e(TAG, "Unexpected response: ${response.message}")
+                        // 응답이 성공적이지 않은 경우
+                        Log.e(TAG, "API 응답이 성공적이지 않음: ${response.message}")
+                        // 응답 바디를 안전하게 가져와서 로그에 기록
+                        val errorBody = response.body?.string() ?: "응답 바디 없음"
+                        Log.e(TAG, "오류 응답 바디: $errorBody")
                     }
                 }
             }
