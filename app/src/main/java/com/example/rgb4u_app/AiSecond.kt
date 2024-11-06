@@ -11,6 +11,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
@@ -132,9 +133,13 @@ class AiSecond {
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
         for (result in results) {
-            val type = result.getString("유형")
-            filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
-                if (size < 3) add(result)
+            try {
+                val type = result.getString("유형")
+                filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
+                    if (size < 3) add(result)
+                }
+            } catch (e: JSONException) {
+                Log.e(TAG, "No value for 유형: ${result.toString()}") // 오류 로깅
             }
         }
         Log.d(TAG, "필터링된 결과: ${filteredResults.keys}") // 로그 추가
