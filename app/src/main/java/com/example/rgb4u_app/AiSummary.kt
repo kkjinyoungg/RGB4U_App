@@ -155,13 +155,18 @@ class AiSummary {
 
     // ChatGPT API 응답에서 분석 결과 추출하는 함수
     private fun extractAiAnalysis(resultJson: JSONObject): Map<String, String> {
-        val functionCall = resultJson.getJSONArray("choices").getJSONObject(0).getJSONObject("message")
-        val argumentsString = functionCall.getJSONObject("function_call").getString("arguments")
+        val choices = resultJson.getJSONArray("choices")
+        val message = choices.getJSONObject(0).getJSONObject("message")
 
-        // argumentsString을 JSONObject로 변환
+        // function_call 필드가 있는지 확인
+        if (!message.has("function_call")) {
+            Log.e(TAG, "Function call is missing in the response.")
+            return emptyMap() // 오류 시 빈 맵 반환
+        }
+
+        val argumentsString = message.getJSONObject("function_call").getString("arguments")
         val arguments = JSONObject(argumentsString)
 
-        // 분석 결과를 파이어베이스에 저장할 수 있도록 정리
         val emotion = arguments.getString("emotion")
         val situation = arguments.getString("situation")
         val thoughts = arguments.getString("thoughts")

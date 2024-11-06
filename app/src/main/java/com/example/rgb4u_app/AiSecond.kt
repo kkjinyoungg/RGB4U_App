@@ -22,7 +22,6 @@ class AiSecond {
     private val apiKey = "" // API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
 
-    // 인지 왜곡 유형과 설명을 리스트 형태로 정의
     private val cognitiveDistortions = listOf(
         "1. 흑백성 : 전부 아니면 전무의 사고. 연속적 개념보다는 오직 두 가지의 범주로 나누어 상황을 본다. 예: 완벽하게 성공하지 못하면, 실패한 것이다.",
         "2. 재앙성 : 재앙화. 미래에 대해 보다 현실적인 어떤 다른 고려도 없이 부정적으로 예상한다. 예: 나는 매우 화가 날 것이고, 전혀 기능하지 못할 것이다.",
@@ -38,53 +37,41 @@ class AiSecond {
         "12. 어둠성 : 터널 시야. 어떤 상황의 부정적인 면만을 본다. 예: 우리 아들의 담임 선생은 올바로 하는 것이 없어. 그는 비판적이며 무감각하고 형편없이 가르친다."
     )
 
-    // 두 번째 분석을 수행하는 함수
     fun analyzeThoughts(userId: String, diaryId: String, callback: () -> Unit) {
-        Log.d(TAG, "analyzeThoughts 호출: userId = $userId, diaryId = $diaryId") // 로그 추가
+        Log.d(TAG, "analyzeThoughts 호출: userId = $userId, diaryId = $diaryId")
 
-        // Firebase에서 첫 번째 분석 결과 가져오기
         val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis/thoughts")
 
-        // Firebase에서 thoughts 데이터 가져오기
         analysisRef.get().addOnSuccessListener { dataSnapshot ->
-            Log.d(TAG, "Firebase에서 thoughts 데이터 가져오기 성공") // 로그 추가
-            val thoughts = dataSnapshot.value.toString() // 가져온 데이터 변환
-            val sentences = splitSentences(thoughts) // 문장별로 나누기
+            Log.d(TAG, "Firebase에서 thoughts 데이터 가져오기 성공")
+            val thoughts = dataSnapshot.value.toString()
+            val sentences = splitSentences(thoughts)
 
-            // 문장별로 AI API에 요청
-            val results = mutableListOf<JSONObject>() // 결과를 저장할 리스트
+            val results = mutableListOf<JSONObject>()
             for (sentence in sentences) {
-                Log.d(TAG, "문장 분석 중: $sentence") // 로그 추가
-                val apiResponse = analyzeCognitiveDistortions(sentence) // 인지 왜곡 분석 요청
-                results.add(apiResponse) // API 응답 저장
+                Log.d(TAG, "문장 분석 중: $sentence")
+                val apiResponse = analyzeCognitiveDistortions(sentence)
+                results.add(apiResponse)
             }
 
-            // 결과 처리 및 중복 제거
-            val filteredResults = filterResults(results) // 중복된 인지왜곡 유형 필터링
-            Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}") // 로그 추가
+            val filteredResults = filterResults(results)
+            Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}")
 
-            // Firebase에 저장할 데이터 구조 준비
-            val secondAnalysis = createSecondAnalysis(filteredResults) // 분석 결과 구조화
-            Log.d(TAG, "분석 결과 구조화 완료") // 로그 추가
+            val secondAnalysis = createSecondAnalysis(filteredResults)
+            Log.d(TAG, "분석 결과 구조화 완료")
 
-            // Firebase에 결과 저장
-            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback) // 저장 함수 호출
+            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
         }.addOnFailureListener { e ->
-            Log.e(TAG, "Failed to get thoughts from Firebase: ${e.message}") // 오류 로깅
+            Log.e(TAG, "Failed to get thoughts from Firebase: ${e.message}")
         }
     }
 
-    // 문장을 나누는 함수
     private fun splitSentences(thoughts: String): List<String> {
-        return thoughts.split(Regex("[.!?]\\s+")) // 문장 구분 정규 표현식
-            .map { it.trim() } // 공백 제거
-            .filter { it.isNotEmpty() } // 비어있지 않은 문장만 필터링
+        return thoughts.split(Regex("[.!?]\\s+")).map { it.trim() }.filter { it.isNotEmpty() }
     }
 
-    // 인지 왜곡 분석을 위한 AI API 호출
     private fun analyzeCognitiveDistortions(sentence: String): JSONObject {
-        Log.d(TAG, "인지 왜곡 분석 요청: $sentence") // 로그 추가
-        // API 요청을 위한 프롬프트 생성
+        Log.d(TAG, "인지 왜곡 분석 요청: $sentence")
         val prompt = """
             다음 문장이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해줘.
             
@@ -93,23 +80,30 @@ class AiSecond {
             
             인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해줘:
             {
-            "유형": "유형 이름",
-            "문장": "$sentence",
-            "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
-            "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
-            "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘."
+                "유형": "유형 이름",
+                "문장": "$sentence",
+                "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
+                "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
+                "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘."
             }
         """.trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val body = prompt.toRequestBody(mediaType)
+        val requestBody = JSONObject().apply {
+            put("model", "gpt-3.5-turbo")
+            put("messages", JSONArray().put(JSONObject().apply {
+                put("role", "user")
+                put("content", prompt)
+            }))
+        }
+        val body = requestBody.toString().toRequestBody(mediaType)
         val request = Request.Builder()
             .url("https://api.openai.com/v1/chat/completions")
             .post(body)
             .addHeader("Authorization", "Bearer $apiKey")
             .build()
 
-        var responseObj = JSONObject()
+        val responseObj = JSONObject()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "API request failed: ${e.message}")
@@ -117,31 +111,42 @@ class AiSecond {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    // 응답 코드와 메시지를 먼저 로그에 기록
-                    Log.d(TAG, "Response Code: ${response.code}")
-                    Log.d(TAG, "Response Message: ${response.message}")
-
                     if (response.isSuccessful) {
-                        Log.d(TAG, "API 요청 성공") // 로그 추가
+                        Log.d(TAG, "API 요청 성공")
                         val jsonResponseString = response.body?.string() ?: ""
-                        Log.d(TAG, "API 응답: $jsonResponseString") // 응답 로깅
+
+                        // API 응답을 로그로 출력
+                        Log.d(TAG, "API 응답: $jsonResponseString")  // 이 줄을 추가합니다.
 
                         try {
                             val json = JSONObject(jsonResponseString)
-                            if (json.has("choices") && json.getJSONArray("choices").length() > 0) {
-                                responseObj = json.getJSONArray("choices").getJSONObject(0)
+                            if (json.has("choices")) {
+                                val choice = json.getJSONArray("choices").getJSONObject(0)
+                                val message = choice.getJSONObject("message")
+                                if (message.has("function_call")) {
+                                    val functionCall = message.getJSONObject("function_call")
+                                    val arguments = functionCall.optString("arguments", "")
+                                    if (arguments.isNotEmpty()) {
+                                        val argsJson = JSONObject(arguments)
+                                        val type = argsJson.optString("유형", "No Type")
+                                        responseObj.put("유형", type)
+                                    } else {
+                                        // arguments가 비어있을 때의 처리
+                                        responseObj.put("유형", "No Arguments")
+                                    }
+                                } else {
+                                    // function_call이 없을 때의 처리
+                                    Log.d(TAG, "function_call이 없습니다.")
+                                }
                             } else {
-                                Log.e(TAG, "API 응답에 'choices'가 없음") // 추가 오류 로깅
+                                // choices가 없을 때의 처리
+                                Log.d(TAG, "choices가 없습니다.")
                             }
                         } catch (e: JSONException) {
-                            Log.e(TAG, "JSON 파싱 오류: ${e.message}") // JSON 파싱 오류 로깅
+                            Log.e(TAG, "JSON 파싱 오류: ${e.message}")
                         }
                     } else {
-                        // 응답이 성공적이지 않은 경우
                         Log.e(TAG, "API 응답이 성공적이지 않음: ${response.message}")
-                        // 응답 바디를 안전하게 가져와서 로그에 기록
-                        val errorBody = response.body?.string() ?: "응답 바디 없음"
-                        Log.e(TAG, "오류 응답 바디: $errorBody")
                     }
                 }
             }
@@ -149,21 +154,15 @@ class AiSecond {
         return responseObj
     }
 
-    // AI API에서 받은 결과 필터링
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
         for (result in results) {
-            try {
-                val type = result.getString("유형")
-                filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
-                    if (size < 3) add(result)
-                }
-            } catch (e: JSONException) {
-                Log.e(TAG, "No value for 유형: ${result.toString()}") // 오류 로깅
+            val type = result.optString("유형", "Unknown") // "유형" 값이 없을 때 기본값 설정
+            filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
+                if (size < 3) add(result)
             }
         }
-        Log.d(TAG, "필터링된 결과: ${filteredResults.keys}") // 로그 추가
-        return filteredResults // 반환값 추가
+        return filteredResults
     }
 
     private fun createSecondAnalysis(filteredResults: Map<String, List<JSONObject>>): Map<String, Any> {
@@ -173,19 +172,17 @@ class AiSecond {
 
         for ((type, thoughts) in filteredResults) {
             val thoughtSet = mutableMapOf<String, Any>()
-            val limitedThoughts = thoughts.take(3) // 최대 3개로 제한
-            limitedThoughts.forEachIndexed { index, thought ->
+            thoughts.take(3).forEachIndexed { index, thought ->
                 thoughtSet["${index + 1}"] = mapOf(
-                    "selectedThoughts" to thought.getString("문장"),
-                    "charactersReason" to thought.getString("유형 이유"),
-                    "alternativeThoughts" to thought.getString("대안적 생각"),
-                    "alternativeThoughtsReason" to thought.getString("대안적 생각 이유")
+                    "selectedThoughts" to thought.optString("문장", "Unknown"),
+                    "charactersReason" to thought.optString("유형 이유", ""),
+                    "alternativeThoughts" to thought.optString("대안적 생각", ""),
+                    "alternativeThoughtsReason" to thought.optString("대안적 생각 이유", "")
                 )
             }
             thoughtSets[type] = thoughtSet
-            totalSets += thoughtSet.size // 각 유형별로 추가된 세트 수만큼 합산
+            totalSets += thoughtSet.size
         }
-        Log.d(TAG, "두 번째 분석 결과 생성 완료, 총 세트 수: $totalSets") // 로그 추가
         return mapOf(
             "totalSets" to totalSets,
             "totalCharacters" to totalCharacters,
@@ -193,15 +190,13 @@ class AiSecond {
         )
     }
 
-    // Firebase에 결과 저장하는 함수
     private fun saveSecondAnalysis(userId: String, diaryId: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
-        val secondAnalysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
-        secondAnalysisRef.setValue(secondAnalysis).addOnSuccessListener {
-            Log.d(TAG, "분석 결과 파이어베이스 저장 성공") // 로그 추가
+        val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
+        analysisRef.setValue(secondAnalysis).addOnSuccessListener {
+            Log.d(TAG, "두 번째 분석 결과 저장 성공")
             callback()
         }.addOnFailureListener { e ->
-            Log.e(TAG, "Failed to save second analysis: ${e.message}")
+            Log.e(TAG, "두 번째 분석 결과 저장 실패: ${e.message}")
         }
     }
 }
-
