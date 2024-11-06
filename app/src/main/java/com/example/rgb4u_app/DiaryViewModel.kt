@@ -113,12 +113,20 @@ class DiaryViewModel : ViewModel() {
     // AI 분석을 수행하는 함수
     private fun analyzeDiaryWithAI(userId: String, diaryId: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId") // AI 분석 호출 로그
-        val aiSummary = AiSummary()
 
+        // (1) AiSummary 호출
+        val aiSummary = AiSummary()
         // 콜백을 전달하여 분석이 완료된 후 onDiarySaved 호출
         aiSummary.analyzeDiary(userId, diaryId) {
             // 분석이 완료된 후 onDiarySaved 콜백 호출
             onDiarySaved?.invoke()
+
+            // (2) AiSecond 호출
+            val aiSecond = AiSecond()
+            aiSecond.analyzeThoughts(userId, diaryId) {
+                // AiSecond 분석 완료 후의 작업을 여기에 추가
+                Log.d("DiaryViewModel", "AiSecond 분석 완료")
+            }
         }
     }
 
