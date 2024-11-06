@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.rgb4u_app.AiSummary // AiSummary 추가
+import com.example.rgb4u_app.AiSecond // AiSecond 추가
 import com.example.rgb4u_app.MonthlyStatsUpdater
 
 class DiaryViewModel : ViewModel() {

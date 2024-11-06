@@ -39,26 +39,32 @@ class AiSecond {
 
     // 두 번째 분석을 수행하는 함수
     fun analyzeThoughts(userId: String, diaryId: String, callback: () -> Unit) {
+        Log.d(TAG, "analyzeThoughts 호출: userId = $userId, diaryId = $diaryId") // 로그 추가
+
         // Firebase에서 첫 번째 분석 결과 가져오기
         val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis/thoughts")
 
         // Firebase에서 thoughts 데이터 가져오기
         analysisRef.get().addOnSuccessListener { dataSnapshot ->
+            Log.d(TAG, "Firebase에서 thoughts 데이터 가져오기 성공") // 로그 추가
             val thoughts = dataSnapshot.value.toString() // 가져온 데이터 변환
             val sentences = splitSentences(thoughts) // 문장별로 나누기
 
             // 문장별로 AI API에 요청
             val results = mutableListOf<JSONObject>() // 결과를 저장할 리스트
             for (sentence in sentences) {
+                Log.d(TAG, "문장 분석 중: $sentence") // 로그 추가
                 val apiResponse = analyzeCognitiveDistortions(sentence) // 인지 왜곡 분석 요청
                 results.add(apiResponse) // API 응답 저장
             }
 
             // 결과 처리 및 중복 제거
             val filteredResults = filterResults(results) // 중복된 인지왜곡 유형 필터링
+            Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}") // 로그 추가
 
             // Firebase에 저장할 데이터 구조 준비
             val secondAnalysis = createSecondAnalysis(filteredResults) // 분석 결과 구조화
+            Log.d(TAG, "분석 결과 구조화 완료") // 로그 추가
 
             // Firebase에 결과 저장
             saveSecondAnalysis(userId, diaryId, secondAnalysis, callback) // 저장 함수 호출
@@ -76,6 +82,7 @@ class AiSecond {
 
     // 인지 왜곡 분석을 위한 AI API 호출
     private fun analyzeCognitiveDistortions(sentence: String): JSONObject {
+        Log.d(TAG, "인지 왜곡 분석 요청: $sentence") // 로그 추가
         // API 요청을 위한 프롬프트 생성
         val prompt = """
             다음 문장이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해줘.
@@ -109,6 +116,7 @@ class AiSecond {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
+                        Log.d(TAG, "API 요청 성공") // 로그 추가
                         val json = JSONObject(response.body?.string() ?: "")
                         responseObj = json.getJSONArray("choices").getJSONObject(0)
                     } else {
@@ -125,10 +133,12 @@ class AiSecond {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
         for (result in results) {
             val type = result.getString("유형")
-            filteredResults[typㅇe] = filteredResults.getOrDefault(type, mutableListOf()).apply {
+            filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
                 if (size < 3) add(result)
             }
         }
+        Log.d(TAG, "필터링된 결과: ${filteredResults.keys}") // 로그 추가
+        return filteredResults // 반환값 추가
     }
 
     private fun createSecondAnalysis(filteredResults: Map<String, List<JSONObject>>): Map<String, Any> {
@@ -150,7 +160,7 @@ class AiSecond {
             thoughtSets[type] = thoughtSet
             totalSets += thoughtSet.size // 각 유형별로 추가된 세트 수만큼 합산
         }
-
+        Log.d(TAG, "두 번째 분석 결과 생성 완료, 총 세트 수: $totalSets") // 로그 추가
         return mapOf(
             "totalSets" to totalSets,
             "totalCharacters" to totalCharacters,
@@ -162,6 +172,7 @@ class AiSecond {
     private fun saveSecondAnalysis(userId: String, diaryId: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
         val secondAnalysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
         secondAnalysisRef.setValue(secondAnalysis).addOnSuccessListener {
+            Log.d(TAG, "분석 결과 파이어베이스 저장 성공") // 로그 추가
             callback()
         }.addOnFailureListener { e ->
             Log.e(TAG, "Failed to save second analysis: ${e.message}")
