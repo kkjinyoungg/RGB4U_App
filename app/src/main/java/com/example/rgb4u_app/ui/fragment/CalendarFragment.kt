@@ -14,15 +14,24 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.util.Log
 
 class CalendarFragment : Fragment() {
 
     private lateinit var calendarGrid: GridLayout
     private lateinit var textCurrentMonth: TextView
     private var currentCalendar = Calendar.getInstance()
+    private var startDay = 0  // startDay를 클래스 변수로 선언
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +55,6 @@ class CalendarFragment : Fragment() {
             //buttonAction2.setImageResource(R.drawable.ic_forward_wh) // 이미지 변경 (예시)
         }
 
-
         updateCalendar()
         return view
     }
@@ -62,9 +70,8 @@ class CalendarFragment : Fragment() {
 
         val maxDay = currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
         currentCalendar.set(Calendar.DAY_OF_MONTH, 1)
-        val startDay = currentCalendar.get(Calendar.DAY_OF_WEEK) - 1 // 일요일부터 시작
+        startDay = currentCalendar.get(Calendar.DAY_OF_WEEK) - 1 // 일요일부터 시작
         val customFont = ResourcesCompat.getFont(requireContext(), R.font.nanumsquareroundregular) // 폰트 리소스 가져오기
-
 
         for (i in 0 until startDay + maxDay) {
             val frameLayout = FrameLayout(requireContext()).apply {
@@ -84,10 +91,23 @@ class CalendarFragment : Fragment() {
                 textSize = 12f  // 텍스트 크기를 12sp로 설정
                 typeface = customFont // 폰트 설정
 
+                // Calculate the day from the grid position
+                val day = i - startDay + 1
+
+                // 도장 이미지 표시 (예: 1일에 도장이 찍힌다고 가정)
+                if (day == 1) { // 예시로 1일에 도장을 표시
+                    val stampImage = ImageView(requireContext()).apply {
+                        layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
+                            gravity = Gravity.CENTER
+                        }
+                        setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.img_emotion_0, null)) // 도장 이미지
+                    }
+                    frameLayout.addView(stampImage)
+                }
+
                 setTextColor(ResourcesCompat.getColor(resources, R.color.white, null)) // 텍스트 색상 설정
 
                 if (i >= startDay) {
-                    val day = i - startDay + 1
                     text = day.toString()
                     setOnClickListener {
                         // 날짜 클릭 시 다른 화면으로 이동 처리
@@ -96,7 +116,6 @@ class CalendarFragment : Fragment() {
 
                     // 오늘 날짜 표시
                     if (isToday(day)) {
-                        // today_circle 뷰를 추가
                         val todayCircle = View(requireContext()).apply {
                             layoutParams = FrameLayout.LayoutParams(30.dpToPx(), 20.dpToPx()).apply {
                                 gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
@@ -107,23 +126,15 @@ class CalendarFragment : Fragment() {
                         setTextColor(ResourcesCompat.getColor(resources, R.color.black, null))
                         typeface = customFont // 폰트 설정
                     }
-
-                    // 도장 이미지 표시 (예: 1일에 도장이 찍힌다고 가정)
-                    if (day == 1) { // 예시로 1일에 도장을 표시
-                        val stampImage = ImageView(requireContext()).apply {
-                            layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
-                                gravity = Gravity.CENTER
-                            }
-                            setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.img_emotion_0, null)) // 도장 이미지
-                        }
-                        frameLayout.addView(stampImage)
-                    }
                 }
             }
 
             frameLayout.addView(dayTextView)
             calendarGrid.addView(frameLayout)
         }
+
+        // Firebase 데이터를 가져온 후 도장 추가
+        fetchDiaryDataForMonth() // Firebase 데이터 가져오기 호출
     }
 
     private fun isToday(day: Int): Boolean {
@@ -141,12 +152,80 @@ class CalendarFragment : Fragment() {
         //val intent = Intent(requireContext(), DetailActivity::class.java)
         //intent.putExtra("SELECTED_DAY", day)
         //startActivity(intent)
-
     }
 
     // dpToPx 확장 함수
     private fun Int.dpToPx(): Int {
         val density = resources.displayMetrics.density
         return (this * density).toInt()
+    }
+    private fun fetchDiaryDataForMonth() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(currentCalendar.time)
+        val firebaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
+
+        firebaseRef.orderByChild("date").startAt("$yearMonth-01").endAt("$yearMonth-31")
+            .get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    for (diarySnapshot in snapshot.children) {
+                        val diaryType = object : GenericTypeIndicator<Map<String, Any>>() {}
+                        val diaryData = diarySnapshot.getValue(diaryType)
+
+                        val emotionDegree = diaryData?.get("emotionDegree") as? Map<String, Any>
+                        val reMeasuredEmotionDegree = diaryData?.get("reMeasuredEmotionDegree") as? Map<String, Any>
+
+                        val degreeValue = reMeasuredEmotionDegree?.get("int") ?: emotionDegree?.get("int")
+
+                        degreeValue?.let {
+                            val date = diaryData?.get("date") as? String ?: return@let
+                            Log.d("CalendarFragment", "Fetched diary for date: $date") // 날짜 로그 추가
+                            val dateComponents = date.split("-")
+                            if (dateComponents.size == 3) {
+                                val day = dateComponents[2].toIntOrNull() // "07" -> 7로 변환
+                                if (day != null) {
+                                    Log.d("CalendarFragment", "Day from date: $day") // day 값 로그
+                                    addStampToCalendar(day, it.toString().toInt())  // Firebase 데이터가 로드된 후에 addStampToCalendar 호출
+                                } else {
+                                    Log.e("CalendarFragment", "Invalid day value: $day")
+                                }
+                            }
+                        }
+                    }
+                }
+            }.addOnFailureListener { exception ->
+                Log.e("CalendarFragment", "Failed to fetch diary data", exception)
+            }
+    }
+    private fun addStampToCalendar(day: Int, degree: Int) {
+        val emotionDrawable = when (degree) {
+            0 -> R.drawable.img_emotion_0
+            1 -> R.drawable.img_emotion_1
+            2 -> R.drawable.img_emotion_2
+            3 -> R.drawable.img_emotion_3
+            else -> R.drawable.img_emotion_4
+        }
+
+        // startDay와 maxDay를 고려하여 index 계산
+        val index = day + startDay - 1
+
+        // 인덱스를 로그로 출력하여 위치 확인
+        Log.d("CalendarFragment", "Adding stamp for day $day at index $index")
+
+        // 유효한 인덱스인지 확인
+        if (index >= 0 && index < calendarGrid.childCount) {
+            val dayView = calendarGrid.getChildAt(index) as? FrameLayout
+            dayView?.let {
+                // 도장 이미지를 추가하는 부분
+                val stampImage = ImageView(requireContext()).apply {
+                    layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
+                        gravity = Gravity.CENTER
+                    }
+                    setImageDrawable(ResourcesCompat.getDrawable(resources, emotionDrawable, null))
+                }
+                it.addView(stampImage)
+            }
+        } else {
+            Log.e("CalendarFragment", "유효하지 않은 인덱스: $index, 도장을 추가할 수 없습니다.")
+        }
     }
 }
