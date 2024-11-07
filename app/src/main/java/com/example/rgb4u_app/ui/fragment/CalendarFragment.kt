@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.calendar.CalenderDetailActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -134,15 +136,24 @@ class CalendarFragment : Fragment() {
     }
 
     private fun navigateToDetail(day: Int) {
+        // 날짜 클릭 시 '월,일,요일' 정보 생성
+        val selectedDate = Calendar.getInstance().apply {
+            time = currentCalendar.time
+            set(Calendar.DAY_OF_MONTH, day)
+        }
+
+        val dateFormat = SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault()) // '월,일,요일' 포맷
+        val formattedDate = dateFormat.format(selectedDate.time)
+
         // 클릭한 날짜에 대한 토스트 메시지 표시
-        Toast.makeText(requireContext(), "${day}일 클릭됨", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "$formattedDate 클릭됨", Toast.LENGTH_SHORT).show()
 
         // 클릭한 날짜 상세 화면으로 이동 (예시)
-        //val intent = Intent(requireContext(), DetailActivity::class.java)
-        //intent.putExtra("SELECTED_DAY", day)
-        //startActivity(intent)
-
+        val intent = Intent(requireContext(), CalenderDetailActivity::class.java)
+        intent.putExtra("SELECTED_DATE", formattedDate) // '월,일,요일' 정보를 넘김
+        startActivity(intent)
     }
+
 
     // dpToPx 확장 함수
     private fun Int.dpToPx(): Int {

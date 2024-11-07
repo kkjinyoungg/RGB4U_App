@@ -1,6 +1,5 @@
 package com.example.rgb4u_app.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 
 class SummaryFragment : Fragment() {
 
@@ -80,9 +78,10 @@ class SummaryFragment : Fragment() {
 
         // Set up back button listener
         backButton.setOnClickListener {
+            /* 프래그먼트를 캘린더에서도 사용하게 되면서 화면이동 지시하는 코드는 주석처리.
             // Intent를 사용하여 SummaryMainActivity로 이동
             val intent = Intent(activity, SummaryMainActivity::class.java)
-            startActivity(intent)
+            startActivity(intent)*/
 
             // 현재 Activity를 종료하는 경우, 필요에 따라 추가
             activity?.finish()

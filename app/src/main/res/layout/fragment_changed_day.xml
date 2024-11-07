@@ -182,7 +182,6 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_arrow_down" />
 
-    <!-- 감정 변화 아이콘 및 텍스트 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -200,8 +199,9 @@
             android:textStyle="bold"
             android:textColor="@color/black" />
 
+        <!-- 첫 번째 감정 변화 아이콘 및 텍스트 묶음 -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -234,20 +234,31 @@
                     android:text="아주 싫었어"
                     android:textColor="@color/black" />
             </LinearLayout>
+        </LinearLayout>
 
-            <ImageView
-                android:id="@+id/ic_next"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_next" />
+        <!-- 섹션 구분을 위한 화살표 이미지 -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_arrow_down" />
+
+
+        <!-- 두 번째 감정 변화 아이콘 및 텍스트 묶음 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
 
             <!-- 감정 변화 아이콘 및 텍스트 2 -->
             <ImageView
                 android:id="@+id/emotionIcon2"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:layout_marginStart="16dp"
                 android:src="@drawable/img_emotion_1" />
 
             <LinearLayout
@@ -272,6 +283,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 
     <!-- 확인 버튼 -->
     <android.widget.Button

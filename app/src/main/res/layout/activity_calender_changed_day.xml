@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_password_edit"
+    tools:context=".ui.activity.calendar.CalenderChangedDayActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_write_diary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"/>
+
+    <!-- ScrollView 추가 -->
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 생각 요약 박스 -->
+            <LinearLayout
+                android:id="@+id/ChangethoughtLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/rounded_corner_background"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:id="@+id/ThoughtChangeLayout_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <!-- "이렇게 바꿔봤어요" 텍스트뷰 -->
+                        <TextView
+                            android:id="@+id/tv_change_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanumsquareroundbold"
+                            android:text="이렇게 바꿔봤어요"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:layout_gravity="start"
+                            android:layout_weight="0"/>
+
+                        <!-- thoughtDetailButton 버튼 (오른쪽 끝에 배치) -->
+                        <ImageButton
+                            android:id="@+id/thoughtDetailButton"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@null"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_next"
+                            android:layout_gravity="end" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+                            <!-- 이미지뷰 추가 -->
+                            <ImageView
+                                android:id="@+id/iconImageView1"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/ic_planet_a" />
+
+                            <!-- situationTextView -->
+                            <TextView
+                                android:id="@+id/situationTextView1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- 텍스트뷰와 예시 텍스트를 묶은 레이아웃 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/rounded_blue2_10_background"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:padding="8dp">
+
+                                <TextView
+                                    android:id="@+id/exampleText1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:paddingStart="8dp"
+                                    android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                    android:textColor="@color/blue2" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <!-- 이미지뷰 추가 -->
+                                <ImageView
+                                    android:id="@+id/iconImageView2"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:src="@drawable/ic_planet_a" />
+
+                                <!-- situationTextView -->
+                                <TextView
+                                    android:id="@+id/situationTextView2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- 텍스트뷰와 예시 텍스트를 묶은 레이아웃 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/rounded_blue2_10_background"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:id="@+id/exampleText2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingStart="8dp"
+                                        android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                        android:textColor="@color/blue2" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+                                <!-- 이미지뷰 추가 -->
+                                <ImageView
+                                    android:id="@+id/iconImageView3"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:src="@drawable/ic_planet_a" />
+
+                                <!-- situationTextView -->
+                                <TextView
+                                    android:id="@+id/situationTextView3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- 텍스트뷰와 예시 텍스트를 묶은 레이아웃 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="@drawable/rounded_blue2_10_background"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:id="@+id/exampleText3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:paddingStart="8dp"
+                                        android:text="엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
+                                        android:textColor="@color/blue2" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/thoughtDownButton"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_space_between"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/thoughtLayout" />
+
+            <!-- 감정 요약 박스 -->
+            <LinearLayout
+                android:id="@+id/emotionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/rounded_corner_background"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/thoughtDownButton">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/nanumsquareroundbold"
+                    android:text="그래서 감정이 이렇게 달라졌어요"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nanumsquareroundbold"
+                    android:lineSpacingExtra="4dp"
+                    android:text="감정 정도"
+                    android:textColor="@color/gray2"
+                    android:textSize="12sp" />
+
+                <!-- 첫 번째 감정 변화 아이콘 및 텍스트 묶음 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- 감정 변화 아이콘 및 텍스트 1 -->
+                    <ImageView
+                        android:id="@+id/emotionIcon1"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/img_emotion_0" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp">
+
+                        <TextView
+                            android:id="@+id/emotionStep1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4단계"
+                            android:textColor="@color/gray2" />
+
+                        <TextView
+                            android:id="@+id/emotionText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="아주 싫었어"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 섹션 구분을 위한 화살표 이미지 -->
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/ic_arrow_down" />
+
+
+                <!-- 두 번째 감정 변화 아이콘 및 텍스트 묶음 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- 감정 변화 아이콘 및 텍스트 2 -->
+                    <ImageView
+                        android:id="@+id/emotionIcon2"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/img_emotion_1" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp">
+
+                        <TextView
+                            android:id="@+id/emotionStep2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4단계"
+                            android:textColor="@color/gray2" />
+
+                        <TextView
+                            android:id="@+id/emotionText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="아주 좋았어"
+                            android:textColor="@color/blue2" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 감정 레이블 텍스트뷰들 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nanumsquareroundbold"
+                    android:text="선택한 감정"
+                    android:textColor="@color/gray2"
+                    android:textSize="12sp" />
+
+                <!-- ChipGroup -->
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/CalenderChangedSelectedChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:chipSpacing="8dp"
+                    app:closeIconEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emotionTypeTextView"
+                    app:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/emotionTypeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nanumsquareroundbold"
+                    android:text="내가 적은 감정"
+                    android:textColor="@color/gray2"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/CalenderChangedEmotionChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:chipBackgroundColor="@android:color/transparent"
+                    app:chipSpacing="8dp"
+                    app:chipStrokeColor="@color/gray1"
+                    app:chipStrokeWidth="2dp"
+                    app:closeIconEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emotionTypeTextView"
+                    app:singleLine="false" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
