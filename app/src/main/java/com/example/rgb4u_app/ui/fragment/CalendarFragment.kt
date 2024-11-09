@@ -19,7 +19,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -52,7 +51,6 @@ class CalendarFragment : Fragment() {
         }
         buttonAction2.setOnClickListener {
             changeMonth(1)
-            //buttonAction2.setImageResource(R.drawable.ic_forward_wh) // 이미지 변경 (예시)
         }
 
         updateCalendar()
@@ -159,6 +157,7 @@ class CalendarFragment : Fragment() {
         val density = resources.displayMetrics.density
         return (this * density).toInt()
     }
+
     private fun fetchDiaryDataForMonth() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(currentCalendar.time)
@@ -168,34 +167,65 @@ class CalendarFragment : Fragment() {
             .get().addOnSuccessListener { snapshot ->
                 if (snapshot.exists()) {
                     for (diarySnapshot in snapshot.children) {
-                        val diaryType = object : GenericTypeIndicator<Map<String, Any>>() {}
-                        val diaryData = diarySnapshot.getValue(diaryType)
+                        // Diary data 가져오기
+                        val diaryData = diarySnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {})
 
-                        val emotionDegree = diaryData?.get("emotionDegree") as? Map<String, Any>
-                        val reMeasuredEmotionDegree = diaryData?.get("reMeasuredEmotionDegree") as? Map<String, Any>
+                        // diaryData가 null일 경우 처리
+                        if (diaryData == null) {
+                            Log.d("CalendarFragment", "Diary data is null, skipping this entry")
+                            return@addOnSuccessListener // 현재 diarySnapshot 건너뛰기
+                        }
 
-                        val degreeValue = reMeasuredEmotionDegree?.get("int") ?: emotionDegree?.get("int")
+                        Log.d("CalendarFragment", "Fetched diaryData: $diaryData")  // diaryData 확인
 
-                        degreeValue?.let {
-                            val date = diaryData?.get("date") as? String ?: return@let
-                            Log.d("CalendarFragment", "Fetched diary for date: $date") // 날짜 로그 추가
+                        // "emotionDegree"와 "reMeasuredEmotionDegree"를 Map<String, Any>에서 가져오기
+                        val emotionDegreeMap = diaryData["emotionDegree"] as? Map<String, Any>
+                        val reMeasuredEmotionDegreeMap = diaryData["reMeasuredEmotionDegree"] as? Map<String, Any>
+
+                        // "int"와 "string" 값을 안전하게 가져오기
+                        val emotionDegreeInt = emotionDegreeMap?.get("int") as? Int
+                        val emotionDegreeString = emotionDegreeMap?.get("string") as? String
+
+                        val reMeasuredEmotionDegreeInt = reMeasuredEmotionDegreeMap?.get("int") as? Int
+                        val reMeasuredEmotionDegreeString = reMeasuredEmotionDegreeMap?.get("string") as? String
+
+                        // 로그에 null 체크 추가
+                        Log.d("CalendarFragment", "Emotion Degree Int: ${emotionDegreeInt ?: "null"}")
+                        Log.d("CalendarFragment", "Emotion Degree String: ${emotionDegreeString ?: "null"}")
+                        Log.d("CalendarFragment", "Re-measured Emotion Degree Int: ${reMeasuredEmotionDegreeInt ?: "null"}")
+                        Log.d("CalendarFragment", "Re-measured Emotion Degree String: ${reMeasuredEmotionDegreeString ?: "null"}")
+
+                        // emotionDegree와 reMeasuredEmotionDegree에서 값 가져오기
+                        val degreeValue = reMeasuredEmotionDegreeInt ?: emotionDegreeInt ?: 0
+
+                        // degreeValue가 null인 경우, 기본 값 처리
+                        if (degreeValue != 0) {
+                            val date = diaryData["date"] as? String
+                            if (date == null) {
+                                Log.d("CalendarFragment", "Date is null, skipping this entry")
+                                return@addOnSuccessListener // 여기에서 반복문을 건너뛰도록 처리
+                            }
+
+                            Log.d("CalendarFragment", "Fetched diary for date: $date")
                             val dateComponents = date.split("-")
                             if (dateComponents.size == 3) {
-                                val day = dateComponents[2].toIntOrNull() // "07" -> 7로 변환
+                                val day = dateComponents[2].toIntOrNull()
                                 if (day != null) {
-                                    Log.d("CalendarFragment", "Day from date: $day") // day 값 로그
-                                    addStampToCalendar(day, it.toString().toInt())  // Firebase 데이터가 로드된 후에 addStampToCalendar 호출
+                                    Log.d("CalendarFragment", "Day from date: $day")
+                                    addStampToCalendar(day, degreeValue)  // degreeValue는 이미 int 값
                                 } else {
                                     Log.e("CalendarFragment", "Invalid day value: $day")
                                 }
                             }
+                        } else {
+                            Log.d("CalendarFragment", "Degree value is null, using default value 0")
                         }
                     }
                 }
-            }.addOnFailureListener { exception ->
-                Log.e("CalendarFragment", "Failed to fetch diary data", exception)
             }
     }
+
+
     private fun addStampToCalendar(day: Int, degree: Int) {
         val emotionDrawable = when (degree) {
             0 -> R.drawable.img_emotion_0
