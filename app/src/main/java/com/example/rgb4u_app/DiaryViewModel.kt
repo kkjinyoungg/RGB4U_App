@@ -19,6 +19,7 @@ class DiaryViewModel : ViewModel() {
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
     val emotionTypes = MutableLiveData<List<String>>()
+    val monthlyStatsUpdater = MonthlyStatsUpdater()
 
     // 전역 변수로 diaryId를 저장
     companion object {
@@ -102,36 +103,37 @@ class DiaryViewModel : ViewModel() {
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공")
                 analyzeDiaryWithAI(userId, diaryId!!) // AI 분석 호출
-                // 날짜와 emotionTypes를 가져와서 MonthlyStatsUpdater 호출
 
-                // 각 감정 유형에 대한 키워드 목록을 가져옵니다.
-                val surpriseKeywords = listOf("움찔하는", "황당한", "깜짝 놀란", "어안이 벙벙한", "아찔한", "충격적인")
-                val fearKeywords = listOf("걱정스러운", "긴장된", "불안한", "겁나는", "무서운", "암담한")
-                val sadnessKeywords = listOf("기운 없는", "서운한", "슬픈", "눈물이 나는", "우울한", "비참한")
-                val angerKeywords = listOf("약 오른", "짜증나는", "화난", "억울한", "분한", "끓어오르는")
-                val disgustKeywords = listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
-
+                // 감정 키워드 통계 상세
                 val date = getCurrentDate() // 현재 날짜
                 val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? List<String> ?: emptyList()
 
-                // 로그 추가 - MonthlyStatsUpdater 호출 전에
-                Log.d("DiaryViewModel", "MonthlyStatsUpdater 호출 준비: userId = $userId, diaryId = $diaryId, date = $date, emotionTypes = $emotionTypes")
-
-                MonthlyStatsUpdater().updateMonthlyStats(userId, diaryId!!, date, emotionTypes) // 월간 통계 업데이트
-                // 로그 추가 - MonthlyStatsUpdater 호출 후
-                Log.d("DiaryViewModel", "MonthlyStatsUpdater 호출 완료")
-
-                // 감정 유형에 맞는 키워드를 확인하여 카운트 증가
+                // 감정 유형에 대한 키워드 카운트 업데이트
                 val statsRef = FirebaseDatabase.getInstance().getReference("users/$userId/stats")
                 val updates = mutableMapOf<String, Any>()
+
+                // 감정 그래프에 대한 업데이트
+                val emotionGraphRef = FirebaseDatabase.getInstance().getReference("users/$userId/emotiongraph")
+
                 for (emotionType in emotionTypes) {
+                    // emotionType에 맞는 키워드를 찾아서 카운트 증가
                     val keywordList = getKeywordListForEmotion(emotionType) ?: continue
                     for (keyword in keywordList) {
-                        val keywordPath = "path/to/keyword/category/$keyword"
-                        updates[keywordPath] = ServerValue.increment(1)
+                        // 정확히 매칭된 키워드만 증가시킴
+                        val keywordPath = "keywords/$emotionType/$keyword" // keyword를 감정 유형에 맞게 경로 설정
+                        updates[keywordPath] = ServerValue.increment(1) // 이 부분에서 키워드 카운트를 1 증가시킴
+                        Log.d("DiaryViewModel", "Updating keyword count for: $keyword, path: $keywordPath")
                     }
+
+                    // 감정 유형에 대한 카운트를 graph에 기록
+                    val emotionGraphPath = "emotiongraph/$emotionType"
+                    updates[emotionGraphPath] = ServerValue.increment(1) // 감정 유형의 카운트를 1 증가시킴
+                    Log.d("DiaryViewModel", "Updated emotion graph for $emotionType at path: $emotionGraphPath")
                 }
-                statsRef.updateChildren(updates)
+
+                statsRef.updateChildren(updates) // updates를 한 번에 반영
+
+                monthlyStatsUpdater.updateMonthlyStats(userId, diaryId!!, getCurrentDate(), emotionTypes)
 
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
