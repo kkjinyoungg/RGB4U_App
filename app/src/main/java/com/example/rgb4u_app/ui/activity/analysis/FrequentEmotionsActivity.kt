@@ -43,13 +43,15 @@ class FrequentEmotionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frequent_emotions)
 
+        val selectedDate = intent.getStringExtra("selectedDate") ?: "2024-10"  // 기본값은 "2024-10"으로 설정
+
         // Firebase Authentication을 통해 현재 로그인한 사용자 UID 가져오기
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             // 로그인된 사용자 UID로 Database 경로 설정
             val userId = user.uid
-            database = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/2024-10")
-            Log.d("FrequentEmotionsActivity", "로그인된 사용자 UID: $userId")
+            database = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$selectedDate")
+            Log.d("FrequentEmotionsActivity", "사용자 UID: $userId, 선택된 날짜: $selectedDate")
 
             // Firebase에서 감정 데이터를 불러와 업데이트
             loadEmotionData()

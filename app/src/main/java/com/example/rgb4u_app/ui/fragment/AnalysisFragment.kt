@@ -50,6 +50,9 @@ class AnalysisFragment : Fragment() {
     // 현재 날짜를 저장하는 변수
     private val currentDate = Calendar.getInstance()
 
+    //통계 상세를 위한 날짜 저장 (yyyy-mm)
+    private var formattedDate2: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -122,9 +125,10 @@ class AnalysisFragment : Fragment() {
         tvViewDetails = view.findViewById(R.id.tv_view_details)
         tvViewDetails.setOnClickListener {
             Toast.makeText(context, "자세히 보기를 클릭했습니다.", Toast.LENGTH_SHORT).show()
-            // 필요한 경우 다른 액티비티로 이동
-            // 예시:
+            // 날짜를 전달(FrequentEmotionsActivity로)
             val intent = Intent(context, FrequentEmotionsActivity::class.java)
+            intent.putExtra("selectedDate", formattedDate2)
+            Log.d("AnalysisFragment", "감정 통계 상세로 보낸 날짜: $formattedDate2")
             startActivity(intent)
         }
 
@@ -147,6 +151,8 @@ class AnalysisFragment : Fragment() {
     private fun updateToolbarDate() {
         val formattedDate = SimpleDateFormat("yyyy년 MM월", Locale("ko", "KR")).format(currentDate.time)
         toolbarCalendarTitle.text = formattedDate
+        //통계 상세용 날짜도 함께 업데이트
+        formattedDate2 = SimpleDateFormat("yyyy-MM", Locale("ko", "KR")).format(currentDate.time)
     }
 
     private fun setupPieChart(entries: List<PieEntry>) {
