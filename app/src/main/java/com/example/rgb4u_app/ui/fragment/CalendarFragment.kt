@@ -92,17 +92,6 @@ class CalendarFragment : Fragment() {
                 // Calculate the day from the grid position
                 val day = i - startDay + 1
 
-                // 도장 이미지 표시 (예: 1일에 도장이 찍힌다고 가정)
-                if (day == 1) { // 예시로 1일에 도장을 표시
-                    val stampImage = ImageView(requireContext()).apply {
-                        layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
-                            gravity = Gravity.CENTER
-                        }
-                        setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.img_emotion_0, null)) // 도장 이미지
-                    }
-                    frameLayout.addView(stampImage)
-                }
-
                 setTextColor(ResourcesCompat.getColor(resources, R.color.white, null)) // 텍스트 색상 설정
 
                 if (i >= startDay) {
@@ -178,22 +167,29 @@ class CalendarFragment : Fragment() {
 
                         Log.d("CalendarFragment", "Fetched diaryData: $diaryData")  // diaryData 확인
 
+                        // "userInput"에서 emotionDegree와 reMeasuredEmotionDegree 가져오기
+                        val userInput = diaryData["userInput"] as? Map<String, Any>
+                        Log.d("CalendarFragment", "Fetched userInput: $userInput")  // userInput 로그 추가
+
                         // "emotionDegree"와 "reMeasuredEmotionDegree"를 Map<String, Any>에서 가져오기
-                        val emotionDegreeMap = diaryData["emotionDegree"] as? Map<String, Any>
-                        val reMeasuredEmotionDegreeMap = diaryData["reMeasuredEmotionDegree"] as? Map<String, Any>
+                        val emotionDegreeMap = userInput?.get("emotionDegree") as? Map<String, Any>
+                        val reMeasuredEmotionDegreeMap = userInput?.get("reMeasuredEmotionDegree") as? Map<String, Any>
 
-                        // "int"와 "string" 값을 안전하게 가져오기
-                        val emotionDegreeInt = emotionDegreeMap?.get("int") as? Int
-                        val emotionDegreeString = emotionDegreeMap?.get("string") as? String
+                        // 각각의 Map 로그 추가
+                        Log.d("CalendarFragment", "Fetched emotionDegreeMap: $emotionDegreeMap")  // emotionDegreeMap 로그 추가
+                        Log.d("CalendarFragment", "Fetched reMeasuredEmotionDegreeMap: $reMeasuredEmotionDegreeMap")  // reMeasuredEmotionDegreeMap 로그 추가
 
-                        val reMeasuredEmotionDegreeInt = reMeasuredEmotionDegreeMap?.get("int") as? Int
-                        val reMeasuredEmotionDegreeString = reMeasuredEmotionDegreeMap?.get("string") as? String
+                        // "int" 값을 안전하게 가져오기
+                        val emotionDegreeInt = (emotionDegreeMap?.get("int") as? Long)?.toInt()
+                        val reMeasuredEmotionDegreeInt = (reMeasuredEmotionDegreeMap?.get("int") as? Long)?.toInt()
+
+                        // 각 "int" 값 로그 추가
+                        Log.d("CalendarFragment", "Fetched emotionDegreeInt: $emotionDegreeInt")  // emotionDegreeInt 로그 추가
+                        Log.d("CalendarFragment", "Fetched reMeasuredEmotionDegreeInt: $reMeasuredEmotionDegreeInt")  // reMeasuredEmotionDegreeInt 로그 추가
 
                         // 로그에 null 체크 추가
                         Log.d("CalendarFragment", "Emotion Degree Int: ${emotionDegreeInt ?: "null"}")
-                        Log.d("CalendarFragment", "Emotion Degree String: ${emotionDegreeString ?: "null"}")
                         Log.d("CalendarFragment", "Re-measured Emotion Degree Int: ${reMeasuredEmotionDegreeInt ?: "null"}")
-                        Log.d("CalendarFragment", "Re-measured Emotion Degree String: ${reMeasuredEmotionDegreeString ?: "null"}")
 
                         // emotionDegree와 reMeasuredEmotionDegree에서 값 가져오기
                         val degreeValue = reMeasuredEmotionDegreeInt ?: emotionDegreeInt ?: 0
@@ -224,6 +220,7 @@ class CalendarFragment : Fragment() {
                 }
             }
     }
+
 
 
     private fun addStampToCalendar(day: Int, degree: Int) {
