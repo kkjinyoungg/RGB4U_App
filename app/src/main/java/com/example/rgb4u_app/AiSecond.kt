@@ -61,10 +61,14 @@ class AiSecond {
                         val filteredResults = filterResults(results)
                         Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}")
 
-                        val secondAnalysis = createSecondAnalysis(filteredResults)
-                        Log.d(TAG, "분석 결과 구조화 완료")
-
-                        saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                        // 필터링 결과가 비어 있을 때의 처리
+                        if (filteredResults.isEmpty()) {
+                            handleEmptyResults(userId, diaryId, callback)
+                        } else {
+                            // 필터링된 결과가 존재할 경우
+                            val secondAnalysis = createSecondAnalysis(filteredResults)
+                            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                        }
                     }
                 }
             }
@@ -87,7 +91,7 @@ class AiSecond {
         
         인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해줘:
         {
-            "유형": "유형 이름",
+            "유형": "유형 이름", //만약 유형이 없다면, "유형" 필드에 null을 넣어줘.
             "문장": "$sentence",
             "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해줘.",
             "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 74byte 문장 이내로 간단하게 작성해줘.",
@@ -114,6 +118,7 @@ class AiSecond {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(TAG, "API request failed: ${e.message}")
             }
+
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (response.isSuccessful) {
@@ -132,15 +137,28 @@ class AiSecond {
 
                                     Log.d(TAG, "API 응답 JSON: $contentJson")
 
-                                    // 모든 필요한 필드 추출
-                                    val responseObj = JSONObject()
-                                    responseObj.put("유형", contentJson.optString("유형", "유형 없음")) // 유형
-                                    responseObj.put("문장", contentJson.optString("문장", "문장 없음")) // 문장
-                                    responseObj.put("유형 이유", contentJson.optString("유형 이유", "이유 없음")) // 유형 이유
-                                    responseObj.put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음")) // 대안적 생각
-                                    responseObj.put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음")) // 대안적 생각 이유
+                                    // "유형"이 없는 경우 처리
+                                    if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
+                                        val noTypeResponse = JSONObject().apply {
+                                            put("유형", JSONObject.NULL)
+                                            put("문장", sentence)
+                                            put("유형 이유", JSONObject.NULL)
+                                            put("대안적 생각", JSONObject.NULL)
+                                            put("대안적 생각 이유", JSONObject.NULL)
+                                        }
+                                        callback(noTypeResponse) // 콜백으로 응답 전달
+                                    } else {
+                                        // 모든 필요한 필드 추출
+                                        val responseObj = JSONObject().apply {
+                                            put("유형", contentJson.optString("유형", "유형 없음"))
+                                            put("문장", contentJson.optString("문장", "문장 없음"))
+                                            put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
+                                            put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
+                                            put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
+                                        }
 
-                                    callback(responseObj) // 콜백으로 응답 전달
+                                        callback(responseObj) // 콜백으로 응답 전달
+                                    }
                                 } else {
                                     Log.d(TAG, "message가 없습니다.")
                                 }
@@ -157,13 +175,16 @@ class AiSecond {
             }
         })
     }
-
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
         for (result in results) {
-            val type = result.optString("유형", "Unknown") // "유형" 값이 없을 때 기본값 설정
-            filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
-                if (size < 3) add(result)
+            val type = result.optString("유형") // 기본적으로 빈 문자열로 처리됨
+
+            // "유형"이 비어있지 않은 경우에만 추가
+            if (type.isNotEmpty()) {
+                filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
+                    if (size < 3) add(result)
+                }
             }
         }
         return filteredResults
@@ -206,5 +227,24 @@ class AiSecond {
         }.addOnFailureListener { e ->
             Log.e(TAG, "두 번째 분석 결과 저장 실패: ${e.message}")
         }
+    }
+
+    private fun handleEmptyResults(userId: String, diaryId: String, callback: () -> Unit) {
+        Log.d(TAG, "모든 결과가 null입니다. 다른 작업을 수행합니다.")
+
+        // 사용자에게 알림을 보냄
+        //notifyUser("분석할 내용이 없습니다.") // notifyUser는 사용자에게 메시지를 표시하는 메서드라고 가정
+
+        // 기본 메시지를 Firebase에 저장
+        val defaultAnalysis = mapOf(
+            "totalSets" to 0,
+            "totalCharacters" to 0,
+            "thoughtSets" to mapOf("유형 없음" to "분석할 내용이 없습니다.")
+        )
+        saveSecondAnalysis(userId, diaryId, defaultAnalysis, callback)
+    }
+    private fun notifyUser(message: String) {
+        // 예: Toast 메시지로 사용자에게 알림
+        //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
