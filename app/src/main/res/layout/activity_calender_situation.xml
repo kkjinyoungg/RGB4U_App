@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
     android:id="@+id/fragment_container">
 
     <!-- 이 영역에 SummaryFragment가 추가됩니다. -->

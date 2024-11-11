@@ -77,11 +77,26 @@ class CalenderDetailActivity : AppCompatActivity() {
         // situationTextView와 thoughtTextView 참조
         val situationTextView = findViewById<TextView>(R.id.situationTextView)
         val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
+        // val thoughtTextView2 = findViewById<TextView>(R.id.thoughtTextView2)
         val emotionIntensityTextView = findViewById<TextView>(R.id.emotionIntensityTextView)
         val emotionTypeTextView = findViewById<TextView>(R.id.emotionTypeTextView)
         val emotionIntensityImageView = findViewById<ImageView>(R.id.emotionIntensityImageView)
 
-        // 칩 그룹 참조
+        // 임시 데이터 설정
+        val situationTextData = "오늘은 기분이 좋았어요."
+        val thoughtTextData = "긍정적인 생각을 많이 했어요."
+        val thoughtTextData2 = "두 번째 생각"  // 실제 데이터가 있을 경우
+        val emotionIntensityData = "강도: 높음"
+        val emotionTypeData = "감정 유형: 기쁨"
+
+        // 텍스트뷰에 데이터 설정
+        situationTextView.text = situationTextData
+        thoughtTextView.text = thoughtTextData
+        emotionIntensityTextView.text = emotionIntensityData
+        emotionTypeTextView.text = emotionTypeData
+
+
+        // 칩 그룹 참조 (SummaryMainActivity의 코드를 복붙하기엔 문제가 될거같아서 일단 비워둡니다..)
         val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
         val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
     }

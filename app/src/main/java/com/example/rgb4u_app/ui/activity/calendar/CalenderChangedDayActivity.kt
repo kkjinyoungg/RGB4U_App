@@ -4,46 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 
 class CalenderChangedDayActivity : AppCompatActivity() {
 
-    // 뷰 변수 선언
-    private lateinit var iconImageView1: ImageView
-    private lateinit var situationTextView1: TextView
-    private lateinit var exampleText1: TextView
-
-    private lateinit var iconImageView2: ImageView
-    private lateinit var situationTextView2: TextView
-    private lateinit var exampleText2: TextView
-
-    private lateinit var iconImageView3: ImageView
-    private lateinit var situationTextView3: TextView
-    private lateinit var exampleText3: TextView
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_calender_changed_day)
-
-        // 뷰 초기화
-        iconImageView1 = findViewById(R.id.iconImageView1)
-        situationTextView1 = findViewById(R.id.situationTextView1)
-        exampleText1 = findViewById(R.id.exampleText1)
-
-        iconImageView2 = findViewById(R.id.iconImageView2)
-        situationTextView2 = findViewById(R.id.situationTextView2)
-        exampleText2 = findViewById(R.id.exampleText2)
-
-        iconImageView3 = findViewById(R.id.iconImageView3)
-        situationTextView3 = findViewById(R.id.situationTextView3)
-        exampleText3 = findViewById(R.id.exampleText3)
-
 
         // Toolbar 설정
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -71,19 +47,27 @@ class CalenderChangedDayActivity : AppCompatActivity() {
             finish() // 현재 Activity를 종료
         }
 
-        // 임시 데이터 설정
-        iconImageView1.setImageResource(R.drawable.ic_planet_a)  // 예시 이미지 설정
-        situationTextView1.text = "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
-        exampleText1.text = "예시 1: 임시 예시 텍스트 1"
+        // thoughtDetailButton 클릭 리스너 추가
+        val thoughtDetailButton: ImageButton = findViewById(R.id.thoughtDetailButton)
+        thoughtDetailButton.setOnClickListener {
+            // ChangeThinkThisActivity로 이동
+            val intent = Intent(this, ChangeThinkThisActivity::class.java)
+            startActivity(intent)
+            finish() // 현재 Activity를 종료
+        }
 
-        iconImageView2.setImageResource(R.drawable.ic_planet_a)  // 예시 이미지 설정
-        situationTextView2.text = "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
-        exampleText2.text = "예시 2: 임시 예시 텍스트 2"
+        recyclerView = findViewById(R.id.summaryThinkRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        iconImageView3.setImageResource(R.drawable.ic_planet_a)  // 예시 이미지 설정
-        situationTextView3.text = "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까??"
-        exampleText3.text = "예시 3: 임시 예시 텍스트 3"
+        // 예시 데이터
+        val situations = listOf(
+            ChangeDaySituation(R.drawable.ic_planet_a, "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까?", "예시 텍스트 1"),
+            ChangeDaySituation(R.drawable.ic_planet_a, "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까?", "예시 텍스트 2"),
+            ChangeDaySituation(R.drawable.ic_planet_a, "엄마는 왜 맨날 나를 괴롭히고 내가 자는 걸 싫어하고 내가 행복한 꼴을 못 보실까?", "예시 텍스트 3")
+        )
 
+        val adapter = ChangeDayThinkAdapter(situations)
+        recyclerView.adapter = adapter
 
     }
 }

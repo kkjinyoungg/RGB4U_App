@@ -1,0 +1,121 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Think Section -->
+    <RelativeLayout
+        android:id="@+id/thinkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/thinkTextButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|end"
+            android:orientation="horizontal"
+            android:layout_centerVertical="false"
+            android:layout_marginTop="12dp">
+
+            <!-- ThinkTextView는 왼쪽에 배치 -->
+            <TextView
+                android:id="@+id/ThinkTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="엄마는 왜 맨날 어쩌고"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+            <!-- ThinktoggleButton을 오른쪽 끝에 배치 -->
+            <ImageButton
+                android:id="@+id/ThinktoggleButton"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/ic_toggle_down" />
+        </LinearLayout>
+
+        <!-- 추가 설명 텍스트 (기본적으로 숨김) -->
+        <TextView
+            android:id="@+id/ThinkExtraTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/thinkTextButtonLayout"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:text="추가 설명이 여기에 들어갑니다."
+            android:textColor="@color/gray1"
+            android:textSize="14sp"
+            android:visibility="gone" /> <!-- 이 부분의 visibility만 제어 -->
+    </RelativeLayout>
+
+    <!-- Change Section -->
+    <RelativeLayout
+        android:id="@+id/changeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_blue2_10_background"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thinkLayout">
+
+        <LinearLayout
+            android:id="@+id/changeTextButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_centerVertical="false"
+            android:gravity="start|end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- ThinkTextView는 왼쪽에 배치 -->
+            <TextView
+                android:id="@+id/ChangemessageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여기에 메시지가 들어갑니다."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+            <!-- ThimktoggleButton을 오른쪽 끝에 배치 -->
+            <ImageButton
+                android:id="@+id/ChangetoggleButton"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/ic_toggle_down" />
+        </LinearLayout>
+
+        <!-- 추가 메시지 텍스트 (기본적으로 숨김) -->
+        <TextView
+            android:id="@+id/ChangeExtraTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/changeTextButtonLayout"
+            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:text="추가 메시지가 여기에 들어갑니다."
+            android:textColor="@color/gray1"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

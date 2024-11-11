@@ -11,49 +11,50 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.fragment.SummaryFragment
 
 class CalenderThinkActivity : AppCompatActivity() {
+    private lateinit var summaryFragment: SummaryFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_calender_think)
 
         // SummaryFragment 인스턴스 생성
-        val summaryFragment = SummaryFragment.newInstance()
+        summaryFragment = SummaryFragment.newInstance()
 
         // FragmentManager를 사용하여 Fragment를 추가
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, summaryFragment)  // fragment_container에 Fragment 삽입
-            commit()  // 트랜잭션 적용
+            commit()
         }
 
-        // 프래그먼트 찾기
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as SummaryFragment
-
-        // summaryFragment와 텍스트&배경&이미지 리소스 색이 반대라서 액티비티 상에서 다시 설정. 수정 x
-        fragment.view?.findViewById<TextView>(R.id.titleTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
-        fragment.view?.findViewById<TextView>(R.id.userContentLableTextView)?.setTextColor(
-            ContextCompat.getColor(this, R.color.black))
-        fragment.view?.findViewById<TextView>(R.id.userContentTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
-        fragment.view?.findViewById<TextView>(R.id.summaryLableTextView)?.setTextColor(ContextCompat.getColor(this, R.color.blue2))
-        fragment.view?.findViewById<TextView>(R.id.summarizedTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
-        fragment.view?.findViewById<TextView>(R.id.whySummaryLabelTextView)?.setTextColor(
-            ContextCompat.getColor(this, R.color.black))
-        fragment.view?.findViewById<TextView>(R.id.whySummaryTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
-
-        // 레이아웃 배경 설정
-        fragment.view?.setBackgroundResource(R.drawable.background_light_sub)
-
-        // 프래그먼트의 ImageView와 ImageButton 리소스 변경
-        val imageView = fragment.view?.findViewById<ImageView>(R.id.whySummaryLabelImageView)
-        imageView?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
-        // fragment.view?.findViewById<ImageView>(R.id.whySummaryLabelImageView)?.setImageResource(R.drawable.ic_situation) // 블랙버전 추후 업데이트 필요
-        fragment.view?.findViewById<ImageButton>(R.id.backButton)?.setImageResource(R.drawable.ic_back)
-
-
-        summaryFragment.titleText = "이렇게 생각했어요" //고정 제목
-        summaryFragment.summaryLabelText = "AI로 요약된 상황" //고정 제목
-        summaryFragment.userContentLabelText = "기록한 상황" //고정 제목
-
+        // 고정 제목 및 콘텐츠 설정
+        summaryFragment.titleText = "이렇게 생각했어요"
+        summaryFragment.summaryLabelText = "AI로 요약된 생각"
+        summaryFragment.userContentLabelText = "기록한 생각"
         summaryFragment.summarizedContent = "어쩌구어쩌구생각"
         summaryFragment.whySummaryReason = "대충요약이유쏼라"
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 프래그먼트의 view가 준비되었는지 null 체크 후 접근
+        summaryFragment.view?.let { fragmentView ->
+            fragmentView.findViewById<TextView>(R.id.titleTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+            fragmentView.findViewById<TextView>(R.id.userContentLableTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+            fragmentView.findViewById<TextView>(R.id.userContentTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+            fragmentView.findViewById<TextView>(R.id.summaryLableTextView)?.setTextColor(ContextCompat.getColor(this, R.color.blue2))
+            fragmentView.findViewById<TextView>(R.id.summarizedTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+            fragmentView.findViewById<TextView>(R.id.whySummaryLabelTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+            fragmentView.findViewById<TextView>(R.id.whySummaryTextView)?.setTextColor(ContextCompat.getColor(this, R.color.black))
+
+            // 레이아웃 배경 설정
+            fragmentView.setBackgroundResource(R.drawable.background_light_sub)
+
+            // ImageView와 ImageButton 리소스 변경
+            val imageView = fragmentView.findViewById<ImageView>(R.id.whySummaryLabelImageView)
+            imageView?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
+            fragmentView.findViewById<ImageButton>(R.id.backButton)?.setImageResource(R.drawable.ic_back)
+        }
     }
 }
