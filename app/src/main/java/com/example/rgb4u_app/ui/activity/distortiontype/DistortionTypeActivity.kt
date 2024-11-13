@@ -11,14 +11,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.DistortionHelpBottomSheet
+import com.example.rgb4u_app.DistortionTypeFiller
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import android.util.Log
 
 class DistortionTypeActivity : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: DistortionPagerAdapter
+    private lateinit var distortionTypeFiller: DistortionTypeFiller
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = getCurrentDate()
 
         viewPager = findViewById(R.id.view_pager)
-        pagerAdapter = DistortionPagerAdapter(this, viewPager) // viewPager 인자를 전달
+        pagerAdapter = DistortionPagerAdapter(this, viewPager)
         viewPager.adapter = pagerAdapter
 
         // 터치로 페이지 넘기기 비활성화
@@ -51,7 +54,6 @@ class DistortionTypeActivity : AppCompatActivity() {
             if (viewPager.currentItem < pagerAdapter.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
-                // EmotionReselectActivity로 이동하는 코드 추가
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 startActivity(intent)
             }
@@ -63,22 +65,34 @@ class DistortionTypeActivity : AppCompatActivity() {
             }
         }
 
-        // button_write_action2 클릭 리스너 설정
         toolbar.findViewById<View>(R.id.button_write_action2).setOnClickListener {
             showDistortionHelpBottomSheet()
         }
 
-        // button_write_action1 클릭 리스너 설정
         toolbar.findViewById<View>(R.id.button_write_action1).setOnClickListener {
             val intent = Intent(this, SummaryMainActivity::class.java)
             startActivity(intent)
         }
+
+        // Intent에서 사용자 ID와 다이어리 ID 가져오기
+        val userId = intent.getStringExtra("USER_ID") ?: ""
+        val diaryId = intent.getStringExtra("DIARY_ID") ?: ""
+        // 로그 출력
+        Log.d("DistortionTypeActivity", "Received User ID: $userId")
+        Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
+        // DistortionTypeFiller 초기화 및 데이터 로드
+        distortionTypeFiller = DistortionTypeFiller()
+        distortionTypeFiller.initialize(userId, diaryId) // 전달받은 ID 사용
+
+        // 데이터가 로드된 후 UI 갱신
+        distortionTypeFiller.setOnDataLoadedListener {
+            pagerAdapter.updateData() // UI 업데이트
+        }
     }
 
-    // DistortionHelpBottomSheet 호출 함수
     private fun showDistortionHelpBottomSheet() {
-        val bottomSheet = DistortionHelpBottomSheet()  // DistortionHelpBottomSheet 인스턴스 생성
-        bottomSheet.show(supportFragmentManager, "DistortionHelpBottomSheet")  // BottomSheet 표시
+        val bottomSheet = DistortionHelpBottomSheet()
+        bottomSheet.show(supportFragmentManager, "DistortionHelpBottomSheet")
     }
 
     private fun getCurrentDate(): String {
@@ -106,10 +120,9 @@ class DistortionTypeActivity : AppCompatActivity() {
         }
     }
 
-
     // 툴바의 뒤로가기 버튼 클릭 시 처리
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed() // 기본 뒤로가기 동작
+        onBackPressed()
         return true
     }
 }

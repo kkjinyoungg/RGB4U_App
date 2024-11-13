@@ -20,4 +20,8 @@ class DistortionPagerAdapter(
         val distortionType = DistortionData.distortionTypes[position]
         return DistortionFragment.newInstance(distortionType, viewPager, this) // distortionType을 전달
     }
+
+    fun updateData() {
+        notifyDataSetChanged() // 데이터가 변경되었음을 UI에 알림
+    }
 }

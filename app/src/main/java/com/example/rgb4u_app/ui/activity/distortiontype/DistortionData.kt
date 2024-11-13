@@ -6,87 +6,24 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DistortionType(
-    val type: String, // 유형 제목
-    val subtitle: String, // 유형 부제목
-    val imageResId: Int, // 이미지 리소스
-    val detailTitle: String, // 상세 설명 제목
-    val detail: String, // 상세 설명
-    val extendedDetail: String, // 추가적인 상세 설명
-    val alternativeThought: String, // 대안적 생각
-    val alternativeExtendedDetail: String, // 대안적 추가 상세 설명
-
-    val detail2: String, // 상세 설명2 - DistortionMoreThoughtsActivity
-    val extendedDetail2: String, // 추가적인 상세 설명 - DistortionMoreThoughtsActivity
-    val alternativeThought2: String, // 대안적 생각 - DistortionMoreThoughtsActivity
-    val alternativeExtendedDetail2: String, // 대안적 추가 상세 설명 - DistortionMoreThoughtsActivity
-
-    val detail3: String, // 상세 설명3 - DistortionMoreThoughtsActivity
-    val extendedDetail3: String, // 추가적인 상세 설명 - DistortionMoreThoughtsActivity
-    val alternativeThought3: String, // 대안적 생각 - DistortionMoreThoughtsActivity
-    val alternativeExtendedDetail3: String // 대안적 추가 상세 설명
+    val type: String,
+    val subtitle: String,
+    val imageResId: Int,
+    val detailTitle: String,
+    val detail: String,
+    val extendedDetail: String,
+    val alternativeThought: String,
+    val alternativeExtendedDetail: String,
+    val detail2: String,
+    val extendedDetail2: String,
+    val alternativeThought2: String,
+    val alternativeExtendedDetail2: String,
+    val detail3: String,
+    val extendedDetail3: String,
+    val alternativeThought3: String,
+    val alternativeExtendedDetail3: String
 ) : Parcelable
 
 object DistortionData {
-    val distortionTypes = listOf(
-        DistortionType(
-            type = "",
-            subtitle = "",
-            detailTitle = "",
-            detail = "",
-            extendedDetail = "",
-            alternativeThought = "",
-            alternativeExtendedDetail = "",
-            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
-
-            detail2 = "",
-            extendedDetail2 = "",
-            alternativeThought2 = "",
-            alternativeExtendedDetail2 = "",
-
-            detail3 = "",
-            extendedDetail3 = "",
-            alternativeThought3 = "",
-            alternativeExtendedDetail3 = ""
-        ),
-        DistortionType(
-            type = "",
-            subtitle = "",
-            detailTitle = "",
-            detail = "",
-            extendedDetail = "",
-            alternativeThought = "",
-            alternativeExtendedDetail = "",
-            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
-
-            detail2 = "",
-            extendedDetail2 = "",
-            alternativeThought2 = "",
-            alternativeExtendedDetail2 = "",
-
-            detail3 = "",
-            extendedDetail3 = "",
-            alternativeThought3 = "",
-            alternativeExtendedDetail3 = ""
-        ),
-        DistortionType(
-            type = "",
-            subtitle = "",
-            detailTitle = "",
-            detail = "",
-            extendedDetail = "",
-            alternativeThought = "",
-            alternativeExtendedDetail = "",
-            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
-
-            detail2 = "",
-            extendedDetail2 = "",
-            alternativeThought2 = "",
-            alternativeExtendedDetail2 = "",
-
-            detail3 = "",
-            extendedDetail3 = "",
-            alternativeThought3 = "",
-            alternativeExtendedDetail3 = ""
-        )
-    )
+    val distortionTypes = mutableListOf<DistortionType>()
 }

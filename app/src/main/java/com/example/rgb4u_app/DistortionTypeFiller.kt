@@ -8,6 +8,7 @@ class DistortionTypeFiller {
 
     private lateinit var database: DatabaseReference
     private val distortionTypes = mutableListOf<DistortionType>()
+    private var dataLoadedListener: (() -> Unit)? = null // 데이터 로드 완료 리스너
 
     // 사용자 ID와 다이어리 ID를 매개변수로 받는 생성자
     fun initialize(userId: String, diaryId: String) {
@@ -78,6 +79,8 @@ class DistortionTypeFiller {
 
                     // distortionTypes 리스트를 사용하여 필요한 작업 수행
                     Log.d("DistortionData", distortionTypes.toString())
+                    // 데이터가 로드된 후 리스너 호출
+                    dataLoadedListener?.invoke()
                 } else {
                     Log.d("DistortionTypeFiller", "No data found for the given userId and diaryId.")
                 }
@@ -105,5 +108,10 @@ class DistortionTypeFiller {
             "ic_planet_l" -> R.drawable.ic_planet_a
             else -> R.drawable.ic_planet_a // 기본 이미지 ID (존재하지 않는 경우)
         }
+    }
+
+    // 데이터가 로드된 후 호출할 리스너 설정
+    fun setOnDataLoadedListener(listener: () -> Unit) {
+        dataLoadedListener = listener
     }
 }

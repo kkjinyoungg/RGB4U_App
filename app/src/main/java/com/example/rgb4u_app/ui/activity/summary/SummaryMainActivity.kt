@@ -213,6 +213,11 @@ class SummaryMainActivity : AppCompatActivity() {
         // buttonNext 클릭 리스너 추가
         findViewById<Button>(R.id.buttonNext).setOnClickListener {
             // DistortionTypeActivity로 이동
+            val intent = Intent(this, DistortionTypeActivity::class.java).apply {
+                putExtra("USER_ID", userId)
+                putExtra("DIARY_ID", diaryId)
+            }
+            Log.d("SummaryMainActivity", "Navigating to DistortionTypeActivity with User ID: $userId and Diary ID: $diaryId")
             startActivity(Intent(this, DistortionTypeActivity::class.java))
             finish()
         }
