@@ -269,6 +269,11 @@ class AiSecond {
 
         analysisRef.setValue(secondAnalysis).addOnSuccessListener {
             Log.d(TAG, "두 번째 분석 결과 저장 성공")
+
+            // DistortionTypeFiller 인스턴스 생성 및 초기화
+            val distortionTypeFiller = DistortionTypeFiller()
+            distortionTypeFiller.initialize(userId, diaryId) // 사용자 ID와 다이어리 ID를 전달하여 초기화
+
             callback()
         }.addOnFailureListener { e ->
             Log.e(TAG, "두 번째 분석 결과 저장 실패: ${e.message}")

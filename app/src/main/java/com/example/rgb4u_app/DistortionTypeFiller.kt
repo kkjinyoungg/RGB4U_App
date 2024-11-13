@@ -1,15 +1,79 @@
 package com.example.rgb4u_app
 
-import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionType
-import com.example.rgb4u_appclass.DiaryViewModel
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
-class DistortionTypeFiller : AppCompatActivity() {
+class DistortionTypeFiller {
 
+    private lateinit var database: DatabaseReference
+    private val distortionTypes = mutableListOf<DistortionType>()
+
+    // 사용자 ID와 다이어리 ID를 매개변수로 받는 생성자
+    fun initialize(userId: String, diaryId: String) {
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
+        fetchDistortionData()
+    }
+
+    private fun fetchDistortionData() {
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (typeSnapshot in snapshot.children) {
+                    val type = typeSnapshot.key ?: continue // 키(유형 이름)를 가져옴
+
+                    // 데이터가 존재하는지 확인
+                    if (typeSnapshot.exists()) {
+                        val characterDescription = typeSnapshot.child("characterDescription").children.joinToString("\n") { it.value?.toString() ?: "" }
+                        val imageResource = typeSnapshot.child("imageResource").value?.toString() ?: ""
+
+                        // 각 세부 사항 가져오기
+                        val detail1 = typeSnapshot.child("1").child("selectedThoughts").value?.toString() ?: ""
+                        val extendedDetail1 = typeSnapshot.child("1").child("charactersReason").value?.toString() ?: ""
+                        val alternativeThought1 = typeSnapshot.child("1").child("alternativeThoughts").value?.toString() ?: ""
+                        val alternativeExtendedDetail1 = typeSnapshot.child("1").child("alternativeThoughtsReason").value?.toString() ?: ""
+
+                        val detail2 = typeSnapshot.child("2").child("selectedThoughts").value?.toString() ?: ""
+                        val extendedDetail2 = typeSnapshot.child("2").child("charactersReason").value?.toString() ?: ""
+                        val alternativeThought2 = typeSnapshot.child("2").child("alternativeThoughts").value?.toString() ?: ""
+                        val alternativeExtendedDetail2 = typeSnapshot.child("2").child("alternativeThoughtsReason").value?.toString() ?: ""
+
+                        val detail3 = typeSnapshot.child("3").child("selectedThoughts").value?.toString() ?: ""
+                        val extendedDetail3 = typeSnapshot.child("3").child("charactersReason").value?.toString() ?: ""
+                        val alternativeThought3 = typeSnapshot.child("3").child("alternativeThoughts").value?.toString() ?: ""
+                        val alternativeExtendedDetail3 = typeSnapshot.child("3").child("alternativeThoughtsReason").value?.toString() ?: ""
+
+                        // DistortionType 객체 생성
+                        val distortionType = DistortionType(
+                            type = type,
+                            subtitle = characterDescription,
+                            imageResId = imageResource,
+                            detailTitle = "$type 이 나온 생각이에요",
+                            detail = detail1,
+                            extendedDetail = extendedDetail1,
+                            alternativeThought = alternativeThought1,
+                            alternativeExtendedDetail = alternativeExtendedDetail1,
+                            detail2 = detail2,
+                            extendedDetail2 = extendedDetail2,
+                            alternativeThought2 = alternativeThought2,
+                            alternativeExtendedDetail2 = alternativeExtendedDetail2,
+                            detail3 = detail3,
+                            extendedDetail3 = extendedDetail3,
+                            alternativeThought3 = alternativeThought3,
+                            alternativeExtendedDetail3 = alternativeExtendedDetail3
+                        )
+
+                        // distortionTypes 리스트에 추가
+                        distortionTypes.add(distortionType)
+                    }
+                }
+
+                // distortionTypes 리스트를 사용하여 필요한 작업 수행
+                Log.d("DistortionData", distortionTypes.toString())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseError", error.message)
+            }
+        })
+    }
 }
