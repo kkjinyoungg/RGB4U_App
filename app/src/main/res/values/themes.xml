@@ -4,6 +4,12 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <!-- 스타일 재정의 추가 -->
+    <style name="Theme.Navigation.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:width">40dp</item> <!-- 원하는 너비로 설정 -->
+        <item name="android:height">28dp</item> <!-- 원하는 높이로 설정 -->
+        <item name="android:color">@color/blue2_10</item>
+    </style>
 
     <style name="Theme.RGB4U_App" parent="Base.Theme.RGB4U_App" />
 </resources>

@@ -72,13 +72,15 @@ class AnalysisFragment : Fragment() {
 
         // 어댑터 설정
         cardAdapter = CardAdapter(cardList) { cardItem ->
-            // 카드 클릭 시 상세보기로 이동하는 로직
-            Toast.makeText(context, "${cardItem.typeName} 상세보기로 이동", Toast.LENGTH_SHORT).show()
-            // 필요한 경우 다른 액티비티로 이동
-            // 예시:
-            // val intent = Intent(context, DetailActivity::class.java)
-            // startActivity(intent)
+            // PlanetDetailFragment로 이동하고 typeName 전달
+            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName)
+            parentFragmentManager.beginTransaction()  // 또는 requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+
         }
+
         recyclerView.adapter = cardAdapter
 
         // PieChart 설정

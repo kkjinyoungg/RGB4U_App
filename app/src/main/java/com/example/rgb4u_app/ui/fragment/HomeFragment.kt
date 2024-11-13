@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import java.text.SimpleDateFormat
@@ -32,6 +33,20 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Toolbar 설정
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar_home) // 수정: view를 사용
+        val activity = requireActivity() as AppCompatActivity
+        activity.setSupportActionBar(toolbar)
+
+        // 기본 뒤로가기 버튼, 앱 이름 숨기기
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // button_write_action2 버튼 숨기기
+        val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
+        notificationButton.visibility = View.GONE
+
+
         // 뷰를 초기화합니다.
         textBox = view.findViewById(R.id.textBox)
         dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
@@ -47,16 +62,6 @@ class HomeFragment : Fragment() {
 
         // 앱 설치 날짜를 기반으로 디데이 계산
         calculateDDay()
-
-        // 이미지 버튼 초기화
-        val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
-
-        // 클릭 리스너 설정
-        notificationButton.setOnClickListener {
-            // 버튼 클릭 시 동작 정의
-            Toast.makeText(requireContext(), "알림 버튼이 클릭되었습니다!", Toast.LENGTH_SHORT).show()
-            // 여기서 알림 관련 로직 추가 가능
-        }
     }
 
     private fun updateDateAndDay() {
