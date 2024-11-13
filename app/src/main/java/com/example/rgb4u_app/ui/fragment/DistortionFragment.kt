@@ -53,9 +53,7 @@ class DistortionFragment : Fragment() {
         detailTextView.text = distortionType.detail // 중복없이 한 번만 설정
 
         val extendedDetailTextView = view.findViewById<TextView>(R.id.tv_type_detail_extended) // 유형에 대한 자세한 설명
-        extendedDetailTextView.text  = distortionType.extendedDetail
-
-        val moreThoughtsTextView = view.findViewById<TextView>(R.id.tv_more_thoughts)
+        extendedDetailTextView.text = distortionType.extendedDetail
 
         val alternativeThoughtTextView = view.findViewById<TextView>(R.id.tv_alternative_thought) // 유형에 대한 대안적 생각
         alternativeThoughtTextView.text = distortionType.alternativeThought
@@ -63,17 +61,21 @@ class DistortionFragment : Fragment() {
         val alternativeExtendedDetailTextView = view.findViewById<TextView>(R.id.tv_alternative_detail_extended) // 유형에 대한 자세한 대안적 생각
         alternativeExtendedDetailTextView.text = distortionType.alternativeExtendedDetail
 
+        // moreThoughtsTextView 초기화
+        val moreThoughtsTextView = view.findViewById<TextView>(R.id.tv_more_thoughts)
 
-
-        // "다른 생각도 더 보실래요?"에 밑줄 효과 추가
-        moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-
-        // 클릭 리스너
-        moreThoughtsTextView.setOnClickListener {
-            val context = requireContext()
-            val intent = Intent(context, DistortionMoreThoughtsActivity::class.java)
-            intent.putExtra("distortionType", distortionType) // 전달할 DistortionType 객체 추가
-            context.startActivity(intent)
+        // detail2와 detail3가 없거나 null 또는 빈 문자열인지 확인하고 tv_more_thoughts를 숨김
+        if (distortionType.detail2.isNullOrEmpty() && distortionType.detail3.isNullOrEmpty()) {
+            moreThoughtsTextView.visibility = View.GONE
+        } else {
+            // "다른 생각도 더 보실래요?"에 밑줄 효과 추가
+            moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+            moreThoughtsTextView.setOnClickListener {
+                val context = requireContext()
+                val intent = Intent(context, DistortionMoreThoughtsActivity::class.java)
+                intent.putExtra("distortionType", distortionType)
+                context.startActivity(intent)
+            }
         }
 
         // 토글 관련 초기화
@@ -82,7 +84,6 @@ class DistortionFragment : Fragment() {
 
         val alternativeToggleTextView = view.findViewById<TextView>(R.id.tv_alternative_detail_toggle)
         val btnAlternativeToggle = view.findViewById<ImageView>(R.id.btn_alternative_detail_toggle)
-
 
         // 첫 번째 토글 기능
         toggleDetailTextView.setOnClickListener {

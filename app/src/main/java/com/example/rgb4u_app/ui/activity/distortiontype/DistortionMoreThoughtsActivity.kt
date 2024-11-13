@@ -86,7 +86,11 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
         tvAlternativeDetailExtended3 = findViewById(R.id.tv_alternative_detail_extended_3)
 
         // 두 번째 섹션의 데이터가 없을 경우 숨김 처리
-        if (distortionType.alternativeThought.isNullOrEmpty()) {
+        if (distortionType.alternativeThought.isNullOrEmpty() &&
+            distortionType.detail3.isNullOrEmpty() &&
+            distortionType.extendedDetail3.isNullOrEmpty() &&
+            distortionType.alternativeThought3.isNullOrEmpty()) {
+
             // 두 번째 섹션의 모든 뷰를 숨깁니다.
             tvTypeDetailTitle3.visibility = View.GONE
             tvTypeDetail3.visibility = View.GONE
@@ -100,12 +104,13 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
             btnAlternativeDetailToggle3.visibility = View.GONE
             tvAlternativeDetailExtended3.visibility = View.GONE
         } else {
-            // 데이터가 있는 경우에는 텍스트를 설정하고 섹션을 보여줍니다.
-            tvTypeDetailTitle3.text = distortionType.detailTitle // 예시로 제목 설정
-            tvTypeDetail3.text = distortionType.detail // 예시로 상세 내용 설정
-            // 추가로 다른 뷰에 데이터 설정하기
+            // 데이터가 있는 경우 UI 요소에 데이터 설정
+            tvTypeDetailTitle3.text = distortionType.detailTitle // 제목 설정
+            tvTypeDetail3.text = distortionType.detail3 // 상세 내용 설정
+            tvTypeDetailExtended3.text = distortionType.extendedDetail3 // 추가 상세 내용 설정
+            tvAlternativeThought3.text = distortionType.alternativeThought3 // 대안적 생각 설정
+            tvAlternativeDetailExtended3.text = distortionType.alternativeExtendedDetail3 // 대안적 추가 상세 설정
         }
-
 
         // 첫 번째 섹션 데이터 설정
         setupFirstSection()
