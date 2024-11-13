@@ -97,9 +97,12 @@ class DistortionTypeFiller {
     }
 
 
-    // 데이터가 로드된 후 호출할 리스너 설정
     fun setOnDataLoadedListener(listener: () -> Unit) {
-        dataLoadedListener = listener
+        dataLoadedListener = listener // 리스너
+    }
+
+    fun getDistortionTypes(): List<DistortionType> { // 추가된 메서드
+        return distortionTypes
     }
 
     private fun getImageResId(imageResource: String): Int {

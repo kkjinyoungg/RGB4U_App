@@ -23,9 +23,19 @@ class DistortionTypeActivity : AppCompatActivity() {
     private lateinit var pagerAdapter: DistortionPagerAdapter
     private lateinit var distortionTypeFiller: DistortionTypeFiller
 
+    private lateinit var userId: String // lateinit으로 선언
+    private lateinit var diaryId: String // lateinit으로 선언
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distortion_type)
+
+        // Intent에서 사용자 ID와 다이어리 ID 가져오기
+        val userId = intent.getStringExtra("USER_ID") ?: ""
+        val diaryId = intent.getStringExtra("DIARY_ID") ?: ""
+        // 로그 출력
+        Log.d("DistortionTypeActivity", "Received User ID: $userId")
+        Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
         setSupportActionBar(toolbar)
@@ -37,7 +47,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = getCurrentDate()
 
         viewPager = findViewById(R.id.view_pager)
-        pagerAdapter = DistortionPagerAdapter(this, viewPager)
+        pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, diaryId)
         viewPager.adapter = pagerAdapter
 
         Log.d("DistortionTypeActivity", "ViewPager initialized: $viewPager")
@@ -81,13 +91,6 @@ class DistortionTypeActivity : AppCompatActivity() {
             val intent = Intent(this, SummaryMainActivity::class.java)
             startActivity(intent)
         }
-
-        // Intent에서 사용자 ID와 다이어리 ID 가져오기
-        val userId = intent.getStringExtra("USER_ID") ?: ""
-        val diaryId = intent.getStringExtra("DIARY_ID") ?: ""
-        // 로그 출력
-        Log.d("DistortionTypeActivity", "Received User ID: $userId")
-        Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
 
         // DistortionTypeFiller 초기화 및 데이터 로드
         distortionTypeFiller = DistortionTypeFiller()
