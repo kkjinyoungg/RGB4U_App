@@ -214,30 +214,17 @@ class AiSecond {
         // 각 인지 왜곡 유형에 따른 이미지 리소스 매핑
         val imageResources = mapOf(
             "흑백성" to "ic_planet_a",  // 흑백성에 대한 이미지
-            "재앙성" to "ic_planet_a",  // 재앙성에 대한 이미지
-            "외면성" to "ic_planet_a",  // 외면성에 대한 이미지
-            "느낌성" to "ic_planet_a",  // 느낌성에 대한 이미지
-            "이름성" to "ic_planet_a",  // 이름성에 대한 이미지
-            "과장성" to "ic_planet_a",  // 과장성에 대한 이미지
-            "부분성" to "ic_planet_a",  // 부분성에 대한 이미지
-            "궁예성" to "ic_planet_a",  // 궁예성에 대한 이미지
-            "일반화성" to "ic_planet_a", // 일반화성에 대한 이미지
-            "내탓성" to "ic_planet_a",  // 내탓성에 대한 이미지
-            "해야해성" to "ic_planet_a", // 해야해성에 대한 이미지
-            "어둠성" to "ic_planet_a"   // 어둠성에 대한 이미지
-            /*
-            "흑백성" to "ic_planet_a",  // 흑백성에 대한 이미지
-    "재앙성" to "ic_planet_b",  // 재앙성에 대한 이미지
-    "외면성" to "ic_planet_c",  // 외면성에 대한 이미지
-    "느낌성" to "ic_planet_d",  // 느낌성에 대한 이미지
-    "이름성" to "ic_planet_e",  // 이름성에 대한 이미지
-    "과장성" to "ic_planet_f",  // 과장성에 대한 이미지
-    "부분성" to "ic_planet_g",  // 부분성에 대한 이미지
-    "궁예성" to "ic_planet_h",  // 궁예성에 대한 이미지
-    "일반화성" to "ic_planet_i", // 일반화성에 대한 이미지
-    "내탓성" to "ic_planet_j",  // 내탓성에 대한 이미지
-    "해야해성" to "ic_planet_k", // 해야해성에 대한 이미지
-        "어둠성" to "ic_planet_l"   // 어둠성에 대한 이미지 */
+            "재앙성" to "ic_planet_b",  // 재앙성에 대한 이미지
+            "외면성" to "ic_planet_c",  // 외면성에 대한 이미지
+            "느낌성" to "ic_planet_d",  // 느낌성에 대한 이미지
+            "이름성" to "ic_planet_e",  // 이름성에 대한 이미지
+            "과장성" to "ic_planet_f",  // 과장성에 대한 이미지
+            "부분성" to "ic_planet_g",  // 부분성에 대한 이미지
+            "궁예성" to "ic_planet_h",  // 궁예성에 대한 이미지
+            "일반화성" to "ic_planet_i", // 일반화성에 대한 이미지
+            "내탓성" to "ic_planet_j",  // 내탓성에 대한 이미지
+            "해야해성" to "ic_planet_k", // 해야해성에 대한 이미지
+            "어둠성" to "ic_planet_l"   // 어둠성에 대한 이미지
         )
         for ((type, thoughts) in filteredResults) {
             val thoughtSet = mutableMapOf<String, Any>()

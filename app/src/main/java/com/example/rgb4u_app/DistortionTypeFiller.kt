@@ -30,7 +30,10 @@ class DistortionTypeFiller {
                         // 데이터가 존재하는지 확인
                         if (typeSnapshot.exists()) {
                             val characterDescription = typeSnapshot.child("characterDescription").children.joinToString("\n") { it.value?.toString() ?: "" }
+                            Log.d("DistortionTypeFiller", "Fetched characterDescription: '$characterDescription'")
+
                             val imageResource = typeSnapshot.child("imageResource").value?.toString() ?: ""
+                            Log.d("DistortionTypeFiller", "Fetched imageResource: '$imageResource'")
 
                             // 이미지 리소스 ID 변환
                             val imageResId = getImageResId(imageResource) // 함수 호출
@@ -108,17 +111,17 @@ class DistortionTypeFiller {
     private fun getImageResId(imageResource: String): Int {
         return when (imageResource) {
             "ic_planet_a" -> R.drawable.ic_planet_a
-            "ic_planet_b" -> R.drawable.ic_planet_a
-            "ic_planet_c" -> R.drawable.ic_planet_a
-            "ic_planet_d" -> R.drawable.ic_planet_a
-            "ic_planet_e" -> R.drawable.ic_planet_a
-            "ic_planet_f" -> R.drawable.ic_planet_a
-            "ic_planet_g" -> R.drawable.ic_planet_a
-            "ic_planet_h" -> R.drawable.ic_planet_a
-            "ic_planet_i" -> R.drawable.ic_planet_a
-            "ic_planet_j" -> R.drawable.ic_planet_a
-            "ic_planet_k" -> R.drawable.ic_planet_a
-            "ic_planet_l" -> R.drawable.ic_planet_a
+            "ic_planet_b" -> R.drawable.ic_planet_b
+            "ic_planet_c" -> R.drawable.ic_planet_c
+            "ic_planet_d" -> R.drawable.ic_planet_d
+            "ic_planet_e" -> R.drawable.ic_planet_e
+            "ic_planet_f" -> R.drawable.ic_planet_f
+            "ic_planet_g" -> R.drawable.ic_planet_g
+            "ic_planet_h" -> R.drawable.ic_planet_h
+            "ic_planet_i" -> R.drawable.ic_planet_i
+            "ic_planet_j" -> R.drawable.ic_planet_j
+            "ic_planet_k" -> R.drawable.ic_planet_k
+            "ic_planet_l" -> R.drawable.ic_planet_l
             else -> R.drawable.ic_planet_a // 기본 이미지 ID (존재하지 않는 경우)
         }
     }

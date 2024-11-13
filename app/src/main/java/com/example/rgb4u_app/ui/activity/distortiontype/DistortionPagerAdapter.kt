@@ -36,7 +36,7 @@ class DistortionPagerAdapter(
     }
 
     fun updateData() {
-        Log.d("DistortionPagerAdapter", "Current distortionTypes size: ${distortionFiller.getDistortionTypes().size}") // ❤️ Filler에서 데이터 사이즈 로그
+        Log.d("DistortionPagerAdapter", "Current distortionTypes size: ${distortionFiller.getDistortionTypes().size}") //Filler에서 데이터 사이즈 로그
         notifyDataSetChanged() // 데이터가 변경되었음을 UI에 알림
     }
 }
