@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class DistortionType(
     val type: String, // 유형 제목
     val subtitle: String, // 유형 부제목
-    val imageResId: String, // 이미지 리소스 String으로 변경 (Int에서)
+    val imageResId: Int, // 이미지 리소스
     val detailTitle: String, // 상세 설명 제목
     val detail: String, // 상세 설명
     val extendedDetail: String, // 추가적인 상세 설명
@@ -36,7 +36,7 @@ object DistortionData {
             extendedDetail = "",
             alternativeThought = "",
             alternativeExtendedDetail = "",
-            imageResId = "", // 실제 이미지 리소스 ID
+            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
 
             detail2 = "",
             extendedDetail2 = "",
@@ -56,7 +56,7 @@ object DistortionData {
             extendedDetail = "",
             alternativeThought = "",
             alternativeExtendedDetail = "",
-            imageResId = "", // 실제 이미지 리소스 ID
+            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
 
             detail2 = "",
             extendedDetail2 = "",
@@ -76,7 +76,7 @@ object DistortionData {
             extendedDetail = "",
             alternativeThought = "",
             alternativeExtendedDetail = "",
-            imageResId = "", // 실제 이미지 리소스 ID
+            imageResId = R.drawable.ic_planet_a, // 실제 이미지 리소스 ID
 
             detail2 = "",
             extendedDetail2 = "",
