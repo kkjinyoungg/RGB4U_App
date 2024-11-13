@@ -175,15 +175,20 @@ class AiSecond {
             }
         })
     }
+
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
+
         for (result in results) {
             val type = result.optString("유형") // 기본적으로 빈 문자열로 처리됨
 
             // "유형"이 비어있지 않은 경우에만 추가
             if (type.isNotEmpty()) {
-                filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
-                    if (size < 3) add(result)
+                // 유형이 이미 3개 이상이면 추가하지 않음
+                if (filteredResults.size < 3) {
+                    filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
+                        if (size < 3) add(result)
+                    }
                 }
             }
         }
