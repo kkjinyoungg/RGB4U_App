@@ -25,66 +25,54 @@ class DistortionTypeFiller {
                     Log.d("DistortionTypeFiller", "Data fetched successfully: ${snapshot.childrenCount} entries")
                     distortionTypes.clear()  // 이전 데이터를 지우고 시작
                     for (typeSnapshot in snapshot.children) {
-                        val type = typeSnapshot.key ?: continue // 키(유형 이름)를 가져옴
+                        if (typeSnapshot.value is List<*>) {
+                            val thoughtSetList = typeSnapshot.value as List<*>
+                            for (thoughtSet in thoughtSetList) {
+                                if (thoughtSet is Map<*, *>) {
+                                    val characterDescription = (thoughtSet["characterDescription"] as? List<*>)?.joinToString("\n") { it.toString() } ?: ""
+                                    Log.d("DistortionTypeFiller", "Fetched characterDescription: '$characterDescription'")
 
-                        // 데이터가 존재하는지 확인
-                        if (typeSnapshot.exists()) {
-                            val characterDescription = typeSnapshot.child("characterDescription").children.joinToString("\n") { it.value?.toString() ?: "" }
-                            Log.d("DistortionTypeFiller", "Fetched characterDescription: '$characterDescription'")
+                                    val imageResource = thoughtSet["imageResource"]?.toString() ?: ""
+                                    Log.d("DistortionTypeFiller", "Fetched imageResource: '$imageResource'")
 
-                            val imageResource = typeSnapshot.child("imageResource").value?.toString() ?: ""
-                            Log.d("DistortionTypeFiller", "Fetched imageResource: '$imageResource'")
+                                    val imageResId = getImageResId(imageResource)
+                                    Log.d("DistortionTypeFiller", "Image resource: $imageResource, Image res ID: $imageResId")
 
-                            // 이미지 리소스 ID 변환
-                            val imageResId = getImageResId(imageResource) // 함수 호출
-                            Log.d("DistortionTypeFiller", "Image resource: $imageResource, Image res ID: $imageResId")
+                                    val selectedThoughts = thoughtSet["selectedThoughts"]?.toString() ?: ""
+                                    val alternativeThoughts = thoughtSet["alternativeThoughts"]?.toString() ?: ""
+                                    val charactersReason = thoughtSet["charactersReason"]?.toString() ?: ""
+                                    val alternativeThoughtsReason = thoughtSet["alternativeThoughtsReason"]?.toString() ?: ""
 
-                            // 각 세부 사항 가져오기
-                            val detail1 = typeSnapshot.child("1").child("selectedThoughts").value?.toString() ?: ""
-                            val extendedDetail1 = typeSnapshot.child("1").child("charactersReason").value?.toString() ?: ""
-                            val alternativeThought1 = typeSnapshot.child("1").child("alternativeThoughts").value?.toString() ?: ""
-                            val alternativeExtendedDetail1 = typeSnapshot.child("1").child("alternativeThoughtsReason").value?.toString() ?: ""
+                                    // DistortionType 객체 생성 (필요한 모든 매개변수 추가)
+                                    val distortionType = DistortionType(
+                                        type = typeSnapshot.key ?: "알 수 없음",
+                                        subtitle = characterDescription,
+                                        imageResId = imageResId,
+                                        detailTitle = "${typeSnapshot.key} 이 나온 생각이에요",
+                                        detail = selectedThoughts,
+                                        extendedDetail = charactersReason,
+                                        alternativeThought = alternativeThoughts,
+                                        alternativeExtendedDetail = alternativeThoughtsReason,
+                                        detail2 = "", // 적절한 값을 추가
+                                        extendedDetail2 = "", // 적절한 값을 추가
+                                        alternativeThought2 = "", // 적절한 값을 추가
+                                        alternativeExtendedDetail2 = "", // 적절한 값을 추가
+                                        detail3 = "", // 적절한 값을 추가
+                                        extendedDetail3 = "", // 적절한 값을 추가
+                                        alternativeThought3 = "", // 적절한 값을 추가
+                                        alternativeExtendedDetail3 = "" // 적절한 값을 추가
+                                    )
 
-                            val detail2 = typeSnapshot.child("2").child("selectedThoughts").value?.toString() ?: ""
-                            val extendedDetail2 = typeSnapshot.child("2").child("charactersReason").value?.toString() ?: ""
-                            val alternativeThought2 = typeSnapshot.child("2").child("alternativeThoughts").value?.toString() ?: ""
-                            val alternativeExtendedDetail2 = typeSnapshot.child("2").child("alternativeThoughtsReason").value?.toString() ?: ""
-
-                            val detail3 = typeSnapshot.child("3").child("selectedThoughts").value?.toString() ?: ""
-                            val extendedDetail3 = typeSnapshot.child("3").child("charactersReason").value?.toString() ?: ""
-                            val alternativeThought3 = typeSnapshot.child("3").child("alternativeThoughts").value?.toString() ?: ""
-                            val alternativeExtendedDetail3 = typeSnapshot.child("3").child("alternativeThoughtsReason").value?.toString() ?: ""
-
-                            // DistortionType 객체 생성
-                            val distortionType = DistortionType(
-                                type = type,
-                                subtitle = characterDescription,
-                                imageResId = imageResId, // 변환된 리소스 ID 사용
-                                detailTitle = "$type 이 나온 생각이에요",
-                                detail = detail1,
-                                extendedDetail = extendedDetail1,
-                                alternativeThought = alternativeThought1,
-                                alternativeExtendedDetail = alternativeExtendedDetail1,
-                                detail2 = detail2,
-                                extendedDetail2 = extendedDetail2,
-                                alternativeThought2 = alternativeThought2,
-                                alternativeExtendedDetail2 = alternativeExtendedDetail2,
-                                detail3 = detail3,
-                                extendedDetail3 = extendedDetail3,
-                                alternativeThought3 = alternativeThought3,
-                                alternativeExtendedDetail3 = alternativeExtendedDetail3
-                            )
-
-                            // distortionTypes 리스트에 추가
-                            distortionTypes.add(distortionType)
-                            Log.d("DistortionTypeFiller", "Added distortion type: $distortionType")
+                                    distortionTypes.add(distortionType)
+                                    Log.d("DistortionTypeFiller", "Added distortion type: $distortionType")
+                                }
+                            }
                         }
                     }
 
-                    // distortionTypes 리스트가 비어 있지 않으면 데이터 로드 완료 후 updateData 호출
                     if (distortionTypes.isNotEmpty()) {
                         Log.d("DistortionTypeFiller", "Data loaded successfully, invoking listener.")
-                        dataLoadedListener?.invoke() // 데이터가 로드되었음을 알려주는 리스너 호출
+                        dataLoadedListener?.invoke()
                     } else {
                         Log.d("DistortionTypeFiller", "No distortion types found.")
                     }
