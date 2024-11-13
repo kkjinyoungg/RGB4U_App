@@ -77,10 +77,13 @@ class DistortionTypeFiller {
                         }
                     }
 
-                    // distortionTypes 리스트를 사용하여 필요한 작업 수행
-                    Log.d("DistortionData", distortionTypes.toString())
-                    // 데이터가 로드된 후 리스너 호출
-                    dataLoadedListener?.invoke()
+                    // distortionTypes 리스트가 비어 있지 않으면 데이터 로드 완료 후 updateData 호출
+                    if (distortionTypes.isNotEmpty()) {
+                        Log.d("DistortionData", distortionTypes.toString())
+                        dataLoadedListener?.invoke() // 데이터가 로드되었음을 알려주는 리스너 호출
+                    } else {
+                        Log.d("DistortionTypeFiller", "No distortion types found.")
+                    }
                 } else {
                     Log.d("DistortionTypeFiller", "No data found for the given userId and diaryId.")
                 }
