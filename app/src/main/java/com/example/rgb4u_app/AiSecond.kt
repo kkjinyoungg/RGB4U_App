@@ -195,14 +195,31 @@ class AiSecond {
         var totalSets = 0
         var totalCharacters = filteredResults.size
 
+        // 각 인지 왜곡 유형에 대한 설명
+        val characterDescriptions = mapOf(
+            "흑백성" to listOf("모든 일을 두 가지로만 나눠서", "생각하게 해요"),
+            "재앙성" to listOf("별다른 이유 없이 미래를 부정적으로", "생각하게 해요"),
+            "외면성" to listOf("자신의 좋은 면을 못 보고 스스로를", "낮춰 생각하게 해요"),
+            "느낌성" to listOf("자신의 느낌이 틀림없는 사실이라고", "생각하게 해요"),
+            "이름성" to listOf("자신이나 다른 사람에게 부정적인 결론이", "담긴 이름을 붙이게 해요"),
+            "과장성" to listOf("부정적인 것은 훨씬 크게, 긍정적인 것은", "훨씬 작게 생각하게 해요"),
+            "부분성" to listOf("전체가 아닌 한 가지 작은 부분을", "계속 생각하게 해요"),
+            "궁예성" to listOf("다른 사람의 생각을 마음대로", "넘겨짚게 해요"),
+            "일반화성" to listOf("몇 가지 일로 모든 일에 부정적인", "결론을 짓게 해요"),
+            "내탓성" to listOf("모든 일을 자신의 탓으로", "돌리게 해요"),
+            "해야해성" to listOf("자신이나 다른 사람이 반드시 어떠해야", "한다고 정해두게 해요"),
+            "어둠성" to listOf("어떤 상황의 부정적인 면만을", "보게 해요")
+        )
+
         for ((type, thoughts) in filteredResults) {
             val thoughtSet = mutableMapOf<String, Any>()
             thoughts.take(3).forEachIndexed { index, thought ->
-                thoughtSet["${index + 1}"] = mapOf(
+                thoughtSet["${index + 1}"] = mapOf<String, Any>( // 키와 값을 명시적으로 지정
                     "selectedThoughts" to thought.optString("문장", "Unknown"),
                     "charactersReason" to thought.optString("유형 이유", ""),
                     "alternativeThoughts" to thought.optString("대안적 생각", ""),
-                    "alternativeThoughtsReason" to thought.optString("대안적 생각 이유", "")
+                    "alternativeThoughtsReason" to thought.optString("대안적 생각 이유", ""),
+                    "characterDescription" to (characterDescriptions[type] ?: listOf("설명이 없습니다."))
                 )
             }
             thoughtSets[type] = thoughtSet
@@ -230,7 +247,7 @@ class AiSecond {
     }
 
     private fun handleEmptyResults(userId: String, diaryId: String, callback: () -> Unit) {
-        Log.d(TAG, "모든 결과가 null입니다. 다른 작업을 수행합니다.")
+        Log.d(TAG, "생각 유형이 없어 handleEmptyResults 함수를 실행합니다.")
 
         // 사용자에게 알림을 보냄
         //notifyUser("분석할 내용이 없습니다.") // notifyUser는 사용자에게 메시지를 표시하는 메서드라고 가정
