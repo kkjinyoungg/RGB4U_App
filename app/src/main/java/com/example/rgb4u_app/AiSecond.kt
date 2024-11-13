@@ -273,6 +273,7 @@ class AiSecond {
             // DistortionTypeFiller 인스턴스 생성 및 초기화
             val distortionTypeFiller = DistortionTypeFiller()
             distortionTypeFiller.initialize(userId, diaryId) // 사용자 ID와 다이어리 ID를 전달하여 초기화
+            Log.d("AiSecond", "filler 부름 userId: $userId, diaryId: $diaryId")
 
             callback()
         }.addOnFailureListener { e ->
