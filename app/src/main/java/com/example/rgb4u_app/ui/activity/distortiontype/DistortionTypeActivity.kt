@@ -40,6 +40,9 @@ class DistortionTypeActivity : AppCompatActivity() {
         pagerAdapter = DistortionPagerAdapter(this, viewPager)
         viewPager.adapter = pagerAdapter
 
+        Log.d("DistortionTypeActivity", "ViewPager initialized: $viewPager")
+        Log.d("DistortionTypeActivity", "PagerAdapter initialized: $pagerAdapter")
+
         // 터치로 페이지 넘기기 비활성화
         viewPager.isUserInputEnabled = false
 
@@ -47,10 +50,12 @@ class DistortionTypeActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 updateButtonVisibility(position)
+                Log.d("DistortionTypeActivity", "Page selected: $position")
             }
         })
 
         findViewById<Button>(R.id.btn_next).setOnClickListener {
+            Log.d("DistortionTypeActivity", "Next button clicked, current item: ${viewPager.currentItem}")
             if (viewPager.currentItem < pagerAdapter.itemCount - 1) {
                 viewPager.currentItem += 1
             } else {
@@ -60,16 +65,19 @@ class DistortionTypeActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_previous).setOnClickListener {
+            Log.d("DistortionTypeActivity", "Previous button clicked, current item: ${viewPager.currentItem}")
             if (viewPager.currentItem > 0) {
                 viewPager.currentItem -= 1
             }
         }
 
         toolbar.findViewById<View>(R.id.button_write_action2).setOnClickListener {
+            Log.d("DistortionTypeActivity", "Help button clicked")
             showDistortionHelpBottomSheet()
         }
 
         toolbar.findViewById<View>(R.id.button_write_action1).setOnClickListener {
+            Log.d("DistortionTypeActivity", "Summary button clicked")
             val intent = Intent(this, SummaryMainActivity::class.java)
             startActivity(intent)
         }
@@ -80,12 +88,15 @@ class DistortionTypeActivity : AppCompatActivity() {
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
         Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
+
         // DistortionTypeFiller 초기화 및 데이터 로드
         distortionTypeFiller = DistortionTypeFiller()
         distortionTypeFiller.initialize(userId, diaryId) // 전달받은 ID 사용
+        Log.d("DistortionTypeActivity", "DistortionTypeFiller initialized")
 
         // 데이터가 로드된 후 UI 갱신
         distortionTypeFiller.setOnDataLoadedListener {
+            Log.d("DistortionTypeActivity", "Data loaded successfully")
             pagerAdapter.updateData() // UI 업데이트
         }
     }
@@ -118,6 +129,7 @@ class DistortionTypeActivity : AppCompatActivity() {
                 btnNext.text = "다음"
             }
         }
+        Log.d("DistortionTypeActivity", "Button visibility updated for position: $position")
     }
 
     // 툴바의 뒤로가기 버튼 클릭 시 처리

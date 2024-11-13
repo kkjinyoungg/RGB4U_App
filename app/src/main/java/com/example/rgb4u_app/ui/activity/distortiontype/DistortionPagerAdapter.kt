@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.activity.distortiontype
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -22,6 +23,7 @@ class DistortionPagerAdapter(
     }
 
     fun updateData() {
+        Log.d("DistortionPagerAdapter", "Current distortionTypes size: ${DistortionData.distortionTypes.size}")
         notifyDataSetChanged() // 데이터가 변경되었음을 UI에 알림
     }
 }

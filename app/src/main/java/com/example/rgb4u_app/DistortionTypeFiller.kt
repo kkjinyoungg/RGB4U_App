@@ -23,6 +23,7 @@ class DistortionTypeFiller {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     Log.d("DistortionTypeFiller", "Data fetched successfully: ${snapshot.childrenCount} entries")
+                    distortionTypes.clear()  // 이전 데이터를 지우고 시작
                     for (typeSnapshot in snapshot.children) {
                         val type = typeSnapshot.key ?: continue // 키(유형 이름)를 가져옴
 
@@ -79,7 +80,7 @@ class DistortionTypeFiller {
 
                     // distortionTypes 리스트가 비어 있지 않으면 데이터 로드 완료 후 updateData 호출
                     if (distortionTypes.isNotEmpty()) {
-                        Log.d("DistortionData", distortionTypes.toString())
+                        Log.d("DistortionTypeFiller", "Data loaded successfully, invoking listener.")
                         dataLoadedListener?.invoke() // 데이터가 로드되었음을 알려주는 리스너 호출
                     } else {
                         Log.d("DistortionTypeFiller", "No distortion types found.")
@@ -93,6 +94,12 @@ class DistortionTypeFiller {
                 Log.e("FirebaseError", error.message)
             }
         })
+    }
+
+
+    // 데이터가 로드된 후 호출할 리스너 설정
+    fun setOnDataLoadedListener(listener: () -> Unit) {
+        dataLoadedListener = listener
     }
 
     private fun getImageResId(imageResource: String): Int {
@@ -111,10 +118,5 @@ class DistortionTypeFiller {
             "ic_planet_l" -> R.drawable.ic_planet_a
             else -> R.drawable.ic_planet_a // 기본 이미지 ID (존재하지 않는 경우)
         }
-    }
-
-    // 데이터가 로드된 후 호출할 리스너 설정
-    fun setOnDataLoadedListener(listener: () -> Unit) {
-        dataLoadedListener = listener
     }
 }
