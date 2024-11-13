@@ -235,7 +235,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } else {
-            tvNewPasswordDescription.text = "비밀번호가 일치하지 않습니다"
+            tvNewPasswordDescription.text = "비밀번호가 일치하지 않아요"
             tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.highlight_dark)) // 빨간색
 
             // 2초 후에 비밀번호 입력 초기화
@@ -253,7 +253,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         updatePasswordImages(false) // 초기 비밀번호 이미지 리셋
         updatePasswordImages(true)  // 확인 비밀번호 이미지 리셋
         tvNewPasswordTitle.text = "새로운 비밀번호 입력"
-        tvNewPasswordDescription.text = "사용할 비밀번호를 입력해주세요"
+        tvNewPasswordDescription.text = "사용하실 비밀번호를 입력해주세요"
         tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.blue2_30)) // 기본 색으로 초기화
         isConfirmingPassword = false
         resetSelectedButtonColor()  // 버튼 색상 초기화

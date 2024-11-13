@@ -31,8 +31,7 @@
             android:text="회원 가입"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:fontFamily="@font/nanumsquareroundregular"
+            style="@style/Bd1_Regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +65,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/ic_singup_nickname_progress" />
 
 
@@ -74,12 +73,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:gravity="center"
         android:text="닉네임을 적어주세요"
         android:textColor="@color/blue2"
-        android:fontFamily="@font/nanumsquareroundextrabold"
-        android:textSize="16sp" />
+        style="@style/CH_Bd1" />
 
     <TextView
         android:layout_width="match_parent"
@@ -87,14 +85,13 @@
         android:layout_marginBottom="16dp"
         android:text="앞으로 닉네임으로 불러드릴게요!"
         android:gravity="center"
-        android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/gray2"
-        android:textSize="12sp" /> <!-- 크기 변경 -->
+        style="@style/Cp1_Regular" />
 
     <FrameLayout
         android:id="@+id/nicknameLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
@@ -106,16 +103,15 @@
         <EditText
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="52dp"
             android:background="@drawable/profile_edit_text_background"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:gravity="center_vertical"
             android:maxLength="10"
             android:padding="16dp"
-            android:hint="나중에 언제든지 수정할 수 있어요."
+            android:hint="나중에 언제든지 수정할 수 있어요!"
             android:textColorHint="@color/gray2"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            style="@style/Bd2_Regular" />
 
         <!-- 글자수 TextView 오버레이 -->
         <TextView
@@ -125,10 +121,9 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:text="0/10"
             android:textColor="@color/gray2"
-            android:textSize="12sp" />
+            style="@style/Cp1_Regular" />
 
     </FrameLayout>
 
@@ -138,14 +133,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
-        android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/highlight"
+        style="@style/Cp1_Regular"
         android:visibility="gone" /> <!-- 초기에는 보이지 않도록 설정 -->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="1" />
 
     <android.widget.Button
         android:id="@+id/buttonNext"
@@ -153,12 +148,10 @@
         android:layout_height="52dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:elevation="0dp"
         android:background="@drawable/rounded_button_light"
-        android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="14sp"
-        android:textColor="@color/light_button_text_color"
-        android:text="다음" />
+        android:stateListAnimator="@null"
+        android:textColor="@color/black"
+        android:text="다음"
+        style="@style/Bd2_Bold"/>
 </LinearLayout>

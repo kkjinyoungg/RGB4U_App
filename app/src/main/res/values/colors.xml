@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    // 투명
-    <color name="white_0"> #00FFFFFF</color>
 
     // Gray Scale
     <color name="black">#262627</color>
+    <color name="black_shadow">#0A000000</color>
     <color name="black_70">#B3262627</color>
     <color name="gray1">#6F6F6F</color>
     <color name="gray2">#969494</color>
@@ -14,16 +13,21 @@
     <color name="white_10">#1AFFFFFF</color>
     <color name="white_20">#33FFFFFF</color>
     <color name="white_40">#66FFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="white_0"> #00FFFFFF</color>
 
     // 메인
     <color name="main">#FFE661</color>
     <color name="main_30">#FFF7D0</color>
+    <color name="main_moa">#FFF5C0</color>
+    <color name="main_secondary">#F4F4F0</color>
     <color name="main_20">#FAF5DB</color>
     <color name="main_30_dark">#7F909E</color>
     <color name="highlight">#FF1E1E</color>
-    <color name="highlight_dark">#FAADAD</color>
+    <color name="highlight_dark">#F2A6A6</color>
 
     //배경색
+    <color name="background_light">#FAFBFA</color>
     <color name="background">#F9F9F9</color>
 
     // Blue Scale
@@ -41,12 +45,10 @@
     <color name="defaultChipColor">#33FFFFFF</color>
 
     //마이페이지 비번 설정과 변경 파트에서의 텍스트 색상
-    <color name="default_text_color">#262627</color>
-    <color name="selected_text_color">#6883B8</color>
-    <color name="error_text_color">#FAADAD</color>
+    <color name="default_text_color">#262627</color> <!-- black -->
+    <color name="selected_text_color">#6883B8</color> <!-- blue2-->
+    <color name="error_text_color">#FAADAD</color> <!-- highlight_dark-->
 
-
-    <color name="your_background_color">#D9D9D9</color>
 
     // 감정 칼라칩
     <color name="surpriseColor">#86DDC4</color>
@@ -68,14 +70,13 @@
     <color name="disgustColor_dark">#7461D1</color>
 
     //swich 버튼 전용 버튼색
-    <color name="on_thumb_color">#FFFFFF</color>
-    <color name="off_thumb_color">#FFFFFF</color>
-    <color name="on_track_color">#FFE661</color>
-    <color name="off_track_color">#D9D9D9</color>
+    <color name="on_thumb_color">#FFFFFF</color> <!-- white-->
+    <color name="off_thumb_color">#FFFFFF</color> <!-- white-->
+    <color name="on_track_color">#FFE661</color> <!-- main-->
+    <color name="off_track_color">#D9D9D9</color> <!-- gray3-->
 
     //네비게이션바 메뉴 텍스트 색
     <color name="selectedTextColor">@color/blue2</color>
-    <color name="defaultTextColor">@color/gray3</color>
-
+    <color name="defaultTextColor">@color/gray2</color>
 
 </resources>

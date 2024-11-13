@@ -221,7 +221,7 @@ class MyPagePasswordEditActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } else {
-            tvPasswordDescription.text = "비밀번호가 일치하지 않습니다"
+            tvPasswordDescription.text = "비밀번호가 일치하지 않아요"
             tvPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.highlight_dark))
 
             android.os.Handler().postDelayed({

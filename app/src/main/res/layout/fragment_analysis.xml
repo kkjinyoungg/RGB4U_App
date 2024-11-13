@@ -32,10 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:text="가장 많이 나온 생각 유형"
-        android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="16sp"
+        android:layout_marginTop="40dp"
+        android:text="가장 많이 나온 생각 유형이에요"
+        style="@style/CH_Bd1"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -59,9 +58,8 @@
         android:id="@+id/tv_emotion_ratio_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="내가 자주 선택한 감정"
-        android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="16sp"
+        android:text="자주 선택한 감정이에요"
+        style="@style/CH_Bd1"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_cards"
         app:layout_constraintStart_toStartOf="parent"
@@ -284,7 +282,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="17dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -292,10 +290,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:text="자세히 보기"
             android:textColor="@color/gray2"
-            android:textSize="12sp" />
+            style="@style/Cp1_Regular" />
 
         <ImageView
             android:layout_width="12dp"

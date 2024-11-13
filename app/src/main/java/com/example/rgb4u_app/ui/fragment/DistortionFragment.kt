@@ -63,10 +63,8 @@ class DistortionFragment : Fragment() {
         val alternativeExtendedDetailTextView = view.findViewById<TextView>(R.id.tv_alternative_detail_extended) // 유형에 대한 자세한 대안적 생각
         alternativeExtendedDetailTextView.text = distortionType.alternativeExtendedDetail
 
-
-
         // "다른 생각도 더 보실래요?"에 밑줄 효과 추가
-        moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        // moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
         // 클릭 리스너
         moreThoughtsTextView.setOnClickListener {

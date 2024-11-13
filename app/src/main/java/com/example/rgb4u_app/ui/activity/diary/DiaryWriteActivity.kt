@@ -22,6 +22,7 @@ import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
@@ -67,8 +68,11 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // 특정 단계의 이미지만 보이도록 설정 (예: 2단계 "생각 적기")
         myRecordFragment.showIconForStep(1)
 
+        // 1단계에서 폰트 스타일을 바꾸는 부분
+        changeFontStyleForStep(1)
+
         // Help 버튼 클릭 리스너 추가
-        findViewById<Button>(R.id.diary_helpButton).setOnClickListener {
+        findViewById<LinearLayout>(R.id.diary_helpButton).setOnClickListener {
             showHelpBottomSheet()
         }
 
@@ -122,8 +126,8 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                     // 글자 수 업데이트
                     charCountTextView.text = "$charCount/150"
 
-                    // 글자 수가 150자를 초과할 경우 색상 변경
-                    if (charCount > 150) {
+                    // 글자 수가 300바이트(150)자를 초과할 경우 색상 변경
+                    if (byteCount > 300) {
                         charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.highlight_dark)) // 빨간색
                     } else {
                         charCountTextView.setTextColor(ContextCompat.getColor(this@DiaryWriteActivity, R.color.gray3)) // 기본 색상
@@ -138,6 +142,20 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // 버튼 클릭 시 onNextButtonClicked 호출
         buttonNext?.setOnClickListener {
             onNextButtonClicked()
+        }
+    }
+
+    // 특정 단계에서 폰트 스타일을 변경하는 함수
+    private fun changeFontStyleForStep(step: Int) {
+        val myTextView: TextView = findViewById(R.id.text_situation)
+        if (step == 1) {
+            // 1단계에서 폰트 스타일을 Bold로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Bold)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_40))
+        } else {
+            // 기본 스타일로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Regular)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_20))
         }
     }
 

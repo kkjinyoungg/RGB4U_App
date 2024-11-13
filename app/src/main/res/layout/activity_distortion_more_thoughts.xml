@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="흑백성이 나온 생각이에요"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="32dp"
             android:textColor="@color/black"
             style="@style/Cp1_Bold"
             android:layout_marginBottom="8dp" />
@@ -43,8 +43,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
             android:orientation="vertical"
             android:layout_marginBottom="24dp">
 
@@ -54,13 +54,13 @@
                 android:layout_height="wrap_content"
                 android:text="시험에서 100점 맞지 않으면 난 바보야. 시험에서 100점 맞지 않으면 난 바보야."
                 style="@style/Bd2_Regular"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
+                android:textColor="@color/black" />
 
             <!-- '자세히 보기' 토글과 이미지 버튼 -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_gravity="end">
 
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="자세히 보기"
-                    android:textColor="@color/gray2"
+                    android:textColor="@color/black"
                     style="@style/Cp1_Regular"
                     android:clickable="true"
                     android:focusable="true" />
@@ -89,6 +89,7 @@
                 android:id="@+id/tv_type_detail_extended_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="추가적인 상세 설명이 여기에 들어갑니다."
                 android:textColor="@color/gray1"
                 style="@style/Cp1_Regular"
@@ -103,8 +104,7 @@
             android:layout_marginLeft="16dp"
             android:background="@drawable/rounded_blue2_10_background"
             android:padding="16dp"
-            android:orientation="vertical"
-            android:layout_marginBottom="12dp">
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tv_alternative_thought_header_2"
@@ -136,7 +136,7 @@
                     android:layout_weight="1"
                     android:text="엄마는 왜 만날 나를 괴롭히고 내가 사는 걸 싫어하고 내가 행복한 꼴을 못 보실까?"
                     android:textColor="@color/blue2"
-                    style="@style/CH_ST" />
+                    style="@style/Bd2_Bold"/>
             </LinearLayout>
 
             <!-- '자세히 보기' 토글과 이미지 버튼 -->
@@ -144,8 +144,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end">
 
                 <TextView
                     android:id="@+id/tv_alternative_detail_toggle_2"
@@ -153,13 +153,13 @@
                     android:layout_height="wrap_content"
                     android:text="자세히 보기"
                     style="@style/Cp1_Regular"
-                    android:textColor="@color/gray2"/>
+                    android:textColor="@color/blue2"/>
 
                 <ImageButton
                     android:id="@+id/btn_alternative_detail_toggle_2"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/ic_toggle_down"
+                    android:src="@drawable/ic_toggle_down_blue"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_marginStart="4dp" />
@@ -170,6 +170,7 @@
                 android:id="@+id/tv_alternative_detail_extended_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="추가적인 상세 설명이 여기에 들어갑니다."
                 android:textColor="@color/gray1"
                 style="@style/Cp1_Regular"
@@ -193,8 +194,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="흑백성이 나온 생각이에요"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="32dp"
             android:textColor="@color/black"
             style="@style/Cp1_Bold"
             android:layout_marginBottom="8dp" />
@@ -202,8 +202,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
             android:orientation="vertical"
             android:layout_marginBottom="24dp">
 
@@ -213,13 +213,13 @@
                 android:layout_height="wrap_content"
                 android:text="시험에서 100점 맞지 않으면 난 바보야. 시험에서 100점 맞지 않으면 난 바보야."
                 style="@style/Bd2_Regular"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
+                android:textColor="@color/black" />
 
             <!-- '자세히 보기' 토글과 이미지 버튼 -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_gravity="end">
 
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="자세히 보기"
-                    android:textColor="@color/gray2"
+                    android:textColor="@color/black"
                     style="@style/Cp1_Regular"
                     android:clickable="true"
                     android:focusable="true" />
@@ -248,6 +248,7 @@
                 android:id="@+id/tv_type_detail_extended_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="추가적인 상세 설명이 여기에 들어갑니다."
                 android:textColor="@color/gray1"
                 style="@style/Cp1_Regular"
@@ -295,16 +296,16 @@
                     android:layout_weight="1"
                     android:text="엄마는 왜 만날 나를 괴롭히고 내가 사는 걸 싫어하고 내가 행복한 꼴을 못 보실까?"
                     android:textColor="@color/blue2"
-                    style="@style/CH_ST" />
+                    style="@style/Bd2_Bold" />
             </LinearLayout>
 
             <!-- '자세히 보기' 토글과 이미지 버튼 -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:layout_marginTop="4dp">
+                android:layout_gravity="end">
 
                 <TextView
                     android:id="@+id/tv_alternative_detail_toggle_3"
@@ -312,13 +313,13 @@
                     android:layout_height="wrap_content"
                     android:text="자세히 보기"
                     style="@style/Cp1_Regular"
-                    android:textColor="@color/gray2"/>
+                    android:textColor="@color/blue2"/>
 
                 <ImageButton
                     android:id="@+id/btn_alternative_detail_toggle_3"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/ic_toggle_down"
+                    android:src="@drawable/ic_toggle_down_blue"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_marginStart="4dp" />
@@ -329,6 +330,7 @@
                 android:id="@+id/tv_alternative_detail_extended_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="추가적인 상세 설명이 여기에 들어갑니다."
                 android:textColor="@color/gray1"
                 style="@style/Cp1_Regular"

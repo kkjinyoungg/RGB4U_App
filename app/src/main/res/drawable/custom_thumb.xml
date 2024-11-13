@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <size
-        android:width="30dp"
-        android:height="30dp" />
+        android:width="28dp"
+        android:height="28dp" />
     <solid android:color="#FFFFFF" /> <!-- 말풍선 부분의 색상과 비슷하게 핑크 계열 사용 -->
 
 </shape>

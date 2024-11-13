@@ -30,10 +30,9 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="상황 예시 보기"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/nanumsquareroundextrabold" />
+                android:text="상황 예시를 확인해보세요"
+                style="@style/Bd1_ExtraBold"
+                android:textColor="@color/black" />
 
             <ImageButton
                 android:id="@+id/refreshButton"
