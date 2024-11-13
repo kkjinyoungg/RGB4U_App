@@ -24,47 +24,58 @@ class DistortionTypeFiller {
                 if (snapshot.exists()) {
                     Log.d("DistortionTypeFiller", "Data fetched successfully: ${snapshot.childrenCount} entries")
                     distortionTypes.clear()  // 이전 데이터를 지우고 시작
+
                     for (typeSnapshot in snapshot.children) {
                         if (typeSnapshot.value is List<*>) {
                             val thoughtSetList = typeSnapshot.value as List<*>
                             for (thoughtSet in thoughtSetList) {
                                 if (thoughtSet is Map<*, *>) {
-                                    val characterDescription = (thoughtSet["characterDescription"] as? List<*>)?.joinToString("\n") { it.toString() } ?: ""
-                                    Log.d("DistortionTypeFiller", "Fetched characterDescription: '$characterDescription'")
-
+                                    val characterDescription = (thoughtSet["characterDescription"] as? List<*>)?.joinToString("\n") ?: ""
                                     val imageResource = thoughtSet["imageResource"]?.toString() ?: ""
-                                    Log.d("DistortionTypeFiller", "Fetched imageResource: '$imageResource'")
-
                                     val imageResId = getImageResId(imageResource)
-                                    Log.d("DistortionTypeFiller", "Image resource: $imageResource, Image res ID: $imageResId")
 
                                     val selectedThoughts = thoughtSet["selectedThoughts"]?.toString() ?: ""
                                     val alternativeThoughts = thoughtSet["alternativeThoughts"]?.toString() ?: ""
                                     val charactersReason = thoughtSet["charactersReason"]?.toString() ?: ""
                                     val alternativeThoughtsReason = thoughtSet["alternativeThoughtsReason"]?.toString() ?: ""
 
-                                    // DistortionType 객체 생성 (필요한 모든 매개변수 추가)
-                                    val distortionType = DistortionType(
-                                        type = typeSnapshot.key ?: "알 수 없음",
-                                        subtitle = characterDescription,
-                                        imageResId = imageResId,
-                                        detailTitle = "${typeSnapshot.key} 이 나온 생각이에요",
-                                        detail = selectedThoughts,
-                                        extendedDetail = charactersReason,
-                                        alternativeThought = alternativeThoughts,
-                                        alternativeExtendedDetail = alternativeThoughtsReason,
-                                        detail2 = "", // 적절한 값을 추가
-                                        extendedDetail2 = "", // 적절한 값을 추가
-                                        alternativeThought2 = "", // 적절한 값을 추가
-                                        alternativeExtendedDetail2 = "", // 적절한 값을 추가
-                                        detail3 = "", // 적절한 값을 추가
-                                        extendedDetail3 = "", // 적절한 값을 추가
-                                        alternativeThought3 = "", // 적절한 값을 추가
-                                        alternativeExtendedDetail3 = "" // 적절한 값을 추가
-                                    )
+                                    // DistortionType 객체를 찾거나 새로 생성
+                                    val existingType = distortionTypes.find { it.type == typeSnapshot.key }
+                                    if (existingType != null) {
+                                        // 기존 객체에 추가
+                                        existingType.detail2 = selectedThoughts // 두 번째 생각
+                                        existingType.extendedDetail2 = charactersReason
+                                        existingType.alternativeThought2 = alternativeThoughts
+                                        existingType.alternativeExtendedDetail2 = alternativeThoughtsReason
 
-                                    distortionTypes.add(distortionType)
-                                    Log.d("DistortionTypeFiller", "Added distortion type: $distortionType")
+                                        // 여기서 existingType을 사용하여 로그를 남김
+                                        Log.d("DistortionTypeFiller", "Updated distortion type: $existingType")
+                                    } else {
+                                        // 새 객체 생성
+                                        val distortionType = DistortionType( // distortionType을 여기서 정의
+                                            type = typeSnapshot.key ?: "알 수 없음",
+                                            subtitle = characterDescription,
+                                            imageResId = imageResId,
+                                            detailTitle = "${typeSnapshot.key} 이 나온 생각이에요",
+                                            detail = selectedThoughts,
+                                            extendedDetail = charactersReason,
+                                            alternativeThought = alternativeThoughts,
+                                            alternativeExtendedDetail = alternativeThoughtsReason,
+                                            detail2 = "", // 초기화
+                                            extendedDetail2 = "",
+                                            alternativeThought2 = "",
+                                            alternativeExtendedDetail2 = "",
+                                            detail3 = "", // 초기화
+                                            extendedDetail3 = "",
+                                            alternativeThought3 = "",
+                                            alternativeExtendedDetail3 = ""
+                                        )
+
+                                        distortionTypes.add(distortionType) // distortionType을 추가
+
+                                        // 새로 생성된 distortionType을 사용하여 로그를 남김
+                                        Log.d("DistortionTypeFiller", "Added distortion type: $distortionType")
+                                    }
                                 }
                             }
                         }
@@ -86,6 +97,7 @@ class DistortionTypeFiller {
             }
         })
     }
+
 
 
     fun setOnDataLoadedListener(listener: () -> Unit) {
