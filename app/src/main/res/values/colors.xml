@@ -75,7 +75,7 @@
 
     //네비게이션바 메뉴 텍스트 색
     <color name="selectedTextColor">@color/blue2</color>
-    <color name="defaultTextColor">@color/gray3</color>
+    <color name="defaultTextColor">@color/gray2</color>
 
 
 </resources>

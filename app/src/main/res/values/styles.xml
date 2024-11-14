@@ -1,8 +1,7 @@
 <resources>
     <!-- BottomAppBar 기본 스타일 -->
     <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
-        <item name="android:background">@color/white</item>
-        <item name="cornerRadius">16dp</item> <!-- 원하는 모서리 반경을 설정 -->
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">

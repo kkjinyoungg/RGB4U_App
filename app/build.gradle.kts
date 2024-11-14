@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.coordinatorlayout)
 
 
     testImplementation(libs.junit)
