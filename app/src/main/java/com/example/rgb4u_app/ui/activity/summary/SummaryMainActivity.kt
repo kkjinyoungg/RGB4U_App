@@ -76,7 +76,12 @@ class SummaryMainActivity : AppCompatActivity() {
 
                         // TextView에 Realtime Database에서 가져온 값 설정
                         situationTextView.text = situation
-                        thoughtTextView.text = thoughts
+
+                        // thoughts를 문장부호 기준으로 나누고 포맷팅
+                        val formattedThoughts = thoughts.split(Regex("(?<=[.!?])\\s*")) // 문장부호 뒤에서 나누기
+                            .filter { it.isNotBlank() } // 빈 문자열 제거
+                            .joinToString("\n") { "•  $it" } // 각 문장 앞에 "• " 추가하고 줄바꿈
+                        thoughtTextView.text = formattedThoughts
 
                         // emotionDegree와 emotionTypes를 userInput에서 가져오기
                         val userInputRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/userInput")
