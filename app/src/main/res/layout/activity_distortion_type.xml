@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_defult"
+    android:background="@drawable/bg_pw_changeday"
     tools:context="ui.activity.distortiontype.DistortionTypeActivity">
 
     <!-- 툴바 포함 -->

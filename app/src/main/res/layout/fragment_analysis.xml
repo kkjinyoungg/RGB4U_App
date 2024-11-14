@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_light_main"
+    android:background="@drawable/bg_analysis_calenar"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.AnalysisFragment">
 
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="96dp"
         android:text="가장 많이 나온 생각 유형이에요"
         style="@style/CH_Bd1"
         android:textColor="@color/black"

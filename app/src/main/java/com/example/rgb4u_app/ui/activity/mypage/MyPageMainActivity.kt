@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.login.LoginActivity
 import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
+import com.example.rgb4u_app.ui.fragment.NavigationFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -197,6 +198,13 @@ class MyPageMainActivity : AppCompatActivity() {
         btnTermsOfServiceDetails.setOnClickListener{
             val intent = Intent(this, MyPageServiceCheck::class.java)
             startActivity(intent)
+        }
+
+        // NavigationFragment를 프래그먼트로 추가
+        if (savedInstanceState == null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.navigationBar, NavigationFragment())  // 여기에 프래그먼트가 들어갈 container ID
+            transaction.commit()
         }
     }
 

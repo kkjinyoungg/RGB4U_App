@@ -6,16 +6,16 @@
     <item
         android:id="@+id/nav_my_record"
         android:icon="@drawable/navigation_my_record_selector"
-        android:title="나의 기록"/>
+        android:title="캘린더"/>
 
     <item android:id="@+id/blank"
-        android:title=""
+        android:title="기록하기"
         android:enabled="false"/>
 
     <item
         android:id="@+id/nav_analysis"
         android:icon="@drawable/navigation_analysis_selector"
-        android:title="분석"/>
+        android:title="월별 통계"/>
     <item
         android:id="@+id/nav_my_page"
         android:icon="@drawable/navigation_my_page_selector"

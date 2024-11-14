@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_planet_a" />
+
+        <TextView
+            android:id="@+id/situationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="예시 상황 텍스트"
+            style="@style/Cp1_Bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_blue2_10_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/exampleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_weight="1"
+            android:text="예시 텍스트"
+            android:textColor="@color/blue2"
+            style="@style/Bd2_Bold"/>
+    </LinearLayout>
+</LinearLayout>

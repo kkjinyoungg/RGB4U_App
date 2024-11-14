@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_defult"> <!-- 배경색을 흰색으로 변경 -->
+    android:background="@drawable/bg_diary_splash"> <!-- 배경색을 흰색으로 변경 -->
 
     <ImageView
         android:id="@+id/viewLogo"

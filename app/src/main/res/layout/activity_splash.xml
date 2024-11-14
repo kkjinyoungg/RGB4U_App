@@ -3,20 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#787878">
-
-    <TextView
-        android:id="@+id/tvSplashText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="생각모아"
-        android:textSize="54sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/uhbeezziba" />
+    android:background="@drawable/bg_diary_splash">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

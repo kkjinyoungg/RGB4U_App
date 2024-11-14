@@ -50,6 +50,8 @@
     <color name="error_text_color">#FAADAD</color> <!-- highlight_dark-->
 
 
+    <color name="your_background_color">#D9D9D9</color>
+
     // 감정 칼라칩
     <color name="surpriseColor">#86DDC4</color>
     <color name="fearColor">#5CC1D4</color>
@@ -78,5 +80,6 @@
     //네비게이션바 메뉴 텍스트 색
     <color name="selectedTextColor">@color/blue2</color>
     <color name="defaultTextColor">@color/gray2</color>
+
 
 </resources>

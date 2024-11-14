@@ -1,8 +1,7 @@
 <resources>
     <!-- BottomAppBar 기본 스타일 -->
     <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
-        <item name="android:background">@color/white</item>
-        <item name="cornerRadius">16dp</item> <!-- 원하는 모서리 반경을 설정 -->
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="FullScreenDialog" parent="Theme.AppCompat.Light.NoActionBar">
@@ -168,5 +167,19 @@
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <!-- 활성 상태의 폰트 스타일 -->
+    <style name="CustomActiveTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:fontFamily">@font/nanumsquareroundbold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/blue2</item>
+    </style>
+
+    <!-- 비활성 상태의 폰트 스타일 -->
+    <style name="CustomInactiveTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray2</item>
     </style>
 </resources>

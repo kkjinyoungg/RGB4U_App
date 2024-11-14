@@ -39,10 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="유형 이름"
-                android:textSize="14sp"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:textColor="@color/black"
-                android:layout_gravity="center" />
+                style="@style/Bd2_Regular"
+                android:layout_gravity="center"
+                android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/btn_detail"

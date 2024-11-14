@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_light_sub"
+    tools:context=".ui.fragment.PlanetDetailFragment">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_base1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 스크롤 가능한 컨텐츠를 담을 ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Planet Image (툴바 바로 아래) -->
+            <ImageView
+                android:id="@+id/planet_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/ic_planet_a"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center" />
+
+
+            <!-- Short Description -->
+            <TextView
+                android:id="@+id/planet_short_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="부정적인 것은 훨씬 크게, \n긍정적인 것은 훨씬 작게 생각하게 해요"
+                android:textAlignment="center"
+                android:textColor="@color/gray1"
+                style="@style/Cp1_Regular" />
+
+            <!-- 구분선 -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/dotted_line_02" />
+
+            <!-- Detailed Description -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="32dp"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/planet_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="흑백성이 나온 생각이에요"
+                    style="@style/CH_Bd1"
+                    android:textColor="@color/black" />
+
+                <!-- Counter TextView -->
+                <TextView
+                    android:id="@+id/planet_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="0"
+                    style="@style/CH_Bd1"
+                    android:textColor="@color/blue2"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+            <!-- Additional Information TextView -->
+            <TextView
+                android:id="@+id/planet_additional_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"
+                style="@style/Cp1_Regular"
+                android:text="모든 행성 설명 총 두 줄입니다. \n+ 이 행성에 맞는 조언 같은 (왜 이 생각들을 봐야 하는지)"
+                android:textColor="@color/gray1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/boxTextrecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

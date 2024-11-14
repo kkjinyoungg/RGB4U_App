@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_defult"
+    android:background="@drawable/bg_diary_splash"
     tools:context=".ui.fragment.MyEmotionFragment">
 
     <LinearLayout
@@ -159,7 +159,7 @@
         android:id="@+id/subQuestionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:text="오늘 힘들었던 순간이 있었나요?"
         android:textColor="@color/blue2_30"

@@ -1,0 +1,54 @@
+<!-- BottomSheet를 포함한 부모 레이아웃 -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- BottomSheet 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:padding="24dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:background="@drawable/help_bottom_sheet_background"> <!-- 여기에도 추가 -->
+
+        <!-- 이미지 뷰 -->
+        <ImageView
+            android:id="@+id/dialogImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="-70dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_planet_a" />
+
+        <!-- 첫 번째 텍스트뷰 -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="제목 텍스트"
+            android:textColor="@color/black"
+            style="@style/Bd1_ExtraBold" />
+
+        <!-- 두 번째 텍스트뷰 -->
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="설명 텍스트"
+            android:textColor="@color/gray1"
+            style="@style/Cp1_Regular" />
+
+    </LinearLayout>
+</FrameLayout>
+
