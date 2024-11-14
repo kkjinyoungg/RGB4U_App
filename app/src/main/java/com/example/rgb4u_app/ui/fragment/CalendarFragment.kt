@@ -240,11 +240,11 @@ class CalendarFragment : Fragment() {
 
     private fun addStampToCalendar(day: Int, degree: Int) {
         val emotionDrawable = when (degree) {
-            0 -> R.drawable.img_emotion_0
-            1 -> R.drawable.img_emotion_1
-            2 -> R.drawable.img_emotion_2
-            3 -> R.drawable.img_emotion_3
-            else -> R.drawable.img_emotion_4
+            0 -> R.drawable.img_calenderemotion_0
+            1 -> R.drawable.img_calenderemotion_1
+            2 -> R.drawable.img_calenderemotion_2
+            3 -> R.drawable.img_calenderemotion_3
+            else -> R.drawable.img_calenderemotion_4
         }
 
         // startDay와 maxDay를 고려하여 index 계산
