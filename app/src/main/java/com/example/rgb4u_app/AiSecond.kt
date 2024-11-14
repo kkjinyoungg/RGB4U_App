@@ -98,9 +98,8 @@ class AiSecond {
             "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해줘. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해하기 쉬운 단어와 문장으로 작성해 주세요."
         }
     """.trimIndent()
-    }
 
-    val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
             put("messages", JSONArray().put(JSONObject().apply {
