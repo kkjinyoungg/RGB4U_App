@@ -1,5 +1,5 @@
 package com.example.rgb4u_app
-//re
+
 import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -39,56 +39,63 @@ class AiSummary {
 
             // ChatGPT API로 분석 요청 보내기
             val prompt = """
-                너는 인지행동치료 전문가로, 사람들이 쓴 글에서 감정, 상황, 생각을 정확히 분리하고 상황을 상황으로 분류한 이유와 생각을 생각으로 분류한 이유를 설명하는 역할을 해. 
-                참고할 정의와 예시는 다음과 같아:
-                
-                감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이야. 예시로는 '슬프다', '화가 난다', '기쁘다' 등이 있어.
-                상황: 상황은 개인이 경험한 실제 사건이나 환경을 설명하는 문장이야. 예를 들어, '친구와 밥을 먹었다', '시험 공부를 했다' 같은 문장이야.
-                생각: 생각은 특정 상황에 대한 개인의 즉각적인 반응이나 해석을 나타내는 문장이야. 예를 들어, '친구가 나를 싫어하는 것 같다', '시험을 망친 건 내 탓이다' 같은 문장이야.
-                
-                주의할 점은, 하나의 문장 안에 감정, 상황, 생각이 동시에 포함될 수 있다는 거야. 각 요소를 개별적으로 분류해줘.
-                그리고 상황과 생각을 분류하면서, 상황과 생각을 각각 그렇게 분류한 이유를 적어줘.
-                모든 문장은 완성된 매끄러운 문장으로 만들어줘.
-                
-                이 작업은 구조화된 JSON 형식으로 반환해줘.
-                
-                여기 내가 제공하는 텍스트를 분석해줘:
-                $combinedText
-            """.trimIndent()
+    너는 인지행동치료 전문가로, 사람들이 쓴 글에서 감정, 상황, 생각을 정확히 분리하는 역할을 해요. 각 요소를 구별할 때는 친절하고 다정하게 설명해주고, ~해요체로 표현해 주세요. 
+    예를 들어, '스스로를 나쁘게 생각하고 있어요.' 같은 식으로요.
 
-            // function schema 정의
+    하나의 문장 안에 감정, 상황, 생각이 동시에 포함될 수 있다는 점에 유의해 주세요. 각 요소를 개별적으로 분류해주세요.
+    상황과 생각을 분류할 때, 각각 그렇게 분류한 이유도 친절하게 설명해주면 좋겠어요. 예를 들어, '오늘 있었던 실제 사건에 대한 내용이에요.', '오늘 있었던 일에 대한 생각을 나타내는 내용이에요.'라고요.
+    만약 상황에서 생각과 감정을 분류했다면, 생각과 감정이 사라진 이유를 친절하게 설명해주면 좋겠어요. 예를 들어, '(옮겨진 내용)은 감정을 나타내고 있어서 옮겨졌어요', '(옮겨진 내용)은 생각을 나타내고 있어서 옮겨졌어요'라고요.
+    만약 생각에서 상황과 감정을 분류했다면, 상황과 감정이 사라진 이유를 친절하게 설명해주면 좋겠어요. 예를 들어, '(옮겨진 내용)은 감정을 나타내고 있어서 옮겨졌어요', '(옮겨진 내용)은 상황을 나타내고 있어서 옮겨졌어요'라고요.
+
+    참고할 정의와 예시는 다음과 같아요:
+
+    감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이에요. 예를 들어, '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다' 등의 키워드가 있어요. 이러한 키워드를 잘 식별해 주세요. 
+    상황: 상황은 개인이 경험한 실제 사건이나 환경을 설명하는 문장이에요. 예를 들어, '친구와 밥을 먹었어', '시험 공부를 했어' 같은 문장이에요.
+    생각: 생각은 특정 상황에 대한 개인의 즉각적인 반응이나 해석을 나타내는 문장이에요. 예를 들어, '나는 친구가 나를 싫어하는 것 같아', '나는 시험을 망친 게 내 탓이라고 생각해'처럼 사람의 말투로 부드럽게 표현해 주세요.
+
+    생각이 너무 축약되거나 여러 문장이 합쳐지지 않도록 주의해 주세요. 예를 들어, '나는 공부를 못해'처럼 구체적으로 풀어서 작성해 주세요. 문장은 끊어서 각각 한국어 기준 80byte 이내로 작성해주세요.
+
+    이 작업은 구조화된 JSON 형식으로 반환해 주세요.
+
+    여기 내가 제공하는 텍스트를 분석해 주세요:
+    $combinedText
+""".trimIndent()
+
+
+// function schema 정의
             val functionSchema = """
-                {
-                    "name": "analyze_text",
-                    "description": "Analyze a user's text and return emotions, situation, and thoughts",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "emotion": {
-                                "type": "string",
-                                "description": "The emotional response from the text."
-                            },
-                            "situation": {
-                                "type": "string",
-                                "description": "The situation as described in the text."
-                            },
-                            "thoughts": {
-                                "type": "string",
-                                "description": "The thoughts as described in the text."
-                            },
-                            "situationReason": {
-                                "type": "string",
-                                "description": "Reason for categorizing the text as a situation."
-                            },
-                            "thoughtsReason": {
-                                "type": "string",
-                                "description": "Reason for categorizing the text as a thought."
-                            }
-                        },
-                        "required": ["emotion", "situation", "thoughts", "situationReason", "thoughtsReason"]
-                    }
-                }
-            """.trimIndent()
+{
+    "name": "analyze_text",
+    "description": "Analyze a user's text and return emotions, situation, and thoughts",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "emotion": {
+                "type": "string",
+                "description": "Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
+            },
+            "situation": {
+                "type": "string",
+                "description": "The situation as described in the text, expressed in a casual manner, like talking to oneself. Use informal language like '~했어'. If the identified content represents a situation, specify that '(내용)은 상황을 나타내고 있어서 옮겨졌어요'."
+            },
+            "thoughts": {
+                "type": "string",
+                "description": "The thoughts as described in the text, expressed in a casual manner, like talking to oneself. Use informal language like '~했어'. The thoughts should not be overly condensed from the original and should not be combined into a single sentence. If the identified content represents a thought, specify that '(내용)은 생각을 나타내고 있어서 옮겨졌어요'."
+            },
+            "situationReason": {
+                "type": "string",
+                "description": "Reason for categorizing the text as a situation, expressed kindly and in a gentle tone using ~해요체. Use simple words and sentences that are easy for elementary students to understand. Explain if thoughts or emotions have been separated, e.g., '(내용)은 생각을 나타내고 있어서 옮겨졌어요'."
+            },
+            "thoughtsReason": {
+                "type": "string",
+                "description": "Reason for categorizing the text as a thought, expressed kindly and in a gentle tone using ~해요체. Use simple words and sentences that are easy for elementary students to understand. Explain if situations or emotions have been separated, e.g., '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
+            }
+        },
+        "required": ["emotion", "situation", "thoughts", "situationReason", "thoughtsReason"]
+    }
+}
+""".trimIndent()
+
 
             val requestBody = JSONObject()
             requestBody.put("model", "gpt-3.5-turbo")
@@ -155,13 +162,18 @@ class AiSummary {
 
     // ChatGPT API 응답에서 분석 결과 추출하는 함수
     private fun extractAiAnalysis(resultJson: JSONObject): Map<String, String> {
-        val functionCall = resultJson.getJSONArray("choices").getJSONObject(0).getJSONObject("message")
-        val argumentsString = functionCall.getJSONObject("function_call").getString("arguments")
+        val choices = resultJson.getJSONArray("choices")
+        val message = choices.getJSONObject(0).getJSONObject("message")
 
-        // argumentsString을 JSONObject로 변환
+        // function_call 필드가 있는지 확인
+        if (!message.has("function_call")) {
+            Log.e(TAG, "Function call is missing in the response.")
+            return emptyMap() // 오류 시 빈 맵 반환
+        }
+
+        val argumentsString = message.getJSONObject("function_call").getString("arguments")
         val arguments = JSONObject(argumentsString)
 
-        // 분석 결과를 파이어베이스에 저장할 수 있도록 정리
         val emotion = arguments.getString("emotion")
         val situation = arguments.getString("situation")
         val thoughts = arguments.getString("thoughts")

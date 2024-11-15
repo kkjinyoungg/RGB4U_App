@@ -63,7 +63,9 @@ class SummaryThinkActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     val thoughts = dataSnapshot.child("thoughts").getValue(String::class.java) ?: "생각 정보 없음"
                     val thoughtsreason = dataSnapshot.child("thoughtsReason").getValue(String::class.java) ?: "생각 이유 정보 없음"
-                    summaryFragment.summarizedContent = thoughts
+
+                    // 문장부호 기준으로 나누고 포맷팅
+                    summaryFragment.summarizedContent = formatThoughts(thoughts)
                     summaryFragment.whySummaryReason = thoughtsreason
                 } else {
                     summaryFragment.summarizedContent = "생각 데이터가 존재하지 않습니다"
@@ -78,6 +80,14 @@ class SummaryThinkActivity : AppCompatActivity() {
                 summaryFragment.updateUI()
             }
         })
+    }
+
+    // thoughts를 포맷팅하는 함수
+    private fun formatThoughts(text: String): String {
+        // 문장부호를 기준으로 나누고 포맷팅
+        return text.split(Regex("(?<=[.!?])\\s*")) // 문장부호 뒤에서 나누기
+            .filter { it.isNotBlank() } // 빈 문자열 제거
+            .joinToString("\n") { "•  $it" } // 각 문장 앞에 "• " 추가하고 줄바꿈
     }
 
     private fun loadUserInputData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
