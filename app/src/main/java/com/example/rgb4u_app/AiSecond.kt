@@ -75,7 +75,10 @@ class AiSecond {
                         } else {
                             // 필터링된 결과가 존재할 경우
                             val secondAnalysis = createSecondAnalysis(filteredResults)
-                            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            // secondAnalysis 저장 전에 thoughts를 Firebase에 저장하는 함수 호출
+                            saveThoughtsToFirebase(userId, filteredResults.keys.toList()) {
+                                saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            }
                         }
                     }
                 }
@@ -322,16 +325,19 @@ class AiSecond {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val calendar = Calendar.getInstance()
         calendar.time = Date()
-        currentDate = dateFormat.format(calendar.time) // currentDate 갱신
+        val currentDate = dateFormat.format(calendar.time) // currentDate 갱신
 
         // monthlythoughts의 yyyy-mm 경로
-        val monthYear = currentDate?.substring(0, 7) // yyyy-mm 형식 추출
+        val monthYear = currentDate.substring(0, 7) // yyyy-mm 형식 추출
 
-        val monthlyThoughtsRef: DatabaseReference = firebaseDatabase.getReference("monthlythoughts/$monthYear")
+        val monthlyThoughtsRef: DatabaseReference = firebaseDatabase.getReference("monthlyStats/$monthYear/thoughtsRank")
+
+        // 저장 완료 후 호출할 콜백을 위한 카운터
+        val totalThoughts = selectedThoughts.size
+        var savedCount = 0
 
         // selectedThoughts에 포함된 각 유형에 대해 저장
         for (thought in selectedThoughts) {
-            // 해당 유형 경로 참조
             val typeRef: DatabaseReference = monthlyThoughtsRef.child(thought)
 
             // 해당 유형의 데이터 읽기
@@ -343,29 +349,33 @@ class AiSecond {
 
                     // "text"와 "date" 저장
                     val thoughtData = HashMap<String, Any>()
-                    thoughtData["text"] = selectedThoughts.joinToString(", ") // 여러 생각들을 콤마로 구분
-                    thoughtData["date"] = currentDate.toString()
+                    thoughtData["text"] = thought // 하나의 생각만 저장
+                    thoughtData["date"] = currentDate
 
-                    // 데이터 저장
+                    // "entries"에 새 데이터 추가
                     typeRef.child("entries").push().setValue(thoughtData)
-
                     Log.d(TAG, "Firebase에 저장된 데이터: $thoughtData")
                 } else {
                     // 데이터가 존재하지 않는 경우 새로운 데이터를 추가
                     val thoughtData = HashMap<String, Any>()
-                    thoughtData["text"] = selectedThoughts.joinToString(", ") // 여러 생각들을 콤마로 구분
-                    thoughtData["date"] = currentDate.toString()
+                    thoughtData["text"] = thought // 하나의 생각만 저장
+                    thoughtData["date"] = currentDate
                     thoughtData["count"] = 1
 
-                    // 데이터 저장
+                    // 새 데이터를 저장
                     typeRef.setValue(thoughtData)
-
                     Log.d(TAG, "Firebase에 새로운 유형 데이터 저장됨: $thoughtData")
                 }
-                callback() // 저장이 완료되면 콜백 호출
+                savedCount++
+
+                // 모든 데이터가 저장된 후 콜백 호출
+                if (savedCount == totalThoughts) {
+                    callback()
+                }
             }.addOnFailureListener { e ->
                 Log.e(TAG, "Firebase에서 데이터를 가져오지 못했습니다: ${e.message}")
             }
         }
     }
+
 }
