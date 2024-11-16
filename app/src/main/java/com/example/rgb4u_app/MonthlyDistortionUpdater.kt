@@ -25,17 +25,17 @@ class MonthlyDistortionUpdater {
         val diaryRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
         diaryRef.get().addOnSuccessListener { dataSnapshot ->
             if (dataSnapshot.exists()) {
-                val planetThoughts = mutableMapOf<String, MutableSet<String>>() // 중복 제거를 위한 Set 사용
+                val planetThoughts = mutableMapOf<String, MutableList<Pair<String, String>>>() // text와 date를 저장할 List 사용
 
                 for (childSnapshot in dataSnapshot.children) {
                     val planetName = childSnapshot.key.toString() // planetName을 키로 활용
-                    val thoughtsList = childSnapshot.children.mapNotNull { snapshot ->
-                        snapshot.child("selectedThoughts").value?.toString()
-                    }
 
-                    // 중복 제거 후 추가
-                    planetThoughts[planetName] = (planetThoughts[planetName] ?: mutableSetOf()).apply {
-                        addAll(thoughtsList)
+                    // thoughtsList를 Pair로 만들어서 저장
+                    childSnapshot.children.forEach { thoughtSnapshot ->
+                        val selectedThoughts = thoughtSnapshot.child("selectedThoughts").value?.toString().orEmpty()
+                        planetThoughts[planetName] = (planetThoughts[planetName] ?: mutableListOf()).apply {
+                            add(Pair(selectedThoughts, distortionDate ?: ""))
+                        }
                     }
                 }
 
@@ -46,23 +46,32 @@ class MonthlyDistortionUpdater {
                     return@addOnSuccessListener // `return` 대신 `return@addOnSuccessListener`를 사용하여 콜백 종료
                 }
 
-                for ((planetName, thoughtsSet) in planetThoughts) {
-                    val combinedThoughts = thoughtsSet.joinToString(". ") + "." // Set을 문자열로 변환
+                for ((planetName, thoughtsList) in planetThoughts) {
                     val monthlyRef = firebaseDatabase.getReference("users/$userId/monthlyAnalysis/$month/$planetName")
 
                     // monthlyRef에서 현재 데이터 가져오기
                     monthlyRef.get().addOnSuccessListener { monthlySnapshot ->
                         val currentCount = monthlySnapshot.child("count").value?.toString()?.toIntOrNull() ?: 0
-                        val currentText = monthlySnapshot.child("entries/text").value?.toString().orEmpty()
+                        val currentEntries = monthlySnapshot.child("entries").children.mapNotNull {
+                            val text = it.child("text").value?.toString().orEmpty()
+                            val date = it.child("date").value?.toString().orEmpty()
+                            if (text.isNotEmpty() && date.isNotEmpty()) {
+                                mapOf("text" to text, "date" to date)
+                            } else {
+                                null
+                            }
+                        }.toMutableList()
+
+                        // 새로운 생각들을 entries에 추가
+                        currentEntries.addAll(thoughtsList.map { mapOf("text" to it.first, "date" to it.second) })
 
                         // 업데이트할 데이터 설정
                         val updates = hashMapOf<String, Any>(
                             "count" to (currentCount + 1),
-                            "entries/text" to (currentText + " " + combinedThoughts).trim(),
-                            "entries/date" to distortionDate.orEmpty()
+                            "entries" to currentEntries
                         )
 
-                        monthlyRef.updateChildren(updates).addOnSuccessListener {
+                        monthlyRef.setValue(updates).addOnSuccessListener {
                             Log.d(TAG, "Thoughts successfully updated in monthly analysis")
                         }.addOnFailureListener { e ->
                             Log.e(TAG, "Failed to update thoughts in monthly analysis: ${e.message}")
