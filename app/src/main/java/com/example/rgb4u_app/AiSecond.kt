@@ -77,11 +77,6 @@ class AiSecond {
                             val secondAnalysis = createSecondAnalysis(filteredResults)
                             //저장 함수
                             saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
-                            //인지왜곡 통계 함수
-                            saveThoughtsToFirebase(userId, diaryId) {
-                                // 데이터 저장 완료 후 수행할 작업
-                                Log.d("saveThoughtsToFirebase", "왜곡 통계 저장 완료!")
-                            }
                         }
                     }
                 }
@@ -317,55 +312,6 @@ class AiSecond {
     // 다른 함수에서 현재 날짜를 사용할 수 있도록 반환하는 함수
     fun getCurrentDate(): String? {
         return currentDate
-    }
-
-
-    // thought 분석 후 결과를 Firebase에 저장하는 메소드
-    fun saveThoughtsToFirebase(userId: String, diaryId: String, callback: () -> Unit) {
-        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, diaryId = $diaryId")
-
-        // Firebase 참조 설정
-        val diaryRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
-        diaryRef.get().addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.exists()) {
-                for (childSnapshot in dataSnapshot.children) {
-                    val planetName = childSnapshot.child("planetName").value.toString()
-                    val selectedThoughts = childSnapshot.child("selectedThoughts").value.toString()
-
-                    // 현재 날짜 가져오기
-                    val calendar = Calendar.getInstance()
-                    val monthYear = SimpleDateFormat("yyyy-MM", Locale.KOREA).format(calendar.time)
-                    val date = SimpleDateFormat("MM월 dd일 EEE", Locale.KOREA).format(calendar.time)
-
-                    // monthlyanalysis 참조 설정
-                    val monthlyRef = firebaseDatabase.getReference("users/$userId/monthlyAnalysis/$monthYear/thoughtsRank/$planetName")
-
-                    monthlyRef.get().addOnSuccessListener { monthlySnapshot ->
-                        val currentCount = monthlySnapshot.child("count").value?.toString()?.toIntOrNull() ?: 0
-
-                        // count 증가 및 새로운 entry 추가
-                        val updates = hashMapOf<String, Any>(
-                            "count" to currentCount + 1,
-                            "entries/${System.currentTimeMillis()}/text" to selectedThoughts,
-                            "entries/${System.currentTimeMillis()}/date" to date
-                        )
-
-                        monthlyRef.updateChildren(updates).addOnSuccessListener {
-                            Log.d(TAG, "Thoughts successfully updated in monthly analysis")
-                            callback()
-                        }.addOnFailureListener { e ->
-                            Log.e(TAG, "Failed to update thoughts in monthly analysis: ${e.message}")
-                        }
-                    }.addOnFailureListener { e ->
-                        Log.e(TAG, "Failed to fetch monthly analysis: ${e.message}")
-                    }
-                }
-            } else {
-                Log.d(TAG, "No thought sets found for this diary entry")
-            }
-        }.addOnFailureListener { e ->
-            Log.e(TAG, "Failed to fetch thoughts from diary entry: ${e.message}")
-        }
     }
 
 }

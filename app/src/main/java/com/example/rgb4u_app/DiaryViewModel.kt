@@ -11,6 +11,7 @@ import com.example.rgb4u_app.AiSummary // AiSummary 추가
 import com.example.rgb4u_app.AiSecond // AiSecond 추가
 import com.example.rgb4u_app.MonthlyStatsUpdater
 import com.google.firebase.database.ServerValue
+import com.example.rgb4u_app.MonthlyDistortionUpdater
 
 class DiaryViewModel : ViewModel() {
 
@@ -106,7 +107,7 @@ class DiaryViewModel : ViewModel() {
         database.child(diaryId!!).setValue(diaryData)
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공")
-                analyzeDiaryWithAI(userId, diaryId!!) // AI 분석 호출
+                analyzeDiaryWithAI(userId, diaryId!!, getCurrentDate()) // AI 분석 호출
 
                 // 감정 키워드 통계 상세
                 val date = getCurrentDate() // 현재 날짜
@@ -145,22 +146,27 @@ class DiaryViewModel : ViewModel() {
     }
 
     // AI 분석을 수행하는 함수
-    private fun analyzeDiaryWithAI(userId: String, diaryId: String) {
-        Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId") // AI 분석 호출 로그
+    // AI 분석을 수행하는 함수
+    private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
+        Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId")
 
         // (1) AiSummary 호출
         val aiSummary = AiSummary()
-        // 콜백을 전달하여 분석이 완료된 후 onDiarySaved 호출
         aiSummary.analyzeDiary(userId, diaryId) {
-            // 분석이 완료된 후 onDiarySaved 콜백 호출
+            Log.d("DiaryViewModel", "AiSummary 분석 완료")
+
+            // 분석 완료 후 onDiarySaved 호출
             onDiarySaved?.invoke()
 
             // (2) AiSecond 호출
             val aiSecond = AiSecond()
             aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
-                // AiSecond 분석 완료 후의 작업을 여기에 추가
                 Log.d("DiaryViewModel", "AiSecond 분석 완료")
-                // 후속 작업 추가 가능
+
+                // (3) saveThoughtsToFirebase 호출 (MonthlyDistortionUpdater 인스턴스를 사용)
+                val monthlyUpdater = MonthlyDistortionUpdater()
+                monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
+                Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
             }
         }
     }
