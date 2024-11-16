@@ -17,7 +17,7 @@
 
         <NumberPicker
             android:id="@+id/yearPicker"
-            style="@style/CustomNumberPicker"
+            android:theme="@style/CustomDatePickerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="14dp"
@@ -25,7 +25,7 @@
 
         <NumberPicker
             android:id="@+id/monthPicker"
-            style="@style/CustomNumberPicker"
+            android:theme="@style/CustomDatePickerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
@@ -34,7 +34,7 @@
 
         <NumberPicker
             android:id="@+id/dayPicker"
-            style="@style/CustomNumberPicker"
+            android:theme="@style/CustomDatePickerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
@@ -47,16 +47,14 @@
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:elevation="0dp"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/rounded_button"
-        android:src="@drawable/rounded_button"
-        android:fontFamily="@font/nanumsquareroundregular"
+        style="@style/Bd2_Bold"
         android:textColor="@color/black"
-        android:textSize="14sp"
         android:text="완료"/>
 
 </LinearLayout>

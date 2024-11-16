@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.mypage
 
 //파이어베이스
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
 import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
@@ -238,6 +240,12 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         dayPicker.value = currentDay
         dayPicker.setFormatter { value -> "${value}일" }
 
+//        // 커스텀 폰트 적용
+//        val customFont = ResourcesCompat.getFont(this, R.font.nanumsquareroundbold) // 폰트 파일 이름에 맞게 수정
+//        applyCustomFont(yearPicker, customFont)
+//        applyCustomFont(monthPicker, customFont)
+//        applyCustomFont(dayPicker, customFont)
+
         val updateDayPicker = {
             val selectedYear = yearPicker.value
             val selectedMonth = monthPicker.value
@@ -274,6 +282,15 @@ class MyPageProfileEditActivity : AppCompatActivity() {
         birthdateEditText.setBackgroundResource(R.drawable.et_nickname_main_background)
         nicknameEditText.setBackgroundResource(R.drawable.et_nickname_default_background)
     }
+
+//    private fun applyCustomFont(picker: NumberPicker, typeface: Typeface?) {
+//        for (i in 0 until picker.childCount) {
+//            val child = picker.getChildAt(i)
+//            if (child is EditText) {
+//                child.typeface = typeface
+//            }
+//        }
+//    }
 
     private fun isLeapYear(year: Int): Boolean {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)

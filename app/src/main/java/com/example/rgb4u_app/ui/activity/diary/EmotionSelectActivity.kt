@@ -25,7 +25,9 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Context // 칩 높이
+// import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 
 class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
@@ -68,6 +70,9 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             supportFragmentManager.findFragmentById(R.id.myemotionFragment) as MyEmotionFragment
         myEmotionFragment.setQuestionText("어떤 부정적인 감정을 느꼈는지 골라주세요", "3개까지 고를 수 있어요")
         myEmotionFragment.showIconForStep(4)
+
+        // 4단계에서 폰트 스타일을 바꾸는 부분
+        changeFontStyleForStep(4)
 
         // 버튼 클릭 리스너 설정
         myEmotionFragment.setToolbarButtonListeners(
@@ -123,6 +128,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                         chip.chipBackgroundColor = getChipColor(category)
                         addChipToSelectedGroup(chip, category)
                         selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
+                        chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_delete) // 아이콘 설정
                         Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
 
                     } else {
@@ -130,6 +136,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                         chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
                         removeChipFromSelectedGroup(chip.text.toString())
                         selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
+                        chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_plus) // 아이콘 설정
                         Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
 
                     }
@@ -142,6 +149,20 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
                 chipGroup.addView(chip)
             }
+        }
+    }
+
+    // 특정 단계에서 폰트 스타일을 변경하는 함수
+    private fun changeFontStyleForStep(step: Int) {
+        val myTextView: TextView = findViewById(R.id.text_emotion_type)
+        if (step == 4) {
+            // 4단계에서 폰트 스타일을 Bold로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Bold)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_40))
+        } else {
+            // 기본 스타일로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Regular)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_20))
         }
     }
 
@@ -189,9 +210,11 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     private fun addChipToSelectedGroup(chip: Chip, category: String) {
         val selectedChip = Chip(this)
         selectedChip.text = chip.text
-        selectedChip.isCloseIconVisible = true
         // CloseIcon의 리소스를 변경
-        selectedChip.setCloseIconResource(R.drawable.ic_emotion_close)
+        selectedChip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_delete) // 아이콘 설정
+        // 로그 추가
+        Log.d("Chip", "Close icon resource: ${R.drawable.ic_chip_delete}")
+        selectedChip.isCloseIconVisible = true
 
         // 기본 색상으로 설정
         selectedChip.chipBackgroundColor = getChipColor(category)
@@ -215,20 +238,29 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             .build()
         selectedChip.shapeAppearanceModel = shapeAppearanceModel
 
+        // ChipGroup을 VISIBLE로 설정 (칩 추가 시)
+//        if (selectedChipGroup.visibility == View.GONE) {
+//            selectedChipGroup.visibility = View.VISIBLE
+//        }
+
         selectedChip.setOnCloseIconClickListener {
             selectedChipGroup.removeView(selectedChip)
             uncheckChipInGroup(selectedChip.text.toString())
+//            // ChipGroup에 칩이 없으면 다시 숨김
+//            if (selectedChipGroup.childCount == 0) {
+//                selectedChipGroup.visibility = View.GONE
+//            }
         }
 
         selectedChipGroup.addView(selectedChip)
     }
 
     private fun getChipColor(category: String) = when (category) {
-        "Surprise" -> getColorStateList(R.color.surpriseColor)
-        "Fear" -> getColorStateList(R.color.fearColor)
-        "Sadness" -> getColorStateList(R.color.sadnessColor)
-        "Anger" -> getColorStateList(R.color.angerColor)
-        "Disgust" -> getColorStateList(R.color.disgustColor)
+        "Surprise" -> getColorStateList(R.color.surpriseColor_dark)
+        "Fear" -> getColorStateList(R.color.fearColor_dark)
+        "Sadness" -> getColorStateList(R.color.sadnessColor_dark)
+        "Anger" -> getColorStateList(R.color.angerColor_dark)
+        "Disgust" -> getColorStateList(R.color.disgustColor_dark)
         else -> getColorStateList(R.color.defaultChipColor) // 기본 색상
     }
 

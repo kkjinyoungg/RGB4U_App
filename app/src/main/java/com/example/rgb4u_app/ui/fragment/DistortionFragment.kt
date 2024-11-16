@@ -85,6 +85,7 @@ class DistortionFragment : Fragment() {
         val alternativeToggleTextView = view.findViewById<TextView>(R.id.tv_alternative_detail_toggle)
         val btnAlternativeToggle = view.findViewById<ImageView>(R.id.btn_alternative_detail_toggle)
 
+
         // 첫 번째 토글 기능
         toggleDetailTextView.setOnClickListener {
             toggleView(extendedDetailTextView, btnToggleDetail, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)

@@ -51,9 +51,9 @@ class SummaryThinkActivity : AppCompatActivity() {
             summaryFragment.updateUI()
         }
 
-        summaryFragment.titleText = "생각" //고정 제목
-        summaryFragment.summaryLabelText = "AI로 요약된 생각" //고정 제목
-        summaryFragment.userContentLabelText = "내가 적은 생각" //고정 제목
+        summaryFragment.titleText = "이렇게 생각했어요" //고정 제목
+        summaryFragment.summaryLabelText = "요약된 생각이에요" //고정 제목
+        summaryFragment.userContentLabelText = "기록한 생각이에요" //고정 제목
     }
 
     private fun loadAiAnalysisData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {

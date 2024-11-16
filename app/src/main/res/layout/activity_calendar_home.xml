@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FF000000">
+    android:background="@drawable/bg_calendar">
 
     <!-- CalendarFragment가 표시될 공간 -->
     <androidx.fragment.app.FragmentContainerView

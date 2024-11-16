@@ -32,8 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_background"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ThoughtChangeLayout_1"
@@ -45,9 +44,9 @@
                 <!-- RecyclerView의 높이를 wrap_content로 설정 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ChangeThinkRecyclerView"
+                    android:padding="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </LinearLayout>

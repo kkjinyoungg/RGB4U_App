@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rounded_corner_background"
+        android:outlineProvider="none"
         android:gravity="center"
         android:elevation="0dp"
         android:layout_gravity="center">
@@ -19,24 +20,19 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="기록을 \n그만두시겠습니까?"
-            android:lineSpacingExtra="8dp"
-            android:fontFamily="@font/nanumsquareroundbold"
-            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            android:text="기록을 \n그만두시겠어요?"
+            style="@style/ST_Bold"
             android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_marginBottom="8dp" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tvSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="기록 중인 내용을 임시 저장하거나 \n삭제할 수 있습니다."
-            android:lineSpacingExtra="8dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/nanumsquareroundregular"
+            android:layout_marginTop="12dp"
+            android:text="기록 중인 내용을 임시 저장하거나 \n삭제할 수 있어요."
+            style="@style/Bd2_Regular"
             android:textColor="@color/gray2"
             android:gravity="center"
             android:layout_marginBottom="16dp" />
@@ -44,11 +40,11 @@
         <Button
             android:id="@+id/btnTemporarySave"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="임시 저장"
-            android:fontFamily="@font/nanumsquareroundregular"
+            style="@style/Bd2_Bold"
             android:backgroundTint="@color/main"
             android:textColor="@color/black"
             android:layout_marginBottom="8dp" />
@@ -56,25 +52,25 @@
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="삭제"
-            android:backgroundTint="@color/gray3"
-            android:fontFamily="@font/nanumsquareroundregular"
+            android:backgroundTint="@color/main_secondary"
+            style="@style/Bd2_Bold"
             android:textColor="@color/highlight"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="취소"
-            android:fontFamily="@font/nanumsquareroundregular"
-            android:backgroundTint="@color/gray3"
+            style="@style/Bd2_Bold"
+            android:backgroundTint="@color/main_secondary"
             android:textColor="@color/black" />
     </LinearLayout>
 

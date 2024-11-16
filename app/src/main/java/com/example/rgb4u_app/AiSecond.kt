@@ -19,7 +19,7 @@ class AiSecond {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance() // Firebase 인스턴스 초기화
     private val client = OkHttpClient() // OkHttpClient 인스턴스 초기화
-    private val apiKey = ""// API 키 설정 (따옴표 안에 키 넣기)
+    private val apiKey = "sk-VrKrVcE5D26XvWrvJ8ABf1hqCq9S25crQE5FQdwqbQT3BlbkFJDHArJLOitHUOBtUPh4gQKDPuATCgyo4YnxH-4rDn8A"// API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
 
     private val cognitiveDistortions = listOf(

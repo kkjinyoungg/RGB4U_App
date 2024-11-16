@@ -8,12 +8,12 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/main_bottom_appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_gravity="bottom"
         style="@style/BottomAppBarCustom"
-        app:fabCradleMargin="5dp"
-        app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="5dp"
+        app:fabCradleMargin="0dp"
+        app:fabCradleRoundedCornerRadius="16dp"
+        app:fabCradleVerticalOffset="0dp"
         app:fabAlignmentMode="center"
         app:background="@drawable/rounded_bottom_appbar_background" />
 
@@ -21,9 +21,9 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
+        android:layout_height="64dp"
         android:layout_gravity="bottom"
-        android:elevation="5dp"
+        android:elevation="10dp"
         app:itemActiveIndicatorStyle="@style/Theme.Navigation.Indicator"
         android:background="@android:color/transparent"
         app:itemBackground="@android:color/transparent"
@@ -33,7 +33,9 @@
         app:itemTextColor="@color/navigation_item_text_color"
         app:menu="@menu/bottom_navigation_menu"
         app:labelVisibilityMode="labeled"
-        app:itemHorizontalTranslationEnabled="false"/>
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemTextAppearanceActive="@style/CustomActiveTextAppearance"
+        app:itemTextAppearanceInactive="@style/CustomInactiveTextAppearance" />
 
 
     <!-- FloatingActionButton for center icon -->
@@ -42,14 +44,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="56dp"
         android:scaleType="fitCenter"
         app:backgroundTint="@android:color/transparent"
-        app:srcCompat="@drawable/ic_think"
-        app:maxImageSize="64dp"
+        app:srcCompat="@drawable/ic_fnb"
+        app:maxImageSize="80dp"
         app:tint="@null"
         app:fabSize="normal"
-        android:elevation="6dp"
         app:layout_anchor="@id/main_bottom_appBar"
         android:outlineProvider="none"/>
 

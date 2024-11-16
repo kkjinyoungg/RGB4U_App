@@ -19,10 +19,10 @@
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="loading_ch.json"
+        app:lottie_fileName="loading_moa_02.json"
         app:lottie_loop="true" />
 
     <TextView
@@ -31,13 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lottieAnimationView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-60dp"
-        android:fontFamily="@font/nanumsquareroundextrabold"
+        android:layout_marginTop="-16dp"
+        style="@style/CH_ST"
         android:text="적어주신 내용을 요약하고 있어요"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/main"
-        android:textSize="18sp" />
+        android:textColor="@color/main" />
 
     <TextView
         android:id="@+id/textView3"
@@ -45,22 +44,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/nanumsquareroundregular"
-        android:text="약 5초 소요됩니다"
+        android:layout_marginTop="6dp"
+        style="@style/Cp1_Regular"
+        android:text="5초 정도만 기다려주세요"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/blue2_30"
-        android:textSize="16sp" />
+        android:textColor="@color/blue2_30" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-75dp"
+        android:layout_marginTop="-40dp"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="loading_bar.json"
+        app:lottie_fileName="loading_circle_02.json"
         app:lottie_loop="true" />
 </RelativeLayout>

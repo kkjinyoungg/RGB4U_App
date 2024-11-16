@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_password_edit">
+    android:background="@drawable/bg_pw_changeday">
 
     <include
         layout="@layout/toolbar_write_diary"
@@ -51,18 +51,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
+                        android:orientation="horizontal" >
 
                         <!-- "이렇게 바꿔봤어요" 텍스트뷰 -->
                         <TextView
                             android:id="@+id/tv_change_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nanumsquareroundbold"
-                            android:text="이렇게 바꿔봤어요"
+                            android:text="이렇게 생각을 바꿔봤어요"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            style="@style/Bd2_Bold"
                             android:layout_weight="1"
                             android:layout_gravity="start" />
 
@@ -89,13 +87,14 @@
 
             <ImageButton
                 android:id="@+id/thoughtDownButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_space_between"
+                android:src="@drawable/ic_arrow_down"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thoughtLayout" />
@@ -106,8 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_corner_background"
                 android:orientation="vertical"
@@ -118,10 +116,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
                     android:text="그래서 감정이 이렇게 달라졌어요"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    style="@style/Bd2_Bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +128,7 @@
                     android:lineSpacingExtra="4dp"
                     android:text="감정 정도"
                     android:textColor="@color/gray2"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold" />
 
                 <!-- 첫 번째 감정 변화 아이콘 및 텍스트 묶음 -->
                 <LinearLayout
@@ -144,20 +141,21 @@
                     <!-- 감정 변화 아이콘 및 텍스트 1 -->
                     <ImageView
                         android:id="@+id/emotionIcon1"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/img_emotion_0" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingStart="8dp">
+                        android:layout_marginLeft="4dp"
+                        android:orientation="vertical" >
 
                         <TextView
                             android:id="@+id/emotionStep1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/Cp2_Regular"
                             android:text="4단계"
                             android:textColor="@color/gray2" />
 
@@ -165,7 +163,9 @@
                             android:id="@+id/emotionText1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="아주 싫었어"
+                            style="@style/Bd2_Bold"
                             android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
@@ -174,45 +174,47 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_arrow_down" />
+                    android:src="@drawable/ic_arrow_down_blue" />
 
 
                 <!-- 두 번째 감정 변화 아이콘 및 텍스트 묶음 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <!-- 감정 변화 아이콘 및 텍스트 2 -->
                     <ImageView
                         android:id="@+id/emotionIcon2"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/img_emotion_1" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:paddingStart="8dp">
+                        android:layout_marginLeft="4dp">
 
                         <TextView
                             android:id="@+id/emotionStep2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4단계"
+                            style="@style/Cp2_Regular"
                             android:textColor="@color/gray2" />
 
                         <TextView
                             android:id="@+id/emotionText2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:text="아주 좋았어"
+                            style="@style/Bd2_Bold"
                             android:textColor="@color/blue2" />
                     </LinearLayout>
                 </LinearLayout>
@@ -222,10 +224,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
                     android:text="선택한 감정"
                     android:textColor="@color/gray2"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold" />
 
                 <!-- ChipGroup -->
                 <com.google.android.material.chip.ChipGroup
@@ -245,17 +246,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
                     android:text="내가 적은 감정"
                     android:textColor="@color/gray2"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/CalenderChangedEmotionChipGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     app:chipBackgroundColor="@android:color/transparent"
                     app:chipSpacing="8dp"
                     app:chipStrokeColor="@color/gray1"

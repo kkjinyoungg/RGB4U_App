@@ -39,6 +39,22 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
         return view
     }
 
+    // 바텀 시트 높이값 고정
+    override fun onStart() {
+        super.onStart()
+
+        dialog?.let {
+            val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.layoutParams?.height = 340.dpToPx()  // 원하는 높이로 설정
+            bottomSheet?.requestLayout()
+        }
+    }
+
+    // dp를 px로 변환하는 확장 함수
+    private fun Int.dpToPx(): Int {
+        return (this * resources.displayMetrics.density).toInt()
+    }
+
     // 상황 리스트 설정
     fun setSituations(situations: List<String>) {
         this.situationList = situations

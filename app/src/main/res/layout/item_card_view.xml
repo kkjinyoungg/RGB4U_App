@@ -28,7 +28,7 @@
 
         <!-- 수평 방향으로 변경 -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -39,9 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="유형 이름"
-                android:textSize="14sp"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:textColor="@color/black"
+                style="@style/Bd2_Regular"
                 android:layout_gravity="center"
                 android:layout_weight="1"/>
 

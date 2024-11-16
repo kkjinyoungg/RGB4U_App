@@ -13,5 +13,10 @@
     android:textAppearance="@style/chipText"
     android:textSize="14sp"
     app:chipStrokeWidth="0dp"
+    app:closeIcon="@drawable/ic_chip_plus"
+    app:closeIconSize="12dp"
+    app:closeIconEnabled="true"
+    app:closeIconTint="@color/white"
+    android:paddingStart="8dp"
     app:chipSurfaceColor="@android:color/transparent"
     app:chipStrokeColor="@android:color/transparent" />

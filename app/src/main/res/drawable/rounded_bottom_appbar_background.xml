@@ -2,5 +2,5 @@
 <!-- res/drawable/rounded_bottom_appbar_background.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/white" />
-    <corners android:radius="30dp" /> <!-- 원하는 반경 값 설정 -->
+    <corners android:radius="50dp" /> <!-- 원하는 반경 값 설정 -->
 </shape>

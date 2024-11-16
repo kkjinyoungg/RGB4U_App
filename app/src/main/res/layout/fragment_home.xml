@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_home_before_record" >
+    android:background="@drawable/bg_home_defult" >
 
     <LinearLayout
         android:id="@+id/linearLayout"
