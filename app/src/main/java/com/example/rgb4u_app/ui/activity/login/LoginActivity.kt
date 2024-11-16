@@ -18,8 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
-import com.example.rgb4u_app.ui.activity.login.SignUpActivity1
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 

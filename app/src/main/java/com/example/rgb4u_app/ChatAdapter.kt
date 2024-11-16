@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 
 class ChatAdapter(val chatList: MutableList<String>, private val context: Context) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 

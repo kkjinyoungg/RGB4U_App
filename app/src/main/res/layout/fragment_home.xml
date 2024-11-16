@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_home_before_record" >
+    android:background="@drawable/img_home_before_record">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -46,9 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_marginRight="16dp"
-        app:cardElevation="0dp"
         app:cardBackgroundColor="@color/white_20"
         app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -80,37 +79,103 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/textBox"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textBoxContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/img_ch_textbox"
         android:layout_marginTop="200dp"
+        android:background="@drawable/img_ch_textbox"
         android:padding="12dp"
-        android:text="오늘은 어떤 하루를 보냈어?"
-        android:fontFamily="@font/own_mongmongday"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 텍스트 -->
+        <TextView
+            android:id="@+id/textBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/own_mongmongday"
+            android:gravity="center"
+            android:text="오늘은 어떤 하루를 보냈어?"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/refreshIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- 리프레시 버튼 -->
+        <ImageView
+            android:id="@+id/refreshIcon"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
+            android:clickable="true"
+            android:contentDescription="새로고침 아이콘"
+            android:focusable="true"
+            android:padding="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textBox"
+            app:layout_constraintHorizontal_chainStyle="packed" /> <!-- 이 부분을 수정했습니다. -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageView
         android:id="@+id/mainCharacterContainer"
         android:layout_width="180dp"
         android:layout_height="210dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="200dp"
         android:contentDescription="메인 캐릭터"
         android:scaleType="fitCenter"
         android:src="@drawable/img_ch_home"
-        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/navigationBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBox" />
+        app:layout_constraintTop_toBottomOf="@+id/textBoxContainer" />
+
+    <TextView
+        android:id="@+id/homeNotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="생각을 분석하고 알려드려요"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainCharacterContainer" />
+
+    <TextView
+        android:id="@+id/notificationCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="5"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/homeNotificationLabel"
+        app:layout_constraintStart_toEndOf="@+id/homeNotificationLabel"
+        app:layout_constraintTop_toTopOf="@+id/homeNotificationLabel" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/analysisRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeNotificationLabel"
+        android:orientation="horizontal" />
 
     <fragment
         android:id="@+id/navigationBar"
@@ -118,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

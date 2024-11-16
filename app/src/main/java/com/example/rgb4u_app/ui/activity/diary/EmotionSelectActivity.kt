@@ -6,16 +6,14 @@ import android.content.res.ColorStateList //칩 배경색 추가
 import android.graphics.Color //칩 배경색 추가
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
@@ -26,7 +24,6 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Context // 칩 높이
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 
 class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 

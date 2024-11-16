@@ -6,11 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.home.AnalysisItem
+import com.example.rgb4u_app.ui.activity.home.AnalysisItemAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -52,8 +57,10 @@ class HomeFragment : Fragment() {
         dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
         dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
 
-        // 말풍선 클릭 리스너 추가
-        textBox.setOnClickListener {
+
+        // refreshIcon 클릭 리스너 추가
+        val refreshIcon: ImageView = view.findViewById(R.id.refreshIcon)
+        refreshIcon.setOnClickListener {
             changeMessage()
         }
 
@@ -62,6 +69,23 @@ class HomeFragment : Fragment() {
 
         // 앱 설치 날짜를 기반으로 디데이 계산
         calculateDDay()
+
+        // RecyclerView 초기화
+        val recyclerView: RecyclerView = view.findViewById(R.id.analysisRecyclerView)
+        // LayoutManager를 수평 방향으로 설정
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+
+        // 데이터를 준비 (예시)
+        val analysisList = listOf(
+            AnalysisItem(true, false, "12월 25일 월요일"), // 분석완료
+            AnalysisItem(true, true, "12월 26일 화요일"),  // 분석중
+            AnalysisItem(false, false)                    // 분석할 기록이 없음
+        )
+
+        // 어댑터 설정
+        val adapter = AnalysisItemAdapter(analysisList)
+        recyclerView.adapter = adapter
     }
 
     private fun updateDateAndDay() {

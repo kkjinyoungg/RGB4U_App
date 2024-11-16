@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.databinding.FragmentChangedDayBinding
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 
 class ChangedDayFragment : Fragment() {
     private lateinit var binding: FragmentChangedDayBinding
