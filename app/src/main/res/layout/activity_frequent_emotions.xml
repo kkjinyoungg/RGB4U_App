@@ -35,9 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="자주 고른 감정을 최대 3개까지씩 보여줘요"
-                style="@style/Bd2_Bold"
-                android:textColor="@color/black"
+                android:text="자주 고른 감정을 최대 3가지씩 보여드려요"
+                style="@style/Cp1_Regular"
+                android:textColor="@color/gray1"
                 app:layout_constraintBottom_toTopOf="@+id/scrollView2"
                 app:layout_constraintTop_toTopOf="parent" />
 

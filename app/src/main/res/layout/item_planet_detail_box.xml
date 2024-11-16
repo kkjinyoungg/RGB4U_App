@@ -4,29 +4,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="8dp"
-    android:background="@drawable/rounded_corner_background"
-    android:padding="8dp">
+    android:background="@drawable/rounded_corner_background" >
 
     <!-- 내용 텍스트 -->
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:textColor="@color/black"
-        android:padding="8dp"
         android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어가족들이랑 여행을 가서 엄마와 한 방에서 잤"
-        android:textSize="14sp" />
+        style="@style/Bd2_Regular" />
 
     <!-- 날짜 표시 텍스트 -->
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:paddingEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
         android:text="7월 23일 화요일"
         android:textAlignment="viewEnd"
         android:textColor="@color/gray1"
-        android:textSize="12sp" />
+        style="@style/Cp1_Regular" />
 
 </LinearLayout>

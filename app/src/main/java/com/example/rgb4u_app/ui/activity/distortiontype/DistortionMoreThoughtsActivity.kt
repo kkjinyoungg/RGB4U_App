@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
+import android.widget.LinearLayout
 
 class DistortionMoreThoughtsActivity : AppCompatActivity() {
 
@@ -46,6 +47,10 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
         val backButton = toolbar.findViewById<ImageButton>(R.id.button_write_action1)
         val titleTextView = toolbar.findViewById<TextView>(R.id.toolbar_write_title)
         val actionButton2 = toolbar.findViewById<ImageButton>(R.id.button_write_action2)
+
+        // 구분선과 박스 초기화
+        val tvLine = findViewById<View>(R.id.tv_line)
+        val tvBlueBoxDetail3 = findViewById<LinearLayout>(R.id.tv_bluebox_detail3)
 
         // 타이틀과 button_write_action2 숨기기
         titleTextView.visibility = View.GONE
@@ -86,10 +91,8 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
         tvAlternativeDetailExtended3 = findViewById(R.id.tv_alternative_detail_extended_3)
 
         // 두 번째 섹션의 데이터가 없을 경우 숨김 처리
-        if (distortionType.alternativeThought.isNullOrEmpty() &&
-            distortionType.detail3.isNullOrEmpty() &&
-            distortionType.extendedDetail3.isNullOrEmpty() &&
-            distortionType.alternativeThought3.isNullOrEmpty()) {
+        if (distortionType.detail3.isNullOrEmpty()) {
+            // detail3이 없거나, null이거나, 빈 문자열인 경우 모든 뷰를 숨김
 
             // 두 번째 섹션의 모든 뷰를 숨깁니다.
             tvTypeDetailTitle3.visibility = View.GONE
@@ -103,6 +106,10 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
             tvAlternativeDetailToggle3.visibility = View.GONE
             btnAlternativeDetailToggle3.visibility = View.GONE
             tvAlternativeDetailExtended3.visibility = View.GONE
+            // 구분선과 박스도 숨기기 추가
+            tvLine.visibility = View.GONE
+            tvBlueBoxDetail3.visibility = View.GONE
+
         } else {
             // 데이터가 있는 경우 UI 요소에 데이터 설정
             tvTypeDetailTitle3.text = distortionType.detailTitle // 제목 설정
@@ -110,6 +117,9 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
             tvTypeDetailExtended3.text = distortionType.extendedDetail3 // 추가 상세 내용 설정
             tvAlternativeThought3.text = distortionType.alternativeThought3 // 대안적 생각 설정
             tvAlternativeDetailExtended3.text = distortionType.alternativeExtendedDetail3 // 대안적 추가 상세 설정
+            // 구분선과 박스는 보이도록 설정
+            tvLine.visibility = View.VISIBLE
+            tvBlueBoxDetail3.visibility = View.VISIBLE
         }
 
         // 첫 번째 섹션 데이터 설정

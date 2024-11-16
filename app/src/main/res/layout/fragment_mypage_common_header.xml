@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
+    android:layout_height="64dp">
 
     <!-- 뒤로가기 버튼 -->
     <ImageButton
@@ -24,9 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="프로필 수정"
-        android:textSize="16sp"
         android:textColor="@color/black"
-        android:fontFamily="@font/nanumsquareroundregular"
+        style="@style/Bd1_Regular"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_back"

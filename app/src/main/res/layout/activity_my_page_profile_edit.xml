@@ -21,9 +21,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:text="닉네임"
-        android:textSize="14sp"
         android:textColor="@color/black"
-        android:fontFamily="@font/nanumsquareroundbold"
+        style="@style/Bd2_Bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_container" />
 
@@ -31,7 +30,7 @@
     <FrameLayout
         android:id="@+id/nicknameLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
@@ -46,13 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/profile_edit_text_background"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:gravity="center_vertical"
             android:maxLength="11"
             android:padding="16dp"
             android:text="나서진"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            style="@style/Bd2_Regular" />
 
         <!-- 글자수 TextView 오버레이 -->
         <TextView
@@ -62,11 +60,9 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:text="0/10"
             android:textColor="@color/gray2"
-            android:textSize="12sp" />
-
+            style="@style/Cp1_Regular" />
     </FrameLayout>
 
     <!-- 에러 메시지 TextView를 닉네임 아래에 위치시키기 -->
@@ -76,9 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="32dp"
-        android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/highlight"
-        android:textSize="12sp"
+        style="@style/Cp1_Regular"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nicknameLayout" />
@@ -89,11 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:fontFamily="@font/nanumsquareroundbold"
         android:layout_marginTop="40dp"
         android:text="생일"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        style="@style/Bd2_Bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nicknameLayout" />
 
@@ -101,7 +95,7 @@
     <EditText
         android:id="@+id/et_birthdate"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:background="@drawable/profile_edit_text_background"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
@@ -109,9 +103,8 @@
         android:clickable="false"
         android:focusable="false"
         android:text="2020년 6월 1일"
-        android:fontFamily="@font/nanumsquareroundregular"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        style="@style/Bd2_Regular"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,9 +134,8 @@
         android:layout_marginLeft="16dp"
         android:background="@drawable/rounded_button"
         android:text="완료"
-        android:fontFamily="@font/nanumsquareroundbold"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

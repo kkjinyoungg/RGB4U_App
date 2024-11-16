@@ -35,9 +35,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="모아의 메시지"
-            android:fontFamily="@font/nanumsquareroundbold"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            style="@style/Bd2_Bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,9 +49,8 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:text="하루에 한 번 기록을 까먹지 않도록 알려드려요"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
-            android:textSize="12sp"
+            style="@style/Cp1_Regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,8 +102,7 @@
             android:layout_marginTop="16dp"
             android:text="AI 생각 분석 결과"
             android:textColor="@color/black"
-            android:fontFamily="@font/nanumsquareroundbold"
-            android:textSize="14sp"
+            style="@style/Bd2_Bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,9 +115,8 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             android:text="AI로 분석된 생각 유형을 알려드려요"
-            android:fontFamily="@font/nanumsquareroundregular"
             android:textColor="@color/gray2"
-            android:textSize="12sp"
+            style="@style/Cp1_Regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

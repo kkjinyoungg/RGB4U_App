@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical" >
 
     <!-- 상단 프로필 및 이름 섹션 -->
     <LinearLayout
@@ -17,7 +16,7 @@
             android:id="@+id/TypeImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_planet_a" />
 
@@ -35,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="행성 유형"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                style="@style/Bd2_Bold" />
 
             <!-- '자세히 보기' 버튼 -->
             <LinearLayout
@@ -44,23 +43,24 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button_gray"
                 android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="4dp"
                 android:layout_marginTop="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:text="자세히 보기"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    style="@style/Cp1_Regular"/>
 
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
+                    android:layout_marginRight="12dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="4dp"
                     android:src="@drawable/ic_next" />
             </LinearLayout>
         </LinearLayout>
@@ -71,12 +71,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="16dp" />
     <!-- 구분선 -->
     <View
         android:id="@+id/dottedline"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_marginVertical="24dp"
-        android:background="@drawable/dotted_line" />
+        android:background="@drawable/dotted_line_02" />
 </LinearLayout>

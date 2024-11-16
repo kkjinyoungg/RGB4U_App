@@ -111,7 +111,7 @@ class MyPageMainActivity : AppCompatActivity() {
         }
 
         // 비밀번호 변경 버튼 클릭 리스너
-        findViewById<ImageButton>(R.id.btn_change_password).setOnClickListener {
+        findViewById<LinearLayout>(R.id.layout_change_password).setOnClickListener {
             val intent = Intent(this, MyPagePasswordEditActivity::class.java)
             startActivity(intent)
         }
@@ -119,7 +119,7 @@ class MyPageMainActivity : AppCompatActivity() {
         // 로그아웃 클릭 리스너
         tvLogout.setOnClickListener {
             val dialog = ConfirmationDialogFragment(
-                title = "로그아웃하시겠습니까?",
+                title = "로그아웃하시겠어요?",
                 message = "",
                 confirmButtonText = "로그아웃",
                 onConfirm = {
@@ -144,8 +144,10 @@ class MyPageMainActivity : AppCompatActivity() {
         // 회원 탈퇴 클릭 리스너 추가
         tvDeleteAccount.setOnClickListener {
             val dialog = ConfirmationDialogFragment(
-                title = "회원 탈퇴하시겠습니까?",
-                message = "(앱 이름)을 탈퇴하면 기록과 분석 결과 등 모든 정보가 즉시 삭제되고 복구가 불가능합니다. \n계속하시겠습니까?",
+                title = "탈퇴하시겠어요?",
+                message = "생각모아를 탈퇴하면 기록과 분석 결과 등 \n" +
+                        "모든 정보가 즉시 삭제되고 복구가 \n" +
+                        "불가능해요. 계속하시겠어요?",
                 confirmButtonText = "탈퇴",
                 onConfirm = {
                     // FirebaseAuth 인스턴스 초기화
@@ -161,8 +163,8 @@ class MyPageMainActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
-                                // 로그인 화면으로 이동
-                                val intent = Intent(this, LoginActivity::class.java)
+                                // 탈퇴 확인 화면으로
+                                val intent = Intent(this, MyPageDeleteaccoutActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {

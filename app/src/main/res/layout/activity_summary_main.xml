@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_defult"
+    android:background="@drawable/bg_diary_splash"
     tools:context=".ui.activity.summary.SummaryMainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,11 +83,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/nanumsquareroundbold"
+                style="@style/CH_Bd1"
                 android:gravity="center"
                 android:text="나의 하루를 AI로 요약했어요"
                 android:textColor="@color/main"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -100,59 +99,57 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edittext_background"
-                android:orientation="horizontal"
+                android:background="@drawable/edittext_background_2"
                 android:padding="16dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/summaryTextView">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="@font/nanumsquareroundbold"
-                        android:text="상황"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        style="@style/Bd2_Bold"
+                        android:text="이런 상황이 있었어요"
+                        android:textColor="@color/white_80" />
 
-                    <TextView
-                        android:id="@+id/situationTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nanumsquareroundregular"
-                        android:lineSpacingExtra="6dp"
-                        android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
+                    <ImageButton
+                        android:id="@+id/situationDetailButton"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@null"
+                        android:scaleType="fitCenter"
+                        android:alpha="0.8"
+                        android:src="@drawable/ic_next_wh" />
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/situationDetailButton"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_next_wh" />
+                <TextView
+                    android:id="@+id/situationTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
+                    android:textColor="@color/white"
+                    style="@style/Bd2_Regular" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/situationDownButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_space_between"
+                android:src="@drawable/ic_arrow_down_10_"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/situationLayout" />
@@ -165,8 +162,8 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edittext_background"
-                android:orientation="horizontal"
+                android:background="@drawable/edittext_background_2"
+                android:orientation="vertical"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506"
@@ -174,50 +171,50 @@
                 app:layout_constraintTop_toBottomOf="@+id/situationDownButton">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:fontFamily="@font/nanumsquareroundbold"
-                        android:text="생각"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        style="@style/Bd2_Bold"
+                        android:text="이렇게 생각했어요"
+                        android:textColor="@color/white_80" />
 
-                    <TextView
-                        android:id="@+id/thoughtTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nanumsquareroundregular"
-                        android:lineSpacingExtra="8dp"
-                        android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp" />
+                    <ImageButton
+                        android:id="@+id/thoughtDetailButton"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@null"
+                        android:scaleType="fitCenter"
+                        android:alpha="0.8"
+                        android:src="@drawable/ic_next_wh" />
+
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/thoughtDetailButton"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_next_wh" />
+                <TextView
+                    android:id="@+id/thoughtTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    style="@style/Bd2_Regular"
+                    android:text="가족들이랑 여행을 가서 엄마와 한 방에서 잤는데 엄마가 코를 골아서 잠을 제대로 못 잤어"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/thoughtDownButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_space_between"
+                android:src="@drawable/ic_arrow_down_10_"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thoughtLayout" />
@@ -230,7 +227,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edittext_background"
+                android:background="@drawable/edittext_background_2"
                 android:orientation="vertical"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -241,21 +238,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
-                    android:text="감정"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    style="@style/Bd2_Bold"
+                    android:text="그래서 이런 감정을 느꼈어요"
+                    android:textColor="@color/white_80" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
-                    android:lineSpacingExtra="4dp"
                     android:text="감정 정도"
                     android:textColor="@color/blue2_30"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold" />
 
                 <!-- 감정 강도 이미지뷰와 텍스트뷰 수평 배치 -->
                 <LinearLayout
@@ -267,9 +260,9 @@
 
                     <ImageView
                         android:id="@+id/emotionIntensityImageView"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="4dp"
                         android:src="@drawable/rounded_divider_view" />
 
                     <LinearLayout
@@ -282,21 +275,19 @@
                             android:id="@+id/emotionIntensityTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/nanumsquareroundregular"
+                            style="@style/Cp2_Regular"
                             android:text="4단계"
-                            android:textColor="@color/gray3"
-                            android:textSize="10sp" />
+                            android:textColor="@color/gray3" />
 
                         <TextView
                             android:id="@+id/emotionIntensityTextView02"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:fontFamily="@font/own_mongmongday"
                             android:gravity="center"
                             android:text="심했어"
-                            android:textColor="@color/gray3"
-                            android:textSize="20sp" />
+                            style="@style/Bd2_Regular"
+                            android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -305,17 +296,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
                     android:text="선택한 감정"
                     android:textColor="@color/blue2_30"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold" />
 
                 <!-- ChipGroup -->
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/SummarySelectedChipGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     app:chipSpacing="8dp"
                     app:closeIconEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -328,16 +318,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
                     android:text="내가 적은 감정"
                     android:textColor="@color/blue2_30"
-                    android:textSize="12sp" />
+                    style="@style/Cp1_Bold"/>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/SummaryEmotionChipGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
                     app:chipSpacing="8dp"
                     app:chipStrokeColor="@color/white"
@@ -364,8 +353,7 @@
         android:background="@drawable/rounded_button"
         android:text="완료"
         android:textColor="@color/black"
-        android:textSize="14sp"
-        android:fontFamily="@font/nanumsquareroundbold"
+        style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

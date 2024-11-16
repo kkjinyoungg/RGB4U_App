@@ -102,7 +102,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 emotionIntensityImageView.setImageResource(getImageResId(emotionDegreeInt))
 
                                 // TextView에 감정 강도 중 숫자
-                                emotionIntensityTextView.text = "5단계 중 ${emotionDegreeInt}단계"
+                                emotionIntensityTextView.text = "${emotionDegreeInt}단계"
 
                                 //$emotionDegreeString (심했어)-> 프론트 생기면 연결예정
 
@@ -127,28 +127,40 @@ class SummaryMainActivity : AppCompatActivity() {
                                     selectedChipGroup.addView(chip)
                                 }
 
-                                //emotionChipGroup에 감정 추가, 테두리 투명 배경 적용 X... 이유 못찾음
+                                // emotionChipGroup에 감정 추가
                                 for (emotion in temporaryEmotions) {
-                                    val chip = Chip(this@SummaryMainActivity).apply {
-                                        text = emotion
-                                        isCloseIconVisible = false
-                                        isClickable = false
-                                        isFocusable = false
+                                    val chip = layoutInflater.inflate(R.layout.summary_single_chip, emotionChipGroup, false) as Chip
+                                    chip.text = emotion
+                                    chip.isCloseIconVisible = false // 닫기 아이콘 숨기기
+                                    chip.isClickable = false // 칩 클릭 비활성화
+                                    chip.isFocusable = false // 포커스 비활성화
 
-                                        // Chip 속성 설정
-                                        shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                                            .setAllCornerSizes(50f)
-                                            .build()
-
-                                        setTextColor(ContextCompat.getColor(this@SummaryMainActivity, R.color.white)) // 텍스트 색상
-                                        setChipStrokeColorResource(R.color.white) // 테두리 색상
-                                        chipStrokeWidth = 2f // 테두리 두께
-                                        setChipBackgroundColor(ColorStateList.valueOf(Color.TRANSPARENT)) // 배경색
-                                    }
-
-                                    // ChipGroup에 추가
-                                    findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup).addView(chip)
+                                    emotionChipGroup.addView(chip) // ChipGroup에 추가
                                 }
+//                                //emotionChipGroup에 감정 추가, 테두리 투명 배경 적용 X... 이유 못찾음
+//                                for (emotion in temporaryEmotions) {
+//                                    val chip = Chip(this@SummaryMainActivity).apply {
+//
+//                                        text = emotion
+//                                        isCloseIconVisible = false
+//                                        isClickable = false
+//                                        isFocusable = false
+//
+//                                        // Chip 속성 설정
+//                                        shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+//                                            .setAllCornerSizes(50f)
+//                                            .build()
+//
+//                                        setTextColor(ContextCompat.getColor(this@SummaryMainActivity, R.color.white)) // 텍스트 색상
+//                                        setChipStrokeColorResource(R.color.white) // 테두리 색상
+//                                        chipStrokeWidth = 2f // 테두리 두께
+//                                        setChipBackgroundColor(ColorStateList.valueOf(Color.TRANSPARENT)) // 배경색
+//
+//                                    }
+//
+//                                    // ChipGroup에 추가
+//                                    findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup).addView(chip)
+//                                }
 
 
                             }
@@ -228,6 +240,8 @@ class SummaryMainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+
     // 감정에 따라 이미지 리소스 ID를 반환하는 함수
     private fun getImageResId(progress: Int): Int {
         return when (progress) {

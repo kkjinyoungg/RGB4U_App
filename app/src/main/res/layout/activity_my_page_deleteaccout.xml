@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:text="회원 탈퇴"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:fontFamily="@font/nanumsquareroundregular"/>
+            style="@style/Bd1_Regular"/>
     </LinearLayout>
 
     <!-- 설명 텍스트 1 -->
@@ -39,11 +38,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:text="생각 모아를 탈퇴했습니다"
+        android:text="생각모아를 탈퇴했어요"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="18sp"
+        style="@style/ST_Bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_section" />
@@ -53,11 +51,12 @@
         android:id="@+id/tv_description_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/own_mongmongday"
-        android:text="마음이 힘들 땐 \n언제든 나를 찾아와!"
+        android:text="마음이 힘들 땐 \n언제든 저를 찾아주세요!"
+        android:textColor="@color/blue2"
         android:textAlignment="center"
-        android:textSize="24sp"
+        style="@style/CH_ST"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_byecharacter" />
@@ -65,10 +64,10 @@
     <!-- 이미지뷰 -->
     <ImageView
         android:id="@+id/img_byecharacter"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:src="@drawable/ic_deletecharacter"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_description_1" />
@@ -83,8 +82,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
         android:text="처음으로"
-        android:fontFamily="@font/nanumsquareroundbold"
-        android:textSize="14sp"
+        style="@style/Bd2_Bold"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

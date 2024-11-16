@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.MainActivity
@@ -50,6 +51,9 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         myEmotionFragment.setQuestionText("그때 부정적인 감정이 \n얼마나 심했는지 알려주세요", "")
         myEmotionFragment.showIconForStep(3)
 
+        // 4단계에서 폰트 스타일을 바꾸는 부분
+        changeFontStyleForStep(3)
+
         // 버튼 클릭 리스너 설정
         myEmotionFragment.setToolbarButtonListeners(
             backAction = { onToolbarAction1Clicked() }, // 뒤로 가기 버튼 동작을 메서드로 연결
@@ -85,6 +89,20 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
 
         // Initialize the Next button state based on the initial SeekBar progress
         myEmotionFragment.setButtonNextEnabled(seekBar.progress in 1..4)
+    }
+
+    // 특정 단계에서 폰트 스타일을 변경하는 함수
+    private fun changeFontStyleForStep(step: Int) {
+        val myTextView: TextView = findViewById(R.id.text_emotion_strength)
+        if (step == 3) {
+            // 3단계에서 폰트 스타일을 Bold로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Bold)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_40))
+        } else {
+            // 기본 스타일로 변경
+            myTextView.setTextAppearance(R.style.Cp1_Regular)
+            myTextView.setTextColor(ContextCompat.getColor(this, R.color.white_20))
+        }
     }
 
     // 감정에 따라 이미지 리소스 ID를 반환하는 함수
