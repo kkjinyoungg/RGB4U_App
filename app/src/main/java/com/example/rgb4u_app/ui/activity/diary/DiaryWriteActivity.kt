@@ -24,12 +24,16 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
@@ -38,6 +42,19 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_diary)
+
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 날짜 정보 받기
+        val selectedDate = intent.getStringExtra("SELECTED_DATE")
+        selectedDate?.let {
+            // 받은 날짜 정보를 툴바 제목에 설정
+            toolbarTitle.text = it
+        } ?: run {
+            // 날짜 정보가 없을 경우 기본값 설정 (현재 날짜)
+            val calendar = Calendar.getInstance()
+            val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
+            toolbarTitle.text = sdf.format(calendar.time)
+        }
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -169,7 +186,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
-        //intent.putExtra("EXTRA_SITUATION_TEXT", inputText)  // situationText로 전달할 데이터
+        intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
         startActivity(intent)
     }
 

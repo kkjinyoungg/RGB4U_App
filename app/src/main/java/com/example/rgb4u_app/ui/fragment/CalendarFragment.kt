@@ -227,7 +227,9 @@ class CalendarFragment : Fragment() {
                             set(Calendar.DAY_OF_MONTH, day)
                         }
                         val intent = Intent(requireContext(), DiaryWriteActivity::class.java).apply {
-                            putExtra("SELECTED_DATE", SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault()).format(selectedDate.time))
+                            // 날짜 포맷을 "MM월 dd일 E요일" 형식으로 변경
+                            val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR")).format(selectedDate.time)
+                            putExtra("SELECTED_DATE", formattedDate)
                         }
                         startActivity(intent)
                     }

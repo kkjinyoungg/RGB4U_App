@@ -34,15 +34,18 @@ class SummaryMainActivity : AppCompatActivity() {
     // Realtime Database 참조 선언
     private lateinit var database: DatabaseReference
     private val diaryViewModel: DiaryViewModel by viewModels()
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary_main)
 
-        // 상단 날짜 설정
-        val calendar = Calendar.getInstance()
-        val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
-        findViewById<TextView>(R.id.dateTextView).text = sdf.format(calendar.time)
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
+        val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        titleText?.let {
+            toolbarTitle.text = it // 툴바 제목 텍스트에 설정
+        }
 
         // situationTextView와 thoughtTextView 참조
         val situationTextView = findViewById<TextView>(R.id.situationTextView)

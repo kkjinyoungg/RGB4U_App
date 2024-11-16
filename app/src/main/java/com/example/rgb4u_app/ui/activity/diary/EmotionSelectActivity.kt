@@ -38,6 +38,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
@@ -46,6 +47,13 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
+
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
+        val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        titleText?.let {
+            toolbarTitle.text = it // 툴바 제목 텍스트에 설정
+        }
 
         //다이어리뷰모델초기화
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -323,6 +331,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 val intent =
                     Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
                 intent.putExtra("DIARY_ID", DiaryViewModel.diaryId) // diaryId를 Intent에 추가
+                intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
                 startActivity(intent)
                 finish()
             }

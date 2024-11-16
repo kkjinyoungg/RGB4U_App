@@ -22,10 +22,18 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
     private lateinit var seekBar: SeekBar
     private lateinit var dynamicTextView: TextView
     private lateinit var squareView: ImageView
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_strength)
+
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
+        val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        titleText?.let {
+            toolbarTitle.text = it // 툴바 제목 텍스트에 설정
+        }
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -126,6 +134,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
 
         // 다음 액티비티로 전환
         val intent = Intent(this, EmotionSelectActivity::class.java)
+        intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
         startActivity(intent)
 
     }
