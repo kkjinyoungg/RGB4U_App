@@ -118,18 +118,23 @@ class DistortionTypeActivity : AppCompatActivity() {
         val btnNext = findViewById<Button>(R.id.btn_next)
         val btnPrevious = findViewById<Button>(R.id.btn_previous)
 
-        when (position) {
-            0 -> {
-                btnPrevious.visibility = View.GONE
-                btnNext.text = "다음"
-            }
-            pagerAdapter.itemCount - 1 -> {
-                btnPrevious.visibility = View.VISIBLE
-                btnNext.text = "감정 변화 확인"
-            }
-            else -> {
-                btnPrevious.visibility = View.VISIBLE
-                btnNext.text = "다음"
+        if (pagerAdapter.itemCount == 1) {
+            btnPrevious.visibility = View.GONE
+            btnNext.text = "감정 변화 확인"
+        } else {
+            when (position) {
+                0 -> {
+                    btnPrevious.visibility = View.GONE
+                    btnNext.text = "다음"
+                }
+                pagerAdapter.itemCount - 1 -> {
+                    btnPrevious.visibility = View.VISIBLE
+                    btnNext.text = "감정 변화 확인"
+                }
+                else -> {
+                    btnPrevious.visibility = View.VISIBLE
+                    btnNext.text = "다음"
+                }
             }
         }
         Log.d("DistortionTypeActivity", "Button visibility updated for position: $position")
