@@ -44,20 +44,48 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         setContentView(R.layout.activity_write_diary)
 
         toolbarTitle = findViewById(R.id.toolbar_write_title)
+
+        // Application에서 ViewModel 가져오기
+        diaryViewModel = (application as MyApplication).diaryViewModel
+
         // Intent로 전달된 날짜 정보 받기
-        val selectedDate = intent.getStringExtra("SELECTED_DATE")
+        val selectedYear = intent.getStringExtra("SELECTED_YEAR") //yyyy 값 받기
+        val selectedDate = intent.getStringExtra("SELECTED_DATE") //MM월 dd일 E요일
+
+        // 로그 출력
+        Log.d("DiaryWriteActivity", "Selected Year: $selectedYear")
+        Log.d("DiaryWriteActivity", "Selected Date: $selectedDate")
+
+        // 로그 출력
+        Log.d("DiaryWriteActivity", "Selected Year: $selectedYear")
+        Log.d("DiaryWriteActivity", "Selected Date: $selectedDate")
+
         selectedDate?.let {
             // 받은 날짜 정보를 툴바 제목에 설정
             toolbarTitle.text = it
+
+            // selectedDate에서 MM과 dd 추출
+            val monthDayPattern = Regex("(\\d{1,2})월 (\\d{1,2})일")
+            val matchResult = monthDayPattern.find(it)
+
+            if (matchResult != null) {
+                val (month, day) = matchResult.destructured
+                // yyyy-MM-dd 형식으로 변환
+                val formattedDate = "$selectedYear-$month-${day.padStart(2, '0')}" // 일(day)을 두 자리로 맞춤
+                diaryViewModel.setCurrentDate(formattedDate) // ViewModel에 날짜 값 전달
+                Log.d("DiaryWriteActivity", "Set Current Date in ViewModel: $formattedDate") // ViewModel에 전달된 값 로그 출력
+            }
         } ?: run {
             // 날짜 정보가 없을 경우 기본값 설정 (현재 날짜)
             val calendar = Calendar.getInstance()
             val sdf = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR"))
             toolbarTitle.text = sdf.format(calendar.time)
-        }
 
-        // Application에서 ViewModel 가져오기
-        diaryViewModel = (application as MyApplication).diaryViewModel
+            // 현재 날짜를 ViewModel에 전달
+            val defaultDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+            diaryViewModel.setCurrentDate(defaultDate) // ViewModel에 날짜 값 전달
+            Log.d("DiaryWriteActivity", "(날짜 정보 없어서)Set Current Date in ViewModel: $defaultDate") // ViewModel에 전달된 기본값 로그 출력
+        }
 
         // ViewModel 관찰자 추가
         diaryViewModel.situation.observe(this) { savedSituation ->

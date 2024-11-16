@@ -152,8 +152,12 @@ class CalendarFragment : Fragment() {
 
         Toast.makeText(requireContext(), "$formattedDate 클릭됨", Toast.LENGTH_SHORT).show()
 
+        // 일기 작성에 보내기 위해 year 값을 추출
+        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(selectedDate.time)
+
         val intent = Intent(requireContext(), CalenderDetailActivity::class.java).apply {
             putExtra("SELECTED_DATE", formattedDate)
+            putExtra("SELECTED_YEAR", year) // year 값을 Intent에 추가
         }
         startActivity(intent)
     }
@@ -226,10 +230,13 @@ class CalendarFragment : Fragment() {
                             time = currentCalendar.time
                             set(Calendar.DAY_OF_MONTH, day)
                         }
+                        val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR")).format(selectedDate.time)
+                        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(selectedDate.time) // year 값을 추출
+
                         val intent = Intent(requireContext(), DiaryWriteActivity::class.java).apply {
                             // 날짜 포맷을 "MM월 dd일 E요일" 형식으로 변경
-                            val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR")).format(selectedDate.time)
                             putExtra("SELECTED_DATE", formattedDate)
+                            putExtra("SELECTED_YEAR", year) // year 값을 Intent에 추가
                         }
                         startActivity(intent)
                     }
