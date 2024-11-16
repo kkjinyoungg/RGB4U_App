@@ -40,7 +40,7 @@ class SummaryMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary_main)
 
-        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        toolbarTitle = findViewById(R.id.dateTextView)
         // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
         val titleText = intent.getStringExtra("TOOLBAR_TITLE")
         titleText?.let {
