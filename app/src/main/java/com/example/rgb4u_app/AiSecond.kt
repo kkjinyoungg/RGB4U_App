@@ -14,6 +14,10 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.Date
 
 class AiSecond {
 
@@ -21,6 +25,8 @@ class AiSecond {
     private val client = OkHttpClient() // OkHttpClient 인스턴스 초기화
     private val apiKey = ""// API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
+    // getCurrentDate() 값을 저장할 변수
+    private var currentDate: String? = null
 
     private val cognitiveDistortions = listOf(
         "1. 흑백성 : 전부 아니면 전무의 사고. 연속적 개념보다는 오직 두 가지의 범주로 나누어 상황을 봐요. 예: 완벽하게 성공하지 못하면, 실패한 거야.",
@@ -37,8 +43,10 @@ class AiSecond {
         "12. 어둠성 : 터널 시야. 어떤 상황의 부정적인 면만을 봐요. 예: 우리 아들의 담임 선생은 올바로 하는 것이 없어. 그는 비판적이며 무감각하고 형편없이 가르쳐."
     )
 
-    fun analyzeThoughts(userId: String, diaryId: String, callback: () -> Unit) {
+    fun analyzeThoughts(userId: String, diaryId: String, currentDate: String, callback: () -> Unit) {
         Log.d(TAG, "analyzeThoughts 호출: userId = $userId, diaryId = $diaryId")
+
+        this.setCurrentDate(currentDate)  // currentDate 저장
 
         val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis/thoughts")
 
@@ -293,5 +301,71 @@ class AiSecond {
     private fun notifyUser(message: String) {
         // 예: Toast 메시지로 사용자에게 알림
         //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    // 현재 날짜를 설정하는 함수
+    fun setCurrentDate(date: String) {
+        currentDate = date
+    }
+
+    // 다른 함수에서 현재 날짜를 사용할 수 있도록 반환하는 함수
+    fun getCurrentDate(): String? {
+        return currentDate
+    }
+
+
+    // thought 분석 후 결과를 Firebase에 저장하는 메소드
+    fun saveThoughtsToFirebase(userId: String, selectedThoughts: List<String>, callback: () -> Unit) {
+        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, selectedThoughts = $selectedThoughts")
+
+        // currentDate를 yyyy-mm-dd 형태로 변환
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        currentDate = dateFormat.format(calendar.time) // currentDate 갱신
+
+        // monthlythoughts의 yyyy-mm 경로
+        val monthYear = currentDate?.substring(0, 7) // yyyy-mm 형식 추출
+
+        val monthlyThoughtsRef: DatabaseReference = firebaseDatabase.getReference("monthlythoughts/$monthYear")
+
+        // selectedThoughts에 포함된 각 유형에 대해 저장
+        for (thought in selectedThoughts) {
+            // 해당 유형 경로 참조
+            val typeRef: DatabaseReference = monthlyThoughtsRef.child(thought)
+
+            // 해당 유형의 데이터 읽기
+            typeRef.get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    // 기존 데이터가 존재하는 경우, "count" 값을 업데이트
+                    val currentCount = dataSnapshot.child("count").getValue(Int::class.java) ?: 0
+                    typeRef.child("count").setValue(currentCount + 1)
+
+                    // "text"와 "date" 저장
+                    val thoughtData = HashMap<String, Any>()
+                    thoughtData["text"] = selectedThoughts.joinToString(", ") // 여러 생각들을 콤마로 구분
+                    thoughtData["date"] = currentDate.toString()
+
+                    // 데이터 저장
+                    typeRef.child("entries").push().setValue(thoughtData)
+
+                    Log.d(TAG, "Firebase에 저장된 데이터: $thoughtData")
+                } else {
+                    // 데이터가 존재하지 않는 경우 새로운 데이터를 추가
+                    val thoughtData = HashMap<String, Any>()
+                    thoughtData["text"] = selectedThoughts.joinToString(", ") // 여러 생각들을 콤마로 구분
+                    thoughtData["date"] = currentDate.toString()
+                    thoughtData["count"] = 1
+
+                    // 데이터 저장
+                    typeRef.setValue(thoughtData)
+
+                    Log.d(TAG, "Firebase에 새로운 유형 데이터 저장됨: $thoughtData")
+                }
+                callback() // 저장이 완료되면 콜백 호출
+            }.addOnFailureListener { e ->
+                Log.e(TAG, "Firebase에서 데이터를 가져오지 못했습니다: ${e.message}")
+            }
+        }
     }
 }

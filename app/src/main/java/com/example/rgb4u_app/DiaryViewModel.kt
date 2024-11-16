@@ -137,7 +137,7 @@ class DiaryViewModel : ViewModel() {
 
                 statsRef.updateChildren(updates) // updates를 한 번에 반영
 
-                monthlyStatsUpdater.updateMonthlyStats(userId, diaryId!!, getCurrentDate(), emotionTypes)
+                monthlyStatsUpdater.updateMonthlyStats(userId, diaryId!!, getCurrentDate(), emotionTypes) //월간통계
 
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
@@ -157,7 +157,7 @@ class DiaryViewModel : ViewModel() {
 
             // (2) AiSecond 호출
             val aiSecond = AiSecond()
-            aiSecond.analyzeThoughts(userId, diaryId) {
+            aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
                 // AiSecond 분석 완료 후의 작업을 여기에 추가
                 Log.d("DiaryViewModel", "AiSecond 분석 완료")
                 // 후속 작업 추가 가능
