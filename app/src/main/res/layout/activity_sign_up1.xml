@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@drawable/bg_mypage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -151,7 +151,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button_light"
         android:stateListAnimator="@null"
-        android:textColor="@color/black"
+        android:textColor="@color/rounded_button_light_text"
         android:text="다음"
         style="@style/Bd2_Bold"/>
 </LinearLayout>

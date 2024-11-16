@@ -131,7 +131,7 @@ class SignUpActivity1 : AppCompatActivity() {
                 errorMessage.visibility = TextView.GONE
 
                 // 10자 이내면 charCount와 밑줄 색상을 검정색으로 변경
-                charCount.setTextColor(ContextCompat.getColor(this, R.color.black))
+                charCount.setTextColor(ContextCompat.getColor(this, R.color.gray2))
                 editTextNickname.setBackgroundResource(R.drawable.et_nickname_main_background)
                 // editTextNickname.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.black)) // 밑줄 색상 원래대로
 

@@ -123,7 +123,7 @@
                     android:id="@+id/tv_type_detail_extended"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:text="추가적인 상세 설명이 여기에 들어갑니다."
                     android:textColor="@color/gray1"
                     style="@style/Cp1_Regular"
@@ -133,7 +133,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal"
                     android:layout_gravity="end">
 
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="다르게 생각해보면 어떨까요?"
-                    style="@style/Bd2_Bold"
+                    style="@style/Cp1_Bold"
                     android:textColor="@color/black"
                     android:layout_marginBottom="8dp" />
 
@@ -185,8 +185,8 @@
                     <!-- 캐릭터 얼굴 이미지뷰 추가 -->
                     <ImageView
                         android:id="@+id/iv_character_face"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/ic_character_face"
                         android:layout_marginEnd="4dp" />
 
@@ -205,11 +205,11 @@
                     android:id="@+id/tv_alternative_detail_extended"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     android:text="추가적인 상세 설명이 여기에 들어갑니다."
                     android:textColor="@color/gray1"
                     style="@style/Cp1_Regular"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <!-- '자세히 보기' 토글과 이미지 버튼 -->
                 <LinearLayout
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_gravity="end"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp">
 
                     <TextView
                         android:id="@+id/tv_alternative_detail_toggle"

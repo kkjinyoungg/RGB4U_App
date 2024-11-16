@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="72dp"
         android:text="가장 많이 나온 생각 유형이에요"
         style="@style/CH_Bd1"
         android:textColor="@color/black"
@@ -100,6 +100,7 @@
 
             <!-- 놀람 -->
             <LinearLayout
+                android:id="@+id/percent_layout_surprise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">
@@ -129,12 +130,11 @@
                     android:text="NN%"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
 
             <!-- 두려움 -->
             <LinearLayout
+                android:id="@+id/percent_layout_fear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -170,6 +170,7 @@
 
             <!-- 슬픔 -->
             <LinearLayout
+                android:id="@+id/percent_layout_sadness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -205,6 +206,7 @@
 
             <!-- 분노 -->
             <LinearLayout
+                android:id="@+id/percent_layout_anger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -240,6 +242,7 @@
 
             <!-- 혐오 -->
             <LinearLayout
+                android:id="@+id/percent_layout_disgust"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">

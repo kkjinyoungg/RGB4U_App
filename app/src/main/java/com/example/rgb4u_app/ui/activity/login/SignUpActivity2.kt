@@ -40,8 +40,7 @@ class SignUpActivity2 : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
 
         // 버튼 초기 상태 설정 (비활성화)
-        buttonNext.isEnabled = false
-        buttonNext.alpha = 0.5f
+        buttonNext.isEnabled = true
 
         // 달력 버튼 클릭 시 스피너 방식으로 생년월일 선택
         calendarBtn.setOnClickListener {

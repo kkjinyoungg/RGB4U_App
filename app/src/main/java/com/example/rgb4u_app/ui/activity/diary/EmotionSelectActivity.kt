@@ -208,40 +208,28 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     }
 
     private fun addChipToSelectedGroup(chip: Chip, category: String) {
-        val selectedChip = Chip(this)
+        val selectedChip = LayoutInflater.from(this)
+            .inflate(R.layout.selected_emotion_chip, selectedChipGroup, false) as Chip
+
         selectedChip.text = chip.text
-        // CloseIcon의 리소스를 변경
-        selectedChip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_delete) // 아이콘 설정
-        // 로그 추가
-        Log.d("Chip", "Close icon resource: ${R.drawable.ic_chip_delete}")
-        selectedChip.isCloseIconVisible = true
+        selectedChip.chipBackgroundColor = getChipColor(category) // 배경색 설정
 
-        // 기본 색상으로 설정
-        selectedChip.chipBackgroundColor = getChipColor(category)
+//        // 칩 높이
+//        val params = ViewGroup.LayoutParams(
+//            ViewGroup.LayoutParams.WRAP_CONTENT,
+//            48.dpToPx(this) // 52dp를 px로 변환
+//        )
+//        selectedChip.layoutParams = params
+//
+//        // 칩 테두리 투명
+//        selectedChip.chipStrokeColor = ColorStateList.valueOf(Color.TRANSPARENT)
+//
+//        // 원형 모양 설정
+//        val shapeAppearanceModel = ShapeAppearanceModel.builder()
+//            .setAllCornerSizes(50f) // 적절한 값으로 설정 (dp 단위로 변경 필요)
+//            .build()
+//        selectedChip.shapeAppearanceModel = shapeAppearanceModel
 
-        // 텍스트 스타일 설정
-        selectedChip.setTextAppearance(R.style.selectedchipText) // 스타일 리소스 사용
-
-        // 칩 높이
-        val params = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            48.dpToPx(this) // 52dp를 px로 변환
-        )
-        selectedChip.layoutParams = params
-
-        // 칩 테두리 투명
-        selectedChip.chipStrokeColor = ColorStateList.valueOf(Color.TRANSPARENT)
-
-        // 원형 모양 설정
-        val shapeAppearanceModel = ShapeAppearanceModel.builder()
-            .setAllCornerSizes(50f) // 적절한 값으로 설정 (dp 단위로 변경 필요)
-            .build()
-        selectedChip.shapeAppearanceModel = shapeAppearanceModel
-
-        // ChipGroup을 VISIBLE로 설정 (칩 추가 시)
-//        if (selectedChipGroup.visibility == View.GONE) {
-//            selectedChipGroup.visibility = View.VISIBLE
-//        }
 
         selectedChip.setOnCloseIconClickListener {
             selectedChipGroup.removeView(selectedChip)

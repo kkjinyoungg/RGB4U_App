@@ -15,6 +15,7 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
@@ -82,12 +83,14 @@ class MyPageProfileEditActivity : AppCompatActivity() {
                 // 현재 글자 수 카운트
                 val length = s?.length ?: 0
                 charCountTextView.text = "$length/10" // 카운트 기준 10자로 설정
+                // charCountTextView 색상 업데이트
+                updateCharCountTextColor(length)
 
                 // 글자 수에 따른 유효성 검사 및 테두리 색상 변경
                 if (length == 0) {
                     setErrorState("닉네임을 입력해 주세요.")
-                } else if (length > 11) {
-                    setErrorState("11글자까지 입력할 수 있어요.")
+                } else if (length > 10) {
+                    setErrorState("10글자까지 입력할 수 있어요.")
                 } else {
                     clearErrorState() // 에러 메시지 지우고 기본 테두리 색상으로 변경
                 }
@@ -96,12 +99,16 @@ class MyPageProfileEditActivity : AppCompatActivity() {
                 nicknameEditText.setBackgroundResource(
                     when {
                         length == 0 -> R.drawable.et_nickname_error_background // 입력되지 않았을 때
-                        length > 11 -> R.drawable.et_nickname_error_background // 11자 초과
+                        length > 10 -> R.drawable.et_nickname_error_background // 11자 초과
                         else -> R.drawable.et_nickname_main_background // 유효한 닉네임
                     }
                 )
-            }
+                // 버튼 상태 변경 (유효한 닉네임일 경우에만 활성화)
+                buttonNext.isEnabled = length > 0 && length <= 10
 
+                // UI 강제 갱신
+                nicknameEditText.invalidate() // 뷰를 다시 그리도록 요청
+            }
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -119,6 +126,7 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             }
         }
 
+
         // 달력 버튼 클릭 리스너
         calendarButton.setOnClickListener {
             showDatePickerDialog() // NumberPicker 다이얼로그 표시
@@ -130,6 +138,9 @@ class MyPageProfileEditActivity : AppCompatActivity() {
             val birthday = birthdateEditText.text.toString()
 
             if (validateNickname(nickname)) {
+                // 유효한 닉네임일 경우 버튼 활성화
+                buttonNext.isEnabled = true
+
                 // userId가 null인지 확인
                 userId?.let { uid ->
                     // Firebase에서 현재 닉네임과 생일을 읽어오기
@@ -182,9 +193,22 @@ class MyPageProfileEditActivity : AppCompatActivity() {
                     Log.e("MyPageProfileEditActivity", "사용자 정보가 없습니다. 로그인을 확인해 주세요.")
                 }
             } else {
+                // 유효하지 않은 닉네임일 경우 버튼 비활성화
+                buttonNext.isEnabled = false
                 Log.e("MyPageProfileEditActivity", "유효한 닉네임을 입력해 주세요.")
             }
         }
+    }
+
+    private fun updateCharCountTextColor(length: Int) {
+        // charCountTextView 색상 변경
+        charCountTextView.setTextColor(
+            when {
+                length == 0 -> ContextCompat.getColor(this, R.color.highlight) // 입력되지 않았을 때
+                length > 10 -> ContextCompat.getColor(this, R.color.highlight) // 10자 초과
+                else -> ContextCompat.getColor(this, R.color.gray2) // 유효한 닉네임
+            }
+        )
     }
 
     private fun loadUserProfile() {
@@ -297,26 +321,32 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     }
 
     private fun validateNickname(nickname: String): Boolean {
-        // 닉네임이 공백이거나 입력되지 않았을 때
-        if (nickname.trim().isEmpty()) {
-            setErrorState("닉네임을 입력해 주세요.")
-            return false
+        return when {
+            nickname.length > 10 -> { // 10자를 초과하면
+                errorTextView.text = "10자 이내로 작성해 주세요"
+                errorTextView.visibility = TextView.VISIBLE
+
+                // 글자 수와 관련된 UI 변경
+                charCountTextView.setTextColor(ContextCompat.getColor(this, R.color.highlight))
+                nicknameEditText.setBackgroundResource(R.drawable.et_nickname_error_background)
+
+                // 버튼 비활성화
+                buttonNext.isEnabled = false
+                false // 유효하지 않음
+            }
+            else -> { // 유효한 닉네임
+                errorTextView.visibility = TextView.GONE
+
+                // 글자 수가 유효할 때
+                charCountTextView.setTextColor(ContextCompat.getColor(this, R.color.black))
+                nicknameEditText.setBackgroundResource(R.drawable.et_nickname_main_background)
+
+                // 버튼 활성화
+                buttonNext.isEnabled = true
+                true // 유효함
+            }
         }
-
-        val isValid = nickname.length in 1..11 // 1자에서 11자 사이로 변경
-        buttonNext.isEnabled = isValid
-
-        if (nickname.length > 10) {
-            // 글자 수가 11자일 때
-            nicknameEditText.setBackgroundResource(R.drawable.et_nickname_error_background) // 오류 상태로 변경
-            setErrorState("닉네임은 10글자 이하로 입력해 주세요.")
-        } else {
-            clearErrorState()
-        }
-
-        return isValid
     }
-
 
     private fun setErrorState(message: String) {
         errorTextView.text = message

@@ -44,6 +44,11 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentAnger: TextView
     private lateinit var percentDisgust: TextView
     private lateinit var percentSurprise: TextView
+    private lateinit var percentLayoutSurprise : LinearLayout
+    private lateinit var percentLayoutFear : LinearLayout
+    private lateinit var percentLayoutSadness : LinearLayout
+    private lateinit var percentLayoutAnger : LinearLayout
+    private lateinit var percentLayoutDisgust : LinearLayout
     private lateinit var overlayView: View // 반투명 막
     private lateinit var tvViewDetails: LinearLayout // "자세히 보기" 링크
 
@@ -69,6 +74,13 @@ class AnalysisFragment : Fragment() {
         percentAnger = view.findViewById(R.id.percent_anger)
         percentDisgust = view.findViewById(R.id.percent_disgust)
         percentSurprise = view.findViewById(R.id.percent_surprise)
+
+        // 감정 레이아웃
+        percentLayoutSurprise = view.findViewById<LinearLayout>(R.id.percent_layout_surprise)
+        percentLayoutFear = view.findViewById<LinearLayout>(R.id.percent_layout_fear)
+        percentLayoutSadness = view.findViewById<LinearLayout>(R.id.percent_layout_sadness)
+        percentLayoutAnger = view.findViewById<LinearLayout>(R.id.percent_layout_anger)
+        percentLayoutDisgust = view.findViewById<LinearLayout>(R.id.percent_layout_disgust)
 
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
@@ -204,6 +216,56 @@ class AnalysisFragment : Fragment() {
         entries.forEach { entry ->
             Log.d("AnalysisFragment", "${entry.label}: ${entry.value}%")
         }
+
+        // 각 감정에 대해 해당 LinearLayout 숨기기/보이기 설정
+        entries.forEach { entry ->
+            when (entry.label) {
+                "놀람" -> {
+                    if (entry.value > 0) {
+                        percentLayoutSurprise.visibility = View.VISIBLE
+                        percentSurprise.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutSurprise.visibility = View.GONE
+                    }
+                }
+
+                "두려움" -> {
+                    if (entry.value > 0) {
+                        percentLayoutFear.visibility = View.VISIBLE
+                        percentFear.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutFear.visibility = View.GONE
+                    }
+                }
+
+                "슬픔" -> {
+                    if (entry.value > 0) {
+                        percentLayoutSadness.visibility = View.VISIBLE
+                        percentSadness.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutSadness.visibility = View.GONE
+                    }
+                }
+
+                "분노" -> {
+                    if (entry.value > 0) {
+                        percentLayoutAnger.visibility = View.VISIBLE
+                        percentAnger.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutAnger.visibility = View.GONE
+                    }
+                }
+
+                "혐오" -> {
+                    if (entry.value > 0) {
+                        percentLayoutDisgust.visibility = View.VISIBLE
+                        percentDisgust.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutDisgust.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private fun fetchEmotionData() {
@@ -316,8 +378,8 @@ class AnalysisFragment : Fragment() {
     private fun fetchCardData(): List<CardItem> {
         return listOf(
             CardItem("흑백성", R.drawable.ic_planet_a),
-            CardItem("걱정성", R.drawable.ic_planet_a),
-            CardItem("과장성", R.drawable.ic_planet_a)
+            CardItem("재앙성", R.drawable.ic_planet_b),
+            CardItem("외면성", R.drawable.ic_planet_c)
         ).take(2) // 원하는 개수만큼 가져오기
     }
 }
