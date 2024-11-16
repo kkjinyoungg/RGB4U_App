@@ -75,9 +75,12 @@ class AiSecond {
                         } else {
                             // 필터링된 결과가 존재할 경우
                             val secondAnalysis = createSecondAnalysis(filteredResults)
-                            // secondAnalysis 저장 전에 thoughts를 Firebase에 저장하는 함수 호출
-                            saveThoughtsToFirebase(userId, filteredResults.keys.toList()) {
-                                saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            //저장 함수
+                            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            //인지왜곡 통계 함수
+                            saveThoughtsToFirebase(userId, diaryId) {
+                                // 데이터 저장 완료 후 수행할 작업
+                                Log.d("saveThoughtsToFirebase", "왜곡 통계 저장 완료!")
                             }
                         }
                     }
@@ -318,63 +321,50 @@ class AiSecond {
 
 
     // thought 분석 후 결과를 Firebase에 저장하는 메소드
-    fun saveThoughtsToFirebase(userId: String, selectedThoughts: List<String>, callback: () -> Unit) {
-        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, selectedThoughts = $selectedThoughts")
+    fun saveThoughtsToFirebase(userId: String, diaryId: String, callback: () -> Unit) {
+        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, diaryId = $diaryId")
 
-        // currentDate를 yyyy-mm-dd 형태로 변환
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        calendar.time = Date()
-        val currentDate = dateFormat.format(calendar.time) // currentDate 갱신
+        // Firebase 참조 설정
+        val diaryRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
+        diaryRef.get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists()) {
+                for (childSnapshot in dataSnapshot.children) {
+                    val planetName = childSnapshot.child("planetName").value.toString()
+                    val selectedThoughts = childSnapshot.child("selectedThoughts").value.toString()
 
-        // monthlythoughts의 yyyy-mm 경로
-        val monthYear = currentDate.substring(0, 7) // yyyy-mm 형식 추출
+                    // 현재 날짜 가져오기
+                    val calendar = Calendar.getInstance()
+                    val monthYear = SimpleDateFormat("yyyy-MM", Locale.KOREA).format(calendar.time)
+                    val date = SimpleDateFormat("MM월 dd일 EEE", Locale.KOREA).format(calendar.time)
 
-        val monthlyThoughtsRef: DatabaseReference = firebaseDatabase.getReference("monthlyStats/$monthYear/thoughtsRank")
+                    // monthlyanalysis 참조 설정
+                    val monthlyRef = firebaseDatabase.getReference("users/$userId/monthlyAnalysis/$monthYear/thoughtsRank/$planetName")
 
-        // 저장 완료 후 호출할 콜백을 위한 카운터
-        val totalThoughts = selectedThoughts.size
-        var savedCount = 0
+                    monthlyRef.get().addOnSuccessListener { monthlySnapshot ->
+                        val currentCount = monthlySnapshot.child("count").value?.toString()?.toIntOrNull() ?: 0
 
-        // selectedThoughts에 포함된 각 유형에 대해 저장
-        for (thought in selectedThoughts) {
-            val typeRef: DatabaseReference = monthlyThoughtsRef.child(thought)
+                        // count 증가 및 새로운 entry 추가
+                        val updates = hashMapOf<String, Any>(
+                            "count" to currentCount + 1,
+                            "entries/${System.currentTimeMillis()}/text" to selectedThoughts,
+                            "entries/${System.currentTimeMillis()}/date" to date
+                        )
 
-            // 해당 유형의 데이터 읽기
-            typeRef.get().addOnSuccessListener { dataSnapshot ->
-                if (dataSnapshot.exists()) {
-                    // 기존 데이터가 존재하는 경우, "count" 값을 업데이트
-                    val currentCount = dataSnapshot.child("count").getValue(Int::class.java) ?: 0
-                    typeRef.child("count").setValue(currentCount + 1)
-
-                    // "text"와 "date" 저장
-                    val thoughtData = HashMap<String, Any>()
-                    thoughtData["text"] = thought // 하나의 생각만 저장
-                    thoughtData["date"] = currentDate
-
-                    // "entries"에 새 데이터 추가
-                    typeRef.child("entries").push().setValue(thoughtData)
-                    Log.d(TAG, "Firebase에 저장된 데이터: $thoughtData")
-                } else {
-                    // 데이터가 존재하지 않는 경우 새로운 데이터를 추가
-                    val thoughtData = HashMap<String, Any>()
-                    thoughtData["text"] = thought // 하나의 생각만 저장
-                    thoughtData["date"] = currentDate
-                    thoughtData["count"] = 1
-
-                    // 새 데이터를 저장
-                    typeRef.setValue(thoughtData)
-                    Log.d(TAG, "Firebase에 새로운 유형 데이터 저장됨: $thoughtData")
+                        monthlyRef.updateChildren(updates).addOnSuccessListener {
+                            Log.d(TAG, "Thoughts successfully updated in monthly analysis")
+                            callback()
+                        }.addOnFailureListener { e ->
+                            Log.e(TAG, "Failed to update thoughts in monthly analysis: ${e.message}")
+                        }
+                    }.addOnFailureListener { e ->
+                        Log.e(TAG, "Failed to fetch monthly analysis: ${e.message}")
+                    }
                 }
-                savedCount++
-
-                // 모든 데이터가 저장된 후 콜백 호출
-                if (savedCount == totalThoughts) {
-                    callback()
-                }
-            }.addOnFailureListener { e ->
-                Log.e(TAG, "Firebase에서 데이터를 가져오지 못했습니다: ${e.message}")
+            } else {
+                Log.d(TAG, "No thought sets found for this diary entry")
             }
+        }.addOnFailureListener { e ->
+            Log.e(TAG, "Failed to fetch thoughts from diary entry: ${e.message}")
         }
     }
 
