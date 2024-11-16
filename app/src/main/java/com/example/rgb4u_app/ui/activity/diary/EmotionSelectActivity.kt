@@ -323,6 +323,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             }
 
             showLoadingDialog()
+            diaryViewModel.setToolbarTitle(toolbarTitle.text.toString()) // toolbarTitle 값을 ViewModel에 설정
             diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
 
             // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동

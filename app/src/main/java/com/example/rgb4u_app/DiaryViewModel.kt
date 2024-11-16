@@ -13,6 +13,10 @@ import com.example.rgb4u_app.MonthlyStatsUpdater
 import com.google.firebase.database.ServerValue
 
 class DiaryViewModel : ViewModel() {
+
+    //toolbarTitle의 날짜 저장
+    var toolbarTitleText: String? = null
+
     // LiveData로 상황, 생각, 감정 정보를 저장
     val situation = MutableLiveData<String>()
     val thoughts = MutableLiveData<String>()
@@ -28,6 +32,11 @@ class DiaryViewModel : ViewModel() {
 
     // 콜백 함수 추가
     var onDiarySaved: (() -> Unit)? = null
+
+    // toolbarTitle을 설정하는 함수 추가
+    fun setToolbarTitle(title: String) {
+        toolbarTitleText = title
+    }
 
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
@@ -173,9 +182,21 @@ class DiaryViewModel : ViewModel() {
         }
     }
 
-    // 현재 날짜를 "yyyy-MM-dd" 형식으로 반환하는 함수
+    // getCurrentDate() 수정하여 toolbarTitle.text 값을 yyyy-MM-dd 형식으로 변환
     private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return dateFormat.format(Date())
+        return toolbarTitleText?.let {
+            // toolbarTitleText가 "MM월 dd일 E요일" 형식이므로 이를 "yyyy-MM-dd" 형식으로 변환
+            try {
+                // "12월 19일 일요일" 형식을 처리하기 위해 EEEE를 사용
+                val inputFormat = SimpleDateFormat("MM월 dd일 EEEE", Locale.getDefault()) // 수정된 포맷
+                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()) // 출력할 포맷
+
+                val date = inputFormat.parse(it) // String을 Date로 변환
+                outputFormat.format(date) // Date를 "yyyy-MM-dd" 형식으로 변환하여 반환
+            } catch (e: Exception) {
+                // 예외 처리: 형식 변환 실패 시 현재 날짜를 반환
+                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            }
+        } ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()) // toolbarTitleText가 null일 경우 현재 날짜 반환
     }
 }
