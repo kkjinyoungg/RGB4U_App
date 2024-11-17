@@ -73,9 +73,9 @@ class AnalysisFragment : Fragment() {
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
-        // CardAdapter에서 PlanetDetailFragment로 이동할 때, imageResourceId도 전달
-        cardAdapter = CardAdapter(cardList) { cardItem ->
-            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName, cardItem.imageResourceId)  // 동적 이미지 리소스 ID 전달
+        // cardAdapter에서 formattedDate2를 함께 전달
+        cardAdapter = CardAdapter(cardList, formattedDate2) { cardItem, formattedDate2 ->
+            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName, cardItem.imageResourceId, formattedDate2)
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
