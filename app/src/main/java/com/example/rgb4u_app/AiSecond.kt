@@ -142,33 +142,47 @@ class AiSecond {
                                 val choice = json.getJSONArray("choices").getJSONObject(0)
                                 if (choice.has("message")) {
                                     val message = choice.getJSONObject("message")
-                                    // content를 가져오고 이스케이프 처리
-                                    val content = message.getString("content").replace("\"", "\\\"")
-                                    val contentJson = JSONObject(content) // content를 JSON으로 변환
+                                    // content를 가져오기 전에 직접적으로 JSON 파싱을 시도합니다.
+                                    val content = message.getString("content")
 
-                                    Log.d(TAG, "API 응답 JSON: $contentJson")
+                                    // content가 올바른 JSON 형식인지 확인
+                                    try {
+                                        val contentJson = JSONObject(content) // content를 JSON으로 변환
+                                        Log.d(TAG, "API 응답 JSON: $contentJson")
 
-                                    // "유형"이 없는 경우 처리
-                                    if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
-                                        val noTypeResponse = JSONObject().apply {
+                                        // "유형"이 없는 경우 처리
+                                        if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
+                                            val noTypeResponse = JSONObject().apply {
+                                                put("유형", JSONObject.NULL)
+                                                put("문장", sentence)
+                                                put("유형 이유", JSONObject.NULL)
+                                                put("대안적 생각", JSONObject.NULL)
+                                                put("대안적 생각 이유", JSONObject.NULL)
+                                            }
+                                            callback(noTypeResponse) // 콜백으로 응답 전달
+                                        } else {
+                                            // 모든 필요한 필드 추출
+                                            val responseObj = JSONObject().apply {
+                                                put("유형", contentJson.optString("유형", "유형 없음"))
+                                                put("문장", contentJson.optString("문장", "문장 없음"))
+                                                put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
+                                                put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
+                                                put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
+                                            }
+
+                                            callback(responseObj) // 콜백으로 응답 전달
+                                        }
+                                    } catch (e: JSONException) {
+                                        // 만약 content가 JSON이 아니라면 그냥 문자열로 처리
+                                        Log.e(TAG, "content 파싱 오류: ${e.message}")
+                                        val errorResponse = JSONObject().apply {
                                             put("유형", JSONObject.NULL)
                                             put("문장", sentence)
                                             put("유형 이유", JSONObject.NULL)
                                             put("대안적 생각", JSONObject.NULL)
                                             put("대안적 생각 이유", JSONObject.NULL)
                                         }
-                                        callback(noTypeResponse) // 콜백으로 응답 전달
-                                    } else {
-                                        // 모든 필요한 필드 추출
-                                        val responseObj = JSONObject().apply {
-                                            put("유형", contentJson.optString("유형", "유형 없음"))
-                                            put("문장", contentJson.optString("문장", "문장 없음"))
-                                            put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
-                                            put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
-                                            put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
-                                        }
-
-                                        callback(responseObj) // 콜백으로 응답 전달
+                                        callback(errorResponse) // 오류가 발생했을 때의 처리
                                     }
                                 } else {
                                     Log.d(TAG, "message가 없습니다.")
@@ -184,6 +198,7 @@ class AiSecond {
                     }
                 }
             }
+
         })
     }
 
