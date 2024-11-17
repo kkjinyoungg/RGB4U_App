@@ -70,6 +70,8 @@ class DistortionTypeActivity : AppCompatActivity() {
                 viewPager.currentItem += 1
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
+                intent.putExtra("USER_ID", userId)
+                intent.putExtra("DIARY_ID", diaryId) // userId, diaryId보내기
                 startActivity(intent)
             }
         }
