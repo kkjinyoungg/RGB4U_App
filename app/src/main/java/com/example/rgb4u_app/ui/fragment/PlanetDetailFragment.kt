@@ -165,26 +165,14 @@ class PlanetDetailFragment : Fragment() {
         monthlyAnalysisRef.child(typeName).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val count = snapshot.child("count").value as? Int ?: 0
-                    Log.d("boxfiller", "$typeName 의 count: $count")
-
-                    val entriesSnapshot = snapshot.child("entries")
                     boxDataList.clear() // 기존 데이터를 초기화
 
-                    for (entrySnapshot in entriesSnapshot.children) {
+                    for (entrySnapshot in snapshot.child("entries").children) {
                         val text = entrySnapshot.child("text").value as? String ?: ""
                         val date = entrySnapshot.child("date").value as? String ?: ""
 
-                        // 날짜 변환
-                        val formattedDate = formatDateString(date)
-
-                        // 날짜 로그 추가
-                        Log.d("boxfiller", "형식 변환된 날짜: $formattedDate")
-
-                        // 문장을 다양한 특수문자를 기준으로 나누고 "• " 추가
+                        // 문장 처리
                         val sentences = text.split(Regex("[.!?;]")).map { it.trim() }.filter { it.isNotEmpty() }
-
-                        // 문장 끝에 특수문자가 없으면 마침표 추가
                         val formattedText = sentences.joinToString("\n") {
                             val sentence = it.trim()
                             if (sentence.isNotEmpty()) {
@@ -196,13 +184,19 @@ class PlanetDetailFragment : Fragment() {
                             } else {
                                 ""
                             }
-                        }.replace("\n.", ".") // 줄바꿈 후 마침표가 연속되는 경우 처리
+                        }.replace("\n.", ".").split("\n").joinToString("\n") { "•  $it" }
 
-                        // "• " 추가
-                        val finalText = formattedText.split("\n").joinToString("\n") { "•  $it" }
+                        // BoxData에 추가 (원래 날짜 형식으로 저장)
+                        boxDataList.add(BoxData(formattedText, date))
+                    }
 
-                        // BoxData에 추가
-                        boxDataList.add(BoxData(finalText, formattedDate)) // finalText를 사용해야 함
+                    // 날짜 기준으로 정렬 (최신순)
+                    boxDataList.sortByDescending { it.date }
+
+                    // 정렬 후 포맷팅된 날짜로 업데이트
+                    for (i in boxDataList.indices) {
+                        val originalDate = boxDataList[i].date
+                        boxDataList[i] = boxDataList[i].copy(date = formatDateString(originalDate))
                     }
 
                     // RecyclerView 갱신
@@ -220,6 +214,7 @@ class PlanetDetailFragment : Fragment() {
             }
         })
     }
+
 
     private fun formatDateString(dateString: String): String {
         // "2024-11-17" 형식의 문자열을 파싱
