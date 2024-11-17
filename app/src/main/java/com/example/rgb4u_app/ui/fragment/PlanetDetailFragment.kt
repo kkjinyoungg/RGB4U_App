@@ -1,5 +1,8 @@
 package com.example.rgb4u_app.ui.fragment
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -172,13 +175,16 @@ class PlanetDetailFragment : Fragment() {
                         val text = entrySnapshot.child("text").value as? String ?: ""
                         val date = entrySnapshot.child("date").value as? String ?: ""
 
+                        // 날짜 변환
+                        val formattedDate = formatDateString(date)
+
                         // 날짜 로그 추가
-                        Log.d("boxfiller", "추출된 날짜: $date")
+                        Log.d("boxfiller", "형식 변환된 날짜: $formattedDate")
 
                         val sentences = text.split(".").map { it.trim() }.filter { it.isNotEmpty() }
 
                         for (sentence in sentences) {
-                            boxDataList.add(BoxData(sentence, date))
+                            boxDataList.add(BoxData(sentence, formattedDate))
                         }
                     }
 
@@ -197,6 +203,26 @@ class PlanetDetailFragment : Fragment() {
             }
         })
     }
+
+    private fun formatDateString(dateString: String): String {
+        // "2024-11-17" 형식의 문자열을 파싱
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = sdf.parse(dateString)
+
+        // Calendar 객체로 변환
+        val calendar = Calendar.getInstance().apply {
+            time = date!!
+        }
+
+        // 월, 일, 요일 가져오기
+        val month = calendar.get(Calendar.MONTH) + 1 // 0부터 시작하므로 1 더하기
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val dayOfWeek = SimpleDateFormat("EEEE", Locale.KOREAN).format(date)
+
+        // 포맷팅된 문자열 반환
+        return "${month}월 ${day}일 ${dayOfWeek}"
+    }
+
 
 }
 
