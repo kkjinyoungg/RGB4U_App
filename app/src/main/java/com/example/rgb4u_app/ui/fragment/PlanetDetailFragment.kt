@@ -170,7 +170,10 @@ class PlanetDetailFragment : Fragment() {
 
                     for (entrySnapshot in entriesSnapshot.children) {
                         val text = entrySnapshot.child("text").value as? String ?: ""
-                        val date = entrySnapshot.child("Date").value as? String ?: ""
+                        val date = entrySnapshot.child("date").value as? String ?: ""
+
+                        // 날짜 로그 추가
+                        Log.d("boxfiller", "추출된 날짜: $date")
 
                         val sentences = text.split(".").map { it.trim() }.filter { it.isNotEmpty() }
 
@@ -194,5 +197,6 @@ class PlanetDetailFragment : Fragment() {
             }
         })
     }
+
 }
 
