@@ -20,6 +20,8 @@ import android.widget.ImageView
 
 class PlanetDetailFragment : Fragment() {
 
+    private var typeName: String = "Default Title" // 멤버 변수로 선언
+
     companion object {
         private const val ARG_TYPE_NAME = "type_name"
         private const val ARG_IMAGE_RESOURCE_ID = "image_resource_id"
@@ -59,11 +61,15 @@ class PlanetDetailFragment : Fragment() {
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // 툴바의 제목을 "달라진 하루"로 설정
         val toolbarTitle: TextView = rootView.findViewById(R.id.toolbar_base1_title)
         // 전달받은 typeName을 toolbarTitle에 설정
-        val typeName = arguments?.getString(ARG_TYPE_NAME) ?: "Default Title"
+        typeName = arguments?.getString(ARG_TYPE_NAME) ?: "Default Title"
         toolbarTitle.text = typeName
+
+        val mainTitle: TextView = rootView.findViewById(R.id.planet_description)
+        // typeName에 "이 나온 생각이에요"를 붙여 titleName을 설정
+        val titleName = "${typeName}이 나온 생각이에요"
+        mainTitle.text = titleName
 
         // button_write_action2 버튼 숨기기
         val buttonWriteAction2: ImageButton = rootView.findViewById(R.id.button_base1_action2)
