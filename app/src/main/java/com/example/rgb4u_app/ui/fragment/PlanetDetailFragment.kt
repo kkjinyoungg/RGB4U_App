@@ -30,23 +30,23 @@ class PlanetDetailFragment : Fragment() {
 
     private var typeName: String = "Default Title" // 멤버 변수로 선언
     private var formattedDate2: String = ""  // formattedDate2를 변수로 선언
+    private lateinit var rootView: View
+
+    // boxDataList를 클래스 레벨에서 선언
+    private var boxDataList = mutableListOf<BoxData>()
 
     companion object {
         private const val ARG_TYPE_NAME = "type_name"
         private const val ARG_IMAGE_RESOURCE_ID = "image_resource_id"
 
-        // PlanetDetailFragment 생성 시 typeName과 imageResourceId를 전달
         fun newInstance(typeName: String, imageResourceId: Int, formattedDate2: String): PlanetDetailFragment {
             val fragment = PlanetDetailFragment()
             val args = Bundle().apply {
                 putString(ARG_TYPE_NAME, typeName)
                 putInt(ARG_IMAGE_RESOURCE_ID, imageResourceId)
-                putString("formattedDate2", formattedDate2) // formattedDate2를 전달
+                putString("formattedDate2", formattedDate2)
             }
             fragment.arguments = args
-            // formattedDate2 로그 출력
-            Log.d("PlanetDetailFragment", "formattedDate2: $formattedDate2")
-
             return fragment
         }
     }
@@ -55,19 +55,14 @@ class PlanetDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Fragment의 레이아웃을 인플레이트하고 rootView에 저장
-        val rootView = inflater.inflate(R.layout.fragment_planet_detail, container, false)
+        rootView = inflater.inflate(R.layout.fragment_planet_detail, container, false)
 
-        // 현재 로그인된 사용자 ID 가져오기
+        // Firebase 인증과 데이터베이스 참조 설정
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-        Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
-
         if (userId == null) {
             Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             return rootView
         }
-
-        // Firebase Realtime Database 참조 생성
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val distortionRef: DatabaseReference = database.getReference("users/$userId/distortionInformation")
 
@@ -77,56 +72,33 @@ class PlanetDetailFragment : Fragment() {
             planetImageView.setImageResource(it)
         }
 
-        // formattedDate2 값 설정
         formattedDate2 = arguments?.getString("formattedDate2") ?: "2024-09"
-        Log.d("PlanetDetailFragment", "formattedDate2 값: $formattedDate2")
 
         // Toolbar 설정
         val toolbar: Toolbar = rootView.findViewById(R.id.toolbar)
         val activity = requireActivity() as AppCompatActivity
         activity.setSupportActionBar(toolbar)
 
-        // 기본 뒤로가기 버튼, 앱 이름 숨기기
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val toolbarTitle: TextView = rootView.findViewById(R.id.toolbar_base1_title)
-        // 전달받은 typeName을 toolbarTitle에 설정
         typeName = arguments?.getString(ARG_TYPE_NAME) ?: "Default Title"
         toolbarTitle.text = typeName
 
         val mainTitle: TextView = rootView.findViewById(R.id.planet_description)
-        // typeName에 "이 나온 생각이에요"를 붙여 titleName을 설정
         val titleName = "${typeName}이 나온 생각이에요"
         mainTitle.text = titleName
 
-        // 세미타이틀 및 소개글 텍스트뷰 가져오기
-        val semiTitle: TextView = rootView.findViewById(R.id.planet_additional_info)
-        val shortDescription: TextView = rootView.findViewById(R.id.planet_short_description)
-
-        // button_write_action2 버튼 숨기기
-        val buttonWriteAction2: ImageButton = rootView.findViewById(R.id.button_base1_action2)
-        buttonWriteAction2.visibility = View.GONE
-
-        // button_write_action1 클릭 리스너 추가
+        // 버튼 클릭 리스너 설정
         val buttonWriteAction1: ImageButton = rootView.findViewById(R.id.button_base1_action1)
         buttonWriteAction1.setOnClickListener {
-            // CalendarHomeActivity로 이동
             val intent = Intent(requireContext(), AnalysisActivity::class.java)
             startActivity(intent)
-            // Fragment에서는 finish()를 사용할 수 없으므로 activity?.finish()를 사용
             activity?.finish()
         }
 
-        // 샘플 데이터 생성
-        val boxDataList = listOf(
-            BoxData("가족들이랑 여행을 가서 엄마와 한 방에서 잤는데...", "7월 23일 화요일"),
-            BoxData("나는 일등이야 끝났어.", "7월 15일 월요일"),
-            BoxData("급식은 맵거나 맛있거나 맛없다~", "7월 10일 수요일")
-            // 더 많은 데이터를 추가할 수 있습니다.
-        )
-
-        // planet_counter TextView 설정
+        // planet_counter 텍스트 설정
         val planetCounter: TextView = rootView.findViewById(R.id.planet_counter)
         planetCounter.text = boxDataList.size.toString()  // boxDataList의 크기 설정
 
@@ -136,16 +108,17 @@ class PlanetDetailFragment : Fragment() {
         recyclerView.adapter = PlanetDetailBoxAdapter(boxDataList)
 
         // fetchDistortionData 호출
-        fetchDistortionData(distortionRef, typeName, semiTitle, shortDescription)
+        fetchDistortionData(distortionRef, typeName)
+
+        // boxfiller 호출
+        boxfiller(formattedDate2, typeName)
 
         return rootView
     }
 
     private fun fetchDistortionData(
         distortionRef: DatabaseReference,
-        typeName: String,
-        semiTitle: TextView,
-        shortDescription: TextView
+        typeName: String
     ) {
         distortionRef.child(typeName).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -155,19 +128,71 @@ class PlanetDetailFragment : Fragment() {
                     val description1 = snapshot.child("description1").value as? String ?: "Description1 없음"
                     val description2 = snapshot.child("description2").value as? String ?: "Description2 없음"
 
-                    // 텍스트뷰에 데이터 설정
+                    val semiTitle: TextView = rootView.findViewById(R.id.planet_additional_info)
+                    val shortDescription: TextView = rootView.findViewById(R.id.planet_short_description)
                     semiTitle.text = subtitle
                     shortDescription.text = "$description1\n$description2"
                 } else {
+                    val semiTitle: TextView = rootView.findViewById(R.id.planet_additional_info)
+                    val shortDescription: TextView = rootView.findViewById(R.id.planet_short_description)
                     semiTitle.text = "데이터 없음"
                     shortDescription.text = "데이터 없음"
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
+                val semiTitle: TextView = rootView.findViewById(R.id.planet_additional_info)
+                val shortDescription: TextView = rootView.findViewById(R.id.planet_short_description)
                 semiTitle.text = "오류 발생"
                 shortDescription.text = "오류 발생: ${error.message}"
             }
         })
     }
+
+    private fun boxfiller(formattedDate2: String, typeName: String) {
+        val database = FirebaseDatabase.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val monthlyAnalysisRef = database.getReference("users/$userId/monthlyAnalysis/$formattedDate2")
+
+        monthlyAnalysisRef.child(typeName).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val count = snapshot.child("count").value as? Int ?: 0
+                    Log.d("boxfiller", "$typeName 의 count: $count")
+
+                    val entriesSnapshot = snapshot.child("entries")
+                    boxDataList.clear() // 기존 데이터를 초기화
+
+                    for (entrySnapshot in entriesSnapshot.children) {
+                        val text = entrySnapshot.child("text").value as? String ?: ""
+                        val date = entrySnapshot.child("Date").value as? String ?: ""
+
+                        val sentences = text.split(".").map { it.trim() }.filter { it.isNotEmpty() }
+
+                        for (sentence in sentences) {
+                            boxDataList.add(BoxData(sentence, date))
+                        }
+                    }
+
+                    // RecyclerView 갱신
+                    val recyclerView = rootView.findViewById<RecyclerView>(R.id.boxTextrecyclerView)
+                    recyclerView.adapter?.notifyDataSetChanged()
+
+                    // planet_counter 텍스트 갱신
+                    val planetCounter: TextView = rootView.findViewById(R.id.planet_counter)
+                    planetCounter.text = boxDataList.size.toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("boxfiller", "데이터 불러오기 실패: ${error.message}")
+            }
+        })
+    }
 }
+
