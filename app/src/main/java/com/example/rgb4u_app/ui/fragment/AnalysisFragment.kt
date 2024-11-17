@@ -70,6 +70,11 @@ class AnalysisFragment : Fragment() {
         percentDisgust = view.findViewById(R.id.percent_disgust)
         percentSurprise = view.findViewById(R.id.percent_surprise)
 
+        toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
+
+        // 초기 날짜 설정
+        updateToolbarDate()
+
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
@@ -87,11 +92,6 @@ class AnalysisFragment : Fragment() {
         // PieChart 설정
         pieChart = view.findViewById(R.id.pie_chart)
         pieChart.isRotationEnabled = false
-
-        toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
-
-        // 초기 날짜 설정
-        updateToolbarDate()
 
         // 버튼 설정
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)

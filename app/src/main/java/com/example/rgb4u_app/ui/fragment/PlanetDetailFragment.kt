@@ -26,7 +26,6 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
-
 class PlanetDetailFragment : Fragment() {
 
     private var typeName: String = "Default Title" // 멤버 변수로 선언
@@ -45,6 +44,9 @@ class PlanetDetailFragment : Fragment() {
                 putString("formattedDate2", formattedDate2) // formattedDate2를 전달
             }
             fragment.arguments = args
+            // formattedDate2 로그 출력
+            Log.d("PlanetDetailFragment", "formattedDate2: $formattedDate2")
+
             return fragment
         }
     }
@@ -132,6 +134,9 @@ class PlanetDetailFragment : Fragment() {
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.boxTextrecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = PlanetDetailBoxAdapter(boxDataList)
+
+        // fetchDistortionData 호출
+        fetchDistortionData(distortionRef, typeName, semiTitle, shortDescription)
 
         return rootView
     }
