@@ -142,7 +142,8 @@ class AiSecond {
                                 val choice = json.getJSONArray("choices").getJSONObject(0)
                                 if (choice.has("message")) {
                                     val message = choice.getJSONObject("message")
-                                    val content = message.getString("content") // content 가져오기
+                                    // content를 가져오고 이스케이프 처리
+                                    val content = message.getString("content").replace("\"", "\\\"")
                                     val contentJson = JSONObject(content) // content를 JSON으로 변환
 
                                     Log.d(TAG, "API 응답 JSON: $contentJson")
