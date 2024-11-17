@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
 import com.example.rgb4u_app.ui.activity.login.SignUpActivity1
 import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.login.DistortionDefaultData
 
 class LoginActivity : AppCompatActivity() {
 
@@ -108,6 +109,9 @@ class LoginActivity : AppCompatActivity() {
                     startMainActivity()  // 사용자가 이미 가입된 경우 메인화면으로 이동
                 } else {
                     saveUserToDatabase(user)
+                    // DistortionDefaultData 객체를 생성하고 userId를 넘겨주기
+                    val distortionData = DistortionDefaultData(userId)
+                    distortionData.saveDistortionData() // 데이터 저장 호출
                     Log.d("유저체크", "신규가입자입니다") // 태그와 메시지를 올바르게 설정
                     startSignUpActivity1() // 사용자가 가입되지 않은 경우 닉네임 입력으로 이동
                 }
