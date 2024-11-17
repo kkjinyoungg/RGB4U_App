@@ -312,12 +312,81 @@ class AnalysisFragment : Fragment() {
             })
     }
 
-    // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
+    //인지왜곡 Top3 카드 연결
     private fun fetchCardData(): List<CardItem> {
-        return listOf(
-            CardItem("흑백성", R.drawable.ic_planet_a),
-            CardItem("걱정성", R.drawable.ic_planet_a),
-            CardItem("과장성", R.drawable.ic_planet_a)
-        ).take(2) // 원하는 개수만큼 가져오기
+        val cardList = mutableListOf<CardItem>()
+
+        // Firebase에서 월별 분석 데이터 가져오기
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.d("fetchCardData", "사용자가 로그인되어 있지 않습니다.")
+            return cardList
+        }
+
+        val calendar = currentDate
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val monthFormatted = String.format("%04d-%02d", year, month)
+
+        Log.d("fetchCardData", "월별 분석 데이터 가져오기: $monthFormatted")
+
+        // MonthlyAnalysis에서 해당 월의 행성 데이터 가져오기
+        database.child("users").child(userId)
+            .child("monthlyAnalysis").child(monthFormatted)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val planetCounts = mutableMapOf<String, Int>()
+
+                        // 행성별 count 값을 가져와서 Map에 저장
+                        for (planetSnapshot in snapshot.children) {
+                            val planetName = planetSnapshot.key ?: continue
+                            val count = planetSnapshot.child("count").getValue(Int::class.java) ?: 0
+                            Log.d("fetchCardData", "행성: $planetName, count: $count")
+                            if (count >= 1) {
+                                planetCounts[planetName] = count
+                            }
+                        }
+
+                        // count 값이 1 이상인 행성들을 count 순으로 정렬
+                        val sortedPlanets = planetCounts.entries.sortedByDescending { it.value }.take(3)
+                        Log.d("fetchCardData", "정렬된 행성들: $sortedPlanets")
+
+                        // 행성이 하나라도 있으면 카드 리스트에 추가
+                        if (sortedPlanets.isNotEmpty()) {
+                            for ((planetName, _) in sortedPlanets) {
+                                Log.d("fetchCardData", "행성 데이터 추가: $planetName")
+
+                                // distortionInformation에서 해당 행성의 imageResource 가져오기
+                                database.child("distortionInformation").child(planetName)
+                                    .child("imageResource").get().addOnSuccessListener { imageSnapshot ->
+                                        val imageResource = imageSnapshot.getValue(Int::class.java) ?: R.drawable.ic_planet_a
+
+                                        // 카드 아이템 생성
+                                        cardList.add(CardItem(planetName, imageResource))
+
+                                        // 카드 어댑터 갱신
+                                        Log.d("fetchCardData", "카드 어댑터 갱신: $planetName")
+                                        cardAdapter.notifyDataSetChanged()
+                                    }.addOnFailureListener { exception ->
+                                        Log.e("fetchCardData", "imageResource 가져오기 실패: ${exception.message}")
+                                    }
+                            }
+                        } else {
+                            Log.d("fetchCardData", "행성 데이터가 없습니다.")
+                        }
+                    } else {
+                        Log.d("fetchCardData", "MonthlyAnalysis 데이터가 없습니다.")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("fetchCardData", "데이터를 가져오는 데 실패했습니다: ${error.message}")
+                }
+            })
+
+        return cardList
     }
+
+
 }
