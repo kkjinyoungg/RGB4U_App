@@ -51,6 +51,12 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentLayoutDisgust : LinearLayout
     private lateinit var overlayView: View // 반투명 막
     private lateinit var tvViewDetails: LinearLayout // "자세히 보기" 링크
+    private lateinit var nodataLayout: LinearLayout
+    private lateinit var emotionTitle: TextView
+    private lateinit var emotionratioTitle: TextView
+    private lateinit var viewDetail: LinearLayout
+    private lateinit var emotionChart: LinearLayout
+
 
     // 현재 날짜를 저장하는 변수
     private val currentDate = Calendar.getInstance()
@@ -112,8 +118,8 @@ class AnalysisFragment : Fragment() {
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
         // button_calendar_action2의 이미지 리소스 변경
-        buttonAction1.setImageResource(R.drawable.ic_analysis_back) // 임시라 추후 수정
-        buttonAction2.setImageResource(R.drawable.ic_analysis_next) // 임시라 추후 수정
+        buttonAction1.setImageResource(R.drawable.ic_left_triangle_wh) // 임시라 추후 수정
+        buttonAction2.setImageResource(R.drawable.ic_right_triangle_wh) // 임시라 추후 수정
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -130,6 +136,13 @@ class AnalysisFragment : Fragment() {
 
         // overlayView 초기화
         overlayView = view.findViewById(R.id.overlay_view) // overlay_view의 ID를 사용하여 초기화
+
+        nodataLayout = view.findViewById(R.id.no_data_layout)  // nodataLayout 초기화
+
+        emotionTitle = view.findViewById(R.id.tv_emotion_title) // 행성 top3 타이틀
+        emotionratioTitle = view.findViewById(R.id.tv_emotion_ratio_title) // 감정 타이틀
+        viewDetail = view.findViewById(R.id.tv_view_details) // 감정 자세히 보기 버튼
+        emotionChart = view.findViewById(R.id.linearLayout4) // 감정 그래프 부분
 
         // Firebase에서 감정 데이터 가져오기
         fetchEmotionData()
@@ -156,8 +169,20 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun moveToNextDate() {
+        val today = Calendar.getInstance() // 현재 날짜
+        val currentMonth = today.get(Calendar.MONTH) // 현재 월 (0부터 시작)
+        val currentYear = today.get(Calendar.YEAR) // 현재 연도
+
+        // currentDate가 현재 날짜보다 미래의 날짜로 이동하려고 하는지 확인
+        if (currentDate.get(Calendar.YEAR) > currentYear ||
+            (currentDate.get(Calendar.YEAR) == currentYear && currentDate.get(Calendar.MONTH) >= currentMonth)) {
+            // 1월부터는 이동을 막는 로직을 추가
+            Toast.makeText(context, "미래의 월로 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            return // 미래로 이동하려고 하면 리턴하여 이동 막기
+        }
+
         currentDate.add(Calendar.MONTH, 1) // 한 달 후로 이동
-        updateToolbarDate()
+        updateToolbarDate() // 툴바의 날짜 업데이트
         fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
@@ -269,7 +294,7 @@ class AnalysisFragment : Fragment() {
     }
 
     private fun fetchEmotionData() {
-        overlayView.visibility = View.VISIBLE // 데이터 로드 전 기본적으로 오버레이를 보이게 설정
+        // overlayView.visibility = View.VISIBLE // 데이터 로드 전 기본적으로 오버레이를 보이게 설정
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
@@ -291,6 +316,13 @@ class AnalysisFragment : Fragment() {
                     if (snapshot.exists()) {
                         // 데이터가 있는 경우 오버레이 숨김
                         overlayView.visibility = View.GONE
+                        nodataLayout.visibility = View.GONE
+
+                        emotionTitle.visibility = View.VISIBLE
+                        recyclerView.visibility = View.VISIBLE
+                        emotionratioTitle.visibility = View.VISIBLE
+                        viewDetail.visibility = View.VISIBLE
+                        emotionChart.visibility = View.VISIBLE
 
                         val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
                         val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
@@ -360,8 +392,13 @@ class AnalysisFragment : Fragment() {
                         // 로그 출력으로 entries 확인
                         Log.d("계산완료", "Entries: $entries")
                     } else {
-                        // 데이터가 없을 때 오버레이 보임
-                        overlayView.visibility = View.VISIBLE
+                        nodataLayout.visibility = View.VISIBLE
+
+                        emotionTitle.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+                        emotionratioTitle.visibility = View.GONE
+                        viewDetail.visibility = View.GONE
+                        emotionChart.visibility = View.GONE
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }

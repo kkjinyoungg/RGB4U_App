@@ -97,40 +97,45 @@ class FrequentEmotionsActivity : AppCompatActivity() {
         database.child("SurpriseKeyword").get().addOnSuccessListener {
             Log.d("FrequentEmotionsActivity", "SurpriseKeyword 데이터 불러오기 성공")
             val surpriseData = getTopKeywords(it)
-            updateChipGroup(surpriseChipGroup, surpriseData, "surprise")
+            updateChipGroup(surpriseCard, surpriseChipGroup, surpriseData, "surprise")
         }.addOnFailureListener {
+            surpriseCard.visibility = View.GONE // 데이터 로드 실패 시 카드 숨기기
             Log.e("FrequentEmotionsActivity", "SurpriseKeyword 데이터 불러오기 실패: ${it.message}")
         }
 
         database.child("FearKeyword").get().addOnSuccessListener {
             Log.d("FrequentEmotionsActivity", "FearKeyword 데이터 불러오기 성공")
             val fearData = getTopKeywords(it)
-            updateChipGroup(fearChipGroup, fearData, "fear")
+            updateChipGroup(fearCard, fearChipGroup, fearData, "fear")
         }.addOnFailureListener {
+            fearCard.visibility = View.GONE
             Log.e("FrequentEmotionsActivity", "FearKeyword 데이터 불러오기 실패: ${it.message}")
         }
 
         database.child("SadnessKeyword").get().addOnSuccessListener {
             Log.d("FrequentEmotionsActivity", "SadnessKeyword 데이터 불러오기 성공")
             val sadnessData = getTopKeywords(it)
-            updateChipGroup(sadnessChipGroup, sadnessData, "sadness")
+            updateChipGroup(sadnessCard, sadnessChipGroup, sadnessData, "sadness")
         }.addOnFailureListener {
+            sadnessCard.visibility = View.GONE
             Log.e("FrequentEmotionsActivity", "SadnessKeyword 데이터 불러오기 실패: ${it.message}")
         }
 
         database.child("AngerKeyword").get().addOnSuccessListener {
             Log.d("FrequentEmotionsActivity", "AngerKeyword 데이터 불러오기 성공")
             val angerData = getTopKeywords(it)
-            updateChipGroup(angerChipGroup, angerData, "anger")
+            updateChipGroup(angerCard, angerChipGroup, angerData, "anger")
         }.addOnFailureListener {
+            angerCard.visibility = View.GONE
             Log.e("FrequentEmotionsActivity", "AngerKeyword 데이터 불러오기 실패: ${it.message}")
         }
 
         database.child("DisgustKeyword").get().addOnSuccessListener {
             Log.d("FrequentEmotionsActivity", "DisgustKeyword 데이터 불러오기 성공")
             val disgustData = getTopKeywords(it)
-            updateChipGroup(disgustChipGroup, disgustData, "disgust")
+            updateChipGroup(disgustCard, disgustChipGroup, disgustData, "disgust")
         }.addOnFailureListener {
+            disgustCard.visibility = View.GONE
             Log.e("FrequentEmotionsActivity", "DisgustKeyword 데이터 불러오기 실패: ${it.message}")
         }
     }
@@ -155,15 +160,25 @@ class FrequentEmotionsActivity : AppCompatActivity() {
     }
 
     // ChipGroup에 Chip 추가
-    private fun updateChipGroup(chipGroup: ChipGroup, emotionList: List<String>, emotionType: String) {
+    private fun updateChipGroup(cardView: CardView, chipGroup: ChipGroup, emotionList: List<String>, emotionType: String) {
         Log.d("FrequentEmotionsActivity", "updateChipGroup 함수 실행 중... 감정: $emotionType")
 
         chipGroup.removeAllViews()
 
+        if (emotionList.isEmpty()) {
+            // 데이터가 없으면 해당 감정의 카드뷰 숨기기
+            cardView.visibility = View.GONE
+            Log.d("FrequentEmotionsActivity", "$emotionType 카드뷰 숨김 처리")
+            return
+        }
+
+        // 데이터가 있으면 해당 감정의 카드뷰 표시
+        cardView.visibility = View.VISIBLE
+
         val textColor = when (emotionType) {
-            "surprise" -> Color.parseColor("#33A080")
-            "fear" -> Color.parseColor("#339EB3")
-            "sadness" -> Color.parseColor("#2795DD")
+            "surprise" -> Color.parseColor("#3AB799")
+            "fear" -> Color.parseColor("#26ACDD")
+            "sadness" -> Color.parseColor("#1674E1")
             "anger" -> Color.parseColor("#C771C7")
             "disgust" -> Color.parseColor("#7461D1")
             else -> Color.BLACK
@@ -187,7 +202,6 @@ class FrequentEmotionsActivity : AppCompatActivity() {
             }
             chipGroup.addView(chip)
         }
-
         Log.d("FrequentEmotionsActivity", "ChipGroup 업데이트 완료: $emotionType")
     }
 }
