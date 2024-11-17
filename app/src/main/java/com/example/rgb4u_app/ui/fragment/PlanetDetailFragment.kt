@@ -181,11 +181,28 @@ class PlanetDetailFragment : Fragment() {
                         // 날짜 로그 추가
                         Log.d("boxfiller", "형식 변환된 날짜: $formattedDate")
 
-                        val sentences = text.split(".").map { it.trim() }.filter { it.isNotEmpty() }
+                        // 문장을 다양한 특수문자를 기준으로 나누고 "• " 추가
+                        val sentences = text.split(Regex("[.!?;]")).map { it.trim() }.filter { it.isNotEmpty() }
 
-                        for (sentence in sentences) {
-                            boxDataList.add(BoxData(sentence, formattedDate))
-                        }
+                        // 문장 끝에 특수문자가 없으면 마침표 추가
+                        val formattedText = sentences.joinToString("\n") {
+                            val sentence = it.trim()
+                            if (sentence.isNotEmpty()) {
+                                if (!sentence.endsWith(".")) {
+                                    "$sentence."
+                                } else {
+                                    sentence
+                                }
+                            } else {
+                                ""
+                            }
+                        }.replace("\n.", ".") // 줄바꿈 후 마침표가 연속되는 경우 처리
+
+                        // "• " 추가
+                        val finalText = formattedText.split("\n").joinToString("\n") { "•  $it" }
+
+                        // BoxData에 추가
+                        boxDataList.add(BoxData(finalText, formattedDate)) // finalText를 사용해야 함
                     }
 
                     // RecyclerView 갱신

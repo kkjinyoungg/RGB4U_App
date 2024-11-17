@@ -63,21 +63,24 @@ class MonthlyDistortionUpdater {
                         }.toMutableList()
 
                         // 동일 날짜의 text들을 하나로 합침
-                        // 동일 날짜의 text들을 하나로 합침
                         val groupedThoughts = thoughtsList.groupBy { it.second } // 날짜별로 그룹화
                         groupedThoughts.forEach { (date, thoughts) ->
                             // 각 thought의 첫 번째 항목을 가져와서, 마침표 확인 후 합침
-                            val combinedText = thoughts.joinToString(". ") {
-                                val thought = it.first
-                                if (thought.endsWith(".")) {
-                                    thought.trimEnd('.') // 이미 마침표가 있으면 제거하고 합침
+                            val combinedText = thoughts.joinToString(" ") { thought ->
+                                // 각 생각의 끝에 특수문자가 있는지 확인
+                                val trimmedThought = thought.first.trimEnd()
+                                if (trimmedThought.isNotEmpty() && !trimmedThought.endsWith(".") &&
+                                    !trimmedThought.endsWith("!") &&
+                                    !trimmedThought.endsWith("?") &&
+                                    !trimmedThought.endsWith(";")) {
+                                    "$trimmedThought."
                                 } else {
-                                    thought
+                                    trimmedThought
                                 }
                             }
 
-                            // 합친 텍스트에 마침표가 없으면 마지막에 추가
-                            val finalText = if (combinedText.endsWith(".")) combinedText else "$combinedText."
+                            // 최종 텍스트에서 앞뒤 공백 제거
+                            val finalText = combinedText.trim()
 
                             currentEntries.add(mapOf("text" to finalText, "date" to date))
                         }
