@@ -16,17 +16,21 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.analysis.AnalysisActivity
 import com.example.rgb4u_app.ui.activity.analysis.BoxData
 import com.example.rgb4u_app.ui.activity.analysis.PlanetDetailBoxAdapter
+import android.widget.ImageView
 
 class PlanetDetailFragment : Fragment() {
 
     companion object {
         private const val ARG_TYPE_NAME = "type_name"
+        private const val ARG_IMAGE_RESOURCE_ID = "image_resource_id"
 
-        // `PlanetDetailFragment` 생성 시 `typeName`을 전달하는 `newInstance` 메서드
-        fun newInstance(typeName: String): PlanetDetailFragment {
+        // PlanetDetailFragment 생성 시 typeName과 imageResourceId를 전달
+        fun newInstance(typeName: String, imageResourceId: Int): PlanetDetailFragment {
             val fragment = PlanetDetailFragment()
-            val args = Bundle()
-            args.putString(ARG_TYPE_NAME, typeName)
+            val args = Bundle().apply {
+                putString(ARG_TYPE_NAME, typeName)
+                putInt(ARG_IMAGE_RESOURCE_ID, imageResourceId)
+            }
             fragment.arguments = args
             return fragment
         }
@@ -38,6 +42,13 @@ class PlanetDetailFragment : Fragment() {
     ): View? {
         // Fragment의 레이아웃을 인플레이트하고 rootView에 저장
         val rootView = inflater.inflate(R.layout.fragment_planet_detail, container, false)
+
+
+        val imageResourceId = arguments?.getInt(ARG_IMAGE_RESOURCE_ID)
+        val planetImageView: ImageView = rootView.findViewById(R.id.planet_image)
+        imageResourceId?.let {
+            planetImageView.setImageResource(it)
+        }
 
         // Toolbar 설정
         val toolbar: Toolbar = rootView.findViewById(R.id.toolbar)

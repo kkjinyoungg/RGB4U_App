@@ -73,15 +73,13 @@ class AnalysisFragment : Fragment() {
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
-        // 어댑터 설정
+        // CardAdapter에서 PlanetDetailFragment로 이동할 때, imageResourceId도 전달
         cardAdapter = CardAdapter(cardList) { cardItem ->
-            // PlanetDetailFragment로 이동하고 typeName 전달
-            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName)
-            parentFragmentManager.beginTransaction()  // 또는 requireActivity().supportFragmentManager.beginTransaction()
+            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName, cardItem.imageResourceId)  // 동적 이미지 리소스 ID 전달
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
-
         }
 
         recyclerView.adapter = cardAdapter

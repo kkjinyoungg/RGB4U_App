@@ -30,9 +30,8 @@
                 android:id="@+id/planet_image"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:background="@drawable/ic_planet_a"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:scaleType="fitCenter" />
 
 
             <!-- Short Description -->

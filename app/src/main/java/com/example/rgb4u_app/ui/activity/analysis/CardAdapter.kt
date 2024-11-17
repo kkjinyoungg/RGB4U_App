@@ -30,7 +30,7 @@ class CardAdapter(private val cardList: List<CardItem>, private val onCardClick:
     // 데이터 바인딩
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val cardItem = cardList[position]
-        holder.imageView.setImageResource(cardItem.imageResId)
+        holder.imageView.setImageResource(cardItem.imageResourceId)
         holder.textView.text = cardItem.typeName
 
         // 상세 보기로 이동하는 버튼 클릭 리스너
