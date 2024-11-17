@@ -47,7 +47,7 @@ class MonthlyDistortionUpdater {
                 }
 
                 for ((planetName, thoughtsList) in planetThoughts) {
-                    val monthlyRef = firebaseDatabase.getReference("users/$userId/monthlyAnalysis/monthlyDistortions/$month/$planetName")
+                    val monthlyRef = firebaseDatabase.getReference("users/$userId/monthlyAnalysis/$month/$planetName")
 
                     // monthlyRef에서 현재 데이터 가져오기
                     monthlyRef.get().addOnSuccessListener { monthlySnapshot ->
