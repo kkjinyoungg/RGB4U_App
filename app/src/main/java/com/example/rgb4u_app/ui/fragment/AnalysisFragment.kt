@@ -358,12 +358,27 @@ class AnalysisFragment : Fragment() {
                                 Log.d("fetchCardData", "행성 데이터 추가: $planetName")
 
                                 // distortionInformation에서 해당 행성의 imageResource 가져오기
-                                database.child("distortionInformation").child(planetName)
+                                database.child("users").child(userId).child("distortionInformation").child(planetName)
                                     .child("imageResource").get().addOnSuccessListener { imageSnapshot ->
-                                        val imageResource = imageSnapshot.getValue(Int::class.java) ?: R.drawable.ic_planet_a
+                                        // imageResource 이름 가져오기
+                                        val imageResourceName = imageSnapshot.getValue(String::class.java) ?: "ic_planet_a"
+
+                                        // imageResource와 imageResourceName 로그 출력
+                                        Log.d("fetchCardData", "imageResource 가져옴: $imageResourceName")
+
+                                        // context가 null일 경우를 처리하는 안전한 호출
+                                        val imageResourceId = context?.let {
+                                            // imageResourceName이 drawable 리소스로 잘 매칭되는지 확인
+                                            val resourceId = it.resources.getIdentifier(imageResourceName, "drawable", it.packageName)
+                                            Log.d("fetchCardData", "이미지 리소스 ID: $resourceId")  // 리소스 ID 로그 출력
+                                            resourceId
+                                        } ?: R.drawable.ic_planet_a  // context가 null일 경우 기본값 사용
+
+                                        // imageResourceId 로그 출력
+                                        Log.d("fetchCardData", "최종 이미지 리소스 ID: $imageResourceId")
 
                                         // 카드 아이템 생성
-                                        cardList.add(CardItem(planetName, imageResource))
+                                        cardList.add(CardItem(planetName, imageResourceId))
 
                                         // 카드 어댑터 갱신
                                         Log.d("fetchCardData", "카드 어댑터 갱신: $planetName")
@@ -371,6 +386,7 @@ class AnalysisFragment : Fragment() {
                                     }.addOnFailureListener { exception ->
                                         Log.e("fetchCardData", "imageResource 가져오기 실패: ${exception.message}")
                                     }
+
                             }
                         } else {
                             Log.d("fetchCardData", "행성 데이터가 없습니다.")
