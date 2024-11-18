@@ -176,7 +176,8 @@ class AiSummary {
 
         // emotion을 리스트로 변환
         val emotionString = arguments.getString("emotion")
-        val emotionList = emotionString.split(",").map { it.trim() } // 콤마로 구분하여 리스트로 변환
+        val emotionArray = JSONArray(emotionString) // JSON 배열로 변환
+        val emotionList = List(emotionArray.length()) { emotionArray.getString(it) } // 리스트로 변환
 
         val situation = arguments.getString("situation")
         val thoughts = arguments.getString("thoughts")
