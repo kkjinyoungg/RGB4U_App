@@ -41,9 +41,6 @@ class DistortionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userId = arguments?.getString("USER_ID") ?: ""
-        val diaryId = arguments?.getString("DIARY_ID") ?: ""
-
         val titleTextView = view.findViewById<TextView>(R.id.tv_type_title) // 유형 타입
         titleTextView.text = distortionType.type
 

@@ -71,7 +71,8 @@ class DistortionTypeActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 intent.putExtra("USER_ID", userId)
-                intent.putExtra("DIARY_ID", date) // userId, date보내기
+                intent.putExtra("Date", date) // userId, date보내기
+                intent.putExtra("Date", date) // userId, date보내기
                 startActivity(intent)
             }
         }
@@ -111,6 +112,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         bottomSheet.show(supportFragmentManager, "DistortionHelpBottomSheet")
     }
 
+    //알림 버튼이랑 연결하기
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("M월 d일 E요일", Locale.getDefault())
         return dateFormat.format(Date())

@@ -13,6 +13,7 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryChangedDayActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 class EmotionReselectActivity : AppCompatActivity() {
 
@@ -24,7 +25,7 @@ class EmotionReselectActivity : AppCompatActivity() {
     // Firebase Database Reference
     private lateinit var database: DatabaseReference
 
-    // 사용자 ID와 일기 ID를 저장할 변수
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
     private lateinit var userId: String
     private lateinit var date: String
 
@@ -35,13 +36,14 @@ class EmotionReselectActivity : AppCompatActivity() {
         // Firebase 초기화
         database = FirebaseDatabase.getInstance().reference
 
-        // Intent로부터 사용자 ID와 일기 ID 받아오기
-        userId = intent.getStringExtra("userId") ?: ""
-        date = intent.getStringExtra("date") ?: ""
+        // 인텐트에서 데이터 받기
+        val intent = intent
+        userId = intent.getStringExtra("USER_ID") ?: ""
+        date = intent.getStringExtra("Date") ?: ""
 
-        // userId와 diaryId 확인을 위해 로그 출력
+        // 받은 데이터 확인 (Log로 출력)
         Log.d("EmotionReselectActivity", "Received User ID: $userId")
-        Log.d("EmotionReselectActivity", "Received Diary ID: $date")
+        Log.d("EmotionReselectActivity", "Received Date: $date")
 
         // 뷰 초기화
         dynamicTextView = findViewById(R.id.dynamicTextView)
@@ -51,6 +53,45 @@ class EmotionReselectActivity : AppCompatActivity() {
 
         // 초기 상태에서 squareView에 디폴트 이미지 설정
         squareView.setImageResource(R.drawable.img_emotion_0)
+
+        // Firebase에서 emotionDegree 값을 가져와 SeekBar 초기값 설정
+        val diaryRef = database.child("users").child(userId).child("diaries").child(date).child("userInput").child("emotionDegree")
+
+        diaryRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                // 'int' 필드에서 값을 가져옴
+                val emotionDegree = snapshot.child("int").getValue(Int::class.java) ?: 0 // 기본값 0 설정
+                seekBar.progress = emotionDegree  // SeekBar의 진행 상태 설정
+
+                // 진행 상태에 맞는 텍스트 및 이미지 업데이트
+                dynamicTextView.text = when (emotionDegree) {
+                    0 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_0)
+                        "매우 심하지 않았어"
+                    }
+                    1 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_1)
+                        "심하지 않았어"
+                    }
+                    2 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_2)
+                        "보통이었어"
+                    }
+                    3 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_3)
+                        "심했어"
+                    }
+                    4 -> {
+                        squareView.setImageResource(R.drawable.img_emotion_4)
+                        "매우 심했어"
+                    }
+                    else -> ""
+                }
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("EmotionReselectActivity", "Error fetching emotionDegree: ${exception.message}")
+        }
+
 
         // SeekBar의 진행 상태에 따라 dynamicTextView의 텍스트 변경
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -87,26 +128,42 @@ class EmotionReselectActivity : AppCompatActivity() {
 
         // "다음" 버튼 클릭 시 Firebase에 데이터 저장
         buttonNext.setOnClickListener {
+            // SeekBar의 진행 상태 값 가져오기
             val reMeasuredEmotionDegreeInt = seekBar.progress
             val reMeasuredEmotionDegreeString = dynamicTextView.text.toString()
 
+            // SeekBar 진행 상태에 따른 emotionimg 값 설정
+            val reMeasuredEmotionDegreeImage = when (reMeasuredEmotionDegreeInt) {
+                0 -> "img_emotion_0"
+                1 -> "img_emotion_1"
+                2 -> "img_emotion_2"
+                3 -> "img_emotion_3"
+                4 -> "img_emotion_4"
+                else -> "img_emotion_0"  // 기본값 설정
+            }
+
             // Firebase에 데이터 저장
-            database.child("users").child(userId).child("diaries").child(date)
-                .child("userInput").child("reMeasuredEmotionDegree").setValue(
-                    mapOf(
-                        "int" to reMeasuredEmotionDegreeInt,
-                        "string" to reMeasuredEmotionDegreeString
-                    )
-                ).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // 저장 성공 시 로그 출력 및 다음 액티비티로 이동
-                        Log.d("EmotionReselectActivity", "Data saved successfully.")
-                        startActivity(Intent(this, SummaryChangedDayActivity::class.java))
-                    } else {
-                        // 저장 실패 시 에러 로그 출력
-                        Log.e("EmotionReselectActivity", "Error saving data: ${task.exception?.message}")
-                    }
+            val diaryRef = database.child("users").child(userId).child("diaries").child(date).child("userInput").child("reMeasuredEmotionDegree")
+
+            // Firebase에 저장할 데이터
+            val emotionData = mapOf(
+                "int" to reMeasuredEmotionDegreeInt,
+                "string" to reMeasuredEmotionDegreeString,
+                "emotionimg" to reMeasuredEmotionDegreeImage
+            )
+
+            // Firebase에 데이터 저장
+            diaryRef.setValue(emotionData).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // 저장 성공 시 로그 출력 및 다음 액티비티로 이동
+                    Log.d("EmotionReselectActivity", "Data saved successfully.")
+                    startActivity(Intent(this, SummaryChangedDayActivity::class.java))
+                } else {
+                    // 저장 실패 시 에러 로그 출력
+                    Log.e("EmotionReselectActivity", "Error saving data: ${task.exception?.message}")
                 }
+            }
         }
+
     }
 }
