@@ -67,6 +67,7 @@ class SummaryMainActivity : AppCompatActivity() {
         toolbarTitle = findViewById(R.id.dateTextView)
         // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
         val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        val yyyymmdd = intent.getStringExtra("Date")
         Log.d("SummaryMainActivity", "Received TOOLBAR_TITLE: $titleText")
         titleText?.let {
             toolbarTitle.text = it // 툴바 제목 텍스트에 설정
@@ -84,7 +85,6 @@ class SummaryMainActivity : AppCompatActivity() {
         val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
         val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
 
-        val yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
 
         // diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId

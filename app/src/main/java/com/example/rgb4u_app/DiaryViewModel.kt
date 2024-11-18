@@ -201,8 +201,13 @@ class DiaryViewModel : ViewModel() {
 
     // 날짜 값 반환 (yyyy-MM-dd 형식)
     fun getCurrentDate(): String {
-        val currentDate = diaryDate ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        Log.d("DiaryViewModel", "Current Date Returned: $currentDate") // 반환할 날짜 로그 추가
-        return currentDate
+        // diaryDate가 설정되어 있으면 그 값을 반환하고, 없으면 현재 날짜를 설정
+        if (diaryDate == null) {
+            diaryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            Log.d("DiaryViewModel", "Current Date Set in Get: $diaryDate") // 설정된 날짜 로그 추가
+        }
+
+        Log.d("DiaryViewModel", "Current Date Returned: $diaryDate") // 반환할 날짜 로그 추가
+        return diaryDate!!
     }
 }

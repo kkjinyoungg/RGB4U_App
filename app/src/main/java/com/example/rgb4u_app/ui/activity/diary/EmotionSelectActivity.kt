@@ -44,6 +44,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     private val userId: String?
         get() = FirebaseAuth.getInstance().currentUser?.uid
 
+    var yyyymmdd: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
@@ -62,6 +64,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
             Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
         }
+
+        yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
 
         // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
         if (selectedEmotions.isNotEmpty()) {
@@ -330,7 +334,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 hideLoadingDialog() // 로딩 다이얼로그 숨기기
                 val intent =
                     Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
-                intent.putExtra("DIARY_ID", DiaryViewModel.diaryId) // diaryId를 Intent에 추가
+                intent.putExtra("Date", yyyymmdd) // diaryId를 Intent에 추가
                 intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
                 startActivity(intent)
                 finish()

@@ -168,31 +168,53 @@ class CalendarFragment : Fragment() {
     }
 
     private fun fetchDiaryDataForMonth() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(currentCalendar.time)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val calendar = Calendar.getInstance().apply {
+            // 현재 월을 기준으로 설정
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
+
+        // 첫 번째 날과 마지막 날 계산
+        val firstDayKey = "$yearMonth-01"
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val lastDayKey = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
         val firebaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
-        // 일기 데이터를 가져오고 날짜에 맞춰 일기 정보를 확인
-        firebaseRef.orderByKey().startAt("$yearMonth-01").endAt("$yearMonth-31")
+        firebaseRef.orderByKey().startAt(firstDayKey).endAt(lastDayKey)
             .get().addOnSuccessListener { snapshot ->
                 val daysWithDiary = mutableSetOf<Int>()
 
                 if (snapshot.exists()) {
                     for (diarySnapshot in snapshot.children) {
-                        // Map<String, Any>로 명시적으로 타입을 지정
-                        val diaryData = diarySnapshot.getValue(Map::class.java) as? Map<String, Any>
-                        diaryData?.let {
-                            val date = it["date"] as? String ?: return@let
-                            val day = date.split("-")[2].toIntOrNull() ?: return@let
+                        // GenericTypeIndicator를 사용하여 Map 타입을 명시적으로 지정
+                        val diaryData = diarySnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {}) ?: continue
 
-                            // emotionDegree와 관련된 타입 수정
-                            val userInput = it["userInput"] as? Map<String, Any> ?: return@let
-                            val emotionDegree = (userInput["emotionDegree"] as? Map<String, Any>)
-                                ?.get("int") as? Int ?: 0
+                        val date = diarySnapshot.key ?: continue // 날짜 키를 가져오고, 없으면 건너뛰기
+                        val day = date.split("-")[2].toIntOrNull() ?: continue // 날짜에서 일(day)을 추출하고, 실패하면 건너뛰기
 
-                            daysWithDiary.add(day)
-                            addStampToCalendar(day, emotionDegree)
+                        // userInput 추출
+                        val userInput = diaryData["userInput"] as? Map<String, Any> ?: continue
+
+                        // reMeasuredEmotionDegree가 있는지 확인하고 없으면 emotionDegree 사용
+                        val reMeasuredEmotionDegree = userInput["reMeasuredEmotionDegree"] as? Map<String, Any>
+                        val emotionDegree = if (reMeasuredEmotionDegree != null) {
+                            (reMeasuredEmotionDegree["int"] as? Int) ?: 0 // "reMeasuredEmotionDegree"에서 "int" 값 가져오기
+                        } else {
+                            // reMeasuredEmotionDegree가 없다면 emotionDegree 사용
+                            val emotionDegreeFallback = userInput["emotionDegree"] as? Map<String, Any>
+                            (emotionDegreeFallback?.get("int") as? Int) ?: 0 // 기본 "emotionDegree"에서 "int" 값 가져오기
                         }
+
+                        daysWithDiary.add(day)
+                        addStampToCalendar(day, emotionDegree)
+                    }
+                }
+                // 일기 데이터가 없는 날짜에 빈 도장을 찍어줍니다.
+                for (day in 1..currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                    if (day !in daysWithDiary) {
+                        addBlankStampToCalendar(day)
                     }
                 }
             }
