@@ -28,7 +28,6 @@ import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import com.example.rgb4u_appclass.DiaryViewModel
 
 class SummaryMainActivity : AppCompatActivity() {
 

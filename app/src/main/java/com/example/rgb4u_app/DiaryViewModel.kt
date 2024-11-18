@@ -64,12 +64,12 @@ class DiaryViewModel : ViewModel() {
             "thoughts" to thoughts.value,
             "emotionDegree" to mapOf(
                 "int" to emotionDegree.value,
-                "string" to emotionString.value
+                "string" to emotionString.value,
                 "string" to emotionImage.value
             ),
             "reMeasuredEmotionDegree" to mapOf(
                 "int" to 5, // 재측정된 감정 (임시 데이터)
-                "string" to "" // 감정 상태 (임시 데이터)
+                "string" to "", // 감정 상태 (임시 데이터)
                 "string" to "" // 이미지 상태 (임시 데이터)
             ),
             "emotionTypes" to mapOf(
@@ -165,12 +165,15 @@ class DiaryViewModel : ViewModel() {
                         Log.e("DiaryViewModel", "감정 그래프 업데이트 실패", it)
                     }
 
+                // 감정 유형의 키들만 List<String>으로 변환
+                val emotionTypesList = emotionTypes.keys.toList()
+
                 // 월간 통계 업데이트
                 monthlyStatsUpdater.updateMonthlyStats(
                     userId,
                     diaryId!!,
                     yyyymmdate,
-                    emotionTypes
+                    emotionTypesList
                 ) // 월간 통계 업데이트 호출
 
             }.addOnFailureListener {

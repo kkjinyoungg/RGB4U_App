@@ -65,7 +65,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
         // 선택된 감정을 ViewModel에 저장하고 다음 화면으로 전환
         if (selectedEmotions.isNotEmpty()) {
-            diaryViewModel.emotionTypes.value = selectedEmotions
+            diaryViewModel.emotionTypes.value = selectedEmotions.map { it to "#FFFFFF" }.toMap().toMutableMap()
         }
 
         // Initialize loading dialog

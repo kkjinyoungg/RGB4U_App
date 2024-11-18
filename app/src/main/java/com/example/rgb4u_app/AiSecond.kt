@@ -26,7 +26,7 @@ class AiSecond {
     private val apiKey = ""// API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
     // getCurrentDate() 값을 저장할 변수
-    private var currentDate: String? = null
+    private var currentDate: String = ""  // null을 허용하지 않음
 
     private val cognitiveDistortions = listOf(
         "1. 흑백성 : 전부 아니면 전무의 사고. 연속적 개념보다는 오직 두 가지의 범주로 나누어 상황을 봐요. 예: 완벽하게 성공하지 못하면, 실패한 거야.",
