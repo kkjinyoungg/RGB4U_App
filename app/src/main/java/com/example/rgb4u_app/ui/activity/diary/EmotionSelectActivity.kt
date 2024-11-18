@@ -114,6 +114,14 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             "Disgust" to disgustChipGroup
         )
 
+        val colorMap = mapOf(
+            "Surprise" to "#33A080",
+            "Fear" to "#339EB3",
+            "Sadness" to "#2795DD",
+            "Anger" to "#C771C7",
+            "Disgust" to "#7461D1"
+        )
+
         for ((category, labels) in emotions) {
             val chipGroup = chipGroupMap[category] ?: continue
             for (label in labels) {
@@ -125,33 +133,16 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#33FFFFFF"))
 
                 chip.setOnCheckedChangeListener { _, isChecked ->
-                    val selectedChipCount = selectedChipGroup.childCount
-
-                    if (isChecked && selectedChipCount >= maxSelectableChips) {
-                        // 이미 3개 선택된 상태에서 추가 선택 시 체크 해제하고 토스트 메시지 출력
+                    if (isChecked && selectedChipGroup.childCount >= maxSelectableChips) {
                         chip.isChecked = false
                         Toast.makeText(this, "3개 이하로 골라주세요", Toast.LENGTH_SHORT).show()
                     } else if (isChecked) {
-                        // 칩 선택 시 레이블 색상으로 변경
-                        chip.chipBackgroundColor = getChipColor(category)
-                        addChipToSelectedGroup(chip, category)
-                        selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
-                        chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_delete) // 아이콘 설정
-                        Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
-
+                        addChipToSelectedGroup(chip.text.toString(), category)
                     } else {
-                        // 칩 취소 시 디폴트 색상으로 변경
-                        chip.chipBackgroundColor = getColorStateList(R.color.defaultChipColor)
                         removeChipFromSelectedGroup(chip.text.toString())
-                        selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
-                        chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_plus) // 아이콘 설정
-                        Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
-
                     }
-
                     updateNextButtonState(selectedChipGroup.childCount)
                 }
-
                 // 선택된 감정에 해당하는 경우 칩 선택 상태 유지
                 chip.isChecked = selectedEmotions.contains(label)
 
@@ -159,6 +150,20 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             }
         }
     }
+
+
+    private fun updateViewModel(emotion: String, category: String?, isAdding: Boolean) {
+        val updatedEmotions = diaryViewModel.emotionTypes.value?.toMutableMap() ?: mutableMapOf()
+
+        if (isAdding && category != null) {
+            updatedEmotions[emotion] = colorMap[category] ?: "#FFFFFF"
+        } else {
+            updatedEmotions.remove(emotion)
+        }
+
+        diaryViewModel.emotionTypes.value = updatedEmotions
+    }
+
 
     // 특정 단계에서 폰트 스타일을 변경하는 함수
     private fun changeFontStyleForStep(step: Int) {
@@ -246,30 +251,16 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             .build()
         selectedChip.shapeAppearanceModel = shapeAppearanceModel
 
-        // ChipGroup을 VISIBLE로 설정 (칩 추가 시)
-//        if (selectedChipGroup.visibility == View.GONE) {
-//            selectedChipGroup.visibility = View.VISIBLE
-//        }
-
         selectedChip.setOnCloseIconClickListener {
             selectedChipGroup.removeView(selectedChip)
             uncheckChipInGroup(selectedChip.text.toString())
-//            // ChipGroup에 칩이 없으면 다시 숨김
-//            if (selectedChipGroup.childCount == 0) {
-//                selectedChipGroup.visibility = View.GONE
-//            }
         }
 
         selectedChipGroup.addView(selectedChip)
     }
 
-    private fun getChipColor(category: String) = when (category) {
-        "Surprise" -> getColorStateList(R.color.surpriseColor_dark)
-        "Fear" -> getColorStateList(R.color.fearColor_dark)
-        "Sadness" -> getColorStateList(R.color.sadnessColor_dark)
-        "Anger" -> getColorStateList(R.color.angerColor_dark)
-        "Disgust" -> getColorStateList(R.color.disgustColor_dark)
-        else -> getColorStateList(R.color.defaultChipColor) // 기본 색상
+    private fun getChipColor(category: String): ColorStateList {
+        return ColorStateList.valueOf(Color.parseColor(colorMap[category] ?: "#FFFFFF"))
     }
 
     private fun removeChipFromSelectedGroup(chipText: String) {
@@ -280,6 +271,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 break
             }
         }
+        updateViewModel(chipText, null, isAdding = false) // ViewModel과 동기화
     }
 
     private fun uncheckChipInGroup(chipText: String) {

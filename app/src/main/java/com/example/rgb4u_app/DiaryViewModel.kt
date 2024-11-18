@@ -24,7 +24,7 @@ class DiaryViewModel : ViewModel() {
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
     val emotionImage = MutableLiveData<String>()
-    val emotionTypes = MutableLiveData<List<String>>()
+    val emotionTypes = MutableLiveData<Map<String, String>>() // 키-값 쌍으로 정의
     val monthlyStatsUpdater = MonthlyStatsUpdater()
 
     // 전역 변수로 diaryId를 저장
@@ -71,9 +71,9 @@ class DiaryViewModel : ViewModel() {
                     "string" to "" // 이미지 상태 (임시 데이터)
                 ),
                 "emotionTypes" to mapOf(
-                    "행복" to "#FF5577",
-                    "기쁨" to "#FFD700",
-                    "슬픔" to "#FFD700"
+                    "" to "",
+                    "" to "",
+                    "" to ""
                 )
             ),
             "aiAnalysis" to mapOf(
