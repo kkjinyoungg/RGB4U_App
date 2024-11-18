@@ -41,6 +41,9 @@ class DiaryViewModel : ViewModel() {
         // 날짜를 가져옵니다.
         val currentDate = getCurrentDate()
 
+        // 감정 상태 로그 추가
+        Log.d("DiaryViewModel", "저장되는 감정 상태: ${emotionString.value}")
+
         // 파이어베이스 참조
         val database = FirebaseDatabase.getInstance()
             .getReference("users/$userId/diaries/$currentDate")

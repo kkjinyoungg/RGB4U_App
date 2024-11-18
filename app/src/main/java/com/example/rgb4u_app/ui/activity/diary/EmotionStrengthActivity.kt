@@ -44,6 +44,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         }
 
         diaryViewModel.emotionString.observe(this) { emotionText ->
+            Log.d("EmotionStrengthActivity", "Emotion String: $emotionText")  // Log the emotionString value
             dynamicTextView.text = emotionText ?: ""
         }
 

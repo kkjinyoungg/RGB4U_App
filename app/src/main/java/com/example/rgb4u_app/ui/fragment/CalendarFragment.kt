@@ -173,17 +173,19 @@ class CalendarFragment : Fragment() {
         val firebaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
         // 일기 데이터를 가져오고 날짜에 맞춰 일기 정보를 확인
-        firebaseRef.orderByChild("date").startAt("$yearMonth-01").endAt("$yearMonth-31")
+        firebaseRef.orderByKey().startAt("$yearMonth-01").endAt("$yearMonth-31")
             .get().addOnSuccessListener { snapshot ->
                 val daysWithDiary = mutableSetOf<Int>()
 
                 if (snapshot.exists()) {
                     for (diarySnapshot in snapshot.children) {
-                        val diaryData = diarySnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {})
+                        val diaryData = diarySnapshot.getValue(Map::class.java)
                         diaryData?.let {
                             val date = it["date"] as? String ?: return@let
                             val day = date.split("-")[2].toIntOrNull() ?: return@let
-                            val emotionDegree = (it["emotion"] as? Long)?.toInt() ?: 0
+                            val emotionDegree = (it["userInput"] as? Map<*, *>)?.get("emotionDegree") as? Map<*, *>?
+                            ?.get("int") as? Int ?: 0
+
                             daysWithDiary.add(day)
                             addStampToCalendar(day, emotionDegree)
                         }
@@ -198,6 +200,7 @@ class CalendarFragment : Fragment() {
                 }
             }
     }
+
 
     private fun addBlankStampToCalendar(day: Int) {
         val today = Calendar.getInstance()

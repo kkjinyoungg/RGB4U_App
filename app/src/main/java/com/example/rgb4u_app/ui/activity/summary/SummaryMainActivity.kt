@@ -94,8 +94,10 @@ class SummaryMainActivity : AppCompatActivity() {
                         userInputRef.addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(userInputSnapshot: DataSnapshot) {
                                 // emotionDegree에서 int와 string 가져오기
-                                val emotionDegreeInt = userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 0
-                                val emotionDegreeString = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "감정 강도 정보 없음"
+                                val emotionDegreeInt = userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
+                                val emotionDegreeString = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                                val emotionDegree = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "img_emotion_2"
+
 
                                 // emotionTypes는 리스트 형태로 가져온다
                                 val emotionTypesList = userInputSnapshot.child("emotionTypes").children.mapNotNull { it.getValue(String::class.java) }
@@ -247,16 +249,14 @@ class SummaryMainActivity : AppCompatActivity() {
         }
     }
 
-
-    // 감정에 따라 이미지 리소스 ID를 반환하는 함수
-    private fun getImageResId(progress: Int): Int {
-        return when (progress) {
-            0 -> R.drawable.img_emotion_0
-            1 -> R.drawable.img_emotion_1
-            2 -> R.drawable.img_emotion_2
-            3 -> R.drawable.img_emotion_3
-            4 -> R.drawable.img_emotion_4
-            else -> R.drawable.img_emotion_0 // 기본 이미지 (예외 처리)
+    // emotionimg 값에 따라 적절한 이미지 리소스를 반환하는 함수
+    private fun getEmotionImageResource(emotionImg: String): Int {
+        return when (emotionImg) {
+            "img_emotion_1" -> R.drawable.img_emotion_1
+            "img_emotion_2" -> R.drawable.img_emotion_2
+            "img_emotion_3" -> R.drawable.img_emotion_3
+            "img_emotion_4" -> R.drawable.img_emotion_4
+            else -> R.drawable.default_emotion_image // 기본 이미지 설정
         }
     }
 }
