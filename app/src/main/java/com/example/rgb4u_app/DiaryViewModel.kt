@@ -25,7 +25,7 @@ class DiaryViewModel : ViewModel() {
     val emotionString = MutableLiveData<String>()
     val emotionImage = MutableLiveData<String>()
     val toolBarDate = MutableLiveData<String>() //월일요일
-    val emotionTypes = MutableLiveData<Map<String, String>>() // 키-값 쌍으로 정의
+    val emotionTypes = MutableLiveData<List<String>>()
     val monthlyStatsUpdater = MonthlyStatsUpdater()
 
     // 전역 변수로 diaryId를 저장
@@ -72,11 +72,7 @@ class DiaryViewModel : ViewModel() {
                 "string" to "", // 감정 상태 (임시 데이터)
                 "string" to "" // 이미지 상태 (임시 데이터)
             ),
-            "emotionTypes" to mapOf(
-                "" to "",
-                "" to "",
-                "" to ""
-            )
+            "emotionTypes" to emotionTypes.value
         ),
         "aiAnalysis" to mapOf(
             "firstAnalysis" to mapOf(
@@ -117,8 +113,7 @@ class DiaryViewModel : ViewModel() {
                 // 감정 키워드 통계 상세
                 val date = getCurrentDate() // 현재 날짜
                 val yyyymmdate = date.substring(0, 7) // "2024-09" 형태로
-                val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? Map<String, String>
-                    ?: emptyMap()
+                val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? List<String> ?: emptyList()
 
                 // 감정 유형에 대한 키워드 카운트 업데이트
                 val statsRef = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$yyyymmdate")
@@ -128,52 +123,30 @@ class DiaryViewModel : ViewModel() {
                 Log.d("DiaryViewModel", "현재 감정 유형: $emotionTypes")
 
                 // 감정 유형들을 순회하면서 처리
-                for ((emotionType, emotionColor) in emotionTypes) {
-                    Log.d("DiaryViewModel", "처리 중인 감정 유형: $emotionType")
-
+                for (emotionType in emotionTypes) {
                     // emotionType에 맞는 키워드를 찾아서 카운트 증가
                     val keywordList = getKeywordListForEmotion(emotionType) ?: continue
-                    Log.d("DiaryViewModel", "해당 감정 유형에 맞는 키워드 리스트: $keywordList")
-
                     for (keyword in keywordList) {
                         // 정확히 매칭된 키워드만 증가시킴
-                        val keywordPath = "keywords/$emotionType/${emotionType}Keyword/$keyword" // 수정된 경로
-                        updates[keywordPath] = ServerValue.increment(1) // 키워드 카운트를 1 증가시킴
-                        Log.d("DiaryViewModel", "키워드 카운트 증가: $keyword, 경로: $keywordPath")
+                        val keywordPath = "keywords/$emotionType/$keyword" // keyword를 감정 유형에 맞게 경로 설정
+                        updates[keywordPath] = ServerValue.increment(1) // 이 부분에서 키워드 카운트를 1 증가시킴
+                        Log.d("DiaryViewModel", "Updating keyword count for: $keyword, path: $keywordPath")
                     }
 
                     // 감정 유형에 대한 카운트를 graph에 기록
-                    val emotionGraphPath = "emotionsGraph/$emotionType" // 수정된 경로
+                    val emotionGraphPath = "emotiongraph/$emotionType"
                     updates[emotionGraphPath] = ServerValue.increment(1) // 감정 유형의 카운트를 1 증가시킴
-                    Log.d("DiaryViewModel", "감정 그래프 카운트 증가: $emotionType, 경로: $emotionGraphPath")
+                    Log.d("DiaryViewModel", "Updated emotion graph for $emotionType at path: $emotionGraphPath")
                 }
 
-                // Firebase에 일괄 업데이트 적용
-                statsRef.updateChildren(updates)
-                    .addOnSuccessListener {
-                        Log.d("DiaryViewModel", "감정 통계 업데이트 성공: $yyyymmdate")
-                    }
-                    .addOnFailureListener {
-                        Log.e("DiaryViewModel", "감정 통계 업데이트 실패", it)
-                    }
-
-                emotionGraphRef.updateChildren(updates)
-                    .addOnSuccessListener {
-                        Log.d("DiaryViewModel", "감정 그래프 업데이트 성공: $yyyymmdate")
-                    }
-                    .addOnFailureListener {
-                        Log.e("DiaryViewModel", "감정 그래프 업데이트 실패", it)
-                    }
-
-                // 감정 유형의 키들만 List<String>으로 변환
-                val emotionTypesList = emotionTypes.keys.toList()
+                statsRef.updateChildren(updates) // updates를 한 번에 반영
 
                 // 월간 통계 업데이트
                 monthlyStatsUpdater.updateMonthlyStats(
                     userId,
                     diaryId!!,
                     yyyymmdate,
-                    emotionTypesList
+                    emotionTypes
                 ) // 월간 통계 업데이트 호출
 
             }.addOnFailureListener {
