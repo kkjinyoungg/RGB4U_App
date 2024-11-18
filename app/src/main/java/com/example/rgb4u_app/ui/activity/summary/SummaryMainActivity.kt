@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.example.rgb4u_appclass.DiaryViewModel
 
 class SummaryMainActivity : AppCompatActivity() {
 
@@ -43,6 +44,7 @@ class SummaryMainActivity : AppCompatActivity() {
         toolbarTitle = findViewById(R.id.dateTextView)
         // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
         val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        Log.d("SummaryMainActivity", "Received TOOLBAR_TITLE: $titleText")
         titleText?.let {
             toolbarTitle.text = it // 툴바 제목 텍스트에 설정
         }
@@ -60,6 +62,8 @@ class SummaryMainActivity : AppCompatActivity() {
 
         val temporaryEmotions = listOf("행복", "슬픔", "분노", "놀람") // emotionChipGroup 확인용 임시 데이터
 
+        val yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
+
         // diaryId, ID 수신
         val diaryId = DiaryViewModel.diaryId
 
@@ -69,7 +73,7 @@ class SummaryMainActivity : AppCompatActivity() {
 
         if (userId != null && diaryId != null) {
             // aiAnalysis 데이터 조회
-            database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
+            database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$yyyymmdd/aiAnalysis/firstAnalysis")
             database.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -87,7 +91,7 @@ class SummaryMainActivity : AppCompatActivity() {
                         thoughtTextView.text = formattedThoughts
 
                         // emotionDegree와 emotionTypes를 userInput에서 가져오기
-                        val userInputRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/userInput")
+                        val userInputRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$yyyymmdd/userInput")
                         userInputRef.addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(userInputSnapshot: DataSnapshot) {
                                 // emotionDegree에서 int와 string 가져오기

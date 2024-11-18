@@ -184,7 +184,7 @@ class DiaryViewModel : ViewModel() {
 
         // (1) AiSummary 호출
         val aiSummary = AiSummary()
-        aiSummary.analyzeDiary(userId, diaryId) {
+        aiSummary.analyzeDiary(userId, diaryId, getCurrentDate()) {
             Log.d("DiaryViewModel", "AiSummary 분석 완료")
 
             // 분석 완료 후 onDiarySaved 호출

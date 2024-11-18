@@ -11,9 +11,9 @@ class DistortionTypeFiller {
     private var dataLoadedListener: (() -> Unit)? = null // 데이터 로드 완료 리스너
 
     // 사용자 ID와 다이어리 ID를 매개변수로 받는 생성자
-    fun initialize(userId: String, diaryId: String) {
-        Log.d("DistortionTypeFiller", "Initializing with userId: $userId, diaryId: $diaryId")
-        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
+    fun initialize(userId: String, date: String) {
+        Log.d("DistortionTypeFiller", "Initializing with userId: $userId, diaryId: $date")
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/aiAnalysis/secondAnalysis/thoughtSets")
         fetchDistortionData()
     }
 

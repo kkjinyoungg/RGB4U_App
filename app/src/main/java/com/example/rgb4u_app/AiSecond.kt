@@ -48,7 +48,7 @@ class AiSecond {
 
         this.setCurrentDate(currentDate)  // currentDate 저장
 
-        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis/thoughts")
+        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$currentDate/aiAnalysis/firstAnalysis/thoughts")
 
         analysisRef.get().addOnSuccessListener { dataSnapshot ->
             Log.d(TAG, "Firebase에서 thoughts 데이터 가져오기 성공")
@@ -292,8 +292,8 @@ class AiSecond {
 
             // DistortionTypeFiller 인스턴스 생성 및 초기화
             val distortionTypeFiller = DistortionTypeFiller()
-            distortionTypeFiller.initialize(userId, diaryId) // 사용자 ID와 다이어리 ID를 전달하여 초기화
-            Log.d("AiSecond", "filler 부름 userId: $userId, diaryId: $diaryId")
+            distortionTypeFiller.initialize(userId, currentDate) // 사용자 ID와 다이어리 ID를 전달하여 초기화
+            Log.d("AiSecond", "filler 부름 userId: $userId, diaryId: $currentDate")
 
             callback()
         }.addOnFailureListener { e ->

@@ -14,7 +14,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-
 class AiSummary {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -23,7 +22,7 @@ class AiSummary {
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
-    fun analyzeDiary(userId: String, diaryId: String, callback: () -> Unit) {
+    fun analyzeDiary(userId: String, diaryId: String, date: String, callback: () -> Unit) {
         val userRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/userInput")
 
         // 파이어베이스에서 situation과 thoughts 가져오기
@@ -142,7 +141,7 @@ class AiSummary {
                         val aiAnalysis = extractAiAnalysis(resultJson)
 
                         // 파이어베이스에 분석 결과 저장
-                        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
+                        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$date/aiAnalysis/firstAnalysis")
                         analysisRef.setValue(aiAnalysis).addOnSuccessListener {
                             Log.d(TAG, "Analysis successfully saved to Firebase.")
                             callback() // 분석 완료 후 콜백 호출
