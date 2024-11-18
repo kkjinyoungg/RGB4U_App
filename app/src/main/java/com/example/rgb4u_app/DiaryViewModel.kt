@@ -52,57 +52,56 @@ class DiaryViewModel : ViewModel() {
             return // diaryId가 null인 경우 return
         }
 
-        // 저장할 데이터 구조
         val diaryData = mapOf(
             "diaryId" to diaryId, // diaryId 추가 //
-            "date" to getCurrentDate(), //yyyy-mm-dd형식 날짜
-            "savingstatus" to "save", // savingstatus 추가 // ️
+            "savingstatus" to "save", // savingstatus 추가 //
             "readingstatus" to "unread", // readingstatus 추가 //
-            "toolbardate" to toolBarDate.value, //월일요일형식 날짜
-        "userInput" to mapOf(
-            "situation" to situation.value,
-            "thoughts" to thoughts.value,
-            "emotionDegree" to mapOf(
-                "int" to emotionDegree.value,
-                "string" to emotionString.value,
-                "string" to emotionImage.value
+            "toolbardate" to toolBarDate.value, // 월일요일 형식 날짜
+            "userInput" to mapOf(
+                "situation" to situation.value,
+                "thoughts" to thoughts.value,
+                "emotionDegree" to mapOf(
+                    "int" to emotionDegree.value,
+                    "string" to emotionString.value,
+                    "emotionimg" to emotionImage.value
+                ),
+                "reMeasuredEmotionDegree" to mapOf(
+                    "int" to 5, // 재측정된 감정 (임시 데이터)
+                    "string" to "", // 감정 상태 (임시 데이터)
+                    "emotionimg" to "" // 이미지 상태 (임시 데이터)
+                ),
+                "emotionTypes" to emotionTypes.value
             ),
-            "reMeasuredEmotionDegree" to mapOf(
-                "int" to 5, // 재측정된 감정 (임시 데이터)
-                "string" to "", // 감정 상태 (임시 데이터)
-                "string" to "" // 이미지 상태 (임시 데이터)
-            ),
-            "emotionTypes" to emotionTypes.value
-        ),
-        "aiAnalysis" to mapOf(
-            "firstAnalysis" to mapOf(
-                "situation" to "", // AI 분석 상황 (빈 데이터로 수정)
-                "thoughts" to "", // AI 분석 생각 (빈 데이터로 수정)
-                "emotion" to "", // AI 분석 감정 (빈 데이터로 수정)
-                "situationReason" to "", // AI 분석 이유 (빈 데이터로 수정)
-                "thoughtsReason" to "" // AI 생각 분석 이유 (빈 데이터로 수정)
-            ),
-            "secondAnalysis" to mapOf(
-                "totalSets" to 0, // 세트 총 개수 (임시 데이터)
-                "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
-                "thoughtSets" to mapOf(
-                    "이름성" to listOf( // 리스트로 변경 //
-                        mapOf(
-                            "alternativeThoughts" to "",
-                            "alternativeThoughtsReason" to "",
-                            "characterDescription" to listOf(
-                                "",
-                                ""
-                            ),
-                            "charactersReason" to "",
-                            "imageResource" to "",
-                            "selectedThoughts" to ""
+            "aiAnalysis" to mapOf(
+                "firstAnalysis" to mapOf(
+                    "situation" to "", // AI 분석 상황 (빈 데이터로 수정)
+                    "thoughts" to "", // AI 분석 생각 (빈 데이터로 수정)
+                    "emotion" to "", // AI 분석 감정 (빈 데이터로 수정)
+                    "situationReason" to "", // AI 분석 이유 (빈 데이터로 수정)
+                    "thoughtsReason" to "" // AI 생각 분석 이유 (빈 데이터로 수정)
+                ),
+                "secondAnalysis" to mapOf(
+                    "totalSets" to 0, // 세트 총 개수 (임시 데이터)
+                    "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
+                    "thoughtSets" to mapOf(
+                        "이름성" to listOf( // 리스트로 변경
+                            mapOf(
+                                "alternativeThoughts" to "",
+                                "alternativeThoughtsReason" to "",
+                                "characterDescription" to listOf(
+                                    "",
+                                    ""
+                                ),
+                                "charactersReason" to "",
+                                "imageResource" to "",
+                                "selectedThoughts" to ""
+                            )
                         )
                     )
                 )
             )
         )
-        )
+
 
         // 데이터 저장
         database.child(diaryId!!).setValue(diaryData)
