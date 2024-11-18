@@ -126,6 +126,8 @@ class SummaryMainActivity : AppCompatActivity() {
                                 val emotionTypesList = userInputSnapshot.child("emotionTypes").children.mapNotNull { it.getValue(String::class.java) }
                                 val emotionTypes = emotionTypesList.joinToString(", ") // 리스트를 문자열로 변환
 
+                                // AI 분석 감정용 emotion 리스트 가져오기 ()
+                                val emotionsList = dataSnapshot.child("emotion").children.mapNotNull { it.getValue(String::class.java) }
 
                                 // 감정 강도와 감정 종류를 로그에 출력
                                 Log.d("SummaryMainActivity", "감정 강도: $emotionDegreeInt ($emotionDegreeString), 감정 종류: $emotionTypes")
@@ -162,9 +164,8 @@ class SummaryMainActivity : AppCompatActivity() {
                                     selectedChipGroup.addView(chip)
                                 }
 
-
                                 // emotionChipGroup에 감정 추가
-                                for (emotion in temporaryEmotionsList) {
+                                for (emotion in emotionsList) {
                                     val chip = layoutInflater.inflate(R.layout.summary_single_chip, emotionChipGroup, false) as Chip
                                     chip.text = emotion
                                     chip.isCloseIconVisible = false // 닫기 아이콘 숨기기
