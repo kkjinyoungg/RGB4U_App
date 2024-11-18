@@ -107,7 +107,7 @@ class DiaryViewModel : ViewModel() {
 
 
         // 데이터 저장
-        database.child(diaryId!!).setValue(diaryData)
+        database.setValue(diaryData)
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공: $diaryId")
                 analyzeDiaryWithAI(userId, diaryId!!, getCurrentDate()) // AI 분석 호출
