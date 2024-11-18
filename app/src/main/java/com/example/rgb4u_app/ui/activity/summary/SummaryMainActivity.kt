@@ -52,6 +52,7 @@ class SummaryMainActivity : AppCompatActivity() {
         val situationTextView = findViewById<TextView>(R.id.situationTextView)
         val thoughtTextView = findViewById<TextView>(R.id.thoughtTextView)
         val emotionIntensityTextView = findViewById<TextView>(R.id.emotionIntensityTextView)
+        val emotionIntensityTextView02 = findViewById<TextView>(R.id.emotionIntensityTextView02)
         val emotionTypeTextView = findViewById<TextView>(R.id.emotionTypeTextView)
         val emotionIntensityImageView = findViewById<ImageView>(R.id.emotionIntensityImageView)
 
@@ -110,9 +111,10 @@ class SummaryMainActivity : AppCompatActivity() {
                                 emotionIntensityImageView.setImageResource(getEmotionImageResource(emotionDegreeString))
 
                                 // TextView에 감정 강도 중 숫자
-                                emotionIntensityTextView.text = "${emotionDegreeInt}단계"
+                                emotionIntensityTextView.text = "${emotionDegreeInt + 1}단계"
 
                                 //$emotionDegreeString (심했어)-> 프론트 생기면 연결예정
+                                emotionIntensityTextView02.text = "$emotionDegreeString"
 
                                 //감정 종류 연결 코드 바꿀 예정
                                 //emotionTypeTextView.text = emotionTypes
@@ -252,11 +254,11 @@ class SummaryMainActivity : AppCompatActivity() {
     // emotionimg 값에 따라 적절한 이미지 리소스를 반환하는 함수
     private fun getEmotionImageResource(emotionImg: String): Int {
         return when (emotionImg) {
+            "img_emotion_0" -> R.drawable.img_emotion_0
             "img_emotion_1" -> R.drawable.img_emotion_1
             "img_emotion_2" -> R.drawable.img_emotion_2
             "img_emotion_3" -> R.drawable.img_emotion_3
-            "img_emotion_4" -> R.drawable.img_emotion_4
-            else -> R.drawable.img_emotion_2 // 기본 이미지 설정
+            else -> R.drawable.img_emotion_4 // 4번 이미지 설정
         }
     }
 }
