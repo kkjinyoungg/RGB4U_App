@@ -107,7 +107,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 Log.d("SummaryMainActivity", "감정 강도: $emotionDegreeInt ($emotionDegreeString), 감정 종류: $emotionTypes")
 
                                 //요약 화면 이미지 바꾸는 코드
-                                emotionIntensityImageView.setImageResource(getImageResId(emotionDegreeInt))
+                                emotionIntensityImageView.setImageResource(getEmotionImageResource(emotionDegreeString))
 
                                 // TextView에 감정 강도 중 숫자
                                 emotionIntensityTextView.text = "${emotionDegreeInt}단계"
@@ -256,7 +256,7 @@ class SummaryMainActivity : AppCompatActivity() {
             "img_emotion_2" -> R.drawable.img_emotion_2
             "img_emotion_3" -> R.drawable.img_emotion_3
             "img_emotion_4" -> R.drawable.img_emotion_4
-            else -> R.drawable.default_emotion_image // 기본 이미지 설정
+            else -> R.drawable.img_emotion_2 // 기본 이미지 설정
         }
     }
 }

@@ -179,28 +179,24 @@ class CalendarFragment : Fragment() {
 
                 if (snapshot.exists()) {
                     for (diarySnapshot in snapshot.children) {
-                        val diaryData = diarySnapshot.getValue(Map::class.java)
+                        // Map<String, Any>로 명시적으로 타입을 지정
+                        val diaryData = diarySnapshot.getValue(Map::class.java) as? Map<String, Any>
                         diaryData?.let {
                             val date = it["date"] as? String ?: return@let
                             val day = date.split("-")[2].toIntOrNull() ?: return@let
-                            val emotionDegree = (it["userInput"] as? Map<*, *>)?.get("emotionDegree") as? Map<*, *>?
-                            ?.get("int") as? Int ?: 0
+
+                            // emotionDegree와 관련된 타입 수정
+                            val userInput = it["userInput"] as? Map<String, Any> ?: return@let
+                            val emotionDegree = (userInput["emotionDegree"] as? Map<String, Any>)
+                                ?.get("int") as? Int ?: 0
 
                             daysWithDiary.add(day)
                             addStampToCalendar(day, emotionDegree)
                         }
                     }
                 }
-
-                // 일기 데이터가 없는 날짜에 빈 도장을 찍어줍니다.
-                for (day in 1..currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                    if (day !in daysWithDiary) {
-                        addBlankStampToCalendar(day)
-                    }
-                }
             }
     }
-
 
     private fun addBlankStampToCalendar(day: Int) {
         val today = Calendar.getInstance()

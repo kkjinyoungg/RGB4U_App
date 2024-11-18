@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.activity.diary
 
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
