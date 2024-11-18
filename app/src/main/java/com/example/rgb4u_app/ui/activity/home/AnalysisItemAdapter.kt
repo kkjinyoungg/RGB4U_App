@@ -41,6 +41,7 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
         }
     }
 
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = analysisList[position]
 

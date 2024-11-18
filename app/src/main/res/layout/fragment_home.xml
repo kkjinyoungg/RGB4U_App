@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mainConstraintLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -155,14 +156,14 @@
         app:layout_constraintTop_toBottomOf="@+id/mainCharacterContainer" />
 
     <TextView
-        android:id="@+id/notificationCount"
+        android:id="@+id/notificationCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:gravity="center"
         android:padding="4dp"
         android:text="5"
-        android:textColor="@color/black"
+        android:textColor="@color/blue2"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/homeNotificationLabel"
         app:layout_constraintStart_toEndOf="@+id/homeNotificationLabel"

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,10 @@ class HomeFragment : Fragment() {
     private lateinit var textBox: TextView
     private lateinit var dateTextView: TextView
     private lateinit var dDayTextView: TextView // moodScoreTextView를 dDayTextView로 변경
+    private lateinit var mainConstraintLayout: ConstraintLayout
+    private lateinit var mainCharacterContainer: ImageView
+    private var notificationCount = 0 // 알림 개수를 저장하는 변수
+    private lateinit var notificationCountText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +61,7 @@ class HomeFragment : Fragment() {
         textBox = view.findViewById(R.id.textBox)
         dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
         dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
+        notificationCountText = view.findViewById((R.id.notificationCountText))
 
 
         // refreshIcon 클릭 리스너 추가
@@ -70,10 +76,25 @@ class HomeFragment : Fragment() {
         // 앱 설치 날짜를 기반으로 디데이 계산
         calculateDDay()
 
+
+        // 이미지 리소스 변경: 상황에 따른 조건은 추가해야함... 기본 코드~..
+        // 전체 레이아웃 참조
+        mainConstraintLayout = view.findViewById(R.id.mainConstraintLayout)  // 전체 레이아웃의 ID
+        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)  // 전체 레이아웃의 이미지 리소스 변경
+        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
+        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+
+
+        //캐릭터 이미지뷰 리소스 변화
+        mainCharacterContainer = view.findViewById(R.id.mainCharacterContainer)
+        //mainCharacterContainer.setImageResource(R.drawable.your_image_name) // 캐릭터 이미지뷰 이미지 리소스 변경
+
+
         // RecyclerView 초기화
         val recyclerView: RecyclerView = view.findViewById(R.id.analysisRecyclerView)
         // LayoutManager를 수평 방향으로 설정
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
 
 
         // 데이터를 준비 (예시)
@@ -86,6 +107,18 @@ class HomeFragment : Fragment() {
         // 어댑터 설정
         val adapter = AnalysisItemAdapter(analysisList)
         recyclerView.adapter = adapter
+
+        // RecyclerView 아이템 개수를 가져와 notificationCount 업데이트
+        updateNotificationCount(adapter)
+    }
+
+    private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
+        // 아이템 개수를 가져와 notificationCount에 저장
+        notificationCount = adapter.itemCount
+
+        // notificationCount를 사용하는 로직 추가 (예: 텍스트뷰 업데이트)
+        notificationCountText.text = "$notificationCount"
+        notificationCountText.visibility = View.VISIBLE
     }
 
     private fun updateDateAndDay() {
@@ -117,9 +150,11 @@ class HomeFragment : Fragment() {
     private fun changeMessage() {
         val messages = arrayOf(
             "안녕하세요! 반가워요!",
-            "오늘 하루는 어땠나요?",
+            "오늘은 어떤 하루를 보냈나요?",
             "어떤 도움이 필요하신가요?",
-            "서진아, 오늘은 햇버거가 땡기는 날이야."
+            "서진아, 오늘은 햄버거가 땡기는 날이야.",
+            "일기를 썼어요 고정멘트",
+            "분석 결과 나옴 고정멘트"
         )
 
         val randomIndex = Random.nextInt(messages.size)
