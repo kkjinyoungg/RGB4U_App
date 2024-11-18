@@ -18,7 +18,7 @@ class AiSummary {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val client = OkHttpClient()
-    private val apiKey = "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"  // API 키 설정 (따옴표 안에 키 넣기)
+    private val apiKey = ""  // API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSummary" // Logging Tag
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
@@ -48,7 +48,7 @@ class AiSummary {
 
     참고할 정의와 예시는 다음과 같아요:
 
-    감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이에요. 예를 들어, '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다' 등의 키워드가 있어요. 이러한 키워드를 잘 식별해 주세요. 
+    감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이에요. 예를 들어, '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다' 등의 키워드가 있어요. 이러한 키워드를 잘 식별해 주세요. 감정이 여러 개 있다면 리스트 형태로 표현해 주세요.
     상황: 상황은 개인이 경험한 실제 사건이나 환경을 설명하는 문장이에요. 예를 들어, '친구와 밥을 먹었어', '시험 공부를 했어' 같은 문장이에요.
     생각: 생각은 특정 상황에 대한 개인의 즉각적인 반응이나 해석을 나타내는 문장이에요. 예를 들어, '나는 친구가 나를 싫어하는 것 같아', '나는 시험을 망친 게 내 탓이라고 생각해'처럼 사람의 말투로 부드럽게 표현해 주세요.
 
@@ -70,8 +70,9 @@ class AiSummary {
         "type": "object",
         "properties": {
             "emotion": {
-                "type": "string",
-                "description": "Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "List of emotions identified in the text, e.g., ['슬프다', '화가 나다']. Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
             },
             "situation": {
                 "type": "string",
@@ -160,7 +161,7 @@ class AiSummary {
     }
 
     // ChatGPT API 응답에서 분석 결과 추출하는 함수
-    private fun extractAiAnalysis(resultJson: JSONObject): Map<String, String> {
+    private fun extractAiAnalysis(resultJson: JSONObject): Map<String, Any> { // 반환 타입 수정
         val choices = resultJson.getJSONArray("choices")
         val message = choices.getJSONObject(0).getJSONObject("message")
 
@@ -173,18 +174,22 @@ class AiSummary {
         val argumentsString = message.getJSONObject("function_call").getString("arguments")
         val arguments = JSONObject(argumentsString)
 
-        val emotion = arguments.getString("emotion")
+        // emotion을 리스트로 변환
+        val emotionString = arguments.getString("emotion")
+        val emotionList = emotionString.split(",").map { it.trim() } // 콤마로 구분하여 리스트로 변환
+
         val situation = arguments.getString("situation")
         val thoughts = arguments.getString("thoughts")
         val situationReason = arguments.getString("situationReason")
         val thoughtsReason = arguments.getString("thoughtsReason")
 
         return mapOf(
-            "emotion" to emotion,
+            "emotion" to emotionList, // 리스트로 반환
             "situation" to situation,
             "thoughts" to thoughts,
             "situationReason" to situationReason,
             "thoughtsReason" to thoughtsReason
         )
     }
+
 }

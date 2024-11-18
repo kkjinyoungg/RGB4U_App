@@ -84,8 +84,6 @@ class SummaryMainActivity : AppCompatActivity() {
         val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
         val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
 
-        val temporaryEmotions = listOf("행복", "슬픔", "분노", "놀람") // emotionChipGroup 확인용 임시 데이터
-
         val yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
 
         // diaryId, ID 수신
@@ -128,6 +126,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 val emotionTypesList = userInputSnapshot.child("emotionTypes").children.mapNotNull { it.getValue(String::class.java) }
                                 val emotionTypes = emotionTypesList.joinToString(", ") // 리스트를 문자열로 변환
 
+
                                 // 감정 강도와 감정 종류를 로그에 출력
                                 Log.d("SummaryMainActivity", "감정 강도: $emotionDegreeInt ($emotionDegreeString), 감정 종류: $emotionTypes")
 
@@ -165,7 +164,7 @@ class SummaryMainActivity : AppCompatActivity() {
 
 
                                 // emotionChipGroup에 감정 추가
-                                for (emotion in temporaryEmotions) {
+                                for (emotion in temporaryEmotionsList) {
                                     val chip = layoutInflater.inflate(R.layout.summary_single_chip, emotionChipGroup, false) as Chip
                                     chip.text = emotion
                                     chip.isCloseIconVisible = false // 닫기 아이콘 숨기기

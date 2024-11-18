@@ -79,7 +79,7 @@ class DiaryViewModel : ViewModel() {
                 "firstAnalysis" to mapOf(
                     "situation" to "", // AI 분석 상황 (빈 데이터로 수정)
                     "thoughts" to "", // AI 분석 생각 (빈 데이터로 수정)
-                    "emotion" to "", // AI 분석 감정 (빈 데이터로 수정)
+                    "emotion" to to listOf<String>(), // AI 분석 감정 (빈 데이터로 수정)
                     "situationReason" to "", // AI 분석 이유 (빈 데이터로 수정)
                     "thoughtsReason" to "" // AI 생각 분석 이유 (빈 데이터로 수정)
                 ),
