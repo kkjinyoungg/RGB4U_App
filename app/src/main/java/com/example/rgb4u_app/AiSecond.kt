@@ -76,7 +76,7 @@ class AiSecond {
                             // 필터링된 결과가 존재할 경우
                             val secondAnalysis = createSecondAnalysis(filteredResults)
                             //저장 함수
-                            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            saveSecondAnalysis(userId, diaryId, currentDate, secondAnalysis, callback)
                         }
                     }
                 }
@@ -281,8 +281,8 @@ class AiSecond {
         )
     }
 
-    private fun saveSecondAnalysis(userId: String, diaryId: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
-        val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
+    private fun saveSecondAnalysis(userId: String, diaryId: String, currentDate: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
+        val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$currentDate/aiAnalysis/secondAnalysis")
 
         // secondAnalysis의 내용을 로그로 출력
         Log.d(TAG, "저장할 secondAnalysis 데이터: $secondAnalysis")
@@ -313,7 +313,7 @@ class AiSecond {
             "totalCharacters" to 0,
             "thoughtSets" to mapOf("유형 없음" to "분석할 내용이 없습니다.")
         )
-        saveSecondAnalysis(userId, diaryId, defaultAnalysis, callback)
+        saveSecondAnalysis(userId, diaryId, currentDate, defaultAnalysis, callback)
     }
     private fun notifyUser(message: String) {
         // 예: Toast 메시지로 사용자에게 알림

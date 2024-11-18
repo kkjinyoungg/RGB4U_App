@@ -13,7 +13,7 @@ class MonthlyDistortionUpdater {
     private val TAG = "MonthlyDistortionUpdater" // TAG 정의
 
     fun saveThoughtsToFirebase(userId: String, diaryId: String, diaryDate: String, currentDate: String) {
-        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, diaryId = $diaryId")
+        Log.d(TAG, "saveThoughtsToFirebase 호출: userId = $userId, diaryDate = $diaryDate")
 
         distortionDate = diaryDate
         saveDate = currentDate
@@ -22,7 +22,7 @@ class MonthlyDistortionUpdater {
         val firebaseDatabase = FirebaseDatabase.getInstance()
 
         // Firebase 참조 설정
-        val diaryRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis/thoughtSets")
+        val diaryRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryDate/aiAnalysis/secondAnalysis/thoughtSets")
         diaryRef.get().addOnSuccessListener { dataSnapshot ->
             if (dataSnapshot.exists()) {
                 val planetThoughts = mutableMapOf<String, MutableList<Pair<String, String>>>() // text와 date를 저장할 List 사용

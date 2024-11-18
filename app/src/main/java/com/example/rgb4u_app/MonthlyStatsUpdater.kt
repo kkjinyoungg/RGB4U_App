@@ -18,7 +18,7 @@ class MonthlyStatsUpdater {
 
     // 다이어리 ID와 날짜를 기반으로 월간 통계 업데이트
     fun updateMonthlyStats(userId: String, diaryId: String, date: String, emotionTypes: List<String>) {
-        val database: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId")
+        val database: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$date")
 
         // 월 정보를 추출
         val monthlyStatsRef = firebaseDatabase.getReference("users/$userId/monthlyStats/$date")

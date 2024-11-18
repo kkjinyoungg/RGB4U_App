@@ -24,18 +24,18 @@ class DistortionTypeActivity : AppCompatActivity() {
     private lateinit var distortionTypeFiller: DistortionTypeFiller
 
     private lateinit var userId: String // lateinit으로 선언
-    private lateinit var diaryId: String // lateinit으로 선언
+    private lateinit var date: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distortion_type)
 
         // Intent에서 사용자 ID와 다이어리 ID 가져오기
-        val userId = intent.getStringExtra("USER_ID") ?: ""
-        val diaryId = intent.getStringExtra("DIARY_ID") ?: ""
+        userId = intent.getStringExtra("USER_ID") ?: ""
+        date = intent.getStringExtra("Date") ?: ""
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
-        Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
+        Log.d("DistortionTypeActivity", "Received Diary ID: $date")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
         setSupportActionBar(toolbar)
@@ -47,7 +47,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = getCurrentDate()
 
         viewPager = findViewById(R.id.view_pager)
-        pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, diaryId)
+        pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, date)
         viewPager.adapter = pagerAdapter
 
         Log.d("DistortionTypeActivity", "ViewPager initialized: $viewPager")
@@ -71,7 +71,7 @@ class DistortionTypeActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 intent.putExtra("USER_ID", userId)
-                intent.putExtra("DIARY_ID", diaryId) // userId, diaryId보내기
+                intent.putExtra("DIARY_ID", date) // userId, date보내기
                 startActivity(intent)
             }
         }
@@ -96,7 +96,7 @@ class DistortionTypeActivity : AppCompatActivity() {
 
         // DistortionTypeFiller 초기화 및 데이터 로드
         distortionTypeFiller = DistortionTypeFiller()
-        distortionTypeFiller.initialize(userId, diaryId) // 전달받은 ID 사용
+        distortionTypeFiller.initialize(userId, date) // 전달받은 ID 사용
         Log.d("DistortionTypeActivity", "DistortionTypeFiller initialized")
 
         // 데이터가 로드된 후 UI 갱신

@@ -71,7 +71,7 @@ class SummaryMainActivity : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
 
-        if (userId != null && diaryId != null) {
+        if (userId != null && yyyymmdd != null) {
             // aiAnalysis 데이터 조회
             database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$yyyymmdd/aiAnalysis/firstAnalysis")
             database.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -222,7 +222,7 @@ class SummaryMainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.situationDetailButton).setOnClickListener {
             // SummarySituationActivity로 이동
             val intent = Intent(this, SummarySituationActivity::class.java)
-            intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
+            intent.putExtra("Date", yyyymmdd) // diaryId를 Intent에 추가
             startActivity(intent)
         }
 
@@ -230,7 +230,7 @@ class SummaryMainActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.thoughtDetailButton).setOnClickListener {
             // SummaryThinkActivity로 이동
             val intent = Intent(this, SummaryThinkActivity::class.java)
-            intent.putExtra("DIARY_ID", diaryId) // diaryId를 Intent에 추가
+            intent.putExtra("Date", yyyymmdd) // diaryId를 Intent에 추가
             startActivity(intent)
         }
 
@@ -239,9 +239,9 @@ class SummaryMainActivity : AppCompatActivity() {
             // DistortionTypeActivity로 이동
             val intent = Intent(this, DistortionTypeActivity::class.java)
             if (userId != null) intent.putExtra("USER_ID", userId)
-            if (diaryId != null) intent.putExtra("DIARY_ID", diaryId)
+            if (yyyymmdd != null) intent.putExtra("Date", yyyymmdd)
 
-            Log.d("SummaryMainActivity", "Navigating to DistortionTypeActivity with User ID: $userId and Diary ID: $diaryId")
+            Log.d("SummaryMainActivity", "Navigating to DistortionTypeActivity with User ID: $userId and Diary ID: $yyyymmdd")
 
             startActivity(intent)
             finish()

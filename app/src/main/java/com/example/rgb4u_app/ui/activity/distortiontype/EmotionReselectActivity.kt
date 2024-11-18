@@ -26,7 +26,7 @@ class EmotionReselectActivity : AppCompatActivity() {
 
     // 사용자 ID와 일기 ID를 저장할 변수
     private lateinit var userId: String
-    private lateinit var diaryId: String
+    private lateinit var date: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +37,11 @@ class EmotionReselectActivity : AppCompatActivity() {
 
         // Intent로부터 사용자 ID와 일기 ID 받아오기
         userId = intent.getStringExtra("userId") ?: ""
-        diaryId = intent.getStringExtra("diaryId") ?: ""
+        date = intent.getStringExtra("date") ?: ""
 
         // userId와 diaryId 확인을 위해 로그 출력
         Log.d("EmotionReselectActivity", "Received User ID: $userId")
-        Log.d("EmotionReselectActivity", "Received Diary ID: $diaryId")
+        Log.d("EmotionReselectActivity", "Received Diary ID: $date")
 
         // 뷰 초기화
         dynamicTextView = findViewById(R.id.dynamicTextView)
@@ -91,7 +91,7 @@ class EmotionReselectActivity : AppCompatActivity() {
             val reMeasuredEmotionDegreeString = dynamicTextView.text.toString()
 
             // Firebase에 데이터 저장
-            database.child("users").child(userId).child("diaries").child(diaryId)
+            database.child("users").child(userId).child("diaries").child(date)
                 .child("userInput").child("reMeasuredEmotionDegree").setValue(
                     mapOf(
                         "int" to reMeasuredEmotionDegreeInt,

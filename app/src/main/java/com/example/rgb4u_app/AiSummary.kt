@@ -23,7 +23,7 @@ class AiSummary {
 
     // 특정 diaryId의 situation과 thoughts를 가져와 ChatGPT API로 분석 후 저장하는 함수
     fun analyzeDiary(userId: String, diaryId: String, date: String, callback: () -> Unit) {
-        val userRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/userInput")
+        val userRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$date/userInput")
 
         // 파이어베이스에서 situation과 thoughts 가져오기
         userRef.get().addOnSuccessListener { dataSnapshot ->
