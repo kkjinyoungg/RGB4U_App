@@ -23,6 +23,7 @@ class DiaryViewModel : ViewModel() {
     val thoughts = MutableLiveData<String>()
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
+    val emotionImage = MutableLiveData<String>()
     val emotionTypes = MutableLiveData<List<String>>()
     val monthlyStatsUpdater = MonthlyStatsUpdater()
 
@@ -36,8 +37,8 @@ class DiaryViewModel : ViewModel() {
 
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
-        // 파이어베이스 참조
-        val database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
+        // 날짜를 가져옵니다.
+        val currentDate = getCurrentDate()
 
         // 일기 아이디를 생성
         diaryId = database.push().key // diaryId 변수를 업데이트
@@ -46,21 +47,34 @@ class DiaryViewModel : ViewModel() {
             return // diaryId가 null인 경우 return
         }
 
+        // 파이어베이스 참조
+        val database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$currentDate/$diaryId")
+
+
         // 저장할 데이터 구조
         val diaryData = mapOf(
+            "diaryId" to diaryId, // diaryId 추가 //
             "date" to getCurrentDate(), // 현재 날짜 추가
+            "savingstatus" to "", // savingstatus 추가 // ️
+            "readingstatus" to "", // readingstatus 추가 //
             "userInput" to mapOf(
                 "situation" to situation.value,
                 "thoughts" to thoughts.value,
                 "emotionDegree" to mapOf(
                     "int" to emotionDegree.value,
                     "string" to emotionString.value
+                    "string" to emotionImage.value
                 ),
                 "reMeasuredEmotionDegree" to mapOf(
                     "int" to 5, // 재측정된 감정 (임시 데이터)
-                    "string" to "보통" // 감정 상태 (임시 데이터)
+                    "string" to "" // 감정 상태 (임시 데이터)
+                    "string" to "" // 이미지 상태 (임시 데이터)
                 ),
-                "emotionTypes" to emotionTypes.value
+                "emotionTypes" to mapOf(
+                    "행복" to "#FF5577",
+                    "기쁨" to "#FFD700",
+                    "슬픔" to "#FFD700"
+                )
             ),
             "aiAnalysis" to mapOf(
                 "firstAnalysis" to mapOf(
@@ -74,28 +88,17 @@ class DiaryViewModel : ViewModel() {
                     "totalSets" to 0, // 세트 총 개수 (임시 데이터)
                     "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
                     "thoughtSets" to mapOf(
-                        "1" to mapOf(
-                            "selectedThoughts" to "",
-                            "characters" to mapOf(
-                                "int" to 5,
-                                "string" to "보통"
-                            ),
-                            "reasoning" to mapOf(
-                                "charactersReason" to "인지적 오류 나온 이유",
-                                "alternativeThoughts" to "대안적 생각 문장",
-                                "alternativeThoughtsReason" to "대안적 생각 이유"
-                            )
-                        ),
-                        "2" to mapOf(
-                            "selectedThoughts" to "",
-                            "characters" to mapOf(
-                                "int" to 5,
-                                "string" to "보통"
-                            ),
-                            "reasoning" to mapOf(
-                                "charactersReason" to "인지적 오류 나온 이유",
-                                "alternativeThoughts" to "대안적 생각 문장",
-                                "alternativeThoughtsReason" to "대안적 생각 이유"
+                        "이름성" to listOf( // 리스트로 변경 //
+                            mapOf(
+                                "alternativeThoughts" to "",
+                                "alternativeThoughtsReason" to "",
+                                "characterDescription" to listOf(
+                                    "",
+                                    ""
+                                ),
+                                "charactersReason" to "",
+                                "imageResource" to "",
+                                "selectedThoughts" to ""
                             )
                         )
                     )
@@ -145,7 +148,6 @@ class DiaryViewModel : ViewModel() {
             }
     }
 
-    // AI 분석을 수행하는 함수
     // AI 분석을 수행하는 함수
     private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId")

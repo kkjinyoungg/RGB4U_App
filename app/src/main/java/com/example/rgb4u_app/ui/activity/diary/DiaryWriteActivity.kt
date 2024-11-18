@@ -47,6 +47,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
+        diaryViewModel = (application as MyApplication).diaryViewModel
 
         // Intent로 전달된 날짜 정보 받기
         val selectedYear = intent.getStringExtra("SELECTED_YEAR") //yyyy 값 받기

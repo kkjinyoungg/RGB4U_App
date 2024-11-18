@@ -86,6 +86,8 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
                 // ViewModel에 감정 정도 값, 텍스트 저장
                 diaryViewModel.emotionDegree.postValue(progress) // 감정 정도 저장
                 diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+                // 감정 단계에 따라 이미지 문자열 저장
+                diaryViewModel.emotionImage.postValue("img_emotion_$progress") // 이미지 문자열 저장
 
                 // 감정 단계에 따라 이미지 변경
                 squareView.setImageResource(getImageResId(progress))
