@@ -36,6 +36,30 @@ class SummaryMainActivity : AppCompatActivity() {
     private val diaryViewModel: DiaryViewModel by viewModels()
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
+    // 감정 타입별 상위 카테고리 매핑
+    private val emotionCategoryMap = mapOf(
+        "움찔하는" to "Surprise", "황당한" to "Surprise", "깜짝 놀란" to "Surprise",
+        "어안이 벙벙한" to "Surprise", "아찔한" to "Surprise", "충격적인" to "Surprise",
+        "걱정스러운" to "Fear", "긴장된" to "Fear", "불안한" to "Fear",
+        "겁나는" to "Fear", "무서운" to "Fear", "암담한" to "Fear",
+        "기운 없는" to "Sadness", "서운한" to "Sadness", "슬픈" to "Sadness",
+        "눈물이 나는" to "Sadness", "우울한" to "Sadness", "비참한" to "Sadness",
+        "약 오른" to "Anger", "짜증나는" to "Anger", "화난" to "Anger",
+        "억울한" to "Anger", "분한" to "Anger", "끓어오르는" to "Anger",
+        "정 떨어지는" to "Disgust", "불쾌한" to "Disgust", "싫은" to "Disgust",
+        "모욕적인" to "Disgust", "못마땅한" to "Disgust", "미운" to "Disgust"
+    )
+
+    // Chip 배경색 가져오기 함수
+    private fun getChipColor(category: String) = when (category) {
+        "Surprise" -> getColorStateList(R.color.surpriseColor_dark)
+        "Fear" -> getColorStateList(R.color.fearColor_dark)
+        "Sadness" -> getColorStateList(R.color.sadnessColor_dark)
+        "Anger" -> getColorStateList(R.color.angerColor_dark)
+        "Disgust" -> getColorStateList(R.color.disgustColor_dark)
+        else -> getColorStateList(R.color.defaultChipColor) // 기본 색상
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary_main)
@@ -121,6 +145,7 @@ class SummaryMainActivity : AppCompatActivity() {
 
                                 //selectedChipGroup에 감정 추가
                                 for (emotion in emotionTypesList) {
+                                    val category = emotionCategoryMap[emotion] ?: "default" // 감정의 상위 카테고리 찾기
                                     val chip = Chip(this@SummaryMainActivity).apply {
                                         text = emotion
                                         isCloseIconVisible = false // 닫기 아이콘 숨기기
@@ -132,10 +157,12 @@ class SummaryMainActivity : AppCompatActivity() {
                                             .build()
 
                                         setTextColor(ContextCompat.getColor(this@SummaryMainActivity, R.color.white)) // 텍스트 색상
+                                        chipBackgroundColor = getChipColor(category) // 배경색 설정
                                     }
                                     // 선택한 감정 추가
                                     selectedChipGroup.addView(chip)
                                 }
+
 
                                 // emotionChipGroup에 감정 추가
                                 for (emotion in temporaryEmotions) {
@@ -198,14 +225,6 @@ class SummaryMainActivity : AppCompatActivity() {
             situationTextView.text = "일기 ID를 찾을 수 없음"
             thoughtTextView.text = "일기 ID를 찾을 수 없음"
         }
-
-        /* 감정 강도 이미지 리소스 ID 관찰
-        diaryViewModel.emotionImageResId.observe(this) { imageResId ->
-            imageResId?.let {
-                // ImageView에 이미지 설정
-                emotionIntensityImageView.setImageResource(it)
-            }
-        }*/
 
         // Back 버튼 클릭 리스너 설정
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
