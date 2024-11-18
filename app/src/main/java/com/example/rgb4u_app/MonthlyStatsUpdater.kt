@@ -21,8 +21,7 @@ class MonthlyStatsUpdater {
         val database: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId")
 
         // 월 정보를 추출
-        val month = date.substring(0, 7) // "2024-09" 형태로
-        val monthlyStatsRef = firebaseDatabase.getReference("users/$userId/monthlyStats/$month")
+        val monthlyStatsRef = firebaseDatabase.getReference("users/$userId/monthlyStats/$date")
 
         // 로그 추가 - 월간 통계 업데이트 시작
         Log.d("MonthlyStatsUpdater", "updateMonthlyStats 호출됨: userId = $userId, diaryId = $diaryId, date = $date, emotionTypes = $emotionTypes")

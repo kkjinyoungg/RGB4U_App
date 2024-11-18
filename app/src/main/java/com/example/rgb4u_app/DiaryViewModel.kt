@@ -15,7 +15,7 @@ import com.example.rgb4u_app.MonthlyDistortionUpdater
 
 class DiaryViewModel : ViewModel() {
 
-    //toolbarTitle의 날짜 저장
+    //yyyy-mm-dd날짜 저장
     var diaryDate: String? = null
 
     // LiveData로 상황, 생각, 감정 정보를 저장
@@ -24,6 +24,7 @@ class DiaryViewModel : ViewModel() {
     val emotionDegree = MutableLiveData<Int>()
     val emotionString = MutableLiveData<String>()
     val emotionImage = MutableLiveData<String>()
+    val toolBarDate = MutableLiveData<String>() //월일요일
     val emotionTypes = MutableLiveData<Map<String, String>>() // 키-값 쌍으로 정의
     val monthlyStatsUpdater = MonthlyStatsUpdater()
 
@@ -40,6 +41,10 @@ class DiaryViewModel : ViewModel() {
         // 날짜를 가져옵니다.
         val currentDate = getCurrentDate()
 
+        // 파이어베이스 참조
+        val database = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$currentDate")
+
         // 일기 아이디를 생성
         diaryId = database.push().key // diaryId 변수를 업데이트
         if (diaryId == null) {
@@ -47,109 +52,134 @@ class DiaryViewModel : ViewModel() {
             return // diaryId가 null인 경우 return
         }
 
-        // 파이어베이스 참조
-        val database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$currentDate/$diaryId")
-
-
         // 저장할 데이터 구조
         val diaryData = mapOf(
             "diaryId" to diaryId, // diaryId 추가 //
-            "date" to getCurrentDate(), // 현재 날짜 추가
-            "savingstatus" to "", // savingstatus 추가 // ️
-            "readingstatus" to "", // readingstatus 추가 //
-            "userInput" to mapOf(
-                "situation" to situation.value,
-                "thoughts" to thoughts.value,
-                "emotionDegree" to mapOf(
-                    "int" to emotionDegree.value,
-                    "string" to emotionString.value
-                    "string" to emotionImage.value
-                ),
-                "reMeasuredEmotionDegree" to mapOf(
-                    "int" to 5, // 재측정된 감정 (임시 데이터)
-                    "string" to "" // 감정 상태 (임시 데이터)
-                    "string" to "" // 이미지 상태 (임시 데이터)
-                ),
-                "emotionTypes" to mapOf(
-                    "" to "",
-                    "" to "",
-                    "" to ""
-                )
+            "date" to getCurrentDate(), //yyyy-mm-dd형식 날짜
+            "savingstatus" to "save", // savingstatus 추가 // ️
+            "readingstatus" to "unread", // readingstatus 추가 //
+            "toolbardate" to toolBarDate.value, //월일요일형식 날짜
+        "userInput" to mapOf(
+            "situation" to situation.value,
+            "thoughts" to thoughts.value,
+            "emotionDegree" to mapOf(
+                "int" to emotionDegree.value,
+                "string" to emotionString.value
+                "string" to emotionImage.value
             ),
-            "aiAnalysis" to mapOf(
-                "firstAnalysis" to mapOf(
-                    "situation" to "", // AI 분석 상황 (빈 데이터로 수정)
-                    "thoughts" to "", // AI 분석 생각 (빈 데이터로 수정)
-                    "emotion" to "", // AI 분석 감정 (빈 데이터로 수정)
-                    "situationReason" to "", // AI 분석 이유 (빈 데이터로 수정)
-                    "thoughtsReason" to "" // AI 생각 분석 이유 (빈 데이터로 수정)
-                ),
-                "secondAnalysis" to mapOf(
-                    "totalSets" to 0, // 세트 총 개수 (임시 데이터)
-                    "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
-                    "thoughtSets" to mapOf(
-                        "이름성" to listOf( // 리스트로 변경 //
-                            mapOf(
-                                "alternativeThoughts" to "",
-                                "alternativeThoughtsReason" to "",
-                                "characterDescription" to listOf(
-                                    "",
-                                    ""
-                                ),
-                                "charactersReason" to "",
-                                "imageResource" to "",
-                                "selectedThoughts" to ""
-                            )
+            "reMeasuredEmotionDegree" to mapOf(
+                "int" to 5, // 재측정된 감정 (임시 데이터)
+                "string" to "" // 감정 상태 (임시 데이터)
+                "string" to "" // 이미지 상태 (임시 데이터)
+            ),
+            "emotionTypes" to mapOf(
+                "" to "",
+                "" to "",
+                "" to ""
+            )
+        ),
+        "aiAnalysis" to mapOf(
+            "firstAnalysis" to mapOf(
+                "situation" to "", // AI 분석 상황 (빈 데이터로 수정)
+                "thoughts" to "", // AI 분석 생각 (빈 데이터로 수정)
+                "emotion" to "", // AI 분석 감정 (빈 데이터로 수정)
+                "situationReason" to "", // AI 분석 이유 (빈 데이터로 수정)
+                "thoughtsReason" to "" // AI 생각 분석 이유 (빈 데이터로 수정)
+            ),
+            "secondAnalysis" to mapOf(
+                "totalSets" to 0, // 세트 총 개수 (임시 데이터)
+                "totalCharacters" to 0, // 총 문자 수 (임시 데이터)
+                "thoughtSets" to mapOf(
+                    "이름성" to listOf( // 리스트로 변경 //
+                        mapOf(
+                            "alternativeThoughts" to "",
+                            "alternativeThoughtsReason" to "",
+                            "characterDescription" to listOf(
+                                "",
+                                ""
+                            ),
+                            "charactersReason" to "",
+                            "imageResource" to "",
+                            "selectedThoughts" to ""
                         )
                     )
                 )
             )
         )
+        )
 
         // 데이터 저장
         database.child(diaryId!!).setValue(diaryData)
             .addOnSuccessListener {
-                Log.d("DiaryViewModel", "일기 저장 성공")
+                Log.d("DiaryViewModel", "일기 저장 성공: $diaryId")
                 analyzeDiaryWithAI(userId, diaryId!!, getCurrentDate()) // AI 분석 호출
 
                 // 감정 키워드 통계 상세
                 val date = getCurrentDate() // 현재 날짜
-                val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? List<String> ?: emptyList()
+                val yyyymmdate = date.substring(0, 7) // "2024-09" 형태로
+                val emotionTypes = (diaryData["userInput"] as Map<String, Any>)["emotionTypes"] as? Map<String, String>
+                    ?: emptyMap()
 
                 // 감정 유형에 대한 키워드 카운트 업데이트
-                val statsRef = FirebaseDatabase.getInstance().getReference("users/$userId/stats")
+                val statsRef = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$yyyymmdate")
+                val emotionGraphRef = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$yyyymmdate/emotionsGraph")
                 val updates = mutableMapOf<String, Any>()
 
-                // 감정 그래프에 대한 업데이트
-                val emotionGraphRef = FirebaseDatabase.getInstance().getReference("users/$userId/emotiongraph")
+                Log.d("DiaryViewModel", "현재 감정 유형: $emotionTypes")
 
-                for (emotionType in emotionTypes) {
+                // 감정 유형들을 순회하면서 처리
+                for ((emotionType, emotionColor) in emotionTypes) {
+                    Log.d("DiaryViewModel", "처리 중인 감정 유형: $emotionType")
+
                     // emotionType에 맞는 키워드를 찾아서 카운트 증가
                     val keywordList = getKeywordListForEmotion(emotionType) ?: continue
+                    Log.d("DiaryViewModel", "해당 감정 유형에 맞는 키워드 리스트: $keywordList")
+
                     for (keyword in keywordList) {
                         // 정확히 매칭된 키워드만 증가시킴
-                        val keywordPath = "keywords/$emotionType/$keyword" // keyword를 감정 유형에 맞게 경로 설정
-                        updates[keywordPath] = ServerValue.increment(1) // 이 부분에서 키워드 카운트를 1 증가시킴
-                        Log.d("DiaryViewModel", "Updating keyword count for: $keyword, path: $keywordPath")
+                        val keywordPath = "keywords/$emotionType/${emotionType}Keyword/$keyword" // 수정된 경로
+                        updates[keywordPath] = ServerValue.increment(1) // 키워드 카운트를 1 증가시킴
+                        Log.d("DiaryViewModel", "키워드 카운트 증가: $keyword, 경로: $keywordPath")
                     }
 
                     // 감정 유형에 대한 카운트를 graph에 기록
-                    val emotionGraphPath = "emotiongraph/$emotionType"
+                    val emotionGraphPath = "emotionsGraph/$emotionType" // 수정된 경로
                     updates[emotionGraphPath] = ServerValue.increment(1) // 감정 유형의 카운트를 1 증가시킴
-                    Log.d("DiaryViewModel", "Updated emotion graph for $emotionType at path: $emotionGraphPath")
+                    Log.d("DiaryViewModel", "감정 그래프 카운트 증가: $emotionType, 경로: $emotionGraphPath")
                 }
 
-                statsRef.updateChildren(updates) // updates를 한 번에 반영
+                // Firebase에 일괄 업데이트 적용
+                statsRef.updateChildren(updates)
+                    .addOnSuccessListener {
+                        Log.d("DiaryViewModel", "감정 통계 업데이트 성공: $yyyymmdate")
+                    }
+                    .addOnFailureListener {
+                        Log.e("DiaryViewModel", "감정 통계 업데이트 실패", it)
+                    }
 
-                monthlyStatsUpdater.updateMonthlyStats(userId, diaryId!!, getCurrentDate(), emotionTypes) //월간통계
+                emotionGraphRef.updateChildren(updates)
+                    .addOnSuccessListener {
+                        Log.d("DiaryViewModel", "감정 그래프 업데이트 성공: $yyyymmdate")
+                    }
+                    .addOnFailureListener {
+                        Log.e("DiaryViewModel", "감정 그래프 업데이트 실패", it)
+                    }
+
+                // 월간 통계 업데이트
+                monthlyStatsUpdater.updateMonthlyStats(
+                    userId,
+                    diaryId!!,
+                    yyyymmdate,
+                    emotionTypes
+                ) // 월간 통계 업데이트 호출
 
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
             }
     }
 
-    // AI 분석을 수행하는 함수
-    private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
+        // AI 분석을 수행하는 함수
+        private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId")
 
         // (1) AiSummary 호출
