@@ -72,7 +72,7 @@ class AiSummary {
             "emotion": {
                 "type": "array",
                 "items": { "type": "string" },
-                "description": "List of emotions identified in the text, e.g., ['슬프다', '화가 나다']. Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
+                "description": "List of emotions identified in the text, e.g., '슬프다', '화가 나다'. Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
             },
             "situation": {
                 "type": "string",
