@@ -97,7 +97,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 // emotionDegree에서 int와 string 가져오기
                                 val emotionDegreeInt = userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
                                 val emotionDegreeString = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
-                                val emotionDegree = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "img_emotion_2"
+                                val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
 
 
                                 // emotionTypes는 리스트 형태로 가져온다
@@ -108,7 +108,7 @@ class SummaryMainActivity : AppCompatActivity() {
                                 Log.d("SummaryMainActivity", "감정 강도: $emotionDegreeInt ($emotionDegreeString), 감정 종류: $emotionTypes")
 
                                 //요약 화면 이미지 바꾸는 코드
-                                emotionIntensityImageView.setImageResource(getEmotionImageResource(emotionDegreeString))
+                                emotionIntensityImageView.setImageResource(getEmotionImageResource(emotionDegreeImage))
 
                                 // TextView에 감정 강도 중 숫자
                                 emotionIntensityTextView.text = "${emotionDegreeInt + 1}단계"
