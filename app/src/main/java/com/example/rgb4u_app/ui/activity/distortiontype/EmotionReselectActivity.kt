@@ -157,7 +157,13 @@ class EmotionReselectActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 저장 성공 시 로그 출력 및 다음 액티비티로 이동
                     Log.d("EmotionReselectActivity", "Data saved successfully.")
-                    startActivity(Intent(this, SummaryChangedDayActivity::class.java))
+                    // Intent 생성하여 데이터 전달
+                    val intent = Intent(this, SummaryChangedDayActivity::class.java).apply {
+                        putExtra("Date", date)  // date 전달
+                        putExtra("reMeasuredEmotionDegreeInt", reMeasuredEmotionDegreeInt)  // 정수 값 전달
+                        putExtra("reMeasuredEmotionDegreeString", reMeasuredEmotionDegreeString)  // 문자열 값 전달
+                        putExtra("reMeasuredEmotionDegreeImage", reMeasuredEmotionDegreeImage)  // 이미지 이름 전달
+                    }
                 } else {
                     // 저장 실패 시 에러 로그 출력
                     Log.e("EmotionReselectActivity", "Error saving data: ${task.exception?.message}")
