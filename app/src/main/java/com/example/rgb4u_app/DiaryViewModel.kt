@@ -69,7 +69,7 @@ class DiaryViewModel : ViewModel() {
                     "emotionimg" to emotionImage.value
                 ),
                 "reMeasuredEmotionDegree" to mapOf(
-                    "int" to 5, // 재측정된 감정 (임시 데이터)
+                    "int" to -1, // 재측정된 감정 (임시 데이터)
                     "string" to "", // 감정 상태 (임시 데이터)
                     "emotionimg" to "" // 이미지 상태 (임시 데이터)
                 ),
