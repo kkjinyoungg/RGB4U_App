@@ -72,7 +72,6 @@ class DistortionTypeActivity : AppCompatActivity() {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 intent.putExtra("USER_ID", userId)
                 intent.putExtra("Date", date) // userId, date보내기
-                intent.putExtra("Date", date) // userId, date보내기
                 startActivity(intent)
             }
         }

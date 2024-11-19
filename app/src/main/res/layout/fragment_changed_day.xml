@@ -114,12 +114,12 @@
 
             <TextView
                 android:id="@+id/exampleText1"
+                style="@style/Bd2_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:text="엄마는 왜 매번 나를 괴롭히고 내가 하는 걸 싫어하고..."
-                style="@style/Bd2_Bold"
                 android:textColor="@color/blue2" />
         </LinearLayout>
 
