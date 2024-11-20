@@ -14,6 +14,10 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.Date
 
 class AiSecond {
 
@@ -21,6 +25,8 @@ class AiSecond {
     private val client = OkHttpClient() // OkHttpClient 인스턴스 초기화
     private val apiKey = ""// API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
+    // getCurrentDate() 값을 저장할 변수
+    private var currentDate: String = ""  // null을 허용하지 않음
 
     private val cognitiveDistortions = listOf(
         "1. 흑백성 : 전부 아니면 전무의 사고. 연속적 개념보다는 오직 두 가지의 범주로 나누어 상황을 봐요. 예: 완벽하게 성공하지 못하면, 실패한 거야.",
@@ -37,10 +43,12 @@ class AiSecond {
         "12. 어둠성 : 터널 시야. 어떤 상황의 부정적인 면만을 봐요. 예: 우리 아들의 담임 선생은 올바로 하는 것이 없어. 그는 비판적이며 무감각하고 형편없이 가르쳐."
     )
 
-    fun analyzeThoughts(userId: String, diaryId: String, callback: () -> Unit) {
+    fun analyzeThoughts(userId: String, diaryId: String, currentDate: String, callback: () -> Unit) {
         Log.d(TAG, "analyzeThoughts 호출: userId = $userId, diaryId = $diaryId")
 
-        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis/thoughts")
+        this.setCurrentDate(currentDate)  // currentDate 저장
+
+        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$currentDate/aiAnalysis/firstAnalysis/thoughts")
 
         analysisRef.get().addOnSuccessListener { dataSnapshot ->
             Log.d(TAG, "Firebase에서 thoughts 데이터 가져오기 성공")
@@ -67,7 +75,8 @@ class AiSecond {
                         } else {
                             // 필터링된 결과가 존재할 경우
                             val secondAnalysis = createSecondAnalysis(filteredResults)
-                            saveSecondAnalysis(userId, diaryId, secondAnalysis, callback)
+                            //저장 함수
+                            saveSecondAnalysis(userId, diaryId, currentDate, secondAnalysis, callback)
                         }
                     }
                 }
@@ -133,32 +142,47 @@ class AiSecond {
                                 val choice = json.getJSONArray("choices").getJSONObject(0)
                                 if (choice.has("message")) {
                                     val message = choice.getJSONObject("message")
-                                    val content = message.getString("content") // content 가져오기
-                                    val contentJson = JSONObject(content) // content를 JSON으로 변환
+                                    // content를 가져오기 전에 직접적으로 JSON 파싱을 시도합니다.
+                                    val content = message.getString("content")
 
-                                    Log.d(TAG, "API 응답 JSON: $contentJson")
+                                    // content가 올바른 JSON 형식인지 확인
+                                    try {
+                                        val contentJson = JSONObject(content) // content를 JSON으로 변환
+                                        Log.d(TAG, "API 응답 JSON: $contentJson")
 
-                                    // "유형"이 없는 경우 처리
-                                    if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
-                                        val noTypeResponse = JSONObject().apply {
+                                        // "유형"이 없는 경우 처리
+                                        if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
+                                            val noTypeResponse = JSONObject().apply {
+                                                put("유형", JSONObject.NULL)
+                                                put("문장", sentence)
+                                                put("유형 이유", JSONObject.NULL)
+                                                put("대안적 생각", JSONObject.NULL)
+                                                put("대안적 생각 이유", JSONObject.NULL)
+                                            }
+                                            callback(noTypeResponse) // 콜백으로 응답 전달
+                                        } else {
+                                            // 모든 필요한 필드 추출
+                                            val responseObj = JSONObject().apply {
+                                                put("유형", contentJson.optString("유형", "유형 없음"))
+                                                put("문장", contentJson.optString("문장", "문장 없음"))
+                                                put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
+                                                put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
+                                                put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
+                                            }
+
+                                            callback(responseObj) // 콜백으로 응답 전달
+                                        }
+                                    } catch (e: JSONException) {
+                                        // 만약 content가 JSON이 아니라면 그냥 문자열로 처리
+                                        Log.e(TAG, "content 파싱 오류: ${e.message}")
+                                        val errorResponse = JSONObject().apply {
                                             put("유형", JSONObject.NULL)
                                             put("문장", sentence)
                                             put("유형 이유", JSONObject.NULL)
                                             put("대안적 생각", JSONObject.NULL)
                                             put("대안적 생각 이유", JSONObject.NULL)
                                         }
-                                        callback(noTypeResponse) // 콜백으로 응답 전달
-                                    } else {
-                                        // 모든 필요한 필드 추출
-                                        val responseObj = JSONObject().apply {
-                                            put("유형", contentJson.optString("유형", "유형 없음"))
-                                            put("문장", contentJson.optString("문장", "문장 없음"))
-                                            put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
-                                            put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
-                                            put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
-                                        }
-
-                                        callback(responseObj) // 콜백으로 응답 전달
+                                        callback(errorResponse) // 오류가 발생했을 때의 처리
                                     }
                                 } else {
                                     Log.d(TAG, "message가 없습니다.")
@@ -174,6 +198,7 @@ class AiSecond {
                     }
                 }
             }
+
         })
     }
 
@@ -256,8 +281,8 @@ class AiSecond {
         )
     }
 
-    private fun saveSecondAnalysis(userId: String, diaryId: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
-        val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$diaryId/aiAnalysis/secondAnalysis")
+    private fun saveSecondAnalysis(userId: String, diaryId: String, currentDate: String, secondAnalysis: Map<String, Any>, callback: () -> Unit) {
+        val analysisRef = firebaseDatabase.getReference("users/$userId/diaries/$currentDate/aiAnalysis/secondAnalysis")
 
         // secondAnalysis의 내용을 로그로 출력
         Log.d(TAG, "저장할 secondAnalysis 데이터: $secondAnalysis")
@@ -267,8 +292,8 @@ class AiSecond {
 
             // DistortionTypeFiller 인스턴스 생성 및 초기화
             val distortionTypeFiller = DistortionTypeFiller()
-            distortionTypeFiller.initialize(userId, diaryId) // 사용자 ID와 다이어리 ID를 전달하여 초기화
-            Log.d("AiSecond", "filler 부름 userId: $userId, diaryId: $diaryId")
+            distortionTypeFiller.initialize(userId, currentDate) // 사용자 ID와 다이어리 ID를 전달하여 초기화
+            Log.d("AiSecond", "filler 부름 userId: $userId, diaryId: $currentDate")
 
             callback()
         }.addOnFailureListener { e ->
@@ -288,10 +313,21 @@ class AiSecond {
             "totalCharacters" to 0,
             "thoughtSets" to mapOf("유형 없음" to "분석할 내용이 없습니다.")
         )
-        saveSecondAnalysis(userId, diaryId, defaultAnalysis, callback)
+        saveSecondAnalysis(userId, diaryId, currentDate, defaultAnalysis, callback)
     }
     private fun notifyUser(message: String) {
         // 예: Toast 메시지로 사용자에게 알림
         //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
+
+    // 현재 날짜를 설정하는 함수
+    fun setCurrentDate(date: String) {
+        currentDate = date
+    }
+
+    // 다른 함수에서 현재 날짜를 사용할 수 있도록 반환하는 함수
+    fun getCurrentDate(): String? {
+        return currentDate
+    }
+
 }

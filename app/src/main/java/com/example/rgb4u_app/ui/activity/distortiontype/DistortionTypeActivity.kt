@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import android.widget.ImageButton
 
 class DistortionTypeActivity : AppCompatActivity() {
@@ -23,20 +24,22 @@ class DistortionTypeActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: DistortionPagerAdapter
     private lateinit var distortionTypeFiller: DistortionTypeFiller
+    private lateinit var userId: String
 
-    private lateinit var userId: String // lateinit으로 선언
-    private lateinit var diaryId: String // lateinit으로 선언
+    private lateinit var toolbar: String // lateinit으로 선언
+    private lateinit var date: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distortion_type)
 
-        // Intent에서 사용자 ID와 다이어리 ID 가져오기
-        val userId = intent.getStringExtra("USER_ID") ?: ""
-        val diaryId = intent.getStringExtra("DIARY_ID") ?: ""
+        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        // Intent에서 툴바랑 date 가져오기
+        date = intent.getStringExtra("Date") ?: ""
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
-        Log.d("DistortionTypeActivity", "Received Diary ID: $diaryId")
+        Log.d("DistortionTypeActivity", "Received Diary ID: $date")
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
         setSupportActionBar(toolbar)
@@ -48,10 +51,10 @@ class DistortionTypeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = getCurrentDate()
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = date
 
         viewPager = findViewById(R.id.view_pager)
-        pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, diaryId)
+        pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, date)
         viewPager.adapter = pagerAdapter
 
         Log.d("DistortionTypeActivity", "ViewPager initialized: $viewPager")
@@ -74,6 +77,8 @@ class DistortionTypeActivity : AppCompatActivity() {
                 viewPager.currentItem += 1
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
+                intent.putExtra("Toolbar", date) //toolbar로 고치기
+                intent.putExtra("Date", date) // userId, date보내기
                 startActivity(intent)
             }
         }
@@ -90,10 +95,6 @@ class DistortionTypeActivity : AppCompatActivity() {
             Log.d("DistortionTypeActivity", "Help button clicked")
             showDistortionHelpBottomSheet()
         }
-//        toolbar.findViewById<View>(R.id.button_write_action2).setOnClickListener {
-//            Log.d("DistortionTypeActivity", "Help button clicked")
-//            showDistortionHelpBottomSheet()
-//        }
 
         toolbar.findViewById<View>(R.id.button_write_action1).setOnClickListener {
             Log.d("DistortionTypeActivity", "Summary button clicked")
@@ -103,7 +104,7 @@ class DistortionTypeActivity : AppCompatActivity() {
 
         // DistortionTypeFiller 초기화 및 데이터 로드
         distortionTypeFiller = DistortionTypeFiller()
-        distortionTypeFiller.initialize(userId, diaryId) // 전달받은 ID 사용
+        distortionTypeFiller.initialize(userId, date) // 전달받은 ID 사용
         Log.d("DistortionTypeActivity", "DistortionTypeFiller initialized")
 
         // 데이터가 로드된 후 UI 갱신
@@ -116,11 +117,6 @@ class DistortionTypeActivity : AppCompatActivity() {
     private fun showDistortionHelpBottomSheet() {
         val bottomSheet = DistortionHelpBottomSheet()
         bottomSheet.show(supportFragmentManager, "DistortionHelpBottomSheet")
-    }
-
-    private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("M월 d일 E요일", Locale.getDefault())
-        return dateFormat.format(Date())
     }
 
     private fun updateButtonVisibility(position: Int) {

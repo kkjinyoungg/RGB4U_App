@@ -92,14 +92,18 @@ class AnalysisFragment : Fragment() {
         percentLayoutAnger = view.findViewById<LinearLayout>(R.id.percent_layout_anger)
         percentLayoutDisgust = view.findViewById<LinearLayout>(R.id.percent_layout_disgust)
 
+        toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
+
+        // 초기 날짜 설정
+        updateToolbarDate()
+
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
-        // 어댑터 설정
-        cardAdapter = CardAdapter(cardList) { cardItem ->
-            // PlanetDetailFragment로 이동하고 typeName 전달
-            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName)
-            parentFragmentManager.beginTransaction()  // 또는 requireActivity().supportFragmentManager.beginTransaction()
+        // cardAdapter에서 formattedDate2를 함께 전달
+        cardAdapter = CardAdapter(cardList, formattedDate2) { cardItem, formattedDate2 ->
+            val fragment = PlanetDetailFragment.newInstance(cardItem.typeName, cardItem.imageResourceId, formattedDate2)
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
@@ -495,12 +499,97 @@ class AnalysisFragment : Fragment() {
             })
     }
 
-    // API 또는 데이터베이스에서 카드 데이터를 가져오는 메소드 예시
+    //인지왜곡 Top3 카드 연결
     private fun fetchCardData(): List<CardItem> {
-        return listOf(
-            CardItem("흑백성", R.drawable.ic_planet_a),
-            CardItem("재앙성", R.drawable.ic_planet_b),
-            CardItem("외면성", R.drawable.ic_planet_c)
-        ).take(2) // 원하는 개수만큼 가져오기
+        val cardList = mutableListOf<CardItem>()
+
+        // Firebase에서 월별 분석 데이터 가져오기
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Log.d("fetchCardData", "사용자가 로그인되어 있지 않습니다.")
+            return cardList
+        }
+
+        val calendar = currentCalendar
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val monthFormatted = String.format("%04d-%02d", year, month)
+
+        Log.d("fetchCardData", "월별 분석 데이터 가져오기: $monthFormatted")
+
+        // MonthlyAnalysis에서 해당 월의 행성 데이터 가져오기
+        database.child("users").child(userId)
+            .child("monthlyAnalysis").child(monthFormatted)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val planetCounts = mutableMapOf<String, Int>()
+
+                        // 행성별 count 값을 가져와서 Map에 저장
+                        for (planetSnapshot in snapshot.children) {
+                            val planetName = planetSnapshot.key ?: continue
+                            val count = planetSnapshot.child("count").getValue(Int::class.java) ?: 0
+                            Log.d("fetchCardData", "행성: $planetName, count: $count")
+                            if (count >= 1) {
+                                planetCounts[planetName] = count
+                            }
+                        }
+
+                        // count 값이 1 이상인 행성들을 count 순으로 정렬
+                        val sortedPlanets = planetCounts.entries.sortedByDescending { it.value }.take(3)
+                        Log.d("fetchCardData", "정렬된 행성들: $sortedPlanets")
+
+                        // 행성이 하나라도 있으면 카드 리스트에 추가
+                        if (sortedPlanets.isNotEmpty()) {
+                            for ((planetName, _) in sortedPlanets) {
+                                Log.d("fetchCardData", "행성 데이터 추가: $planetName")
+
+                                // distortionInformation에서 해당 행성의 imageResource 가져오기
+                                database.child("users").child(userId).child("distortionInformation").child(planetName)
+                                    .child("imageResource").get().addOnSuccessListener { imageSnapshot ->
+                                        // imageResource 이름 가져오기
+                                        val imageResourceName = imageSnapshot.getValue(String::class.java) ?: "ic_planet_a"
+
+                                        // imageResource와 imageResourceName 로그 출력
+                                        Log.d("fetchCardData", "imageResource 가져옴: $imageResourceName")
+
+                                        // context가 null일 경우를 처리하는 안전한 호출
+                                        val imageResourceId = context?.let {
+                                            // imageResourceName이 drawable 리소스로 잘 매칭되는지 확인
+                                            val resourceId = it.resources.getIdentifier(imageResourceName, "drawable", it.packageName)
+                                            Log.d("fetchCardData", "이미지 리소스 ID: $resourceId")  // 리소스 ID 로그 출력
+                                            resourceId
+                                        } ?: R.drawable.ic_planet_a  // context가 null일 경우 기본값 사용
+
+                                        // imageResourceId 로그 출력
+                                        Log.d("fetchCardData", "최종 이미지 리소스 ID: $imageResourceId")
+
+                                        // 카드 아이템 생성
+                                        cardList.add(CardItem(planetName, imageResourceId))
+
+                                        // 카드 어댑터 갱신
+                                        Log.d("fetchCardData", "카드 어댑터 갱신: $planetName")
+                                        cardAdapter.notifyDataSetChanged()
+                                    }.addOnFailureListener { exception ->
+                                        Log.e("fetchCardData", "imageResource 가져오기 실패: ${exception.message}")
+                                    }
+
+                            }
+                        } else {
+                            Log.d("fetchCardData", "행성 데이터가 없습니다.")
+                        }
+                    } else {
+                        Log.d("fetchCardData", "MonthlyAnalysis 데이터가 없습니다.")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("fetchCardData", "데이터를 가져오는 데 실패했습니다: ${error.message}")
+                }
+            })
+
+        return cardList
     }
+
+
 }

@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
+import java.util.*
+import android.util.Log
 import java.util.Calendar
 import java.util.Locale
 
@@ -240,8 +242,12 @@ class CalendarFragment : Fragment() {
 
         Toast.makeText(requireContext(), "$formattedDate 클릭됨", Toast.LENGTH_SHORT).show()
 
+        // 일기 작성에 보내기 위해 year 값을 추출
+        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(selectedDate.time)
+
         val intent = Intent(requireContext(), CalenderDetailActivity::class.java).apply {
             putExtra("SELECTED_DATE", formattedDate)
+            putExtra("SELECTED_YEAR", year) // year 값을 Intent에 추가
         }
         startActivity(intent)
     }
@@ -251,41 +257,106 @@ class CalendarFragment : Fragment() {
         return (this * density).toInt()
     }
 
+
     private fun fetchDiaryDataForMonth() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(currentCalendar.time)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        Log.d("FetchDiaryData", "User ID: $userId")
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
+
+        val firstDayKey = "$yearMonth-01"
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val lastDayKey = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+
+        Log.d("FetchDiaryData", "Fetching data for range: $firstDayKey to $lastDayKey")
+
         val firebaseRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
-        // 일기 데이터를 가져오고 날짜에 맞춰 일기 정보를 확인
-        firebaseRef.orderByChild("date").startAt("$yearMonth-01").endAt("$yearMonth-31")
+        firebaseRef.orderByKey().startAt(firstDayKey).endAt(lastDayKey)
             .get().addOnSuccessListener { snapshot ->
                 val daysWithDiary = mutableSetOf<Int>()
 
                 if (snapshot.exists()) {
+                    Log.d("FetchDiaryData", "Snapshot exists. Children count: ${snapshot.childrenCount}")
                     for (diarySnapshot in snapshot.children) {
                         val diaryData = diarySnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {})
-                        diaryData?.let {
-                            val date = it["date"] as? String ?: return@let
-                            val day = date.split("-")[2].toIntOrNull() ?: return@let
-                            val emotionDegree = (it["emotion"] as? Long)?.toInt() ?: 0
-                            daysWithDiary.add(day)
-                            addStampToCalendar(day, emotionDegree)
+                        Log.d("FetchDiaryData", "Processing diary for key: ${diarySnapshot.key}")
+
+                        if (diaryData == null) {
+                            Log.d("FetchDiaryData", "Diary data is null. Skipping.")
+                            continue
                         }
+
+                        val date = diarySnapshot.key ?: continue
+                        val day = date.split("-")[2].toIntOrNull()
+
+                        if (day == null) {
+                            Log.d("FetchDiaryData", "Failed to parse day from date: $date")
+                            continue
+                        }
+
+                        Log.d("FetchDiaryData", "Parsed day: $day")
+
+                        val userInput = diaryData["userInput"] as? Map<String, Any>
+
+                        if (userInput == null) {
+                            Log.d("FetchDiaryData", "userInput is null. Skipping.")
+                            continue
+                        }
+
+                        val emotionDegree = extractEmotionDegree(userInput)
+                        Log.d("FetchDiaryData", "Emotion degree for day $day: $emotionDegree")
+
+                        daysWithDiary.add(day)
+                        addStampToCalendar(day, emotionDegree)
                     }
+                } else {
+                    Log.d("FetchDiaryData", "Snapshot does not exist.")
                 }
 
-                // 일기 데이터가 없는 날짜에 빈 도장을 찍어줍니다.
-                for (day in 1..currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                for (day in 1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                     if (day !in daysWithDiary) {
+                        Log.d("FetchDiaryData", "No diary for day $day. Adding blank stamp.")
                         addBlankStampToCalendar(day)
                     }
                 }
+            }.addOnFailureListener { exception ->
+                Log.e("FetchDiaryData", "Failed to fetch data: ${exception.message}", exception)
             }
+    }
+
+    // emotionDegree 값을 안전하게 추출하는 함수
+    // emotionDegree 값을 안전하게 추출하는 함수
+    private fun extractEmotionDegree(userInput: Map<String, Any>): Int {
+        val reMeasuredEmotionDegree = userInput["reMeasuredEmotionDegree"] as? Map<String, Any>
+        val emotionDegreeFallback = userInput["emotionDegree"] as? Map<String, Any>
+
+        // reMeasuredEmotionDegree에서 값을 먼저 가져오고, 값이 -1이면 emotionDegree로 대체
+        val reMeasuredValue = reMeasuredEmotionDegree?.let {
+            val value = (it["int"] as? Long)?.toInt() ?: 0
+            Log.d("FetchDiaryData", "Extracted reMeasuredEmotionDegree: $value")
+            value
+        } ?: 0
+
+        // reMeasuredValue가 -1일 경우, emotionDegree를 가져오기
+        return if (reMeasuredValue == -1) {
+            Log.d("FetchDiaryData", "reMeasuredEmotionDegree is -1, extracting emotionDegree")
+            // emotionDegreeFallback에서 값 가져오기
+            emotionDegreeFallback?.let {
+                val value = (it["int"] as? Long)?.toInt() ?: 0
+                Log.d("FetchDiaryData", "Extracted emotionDegree fallback: $value")
+                value
+            } ?: 0
+        } else {
+            reMeasuredValue
+        }
     }
 
     private fun addBlankStampToCalendar(day: Int) {
         val today = Calendar.getInstance()
-        // 오늘보다 미래인 날짜에는 빈 도장을 추가하지 않음
         if (currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
             currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
             day > today.get(Calendar.DAY_OF_MONTH)) {
@@ -296,14 +367,12 @@ class CalendarFragment : Fragment() {
         if (index in 0 until calendarGrid.childCount) {
             val dayView = calendarGrid.getChildAt(index) as? FrameLayout
             dayView?.let {
-                // 기존의 스탬프(빈 이미지) 제거
                 it.children.filterIsInstance<ImageView>().forEach { child ->
                     if (child.drawable.constantState == ResourcesCompat.getDrawable(resources, R.drawable.img_calendaremotion_0, null)?.constantState) {
                         it.removeView(child)
                     }
                 }
 
-                // 빈 도장(이미지)을 추가하고 클릭 시 DiaryWriteActivity로 이동
                 val blankImage = ImageView(requireContext()).apply {
                     layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
                         gravity = Gravity.CENTER
@@ -314,8 +383,12 @@ class CalendarFragment : Fragment() {
                             time = currentCalendar.time
                             set(Calendar.DAY_OF_MONTH, day)
                         }
+                        val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR")).format(selectedDate.time)
+                        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(selectedDate.time)
+
                         val intent = Intent(requireContext(), DiaryWriteActivity::class.java).apply {
-                            putExtra("SELECTED_DATE", SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault()).format(selectedDate.time))
+                            putExtra("SELECTED_DATE", formattedDate)
+                            putExtra("SELECTED_YEAR", year)
                         }
                         startActivity(intent)
                     }
@@ -352,11 +425,17 @@ class CalendarFragment : Fragment() {
                             set(Calendar.DAY_OF_MONTH, day)
                         }
 
+                        // 기존 날짜 포맷 (예: "2024년 11월 20일 수요일")
                         val dateFormat = SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault())
                         val formattedDate = dateFormat.format(selectedDate.time)
 
+                        // 새로운 날짜 포맷 (예: "2024-11-20")
+                        val dateFormatForDb = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val formattedDateForDb = dateFormatForDb.format(selectedDate.time)
+
                         val intent = Intent(requireContext(), CalenderDetailActivity::class.java).apply {
                             putExtra("SELECTED_DATE", formattedDate)
+                            putExtra("SELECTED_DATE_FOR_DB", formattedDateForDb) // yyyy-mm-dd 형식 추가
                         }
                         startActivity(intent)
                     }

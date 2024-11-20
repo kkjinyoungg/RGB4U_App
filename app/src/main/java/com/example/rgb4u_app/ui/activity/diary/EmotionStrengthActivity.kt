@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.activity.diary
 
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -21,10 +22,18 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
     private lateinit var seekBar: SeekBar
     private lateinit var dynamicTextView: TextView
     private lateinit var squareView: ImageView
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_strength)
+
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
+        val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        titleText?.let {
+            toolbarTitle.text = it // 툴바 제목 텍스트에 설정
+        }
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -35,6 +44,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         }
 
         diaryViewModel.emotionString.observe(this) { emotionText ->
+            Log.d("EmotionStrengthActivity", "Emotion String: $emotionText")  // Log the emotionString value
             dynamicTextView.text = emotionText ?: ""
         }
 
@@ -77,6 +87,8 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
                 // ViewModel에 감정 정도 값, 텍스트 저장
                 diaryViewModel.emotionDegree.postValue(progress) // 감정 정도 저장
                 diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+                // 감정 단계에 따라 이미지 문자열 저장
+                diaryViewModel.emotionImage.postValue("img_emotion_$progress") // 이미지 문자열 저장
 
                 // 감정 단계에 따라 이미지 변경
                 squareView.setImageResource(getImageResId(progress))
@@ -125,6 +137,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
 
         // 다음 액티비티로 전환
         val intent = Intent(this, EmotionSelectActivity::class.java)
+        intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
         startActivity(intent)
 
     }

@@ -98,13 +98,14 @@
 
         <!-- 예시 박스 1 -->
         <LinearLayout
+            android:id="@+id/examplebluebox1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_blue2_10_background"
-            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/rounded_blue2_10_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/exampleImage1"
@@ -114,24 +115,25 @@
 
             <TextView
                 android:id="@+id/exampleText1"
+                style="@style/Bd2_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:text="엄마는 왜 매번 나를 괴롭히고 내가 하는 걸 싫어하고..."
-                style="@style/Bd2_Bold"
                 android:textColor="@color/blue2" />
         </LinearLayout>
 
         <!-- 예시 박스 2 -->
         <LinearLayout
+            android:id="@+id/examplebluebox2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_blue2_10_background"
-            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/rounded_blue2_10_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/exampleImage2"
@@ -141,24 +143,25 @@
 
             <TextView
                 android:id="@+id/exampleText2"
+                style="@style/Bd2_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:text="엄마는 왜 매번 나를 괴롭히고 내가 하는 걸 싫어하고..."
-                style="@style/Bd2_Bold"
                 android:textColor="@color/blue2" />
         </LinearLayout>
 
         <!-- 예시 박스 3 -->
         <LinearLayout
+            android:id="@+id/examplebluebox3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_blue2_10_background"
-            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/rounded_blue2_10_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/exampleImage3"
@@ -168,12 +171,12 @@
 
             <TextView
                 android:id="@+id/exampleText3"
+                style="@style/Bd2_Bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:text="엄마는 왜 매번 나를 괴롭히고 내가 하는 걸 싫어하고..."
-                style="@style/Bd2_Bold"
                 android:textColor="@color/blue2" />
         </LinearLayout>
     </LinearLayout>

@@ -28,10 +28,18 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     private lateinit var myRecordFragment: MyRecordFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
+    private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_think_write)
+
+        toolbarTitle = findViewById(R.id.toolbar_write_title)
+        // Intent로 전달된 toolbarTitle 텍스트 값을 가져옴
+        val titleText = intent.getStringExtra("TOOLBAR_TITLE")
+        titleText?.let {
+            toolbarTitle.text = it // 툴바 제목 텍스트에 설정
+        }
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -162,8 +170,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         // EmotionStrengthActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, EmotionStrengthActivity::class.java)
-        //intent.putExtra("EXTRA_SITUATION_TEXT", situationText)  // DiaryWriteActivity에서 전달받은 데이터
-        //intent.putExtra("EXTRA_THOUGHT_TEXT", inputText)  // thoughtText로 전달할 데이터
+        intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
         startActivity(intent)
     }
 

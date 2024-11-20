@@ -26,7 +26,7 @@ class SummarySituationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_summary_situation)
 
         //diaryId, ID
-        val diaryId = intent.getStringExtra("DIARY_ID") ?: "defaultDiaryId"
+        val date = intent.getStringExtra("Date") ?: "defaultDate"
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -39,11 +39,11 @@ class SummarySituationActivity : AppCompatActivity() {
             commit()  // 트랜잭션 적용
         }
 
-        if (userId != null && diaryId != null) {
+        if (userId != null && date!= null) {
             // 첫 번째 경로에서 데이터 조회
-            loadAiAnalysisData(userId, diaryId, summaryFragment)
+            loadAiAnalysisData(userId, date, summaryFragment)
             // 두 번째 경로에서 데이터 조회
-            loadUserInputData(userId, diaryId, summaryFragment)
+            loadUserInputData(userId, date, summaryFragment)
         } else {
             // 데이터가 존재하지 않는 경우
             summaryFragment.summarizedContent = "상황 데이터가 존재하지 않습니다"
@@ -56,8 +56,8 @@ class SummarySituationActivity : AppCompatActivity() {
         summaryFragment.userContentLabelText = "기록한 상황이에요" //고정 제목
     }
 
-    private fun loadAiAnalysisData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
-        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/aiAnalysis/firstAnalysis")
+    private fun loadAiAnalysisData(userId: String, date: String, summaryFragment: SummaryFragment) {
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/aiAnalysis/firstAnalysis")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -80,8 +80,8 @@ class SummarySituationActivity : AppCompatActivity() {
         })
     }
 
-    private fun loadUserInputData(userId: String, diaryId: String, summaryFragment: SummaryFragment) {
-        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$diaryId/userInput")
+    private fun loadUserInputData(userId: String, date: String, summaryFragment: SummaryFragment) {
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/userInput")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {

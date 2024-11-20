@@ -14,6 +14,8 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionMoreThoughtsActivity
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionPagerAdapter
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionType
+import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
+
 
 class DistortionFragment : Fragment() {
 

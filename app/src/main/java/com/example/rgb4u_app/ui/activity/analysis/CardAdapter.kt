@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 
 // CardItem에 대한 어댑터
-class CardAdapter(private val cardList: List<CardItem>, private val onCardClick: (CardItem) -> Unit) :
+class CardAdapter(
+    private val cardList: List<CardItem>,
+    private val formattedDate2: String,
+    private val onCardClickListener: (CardItem, String) -> Unit) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     // ViewHolder 클래스 정의
@@ -30,12 +33,11 @@ class CardAdapter(private val cardList: List<CardItem>, private val onCardClick:
     // 데이터 바인딩
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val cardItem = cardList[position]
-        holder.imageView.setImageResource(cardItem.imageResId)
+        holder.imageView.setImageResource(cardItem.imageResourceId)
         holder.textView.text = cardItem.typeName
-
-        // 상세 보기로 이동하는 버튼 클릭 리스너
-        holder.detailButton.setOnClickListener {
-            onCardClick(cardItem)
+        // formattedDate2를 사용하여 클릭 이벤트 전달
+        holder.itemView.setOnClickListener {
+            onCardClickListener(cardItem, formattedDate2) // formattedDate2 전달
         }
     }
 
