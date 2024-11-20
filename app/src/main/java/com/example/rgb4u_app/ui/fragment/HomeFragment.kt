@@ -100,6 +100,7 @@ class HomeFragment : Fragment() {
                     // 각 날짜의 diary 데이터를 가져옵니다.
                     val readingStatus = dateSnapshot.child("readingstatus").getValue(String::class.java)
                     val toolbardate = dateSnapshot.child("toolbardate").getValue(String::class.java)
+                    val dateKey = dateSnapshot.key ?: ""  // yyyy-mm-dd 형식의 날짜
 
                     // 읽기 상태가 null이 아닐 때 체크
                     if (readingStatus != null) {
@@ -107,12 +108,12 @@ class HomeFragment : Fragment() {
                             "unread" -> {
                                 unreadCount++
                                 // toolbardate이 null이 아닐 때 추가
-                                analysisList.add(AnalysisItem(true, false, toolbardate ?: ""))
+                                analysisList.add(AnalysisItem(true, false, toolbardate ?: "", dateKey))
                             }
                             "load" -> {
                                 loadCount++
                                 // toolbardate이 null이 아닐 때 추가
-                                analysisList.add(AnalysisItem(true, true, toolbardate ?: ""))
+                                analysisList.add(AnalysisItem(true, true, toolbardate ?: "", dateKey))
                             }
                         }
                     }
@@ -132,6 +133,7 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
 
 
     private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
