@@ -53,8 +53,8 @@ class HomeFragment : Fragment() {
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // button_write_action2 버튼 숨기기
-        val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
-        notificationButton.visibility = View.GONE
+        // val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
+        // notificationButton.visibility = View.GONE
 
 
         // 뷰를 초기화합니다.
@@ -63,12 +63,16 @@ class HomeFragment : Fragment() {
         dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
         notificationCountText = view.findViewById((R.id.notificationCountText))
 
-
-        // refreshIcon 클릭 리스너 추가
-        val refreshIcon: ImageView = view.findViewById(R.id.refreshIcon)
-        refreshIcon.setOnClickListener {
-            changeMessage()
+        // chat_refresh 버튼 설정
+        val chatRefreshButton: ImageView = view.findViewById(R.id.refreshIcon)
+        chatRefreshButton.setOnClickListener {
+            changeMessage() // 버튼 클릭 시 메시지 변경
         }
+
+        // 말풍선 클릭 리스너 추가
+//        textBox.setOnClickListener {
+//            changeMessage()
+//        }
 
         // 현재 날짜 및 요일 설정
         updateDateAndDay()
@@ -154,7 +158,9 @@ class HomeFragment : Fragment() {
             "어떤 도움이 필요하신가요?",
             "서진아, 오늘은 햄버거가 땡기는 날이야.",
             "일기를 썼어요 고정멘트",
-            "분석 결과 나옴 고정멘트"
+            "분석 결과 나옴 고정멘트",
+            "오늘은 햄버거가 땡기는 날이야.",
+            "오늘 하루도 고생많았어요&"
         )
 
         val randomIndex = Random.nextInt(messages.size)

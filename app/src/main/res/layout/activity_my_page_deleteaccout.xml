@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.mypage.MyPageDeleteaccoutActivity"
-    android:background="@drawable/background_light_sub">
+    android:background="@drawable/bg_mypage">
 
     <!-- 상단바 -->
     <LinearLayout

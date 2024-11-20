@@ -133,10 +133,6 @@ class MyRecordFragment : Fragment() {
                 textSituation.apply {
                     visibility = View.VISIBLE
                     setTextColor(ContextCompat.getColor(context, R.color.white_40)) // 선택된 색상으로 변경
-                    typeface = ResourcesCompat.getFont(
-                        context,
-                        R.font.nanumsquareroundbold
-                    ) // 폰트를 bold로 변경
                 }
             }
 
@@ -145,7 +141,6 @@ class MyRecordFragment : Fragment() {
                 textSituation.apply {
                     visibility = View.VISIBLE
                     setTextColor(ContextCompat.getColor(context, R.color.white_40))
-                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
                 }
             }
 
@@ -154,7 +149,6 @@ class MyRecordFragment : Fragment() {
                 textSituation.apply {
                     visibility = View.VISIBLE
                     setTextColor(ContextCompat.getColor(context, R.color.white_40))
-                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
                 }
             }
 
@@ -163,7 +157,6 @@ class MyRecordFragment : Fragment() {
                 textSituation.apply {
                     visibility = View.VISIBLE
                     setTextColor(ContextCompat.getColor(context, R.color.white_40))
-                    typeface = ResourcesCompat.getFont(context, R.font.nanumsquareroundbold)
                 }
             }
 //        when (step) {

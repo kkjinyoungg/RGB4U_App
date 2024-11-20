@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     android:layout_width="160dp"
-    android:layout_height="88dp"
+    android:layout_height="100dp"
+    android:layout_marginRight="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
-    android:layout_marginEnd="16dp"
-    android:background="@drawable/rounded_corner_background"
+    app:cardBackgroundColor="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/analysisDateText"
@@ -22,16 +23,17 @@
             android:layout_height="wrap_content"
             android:text="12월 35일 토요일"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            style="@style/Bd2_Regular" />
 
         <Button
             android:id="@+id/analysisResultButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="@color/main"
             android:text="분석 결과 보기"
+            android:stateListAnimator="@null"
             android:textColor="@color/black"
-            android:textSize="14sp"/>
+            style="@style/Bd2_Bold"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

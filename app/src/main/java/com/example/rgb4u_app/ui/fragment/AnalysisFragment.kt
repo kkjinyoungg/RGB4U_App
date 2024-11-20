@@ -47,8 +47,19 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentAnger: TextView
     private lateinit var percentDisgust: TextView
     private lateinit var percentSurprise: TextView
+    private lateinit var percentLayoutSurprise : LinearLayout
+    private lateinit var percentLayoutFear : LinearLayout
+    private lateinit var percentLayoutSadness : LinearLayout
+    private lateinit var percentLayoutAnger : LinearLayout
+    private lateinit var percentLayoutDisgust : LinearLayout
     private lateinit var overlayView: View // 반투명 막
     private lateinit var tvViewDetails: LinearLayout // "자세히 보기" 링크
+    private lateinit var nodataLayout: LinearLayout
+    private lateinit var emotionTitle: TextView
+    private lateinit var emotionratioTitle: TextView
+    private lateinit var viewDetail: LinearLayout
+    private lateinit var emotionChart: LinearLayout
+
     private var currentCalendar = Calendar.getInstance()
 
 //    // 현재 날짜를 저장하는 변수
@@ -73,6 +84,13 @@ class AnalysisFragment : Fragment() {
         percentAnger = view.findViewById(R.id.percent_anger)
         percentDisgust = view.findViewById(R.id.percent_disgust)
         percentSurprise = view.findViewById(R.id.percent_surprise)
+
+        // 감정 레이아웃
+        percentLayoutSurprise = view.findViewById<LinearLayout>(R.id.percent_layout_surprise)
+        percentLayoutFear = view.findViewById<LinearLayout>(R.id.percent_layout_fear)
+        percentLayoutSadness = view.findViewById<LinearLayout>(R.id.percent_layout_sadness)
+        percentLayoutAnger = view.findViewById<LinearLayout>(R.id.percent_layout_anger)
+        percentLayoutDisgust = view.findViewById<LinearLayout>(R.id.percent_layout_disgust)
 
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
@@ -107,6 +125,9 @@ class AnalysisFragment : Fragment() {
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
+        // button_calendar_action2의 이미지 리소스 변경
+        buttonAction1.setImageResource(R.drawable.ic_left_triangle_wh) // 임시라 추후 수정
+        buttonAction2.setImageResource(R.drawable.ic_right_triangle_wh) // 임시라 추후 수정
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -123,6 +144,13 @@ class AnalysisFragment : Fragment() {
 
         // overlayView 초기화
         overlayView = view.findViewById(R.id.overlay_view) // overlay_view의 ID를 사용하여 초기화
+
+        nodataLayout = view.findViewById(R.id.no_data_layout)  // nodataLayout 초기화
+
+        emotionTitle = view.findViewById(R.id.tv_emotion_title) // 행성 top3 타이틀
+        emotionratioTitle = view.findViewById(R.id.tv_emotion_ratio_title) // 감정 타이틀
+        viewDetail = view.findViewById(R.id.tv_view_details) // 감정 자세히 보기 버튼
+        emotionChart = view.findViewById(R.id.linearLayout4) // 감정 그래프 부분
 
         // Firebase에서 감정 데이터 가져오기
         fetchEmotionData()
@@ -297,10 +325,60 @@ class AnalysisFragment : Fragment() {
         entries.forEach { entry ->
             Log.d("AnalysisFragment", "${entry.label}: ${entry.value}%")
         }
+
+        // 각 감정에 대해 해당 LinearLayout 숨기기/보이기 설정
+        entries.forEach { entry ->
+            when (entry.label) {
+                "놀람" -> {
+                    if (entry.value > 0) {
+                        percentLayoutSurprise.visibility = View.VISIBLE
+                        percentSurprise.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutSurprise.visibility = View.GONE
+                    }
+                }
+
+                "두려움" -> {
+                    if (entry.value > 0) {
+                        percentLayoutFear.visibility = View.VISIBLE
+                        percentFear.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutFear.visibility = View.GONE
+                    }
+                }
+
+                "슬픔" -> {
+                    if (entry.value > 0) {
+                        percentLayoutSadness.visibility = View.VISIBLE
+                        percentSadness.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutSadness.visibility = View.GONE
+                    }
+                }
+
+                "분노" -> {
+                    if (entry.value > 0) {
+                        percentLayoutAnger.visibility = View.VISIBLE
+                        percentAnger.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutAnger.visibility = View.GONE
+                    }
+                }
+
+                "혐오" -> {
+                    if (entry.value > 0) {
+                        percentLayoutDisgust.visibility = View.VISIBLE
+                        percentDisgust.text = "${Math.round(entry.value)}%" // 값을 표시
+                    } else {
+                        percentLayoutDisgust.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private fun fetchEmotionData() {
-        overlayView.visibility = View.VISIBLE // 데이터 로드 전 기본적으로 오버레이를 보이게 설정
+        // overlayView.visibility = View.VISIBLE // 데이터 로드 전 기본적으로 오버레이를 보이게 설정
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
@@ -322,6 +400,13 @@ class AnalysisFragment : Fragment() {
                     if (snapshot.exists()) {
                         // 데이터가 있는 경우 오버레이 숨김
                         overlayView.visibility = View.GONE
+                        nodataLayout.visibility = View.GONE
+
+                        emotionTitle.visibility = View.VISIBLE
+                        recyclerView.visibility = View.VISIBLE
+                        emotionratioTitle.visibility = View.VISIBLE
+                        viewDetail.visibility = View.VISIBLE
+                        emotionChart.visibility = View.VISIBLE
 
                         val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
                         val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
@@ -391,8 +476,13 @@ class AnalysisFragment : Fragment() {
                         // 로그 출력으로 entries 확인
                         Log.d("계산완료", "Entries: $entries")
                     } else {
-                        // 데이터가 없을 때 오버레이 보임
-                        overlayView.visibility = View.VISIBLE
+                        nodataLayout.visibility = View.VISIBLE
+
+                        emotionTitle.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+                        emotionratioTitle.visibility = View.GONE
+                        viewDetail.visibility = View.GONE
+                        emotionChart.visibility = View.GONE
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -409,8 +499,8 @@ class AnalysisFragment : Fragment() {
     private fun fetchCardData(): List<CardItem> {
         return listOf(
             CardItem("흑백성", R.drawable.ic_planet_a),
-            CardItem("걱정성", R.drawable.ic_planet_a),
-            CardItem("과장성", R.drawable.ic_planet_a)
+            CardItem("재앙성", R.drawable.ic_planet_b),
+            CardItem("외면성", R.drawable.ic_planet_c)
         ).take(2) // 원하는 개수만큼 가져오기
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.mypage.MyPageHowToUseActivity"
-    android:background="@color/background">
+    android:background="@color/background_light">
 
     <!-- MypageCommonHeaderFragment를 위한 FragmentContainer -->
     <FrameLayout

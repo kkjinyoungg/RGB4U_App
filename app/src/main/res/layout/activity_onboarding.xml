@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_light_sub">
+    android:background="@color/background_light">
 
     <!-- Toolbar -->
     <include
@@ -26,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"
+            android:layout_marginLeft="16dp"
             android:background="@color/gray2" />
 
         <!-- Text -->
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="모아님이 입장하셨습니다"
             android:textColor="@color/gray2"
-            android:textSize="12sp"
+            style="@style/Cp2_Regular"
             android:layout_marginHorizontal="8dp" />
 
         <!-- Right line -->
@@ -43,6 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"
+            android:layout_marginRight="16dp"
             android:background="@color/gray2" />
     </LinearLayout>
 
@@ -57,11 +59,16 @@
     <!-- Button for interaction -->
     <android.widget.Button
         android:id="@+id/btnNext"
-        android:layout_width="280dp"
-        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_button_main_line"
+        android:stateListAnimator="@null"
+        android:textColor="@color/black"
+        style="@style/Bd2_Bold"
         android:text="다음" />
 </LinearLayout>

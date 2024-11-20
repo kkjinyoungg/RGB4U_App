@@ -53,21 +53,21 @@
     <color name="your_background_color">#D9D9D9</color>
 
     // 감정 칼라칩
-    <color name="surpriseColor">#86DDC4</color>
+    <color name="surpriseColor">#86DDB1</color>
     <color name="fearColor">#5CC1D4</color>
     <color name="sadnessColor">#5795DC</color>
     <color name="angerColor">#EDA4C1</color>
     <color name="disgustColor">#AC88F5</color>
 
-    <color name="surpriseColor_10">#1A86DDC4</color>
+    <color name="surpriseColor_10">#1A86DDB1</color>
     <color name="fearColor_10">#1A5CC1D4</color>
     <color name="sadnessColor_10">#1A5795DC</color>
     <color name="angerColor_10">#1AEDA4C1</color>
     <color name="disgustColor_10">#1AAC88F5</color>
 
-    <color name="surpriseColor_dark">#33A080</color>
-    <color name="fearColor_dark">#339EB3</color>
-    <color name="sadnessColor_dark">#2795DD</color>
+    <color name="surpriseColor_dark">#3AB799</color>
+    <color name="fearColor_dark">#26ACDD</color>
+    <color name="sadnessColor_dark">#1674E1</color>
     <color name="angerColor_dark">#C771C7</color>
     <color name="disgustColor_dark">#7461D1</color>
 

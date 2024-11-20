@@ -39,9 +39,16 @@ class SignUpActivity2 : AppCompatActivity() {
         // Firebase Database 초기화
         database = FirebaseDatabase.getInstance().reference
 
-        // 버튼 초기 상태 설정 (비활성화)
+        // 버튼 초기 상태 설정 (활성화)
         buttonNext.isEnabled = false
-        buttonNext.alpha = 0.5f
+
+        // 오늘 날짜를 가져와서 초기 값 설정
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1 // Calendar.MONTH는 0부터 시작
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val today = "${year}년 ${month}월 ${day}일"
+        birthdayInput.setText(today)
 
         // 달력 버튼 클릭 시 스피너 방식으로 생년월일 선택
         calendarBtn.setOnClickListener {

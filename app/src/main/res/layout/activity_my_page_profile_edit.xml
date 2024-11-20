@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_light_sub">
+    android:background="@drawable/bg_mypage">
 
     <!-- MypageCommonHeaderFragment를 위한 FragmentContainer -->
     <FrameLayout
@@ -132,9 +132,9 @@
         android:layout_marginBottom="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_button_light"
         android:text="완료"
-        android:textColor="@color/black"
+        android:textColor="@color/rounded_button_light_text"
         style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

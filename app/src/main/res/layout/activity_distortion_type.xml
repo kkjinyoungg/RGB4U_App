@@ -13,8 +13,7 @@
         layout="@layout/toolbar_write_diary"
         android:id="@+id/toolbar_write_diary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_height="wrap_content" />
 
     <!-- FrameLayout을 사용하여 ViewPager2와 버튼 레이아웃을 겹치게 배치 -->
     <FrameLayout

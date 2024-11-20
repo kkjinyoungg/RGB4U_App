@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_light_main">
+    android:background="@drawable/bg_mypage_main">
 
     <!-- 상단 텍스트 "마이페이지" -->
     <LinearLayout
@@ -74,8 +74,8 @@
 
                     <ImageView
                         android:id="@+id/img_character"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/img_ch_mypage" />
 

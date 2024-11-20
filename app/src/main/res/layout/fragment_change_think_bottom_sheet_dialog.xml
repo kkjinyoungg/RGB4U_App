@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:background="@android:color/transparent">
 
     <!-- BottomSheet 레이아웃 -->
     <LinearLayout
@@ -48,7 +49,6 @@
             android:text="설명 텍스트"
             android:textColor="@color/gray1"
             style="@style/Cp1_Regular" />
-
     </LinearLayout>
 </FrameLayout>
 

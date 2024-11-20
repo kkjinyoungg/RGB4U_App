@@ -92,6 +92,9 @@ dependencies {
     // Lottie 파일
     implementation("com.airbnb.android:lottie:6.0.0")
 
+    // chip 정렬을 위한 레이아웃
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
     // MPAndroidChart 라이브러리 추가
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
