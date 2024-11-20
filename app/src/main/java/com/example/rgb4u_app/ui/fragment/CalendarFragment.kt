@@ -155,55 +155,63 @@ class CalendarFragment : Fragment() {
 
         val currentDate = Calendar.getInstance()
         val currentYear = currentDate.get(Calendar.YEAR)
-        val currentMonth = currentDate.get(Calendar.MONTH) + 1
+        val currentMonth = currentDate.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
 
         // NumberPicker 범위 설정
         yearPicker.minValue = currentYear - 100
         yearPicker.maxValue = currentYear
+        yearPicker.wrapSelectorWheel = false // 순환 비활성화
         yearPicker.value = currentCalendar.get(Calendar.YEAR)
         yearPicker.displayedValues = Array(yearPicker.maxValue - yearPicker.minValue + 1) { i ->
             "${yearPicker.minValue + i}년"
         }
 
-        monthPicker.minValue = 0
-        monthPicker.maxValue = 11
-        monthPicker.value = currentCalendar.get(Calendar.MONTH)
-        monthPicker.displayedValues = Array(monthPicker.maxValue + 1) { i ->
-            "${i + 1}월"
-        }
-
-        // 버튼 상태 체크
-        fun checkButtonState() {
-            val selectedYear = yearPicker.value
-            val selectedMonth = monthPicker.value + 1
-
-            if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                btnConfirm.isEnabled = false
-                btnConfirm.text = "다음 월은 선택할 수 없습니다"
+        fun updateMonthPicker(year: Int) {
+            if (year == currentYear) {
+                // 현재 연도인 경우, 현재 월까지만 표시
+                val monthRange = 1..currentMonth
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
             } else {
-                btnConfirm.isEnabled = true
-                btnConfirm.text = "확인"
+                // 과거 연도인 경우 전체 월(1~12) 표시
+                val monthRange = 1..12
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
+            }
+            // 초기 MonthPicker 값 설정: 현재 날짜의 달로 설정
+            monthPicker.value = currentMonth
+
+            // 현재 선택된 값이 유효 범위 내에 있도록 보정
+            if (monthPicker.value < monthPicker.minValue) {
+                monthPicker.value = monthPicker.minValue
+            } else if (monthPicker.value > monthPicker.maxValue) {
+                monthPicker.value = monthPicker.maxValue
             }
         }
 
-        yearPicker.setOnValueChangedListener { _, _, _ -> checkButtonState() }
-        monthPicker.setOnValueChangedListener { _, _, _ -> checkButtonState() }
+        // 초기 MonthPicker 값 설정
+        monthPicker.wrapSelectorWheel = false // 순환 비활성화
+        updateMonthPicker(yearPicker.value)
+
+        // 연도 선택 시 MonthPicker 범위 업데이트
+        yearPicker.setOnValueChangedListener { _, _, newYear ->
+            updateMonthPicker(newYear)
+        }
 
         btnConfirm.setOnClickListener {
             val selectedYear = yearPicker.value
-            val selectedMonth = monthPicker.value + 1
+            val selectedMonth = monthPicker.value
 
-            if (selectedYear <= currentYear && (selectedYear < currentYear || selectedMonth <= currentMonth)) {
-                currentCalendar.set(Calendar.YEAR, selectedYear)
-                currentCalendar.set(Calendar.MONTH, selectedMonth - 1)
-                updateCalendar()
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "현재 날짜보다 이후 월은 선택할 수 없습니다.", Toast.LENGTH_SHORT).show()
-            }
+            currentCalendar.set(Calendar.YEAR, selectedYear)
+            currentCalendar.set(Calendar.MONTH, selectedMonth - 1) // Month는 0부터 시작
+            updateCalendar()
+            dialog.dismiss()
         }
 
-        checkButtonState()
         dialog.show()
     }
 

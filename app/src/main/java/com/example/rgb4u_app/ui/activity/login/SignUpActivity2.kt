@@ -116,6 +116,7 @@ class SignUpActivity2 : AppCompatActivity() {
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
         yearPicker.minValue = currentYear - 100
         yearPicker.maxValue = currentYear
+        yearPicker.wrapSelectorWheel = false // 순환 비활성화
         yearPicker.value = currentYear
         yearPicker.displayedValues = Array(yearPicker.maxValue - yearPicker.minValue + 1) { i ->
             "${yearPicker.minValue + i}년"
@@ -124,6 +125,7 @@ class SignUpActivity2 : AppCompatActivity() {
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
         monthPicker.value = currentMonth
+        monthPicker.wrapSelectorWheel = false // 순환 비활성화
         monthPicker.displayedValues = Array(monthPicker.maxValue) { i ->
             "${i + 1}월"
         }
@@ -131,6 +133,7 @@ class SignUpActivity2 : AppCompatActivity() {
         dayPicker.minValue = 1
         dayPicker.maxValue = 31
         dayPicker.value = currentDay
+        dayPicker.wrapSelectorWheel = false // 순환 비활성화
         dayPicker.displayedValues = Array(dayPicker.maxValue) { i ->
             "${i + 1}일"
         }
