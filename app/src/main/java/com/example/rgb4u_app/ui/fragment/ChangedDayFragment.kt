@@ -97,11 +97,11 @@ class ChangedDayFragment : Fragment() {
                     val situationDetailText = firstAnalysis["situation"] as? String ?: ""
                     binding.situationDetail.text = situationDetailText
 
-                    // (2) thoughtSets의 alternativeThoughts 데이터 가져오기
+                    // (2) 각 카테고리의 첫 번째 alternativeThoughts 가져오기
                     val thoughtList = mutableListOf<String>()
-                    thoughtSets?.forEach { (key, value) ->
+                    thoughtSets?.forEach { (_, value) ->
                         val thoughts = value as? List<Map<String, Any>> ?: return@forEach
-                        thoughts.forEach { thought ->
+                        thoughts.firstOrNull()?.let { thought ->
                             val alternativeThoughts = thought["alternativeThoughts"] as? String
                             alternativeThoughts?.let { thoughtList.add(it) }
                         }
@@ -131,6 +131,7 @@ class ChangedDayFragment : Fragment() {
             }
         })
     }
+
 
     private fun setupExampleTexts() {
         // 예시 텍스트를 표시할 TextView 목록

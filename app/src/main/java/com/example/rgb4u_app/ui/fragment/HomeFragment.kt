@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.AnalysisItem
 import com.example.rgb4u_app.ui.activity.home.AnalysisItemAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -26,42 +28,41 @@ class HomeFragment : Fragment() {
 
     private lateinit var textBox: TextView
     private lateinit var dateTextView: TextView
-    private lateinit var dDayTextView: TextView // moodScoreTextView를 dDayTextView로 변경
+    private lateinit var dDayTextView: TextView
     private lateinit var mainConstraintLayout: ConstraintLayout
     private lateinit var mainCharacterContainer: ImageView
-    private var notificationCount = 0 // 알림 개수를 저장하는 변수
+    private var notificationCount = 0
     private lateinit var notificationCountText: TextView
+
+    private lateinit var database: DatabaseReference
+    private lateinit var analysisList: MutableList<AnalysisItem>
+    private lateinit var adapter: AnalysisItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // 레이아웃을 Inflate합니다.
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Toolbar 설정
-        val toolbar: Toolbar = view.findViewById(R.id.toolbar_home) // 수정: view를 사용
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar_home)
         val activity = requireActivity() as AppCompatActivity
         activity.setSupportActionBar(toolbar)
-
-        // 기본 뒤로가기 버튼, 앱 이름 숨기기
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // button_write_action2 버튼 숨기기
-        // val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
-        // notificationButton.visibility = View.GONE
+        val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
+        notificationButton.visibility = View.GONE
 
-
-        // 뷰를 초기화합니다.
         textBox = view.findViewById(R.id.textBox)
-        dateTextView = view.findViewById(R.id.dateTextView) // ID에 맞게 수정
-        dDayTextView = view.findViewById(R.id.dDayTextView) // ID 수정
-        notificationCountText = view.findViewById((R.id.notificationCountText))
+        dateTextView = view.findViewById(R.id.dateTextView)
+        dDayTextView = view.findViewById(R.id.dDayTextView)
+        notificationCountText = view.findViewById(R.id.notificationCountText)
 
         // chat_refresh 버튼 설정
         val chatRefreshButton: ImageView = view.findViewById(R.id.refreshIcon)
@@ -69,87 +70,99 @@ class HomeFragment : Fragment() {
             changeMessage() // 버튼 클릭 시 메시지 변경
         }
 
-        // 말풍선 클릭 리스너 추가
-//        textBox.setOnClickListener {
-//            changeMessage()
-//        }
-
-        // 현재 날짜 및 요일 설정
         updateDateAndDay()
-
-        // 앱 설치 날짜를 기반으로 디데이 계산
         calculateDDay()
 
-
-        // 이미지 리소스 변경: 상황에 따른 조건은 추가해야함... 기본 코드~..
-        // 전체 레이아웃 참조
-        mainConstraintLayout = view.findViewById(R.id.mainConstraintLayout)  // 전체 레이아웃의 ID
-        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)  // 전체 레이아웃의 이미지 리소스 변경
-        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
-        //mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
-
-
-        //캐릭터 이미지뷰 리소스 변화
+        mainConstraintLayout = view.findViewById(R.id.mainConstraintLayout)
         mainCharacterContainer = view.findViewById(R.id.mainCharacterContainer)
-        //mainCharacterContainer.setImageResource(R.drawable.your_image_name) // 캐릭터 이미지뷰 이미지 리소스 변경
 
-
-        // RecyclerView 초기화
+        analysisList = mutableListOf()
+        adapter = AnalysisItemAdapter(analysisList)
         val recyclerView: RecyclerView = view.findViewById(R.id.analysisRecyclerView)
-        // LayoutManager를 수평 방향으로 설정
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-
-
-        // 데이터를 준비 (예시)
-        val analysisList = listOf(
-            AnalysisItem(true, false, "12월 25일 월요일"), // 분석완료
-            AnalysisItem(true, true, "12월 26일 화요일"),  // 분석중
-            AnalysisItem(false, false)                    // 분석할 기록이 없음
-        )
-
-        // 어댑터 설정
-        val adapter = AnalysisItemAdapter(analysisList)
         recyclerView.adapter = adapter
 
-        // RecyclerView 아이템 개수를 가져와 notificationCount 업데이트
-        updateNotificationCount(adapter)
+        // Firebase 데이터베이스 참조 초기화
+        database = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
+
+        // Firebase 데이터 감시
+        observeDiaries()
     }
 
-    private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
-        // 아이템 개수를 가져와 notificationCount에 저장
-        notificationCount = adapter.itemCount
+    private fun observeDiaries() {
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                analysisList.clear()
 
-        // notificationCount를 사용하는 로직 추가 (예: 텍스트뷰 업데이트)
+                var unreadCount = 0
+                var loadCount = 0
+
+                for (dateSnapshot in snapshot.children) {
+                    // 각 날짜의 diary 데이터를 가져옵니다.
+                    val readingStatus = dateSnapshot.child("readingstatus").getValue(String::class.java)
+                    val toolbardate = dateSnapshot.child("toolbardate").getValue(String::class.java)
+                    val dateKey = dateSnapshot.key ?: ""  // yyyy-mm-dd 형식의 날짜
+
+                    // 읽기 상태가 null이 아닐 때 체크
+                    if (readingStatus != null) {
+                        when (readingStatus) {
+                            "unread" -> {
+                                unreadCount++
+                                // toolbardate이 null이 아닐 때 추가
+                                analysisList.add(AnalysisItem(true, false, toolbardate ?: "", dateKey))
+                            }
+                            "load" -> {
+                                loadCount++
+                                // toolbardate이 null이 아닐 때 추가
+                                analysisList.add(AnalysisItem(true, true, toolbardate ?: "", dateKey))
+                            }
+                        }
+                    }
+                }
+
+                // unread와 load가 없으면 (false, false) 추가
+                if (unreadCount == 0 && loadCount == 0) {
+                    analysisList.add(AnalysisItem(false, false))
+                }
+
+                adapter.notifyDataSetChanged()
+                updateNotificationCount(adapter)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // 오류 처리
+            }
+        })
+    }
+
+
+
+    private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
+        notificationCount = adapter.itemCount
         notificationCountText.text = "$notificationCount"
         notificationCountText.visibility = View.VISIBLE
     }
 
     private fun updateDateAndDay() {
-        // 현재 날짜를 가져옵니다.
         val currentDate = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("M월 d일 EEEE", Locale.KOREA)
-        dateTextView.text = dateFormat.format(currentDate.time) // 날짜 및 요일 설정
+        dateTextView.text = dateFormat.format(currentDate.time)
     }
 
     private fun calculateDDay() {
-        // SharedPreferences에서 설치 날짜를 가져옵니다.
         val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val installDateMillis = sharedPreferences.getLong("install_date", -1)
 
-        // 설치 날짜가 없다면 현재 날짜를 설치 날짜로 설정
         if (installDateMillis == -1L) {
             val currentDateMillis = System.currentTimeMillis()
             sharedPreferences.edit().putLong("install_date", currentDateMillis).apply()
-            dDayTextView.text = "D+1"  // 설치 날을 1일로 간주합니다.
+            dDayTextView.text = "D+1"
         } else {
-            // 설치 날짜를 기준으로 D-Day 계산
             val currentDateMillis = System.currentTimeMillis()
-            val dDay = ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24) + 1).toInt() // 일수로 변환 (1일 추가)
+            val dDay = ((currentDateMillis - installDateMillis) / (1000 * 60 * 60 * 24) + 1).toInt()
             dDayTextView.text = "D+$dDay"
         }
     }
-
 
     private fun changeMessage() {
         val messages = arrayOf(
@@ -158,9 +171,7 @@ class HomeFragment : Fragment() {
             "어떤 도움이 필요하신가요?",
             "서진아, 오늘은 햄버거가 땡기는 날이야.",
             "일기를 썼어요 고정멘트",
-            "분석 결과 나옴 고정멘트",
-            "오늘은 햄버거가 땡기는 날이야.",
-            "오늘 하루도 고생많았어요&"
+            "분석 결과 나옴 고정멘트"
         )
 
         val randomIndex = Random.nextInt(messages.size)
