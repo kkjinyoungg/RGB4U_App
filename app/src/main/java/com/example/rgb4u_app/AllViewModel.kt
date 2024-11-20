@@ -13,7 +13,9 @@ class AllViewModel : ViewModel() {
     private val _diaryData = MutableLiveData<List<DiaryEntry>>()  // List로 변경
     val diaryData: LiveData<List<DiaryEntry>> get() = _diaryData
 
-    // userId와 yyyymmdd를 매개변수로 받는 loadDiaryData 함수
+    val diaryEntry: DiaryEntry?
+        get() = _diaryData.value?.firstOrNull()  // 첫 번째 diaryEntry 가져오기
+
     // userId와 yyyymmdd를 매개변수로 받는 loadDiaryData 함수
     fun loadDiaryData(userId: String, yyyymmdd: String) {
         val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$yyyymmdd")
@@ -22,7 +24,6 @@ class AllViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val diaryEntry = snapshot.getValue(DiaryEntry::class.java)
-                    // diaryEntry가 null이 아닐 경우에만 리스트에 추가
                     if (diaryEntry != null) {
                         _diaryData.value = listOf(diaryEntry) // List<DiaryEntry>로 감싸서 전달
                     } else {
@@ -38,6 +39,6 @@ class AllViewModel : ViewModel() {
             }
         })
     }
-
 }
+
 
