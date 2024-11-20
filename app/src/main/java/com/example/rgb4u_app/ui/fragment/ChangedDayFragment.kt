@@ -134,17 +134,26 @@ class ChangedDayFragment : Fragment() {
     private fun setupExampleTexts() {
         // 예시 텍스트를 표시할 TextView 목록
         val exampleTextViews = listOf(binding.exampleText1, binding.exampleText2, binding.exampleText3)
+        // 예시 블루박스 뷰 목록
+        val exampleBlueBoxViews = listOf(binding.examplebluebox1, binding.examplebluebox2, binding.examplebluebox3)
+        // 예시 이미지 뷰 목록
+        val exampleImageViews = listOf(binding.exampleImage1, binding.exampleImage2, binding.exampleImage3)
 
         // exampleTexts 리스트의 각 항목을 TextView에 설정
         exampleTexts.forEachIndexed { index, text ->
             if (index < exampleTextViews.size) {
                 exampleTextViews[index].text = text
+                exampleTextViews[index].visibility = View.VISIBLE // 텍스트가 있으면 보이도록 설정
+                exampleBlueBoxViews[index].visibility = View.VISIBLE // 블루박스도 보이도록 설정
+                exampleImageViews[index].visibility = View.VISIBLE // 이미지도 보이도록 설정
             }
         }
 
-        // exampleTexts 리스트보다 TextView가 많으면 나머지는 공백으로 처리
+        // exampleTexts 리스트보다 TextView, BlueBox, Image가 많으면 나머지는 숨김 처리
         for (i in exampleTexts.size until exampleTextViews.size) {
-            exampleTextViews[i].text = ""
+            exampleTextViews[i].visibility = View.GONE // 나머지 TextView는 화면에서 제거
+            exampleBlueBoxViews[i].visibility = View.GONE // 나머지 BlueBox는 화면에서 제거
+            exampleImageViews[i].visibility = View.GONE // 나머지 ImageView는 화면에서 제거
         }
     }
 
