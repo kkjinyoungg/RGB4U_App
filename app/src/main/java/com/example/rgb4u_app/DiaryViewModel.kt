@@ -13,6 +13,8 @@ import com.example.rgb4u_app.SampleData //SampleData 추가
 import com.example.rgb4u_app.MonthlyStatsUpdater
 import com.google.firebase.database.ServerValue
 import com.example.rgb4u_app.MonthlyDistortionUpdater
+import android.os.Handler
+import android.os.Looper
 
 class DiaryViewModel : ViewModel() {
 
@@ -195,7 +197,11 @@ class DiaryViewModel : ViewModel() {
                 // Optional callback code after the data is saved (empty for now)
                 Log.d("SampleData", "fillinganalysis is completed.")
             }
-            onDiarySaved?.invoke()
+            // 3초 후에 onDiarySaved 호출
+            Handler(Looper.getMainLooper()).postDelayed({
+                onDiarySaved?.invoke()
+                Log.d("DiaryViewModel", "onDiarySaved 호출 완료")
+            }, 3000) // 3000 milliseconds = 3 seconds
         }
     }
 

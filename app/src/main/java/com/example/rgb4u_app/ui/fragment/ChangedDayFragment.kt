@@ -93,7 +93,7 @@ class ChangedDayFragment : Fragment() {
                     val thoughtSets = secondAnalysis?.get("thoughtSets") as? Map<String, Any>
 
                     // (1) situation 데이터 가져오기
-                    situationDetailText = userInput["situation"] as? String ?: ""
+                    situationDetailText = aiAnalysis["situation"] as? String ?: ""
                     binding.situationDetail.text = situationDetailText
 
                     // (2) thoughtSets의 alternativeThoughts 데이터 가져오기
