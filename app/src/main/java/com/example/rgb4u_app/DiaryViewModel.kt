@@ -114,6 +114,7 @@ class DiaryViewModel : ViewModel() {
             .addOnSuccessListener {
                 Log.d("DiaryViewModel", "일기 저장 성공: $diaryId")
                 analyzeDiaryWithAI(userId, diaryId!!, getCurrentDate()) // AI 분석 호출
+                Log.d("DiaryViewModel", "toolBarDate: ${toolBarDate.value}")
 
                 // 감정 키워드 통계 상세
                 val date = getCurrentDate() // 현재 날짜
@@ -163,25 +164,28 @@ class DiaryViewModel : ViewModel() {
     private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId, diaryDate = $diaryDate")
 
-        // diaryDate가 "2024-11-20"이 아닐 때만 진행
         if (diaryDate != "2024-11-20") {
             // (1) AiSummary 호출
             val aiSummary = AiSummary()
             aiSummary.analyzeDiary(userId, diaryId, getCurrentDate()) {
                 Log.d("DiaryViewModel", "AiSummary 분석 완료")
+                updateReadingStatus1(userId)  // readingStatus 업데이트
 
                 // 분석 완료 후 onDiarySaved 호출
-                onDiarySaved?.invoke()
+                onDiarySaved?.invoke()  // 여기에 이동
 
                 // (2) AiSecond 호출
                 val aiSecond = AiSecond()
                 aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
                     Log.d("DiaryViewModel", "AiSecond 분석 완료")
 
-                    // (3) saveThoughtsToFirebase 호출 (MonthlyDistortionUpdater 인스턴스를 사용)
+                    // (3) saveThoughtsToFirebase 호출
                     val monthlyUpdater = MonthlyDistortionUpdater()
                     monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
                     Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
+
+                    // (4) readingStatus 업데이트
+                    updateReadingStatus2(userId)  // readingStatus 업데이트
                 }
             }
         } else {
@@ -193,16 +197,25 @@ class DiaryViewModel : ViewModel() {
                 Log.d("SampleData", "fillingsummary is completed.")
             }
 
-            sampledata.fillinganalysis(userId, diaryId, getCurrentDate()) {
-                // Optional callback code after the data is saved (empty for now)
-                Log.d("SampleData", "fillinganalysis is completed.")
-            }
+            updateReadingStatus1(userId)  // readingStatus 업데이트
+
             // 3초 후에 onDiarySaved 호출
             Handler(Looper.getMainLooper()).postDelayed({
                 onDiarySaved?.invoke()
                 Log.d("DiaryViewModel", "onDiarySaved 호출 완료")
             }, 3000) // 3000 milliseconds = 3 seconds
+
+
+            sampledata.fillinganalysis(userId, diaryId, getCurrentDate()) {
+                // Optional callback code after the data is saved (empty for now)
+                Log.d("SampleData", "fillinganalysis is completed.")
+
+                updateReadingStatus2(userId)  // readingStatus 업데이트
+
+            }
         }
+
+
     }
 
     // 감정 유형에 맞는 키워드 목록을 반환하는 함수
@@ -233,5 +246,31 @@ class DiaryViewModel : ViewModel() {
 
         Log.d("DiaryViewModel", "Current Date Returned: $diaryDate") // 반환할 날짜 로그 추가
         return diaryDate!!
+    }
+
+    // readingStatus를 "unread"로 업데이트하는 함수
+    private fun updateReadingStatus2(userId: String) {
+        val currentDate = getCurrentDate()
+        val database = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$currentDate/readingstatus")
+
+        database.setValue("unread").addOnSuccessListener {
+            Log.d("DiaryViewModel", "readingStatus 분석완료 성공: unread for date $currentDate")
+        }.addOnFailureListener { exception ->
+            Log.e("DiaryViewModel", "readingStatus 분석완료 실패", exception)
+        }
+    }
+
+    // readingStatus를 "unread"로 업데이트하는 함수
+    private fun updateReadingStatus1(userId: String) {
+        val currentDate = getCurrentDate()
+        val database = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$currentDate/readingstatus")
+
+        database.setValue("load").addOnSuccessListener {
+            Log.d("DiaryViewModel", "readingStatus 분석중: unread for date $currentDate")
+        }.addOnFailureListener { exception ->
+            Log.e("DiaryViewModel", "readingStatus 분석중 실패", exception)
+        }
     }
 }
