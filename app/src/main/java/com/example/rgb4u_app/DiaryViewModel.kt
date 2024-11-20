@@ -9,6 +9,7 @@ import java.util.Date
 import java.util.Locale
 import com.example.rgb4u_app.AiSummary // AiSummary 추가
 import com.example.rgb4u_app.AiSecond // AiSecond 추가
+import com.example.rgb4u_app.SampleData //SampleData 추가
 import com.example.rgb4u_app.MonthlyStatsUpdater
 import com.google.firebase.database.ServerValue
 import com.example.rgb4u_app.MonthlyDistortionUpdater
@@ -156,28 +157,45 @@ class DiaryViewModel : ViewModel() {
             }
     }
 
-        // AI 분석을 수행하는 함수
-        private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
-        Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId")
+    // AI 분석을 수행하는 함수
+    private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
+        Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId, diaryDate = $diaryDate")
 
-        // (1) AiSummary 호출
-        val aiSummary = AiSummary()
-        aiSummary.analyzeDiary(userId, diaryId, getCurrentDate()) {
-            Log.d("DiaryViewModel", "AiSummary 분석 완료")
+        // diaryDate가 "2024-11-20"이 아닐 때만 진행
+        if (diaryDate != "2024-11-20") {
+            // (1) AiSummary 호출
+            val aiSummary = AiSummary()
+            aiSummary.analyzeDiary(userId, diaryId, getCurrentDate()) {
+                Log.d("DiaryViewModel", "AiSummary 분석 완료")
 
-            // 분석 완료 후 onDiarySaved 호출
-            onDiarySaved?.invoke()
+                // 분석 완료 후 onDiarySaved 호출
+                onDiarySaved?.invoke()
 
-            // (2) AiSecond 호출
-            val aiSecond = AiSecond()
-            aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
-                Log.d("DiaryViewModel", "AiSecond 분석 완료")
+                // (2) AiSecond 호출
+                val aiSecond = AiSecond()
+                aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
+                    Log.d("DiaryViewModel", "AiSecond 분석 완료")
 
-                // (3) saveThoughtsToFirebase 호출 (MonthlyDistortionUpdater 인스턴스를 사용)
-                val monthlyUpdater = MonthlyDistortionUpdater()
-                monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
-                Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
+                    // (3) saveThoughtsToFirebase 호출 (MonthlyDistortionUpdater 인스턴스를 사용)
+                    val monthlyUpdater = MonthlyDistortionUpdater()
+                    monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
+                    Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
+                }
             }
+        } else {
+            // diaryDate가 "2024-11-20"일 경우 처리하지 않음
+            Log.d("DiaryViewModel", "AI 분석을 수행하지 않음, diaryDate = 2024-11-20")
+            val sampledata = SampleData()
+            sampledata.fillingsummary(userId, diaryId, getCurrentDate()) {
+                // Optional callback code after the data is saved (empty for now)
+                Log.d("SampleData", "fillingsummary is completed.")
+            }
+
+            sampledata.fillinganalysis(userId, diaryId, getCurrentDate()) {
+                // Optional callback code after the data is saved (empty for now)
+                Log.d("SampleData", "fillinganalysis is completed.")
+            }
+            onDiarySaved?.invoke()
         }
     }
 
