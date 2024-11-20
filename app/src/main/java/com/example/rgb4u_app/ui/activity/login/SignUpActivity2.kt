@@ -12,7 +12,7 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.onboarding.OnboardingActivity
+import com.example.rgb4u_app.ui.activity.onboarding.OnboardingStartActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -71,7 +71,7 @@ class SignUpActivity2 : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 Log.d("SignUpActivity2", "Birth saved successfully")
                                 // 저장 성공 시 다음 단계로 이동
-                                val intent = Intent(this, OnboardingActivity::class.java)
+                                val intent = Intent(this, OnboardingStartActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
