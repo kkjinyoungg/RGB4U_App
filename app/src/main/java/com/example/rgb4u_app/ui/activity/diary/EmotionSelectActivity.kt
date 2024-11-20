@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.activity.diary
 
+import androidx.lifecycle.ViewModelProvider
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList //칩 배경색 추가
@@ -20,6 +21,7 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u_app.AllViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -34,6 +36,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
     private lateinit var myEmotionFragment: MyEmotionFragment
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
+    private lateinit var allViewModel: AllViewModel // ViewModel 선언
     private val selectedEmotions = mutableListOf<String>() // 선택된 감정 리스트
     private lateinit var selectedChipGroup: ChipGroup
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
@@ -59,11 +62,24 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
         //다이어리뷰모델초기화
         diaryViewModel = (application as MyApplication).diaryViewModel
+        allViewModel = ViewModelProvider(this).get(AllViewModel::class.java)
+
 
         // 관찰자 추가.
         diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
             Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
         }
+
+        allViewModel.diaryData.observe(this) { data ->
+            // 데이터 변화에 따른 UI 업데이트 로직
+            data?.let { diaryEntries ->
+                // DiaryEntry 데이터를 활용하여 UI 업데이트
+                for (entry in diaryEntries) {
+                    Log.d("DiaryEntry", "Diary ID: ${entry.diaryId}, Situation: ${entry.userInput?.situation}")
+                }
+            }
+        }
+
 
         yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
 
@@ -331,9 +347,24 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
             // 데이터 저장 성공 시 로딩 종료 및 SummaryMainActivity로 이동
             diaryViewModel.onDiarySaved = {
-                hideLoadingDialog() // 로딩 다이얼로그 숨기기
-                val intent =
-                    Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
+                Log.d("EmotionSelectActivity", "userId: $userId")  // userId 값 로그 출력
+                Log.d("EmotionSelectActivity", "yyyymmdd: $yyyymmdd")  // yyyymmdd 값 로그 출력
+
+                // 전역에서 선언된 userId와 yyyymmdd 사용
+                if (!userId.isNullOrEmpty() && !yyyymmdd.isNullOrEmpty()) {
+                    allViewModel.loadDiaryData(userId!!, yyyymmdd) // userId가 null이 아니라고 보장되면 강제 언래핑
+                    allViewModel.diaryData.observe(this, { diaryEntry ->
+                        // 데이터가 로드된 후 UI 업데이트
+                        if (diaryEntry != null) {
+                            hideLoadingDialog() // 로딩 다이얼로그 숨기기
+                        }
+                    })
+                } else {
+                    Log.e("Diary", "User ID or Date is null or empty. userId: $userId, yyyymmdd: $yyyymmdd")
+                    hideLoadingDialog() // 로딩 다이얼로그 숨기기
+                }
+
+                val intent = Intent(this, SummaryMainActivity::class.java) // SummaryMainActivity로 데이터 전달
                 intent.putExtra("Date", yyyymmdd) // diaryId를 Intent에 추가
                 intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
                 startActivity(intent)

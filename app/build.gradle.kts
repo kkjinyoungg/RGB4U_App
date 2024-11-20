@@ -53,6 +53,10 @@ android {
 
 dependencies {
 
+    // ViewModel 관련 라이브러리 추가
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1") // 최신 버전으로 수정 가능
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1") // LiveData 관련 라이브러리도 필요
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
