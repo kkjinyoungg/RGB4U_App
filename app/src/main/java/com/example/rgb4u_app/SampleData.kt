@@ -10,14 +10,19 @@ class SampleData {
 
     // 첫 번째 분석 데이터 채우는 함수
     fun fillingsummary(userId: String, diaryId: String, date: String, callback: () -> Unit) {
-        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$date/aiAnalysis/firstAnalysis")
+        val analysisRef: DatabaseReference =
+            firebaseDatabase.getReference("users/$userId/diaries/$date/aiAnalysis/firstAnalysis")
 
         // 데이터 채우기
-        val emotionList = listOf("행복", "기쁨") // 예시로 넣을 감정 리스트
-        val situation = "랄랄라였어" // 상황에 대한 AI 분석
-        val thoughts = "랄랄라였어" // 생각에 대한 AI 분석
-        val situationReason = "AI 분석 이유" // 상황 분석 이유
-        val thoughtsReason = "AI 생각 분석 이유" // 생각 분석 이유
+        val emotionList = listOf("끔찍해", "너무 속상했어") // 예시로 넣을 감정 리스트
+        val situation =
+            "다정이랑 둘이서만 점심을 먹고 싶었는데, 갑자기 혜진이가 다가와서 셋이서 점심을 먹었어. 다정이랑 혜진이가 너무 친해 보여서 둘이 나누는 대화에 끼어들기가 어려웠어. " // 상황에 대한 AI 분석
+        val thoughts =
+            "다정이는 나랑 같이 다니기 싫은가 봐. 이러다가 혼자서 다니게 될 것 같아. 혜진이가 다정이에게 나를 빼고 다니자고 하면 어떡하지? " // 생각에 대한 AI 분석
+        val situationReason =
+            "다정이와 둘이서 점심을 먹고 싶었지만, 혜진이가 와서 셋이서 함께 식사를 했어요. ‘혜진이가 다정이에게 나를 빼고 다니자고 하면 어떡하지?’는 생각을 나타내고 있어서 옮겨졌어요. ‘너무 속상했어.’는 감정을 나타내고 있어서 옮겨졌어요." // 상황 분석 이유
+        val thoughtsReason =
+            "다정이와의 관계가 멀어질까 봐 걱정되고, 이러다가 혼자 다니게 될 것 같다는 생각이 들었어요. ‘끔찍해’는 감정을 나타내고 있어서 옮겨졌어요." // 생각 분석 이유
 
         // Firebase에 데이터 저장
         analysisRef.setValue(
@@ -38,54 +43,47 @@ class SampleData {
 
     // 두 번째 분석 데이터 채우는 함수
     fun fillinganalysis(userId: String, diaryId: String, date: String, callback: () -> Unit) {
-        val analysisRef: DatabaseReference = firebaseDatabase.getReference("users/$userId/diaries/$date/aiAnalysis/secondAnalysis")
-
-        // 데이터 채우기
-        val emotionList = listOf("슬픔", "불안") // 예시로 넣을 감정 리스트
-        val situation = "AI 두 번째 분석 상황" // 두 번째 상황에 대한 AI 분석
-        val thoughts = "AI 두 번째 분석 생각" // 두 번째 생각에 대한 AI 분석
-        val situationReason = "두 번째 AI 분석 이유" // 두 번째 상황 분석 이유
-        val thoughtsReason = "두 번째 AI 생각 분석 이유" // 두 번째 생각 분석 이유
+        val analysisRef: DatabaseReference =
+            firebaseDatabase.getReference("users/$userId/diaries/$date/aiAnalysis/secondAnalysis")
 
         // 추가적인 thoughtSets 데이터 예시
         val thoughtSets = mapOf(
-            "랄라성" to listOf(
+            "궁예성" to listOf(
                 ThoughtData(
-                    "나는 다른 사람들과 다르게 내 각별한 능력과 가치가 있다.",
-                    "각 사람들은 서로 다른 장점과 능력을 갖고 있으며, 자신의 독특함을 인정하고 긍정적으로 받아들이면 자존감이 높아지고 더 나은 관계를 형성할 수 있다.",
-                    listOf("자신이나 다른 사람에게 부정적인 결론이 담긴 이름을 붙이게 해요"),
-                    "자신을 다른 사람과 비교하여 부정적으로 이름붙이는 행위로, 자신의 능력이나 가치를 지나치게 일반화하고 과장하는 것이 특징이다.",
-                    "ic_planet_e",
-                    "나는 친구보다 훨씬 못났어"
+                    "다정이의 생각은 다정이에게 직접 물어봐야 해",
+                    "다정이의 생각을 직접 확인하면, 불필요한 걱정을 줄이고 문제를 해결할 수 있어요.",
+                    listOf("다른 사람의 생각을 마음대로", "넘겨짚게 해요"),
+                    "실제로 다정이의 생각은 알 수 없음에도, 다정이의 마음을 추측하고 있어요. 내 마음대로 다정이가 나와 같이 다니기 싫어한다고 결론짓고 있어요.",
+                    "ic_planet_h",
+                    "다정이는 나랑 같이 다니기 싫은가 봐."
+                )
+            ),
+            "재앙성" to listOf(
+                ThoughtData(
+                    "다정이와 계속 함께 다닐 수도 있어.",
+                    "혼자 다니는 상황에 대한 과도한 걱정을 줄이고 긍정적으로 생각할 수 있어요.",
+                    listOf("별다른 이유 없이 미래를 부정적으로", "생각하게 해요"),
+                    "가장 나쁜 상황인 ‘혼자 다니는 일’을 상상하고 있어요. 여러가지 해결책이 있을 수 있지만 지나치게 부정적인 결과만 생각하고 있어요.",
+                    "ic_planet_b",
+                    "이러다가 혼자서 다니게 될 것 같아."
                 ),
                 ThoughtData(
-                    "나는 현재 이 문제에 대해 아직 충분히 이해하지 못했을 뿐이지, 멍청한 것은 아니다.",
-                    "모든 사람은 어떤 분야에서 완벽하지 않을 수 있고, 지식을 쌓는 과정에서 실수를 할 수 있다는 점을 이해하고 자신을 지나치게 비난하지 않는 것이 중요하다.",
-                    listOf("자신이나 다른 사람에게 부정적인 결론이 담긴 이름을 붙이게 해요"),
-                    "자신에게나 다른 사람에게 전반적이고 고정된 부정적인 이름을 붙이기 때문에 해당된다. 멍청하다는 고정된 이름을 붙이고 있음.",
-                    "ic_planet_e",
-                    "나는 멍청해"
-                ),
-                ThoughtData(
-                    "나는 노답이 아니고 성장하고 발전할 여지가 많다.",
-                    "자신을 부정적으로 정의하는 것은 성장과 발전을 막을 수 있기 때문에 긍정적으로 바라볼 필요가 있습니다.",
-                    listOf("자신이나 다른 사람에게 부정적인 결론이 담긴 이름을 붙이게 해요"),
-                    "본인과 다른 사람을 고정적이고 부정적으로 평가하는 경향이 있습니다.",
-                    "ic_planet_e",
-                    "나는 노답이야."
+                    "혜진이가 나를 빼고 다니자고 할 이유는 없을 거야.",
+                    "불필요한 걱정을 없애고 친구의 행동을 과도하게 걱정하지 않을 수 있어요.",
+                    listOf("별다른 이유 없이 미래를 부정적으로", "생각하게 해요"),
+                    "다정이가 나를 빼고 다른 친구들과 다니게 되는 극단적인 결과를 걱정하고 있어요. 일어나지 않을 수 있는 최악의 상황을 지나치게 상상하고 있어요.",
+                    "ic_planet_b",
+                    "혜진이가 다정이에게 나를 빼고 다니자고 하면 어떡하지?"
                 )
             )
         )
 
-        // Firebase에 데이터 저장
+        // Firebase에 secondAnalysis 데이터만 저장
         analysisRef.setValue(
             mapOf(
-                "emotion" to emotionList,
-                "situation" to situation,
-                "thoughts" to thoughts,
-                "situationReason" to situationReason,
-                "thoughtsReason" to thoughtsReason,
-                "thoughtSets" to thoughtSets
+                "thoughtSets" to thoughtSets,
+                "totalCharacters" to 2, // 총 캐릭터 수
+                "totalSets" to 3 // 총 sets 수
             )
         ).addOnSuccessListener {
             Log.d(TAG, "두 번째 분석 데이터 저장 성공")
@@ -94,7 +92,6 @@ class SampleData {
             Log.e(TAG, "두 번째 분석 데이터 저장 실패: ${it.message}")
         }
     }
-
     // ThoughtData 클래스 정의 (secondAnalysis에 사용)
     data class ThoughtData(
         val alternativeThoughts: String,
@@ -105,3 +102,4 @@ class SampleData {
         val selectedThoughts: String
     )
 }
+
