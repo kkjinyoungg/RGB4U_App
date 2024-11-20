@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
@@ -227,6 +227,8 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         // 로그 추가
         Log.d("Chip", "Close icon resource: ${R.drawable.ic_chip_delete}")
         selectedChip.isCloseIconVisible = true
+        // CloseIcon의 리소스를 변경
+        selectedChip.setCloseIconResource(R.drawable.ic_emotion_close)
 
         // 기본 색상으로 설정
         selectedChip.chipBackgroundColor = getChipColor(category)

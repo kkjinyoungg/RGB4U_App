@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -7,8 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -46,9 +49,10 @@ class AnalysisFragment : Fragment() {
     private lateinit var percentSurprise: TextView
     private lateinit var overlayView: View // 반투명 막
     private lateinit var tvViewDetails: LinearLayout // "자세히 보기" 링크
+    private var currentCalendar = Calendar.getInstance()
 
-    // 현재 날짜를 저장하는 변수
-    private val currentDate = Calendar.getInstance()
+//    // 현재 날짜를 저장하는 변수
+//    private val currentDate = Calendar.getInstance()
 
     //통계 상세를 위한 날짜 저장 (yyyy-mm)
     private var formattedDate2: String = ""
@@ -93,13 +97,19 @@ class AnalysisFragment : Fragment() {
         pieChart = view.findViewById(R.id.pie_chart)
         pieChart.isRotationEnabled = false
 
+        toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
+
+        toolbarCalendarTitle.setOnClickListener {
+            showMonthYearPickerDialog()
+        }
+
+        // 초기 날짜 설정
+        updateToolbarDate()
+
         // 버튼 설정
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
-        // button_calendar_action2의 이미지 리소스 변경
-        buttonAction1.setImageResource(R.drawable.ic_analysis_back) // 임시라 추후 수정
-        buttonAction2.setImageResource(R.drawable.ic_analysis_next) // 임시라 추후 수정
 
         // 버튼 클릭 리스너 설정
         buttonAction1.setOnClickListener {
@@ -135,25 +145,113 @@ class AnalysisFragment : Fragment() {
         return view
     }
 
+    private fun showMonthYearPickerDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_month_year_picker)
+
+        val yearPicker = dialog.findViewById<NumberPicker>(R.id.year_picker)
+        val monthPicker = dialog.findViewById<NumberPicker>(R.id.month_picker)
+        val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm_yearmonth)
+
+        val currentDate = Calendar.getInstance()
+        val currentYear = currentDate.get(Calendar.YEAR)
+        val currentMonth = currentDate.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
+
+        // NumberPicker 범위 설정 (연도)
+        yearPicker.minValue = currentYear - 100
+        yearPicker.maxValue = currentYear
+        yearPicker.wrapSelectorWheel = false // 순환 비활성화
+        yearPicker.value = currentCalendar.get(Calendar.YEAR)
+        yearPicker.displayedValues = Array(yearPicker.maxValue - yearPicker.minValue + 1) { i ->
+            "${yearPicker.minValue + i}년"
+        }
+
+        // MonthPicker 업데이트 함수
+        fun updateMonthPicker(year: Int) {
+            if (year == currentYear) {
+                // 현재 연도인 경우, 현재 월까지만 표시
+                val monthRange = 1..currentMonth
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
+            } else {
+                // 과거 연도인 경우 전체 월(1~12) 표시
+                val monthRange = 1..12
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
+            }
+            // 초기 MonthPicker 값 설정: 현재 날짜의 달로 설정
+            monthPicker.value = currentMonth
+
+            // 현재 선택된 값이 유효 범위 내에 있도록 보정
+            if (monthPicker.value < monthPicker.minValue) {
+                monthPicker.value = monthPicker.minValue
+            } else if (monthPicker.value > monthPicker.maxValue) {
+                monthPicker.value = monthPicker.maxValue
+            }
+        }
+
+        // 초기 MonthPicker 값 설정
+        monthPicker.wrapSelectorWheel = false // 순환 비활성화
+        updateMonthPicker(yearPicker.value)
+
+        // 연도 변경 시 MonthPicker 범위 업데이트
+        yearPicker.setOnValueChangedListener { _, _, newYear ->
+            updateMonthPicker(newYear)
+        }
+
+        // 확인 버튼 클릭 시 동작
+        btnConfirm.setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value // 이미 1부터 시작하는 값
+
+            // 선택된 날짜를 currentCalendar에 반영
+            currentCalendar.set(Calendar.YEAR, selectedYear)
+            currentCalendar.set(Calendar.MONTH, selectedMonth - 1) // Month는 0부터 시작
+
+            // 툴바의 날짜 갱신
+            updateToolbarDate()
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
     private fun moveToPreviousDate() {
-        currentDate.add(Calendar.MONTH, -1) // 한 달 전으로 이동
+        currentCalendar.add(Calendar.MONTH, -1) // 한 달 전으로 이동
         updateToolbarDate()
         fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
     private fun moveToNextDate() {
-        currentDate.add(Calendar.MONTH, 1) // 한 달 후로 이동
-        updateToolbarDate()
-        fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
+        val currentDate = Calendar.getInstance()
+
+        // 현재 연도와 월을 비교해서, currentCalendar가 현재 날짜 이후로 넘어가지 않도록 설정
+        if (currentCalendar.get(Calendar.YEAR) < currentDate.get(Calendar.YEAR) ||
+            (currentCalendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) && currentCalendar.get(Calendar.MONTH) < currentDate.get(Calendar.MONTH))) {
+            currentCalendar.add(Calendar.MONTH, 1) // 한 달 후로 이동
+            updateToolbarDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
+        } else {
+            Toast.makeText(requireContext(), "현재 날짜 이후로는 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
+
+
 
     // 툴바의 날짜를 업데이트하는 메소드
     private fun updateToolbarDate() {
-        val formattedDate = SimpleDateFormat("yyyy년 MM월", Locale("ko", "KR")).format(currentDate.time)
+        val formattedDate = SimpleDateFormat("yyyy년 MM월", Locale("ko", "KR")).format(currentCalendar.time)
         toolbarCalendarTitle.text = formattedDate
-        //통계 상세용 날짜도 함께 업데이트
-        formattedDate2 = SimpleDateFormat("yyyy-MM", Locale("ko", "KR")).format(currentDate.time)
+        formattedDate2 = SimpleDateFormat("yyyy-MM", Locale("ko", "KR")).format(currentCalendar.time)
     }
+
 
     private fun setupPieChart(entries: List<PieEntry>) {
         // 파이 차트에 들어갈 데이터 설정
@@ -215,7 +313,7 @@ class AnalysisFragment : Fragment() {
             return
         }
 
-        val calendar = currentDate // 현재 날짜 사용
+        val calendar = currentCalendar // 현재 날짜 사용
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1
         val monthFormatted = String.format("%04d-%02d", year, month)
@@ -321,7 +419,7 @@ class AnalysisFragment : Fragment() {
             return cardList
         }
 
-        val calendar = currentDate
+        val calendar = currentCalendar
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1
         val monthFormatted = String.format("%04d-%02d", year, month)

@@ -390,12 +390,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navigationBar"
         android:name="com.example.rgb4u_app.ui.fragment.NavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

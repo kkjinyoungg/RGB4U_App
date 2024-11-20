@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionTypeActivity
 import com.example.rgb4u_appclass.DiaryViewModel

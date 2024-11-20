@@ -1,29 +1,34 @@
 package com.example.rgb4u_app.ui.fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity // DiaryWriteActivity 추가
 import com.example.rgb4u_app.ui.activity.calendar.CalenderDetailActivity
+import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Log
+import java.util.Calendar
+import java.util.Locale
 
 class CalendarFragment : Fragment() {
 
@@ -41,6 +46,14 @@ class CalendarFragment : Fragment() {
         calendarGrid = view.findViewById(R.id.calendar_grid)
         textCurrentMonth = view.findViewById(R.id.toolbar_calendar_title)
 
+        // 현재 날짜 가져오기
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
+        val currentMonth = calendar.get(Calendar.MONTH) + 1 // MONTH는 0부터 시작하므로 +1 필요
+
+        // TextView 초기값 설정
+        textCurrentMonth.text = "${currentYear}년 ${currentMonth}월"
+
         val buttonAction1 = view.findViewById<ImageButton>(R.id.button_calendar_action1)
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
@@ -50,6 +63,11 @@ class CalendarFragment : Fragment() {
         buttonAction2.setOnClickListener {
             changeMonth(1)
         }
+
+        textCurrentMonth.setOnClickListener {
+            showMonthYearPickerDialog()
+        }
+
 
         updateCalendar()
         return view
@@ -128,6 +146,77 @@ class CalendarFragment : Fragment() {
 
         fetchDiaryDataForMonth()
     }
+
+    private fun showMonthYearPickerDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_month_year_picker)
+
+        val yearPicker = dialog.findViewById<NumberPicker>(R.id.year_picker)
+        val monthPicker = dialog.findViewById<NumberPicker>(R.id.month_picker)
+        val btnConfirm = dialog.findViewById<Button>(R.id.btn_confirm_yearmonth)
+
+        val currentDate = Calendar.getInstance()
+        val currentYear = currentDate.get(Calendar.YEAR)
+        val currentMonth = currentDate.get(Calendar.MONTH) + 1 // 월은 0부터 시작하므로 +1
+
+        // NumberPicker 범위 설정
+        yearPicker.minValue = currentYear - 100
+        yearPicker.maxValue = currentYear
+        yearPicker.wrapSelectorWheel = false // 순환 비활성화
+        yearPicker.value = currentCalendar.get(Calendar.YEAR)
+        yearPicker.displayedValues = Array(yearPicker.maxValue - yearPicker.minValue + 1) { i ->
+            "${yearPicker.minValue + i}년"
+        }
+
+        fun updateMonthPicker(year: Int) {
+            if (year == currentYear) {
+                // 현재 연도인 경우, 현재 월까지만 표시
+                val monthRange = 1..currentMonth
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
+            } else {
+                // 과거 연도인 경우 전체 월(1~12) 표시
+                val monthRange = 1..12
+                monthPicker.displayedValues = null // 기존 캐싱된 값을 초기화
+                monthPicker.minValue = monthRange.first
+                monthPicker.maxValue = monthRange.last
+                monthPicker.displayedValues = monthRange.map { "${it}월" }.toTypedArray()
+            }
+            // 초기 MonthPicker 값 설정: 현재 날짜의 달로 설정
+            monthPicker.value = currentMonth
+
+            // 현재 선택된 값이 유효 범위 내에 있도록 보정
+            if (monthPicker.value < monthPicker.minValue) {
+                monthPicker.value = monthPicker.minValue
+            } else if (monthPicker.value > monthPicker.maxValue) {
+                monthPicker.value = monthPicker.maxValue
+            }
+        }
+
+        // 초기 MonthPicker 값 설정
+        monthPicker.wrapSelectorWheel = false // 순환 비활성화
+        updateMonthPicker(yearPicker.value)
+
+        // 연도 선택 시 MonthPicker 범위 업데이트
+        yearPicker.setOnValueChangedListener { _, _, newYear ->
+            updateMonthPicker(newYear)
+        }
+
+        btnConfirm.setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
+
+            currentCalendar.set(Calendar.YEAR, selectedYear)
+            currentCalendar.set(Calendar.MONTH, selectedMonth - 1) // Month는 0부터 시작
+            updateCalendar()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
     private fun isToday(day: Int): Boolean {
         val today = Calendar.getInstance()

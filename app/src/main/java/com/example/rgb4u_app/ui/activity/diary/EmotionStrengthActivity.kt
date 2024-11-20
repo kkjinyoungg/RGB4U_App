@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
-import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 

@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.MyApplication
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.activity.ActivityType
-import com.example.rgb4u_app.ui.activity.MainActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
 import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment

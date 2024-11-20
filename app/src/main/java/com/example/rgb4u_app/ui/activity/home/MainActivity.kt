@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity
+package com.example.rgb4u_app.ui.activity.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
