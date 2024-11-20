@@ -17,6 +17,8 @@ import java.util.Date
 import java.util.Locale
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+
 
 class DistortionTypeActivity : AppCompatActivity() {
 
@@ -41,6 +43,9 @@ class DistortionTypeActivity : AppCompatActivity() {
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
         Log.d("DistortionTypeActivity", "Received Diary ID: $date")
+
+        // Firebase에서 readingStatus 업데이트
+        updateReadingStatus(userId, date)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
         setSupportActionBar(toolbar)
@@ -110,6 +115,18 @@ class DistortionTypeActivity : AppCompatActivity() {
             pagerAdapter.updateData() // UI 업데이트
         }
     }
+
+    private fun updateReadingStatus(userId: String, date: String) {
+        val database = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$date/readingstatus")
+
+        database.setValue("").addOnSuccessListener {
+            Log.d("DistortionTypeActivity", "readingStatus 업데이트 성공: 빈 문자열로 설정됨")
+        }.addOnFailureListener { exception ->
+            Log.e("DistortionTypeActivity", "readingStatus 업데이트 실패", exception)
+        }
+    }
+
 
     private fun showDistortionHelpBottomSheet() {
         val bottomSheet = DistortionHelpBottomSheet()
