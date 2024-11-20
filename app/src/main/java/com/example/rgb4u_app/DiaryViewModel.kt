@@ -61,7 +61,7 @@ class DiaryViewModel : ViewModel() {
         val diaryData = mapOf(
             "diaryId" to diaryId, // diaryId 추가 //
             "savingstatus" to "save", // savingstatus 추가 //
-            "readingstatus" to "unread", // readingstatus 추가 //
+            "readingstatus" to "null", // readingstatus 추가 //
             "toolbardate" to toolBarDate.value, // 월일요일 형식 날짜
             "userInput" to mapOf(
                 "situation" to situation.value,
