@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +31,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
         // Firebase 초기화
         database = FirebaseDatabase.getInstance().reference
 
-        //diaryId, ID
+        // diaryId, ID
         val date = intent.getStringExtra("date") ?: "defaultDate"
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -40,7 +41,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // 기본 뒤로가기 버튼, 앱 이름 숨기기
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 툴바의 제목을 "달라진 하루"로 설정
@@ -67,14 +68,51 @@ class CalenderChangedDayActivity : AppCompatActivity() {
             finish()
         }
 
+        val emotionStep1 = findViewById<TextView>(R.id.emotionStep1)
+        val emotionIcon1 = findViewById<ImageView>(R.id.emotionIcon1)
+        val emotionText1 = findViewById<TextView>(R.id.emotionText1)
+
+        val emotionStep2 = findViewById<TextView>(R.id.emotionStep2)
+        val emotionIcon2 = findViewById<ImageView>(R.id.emotionIcon2)
+        val emotionText2 = findViewById<TextView>(R.id.emotionText2)
+
         // RecyclerView 설정
         recyclerView = findViewById(R.id.summaryThinkRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = ChangeDayThinkAdapter(situations)
         recyclerView.adapter = adapter
+
         if (userId != null && date != null) {
             // 첫 번째 경로에서 데이터 조회
             loadSecondAnalysisData(userId, date)
+
+            // emotionDegree와 emotionTypes를 userInput에서 가져오기
+            val userInputRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/userInput")
+            userInputRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(userInputSnapshot: DataSnapshot) {
+                    // emotionDegree에서 int와 string 가져오기
+                    val emotionDegreeInt = userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
+                    val emotionDegreeString = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                    val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
+
+                    val emotionDegreeInt2 = userInputSnapshot.child("reMeasuredEmotionDegree/int").getValue(Int::class.java) ?: 2
+                    val emotionDegreeString2 = userInputSnapshot.child("reMeasuredEmotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                    val emotionDegreeImage2 = userInputSnapshot.child("reMeasuredEmotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
+
+                    emotionStep1.text = "${emotionDegreeInt + 1}단계"
+                    emotionText1.text = emotionDegreeString
+                    emotionIcon1.setImageResource(getEmotionImageResource(emotionDegreeImage))
+
+                    emotionStep2.text = "${emotionDegreeInt2 + 1}단계"
+                    emotionText2.text = emotionDegreeString2
+                    emotionIcon2.setImageResource(getEmotionImageResource(emotionDegreeImage2))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // 에러 처리
+                    error.toException().printStackTrace()
+                }
+            })
         } else {
             Log.e("CalenderChangedDay", "Invalid input: userId or date is null. userId=$userId, date=$date")
         }
@@ -116,5 +154,10 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                 error.toException().printStackTrace()
             }
         })
+    }
+
+    // Helper function to get image resource ID from a string
+    private fun getEmotionImageResource(imageName: String): Int {
+        return resources.getIdentifier(imageName, "drawable", packageName)
     }
 }
