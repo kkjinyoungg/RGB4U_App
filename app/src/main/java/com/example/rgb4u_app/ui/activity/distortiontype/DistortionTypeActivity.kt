@@ -16,22 +16,25 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 
 class DistortionTypeActivity : AppCompatActivity() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: DistortionPagerAdapter
     private lateinit var distortionTypeFiller: DistortionTypeFiller
+    private lateinit var userId: String
 
-    private lateinit var userId: String // lateinit으로 선언
+    private lateinit var toolbar: String // lateinit으로 선언
     private lateinit var date: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_distortion_type)
 
-        // Intent에서 사용자 ID와 다이어리 ID 가져오기
-        userId = intent.getStringExtra("USER_ID") ?: ""
+        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        // Intent에서 툴바랑 date 가져오기
         date = intent.getStringExtra("Date") ?: ""
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
@@ -44,7 +47,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = getCurrentDate()
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = date
 
         viewPager = findViewById(R.id.view_pager)
         pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, date)
@@ -70,7 +73,7 @@ class DistortionTypeActivity : AppCompatActivity() {
                 viewPager.currentItem += 1
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
-                intent.putExtra("USER_ID", userId)
+                intent.putExtra("Toolbar", date) //toolbar로 고치기
                 intent.putExtra("Date", date) // userId, date보내기
                 startActivity(intent)
             }
@@ -109,12 +112,6 @@ class DistortionTypeActivity : AppCompatActivity() {
     private fun showDistortionHelpBottomSheet() {
         val bottomSheet = DistortionHelpBottomSheet()
         bottomSheet.show(supportFragmentManager, "DistortionHelpBottomSheet")
-    }
-
-    //알림 버튼이랑 연결하기
-    private fun getCurrentDate(): String {
-        val dateFormat = SimpleDateFormat("M월 d일 E요일", Locale.getDefault())
-        return dateFormat.format(Date())
     }
 
     private fun updateButtonVisibility(position: Int) {
