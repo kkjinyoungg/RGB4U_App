@@ -336,11 +336,17 @@ class CalendarFragment : Fragment() {
                             set(Calendar.DAY_OF_MONTH, day)
                         }
 
+                        // 기존 날짜 포맷 (예: "2024년 11월 20일 수요일")
                         val dateFormat = SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault())
                         val formattedDate = dateFormat.format(selectedDate.time)
 
+                        // 새로운 날짜 포맷 (예: "2024-11-20")
+                        val dateFormatForDb = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val formattedDateForDb = dateFormatForDb.format(selectedDate.time)
+
                         val intent = Intent(requireContext(), CalenderDetailActivity::class.java).apply {
                             putExtra("SELECTED_DATE", formattedDate)
+                            putExtra("SELECTED_DATE_FOR_DB", formattedDateForDb) // yyyy-mm-dd 형식 추가
                         }
                         startActivity(intent)
                     }
