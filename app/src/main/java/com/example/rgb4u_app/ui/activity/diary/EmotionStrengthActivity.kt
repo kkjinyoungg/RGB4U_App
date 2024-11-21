@@ -74,7 +74,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 dynamicTextView.text = when (progress) {
-                    0 -> "매우 심하지 않았어"
+                    0 -> "전혀 심하지 않았어"
                     1 -> "심하지 않았어"
                     2 -> "보통이었어"
                     3 -> "심했어"

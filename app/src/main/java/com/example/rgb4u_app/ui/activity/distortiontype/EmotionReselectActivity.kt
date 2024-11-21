@@ -69,7 +69,7 @@ class EmotionReselectActivity : AppCompatActivity() {
                 dynamicTextView.text = when (emotionDegree) {
                     0 -> {
                         squareView.setImageResource(R.drawable.img_emotion_0)
-                        "매우 심하지 않았어"
+                        "전혀 심하지 않았어"
                     }
                     1 -> {
                         squareView.setImageResource(R.drawable.img_emotion_1)
@@ -101,7 +101,7 @@ class EmotionReselectActivity : AppCompatActivity() {
                 dynamicTextView.text = when (progress) {
                     0 -> {
                         squareView.setImageResource(R.drawable.img_emotion_0)
-                        "매우 심하지 않았어"
+                        "전혀 심하지 않았어"
                     }
                     1 -> {
                         squareView.setImageResource(R.drawable.img_emotion_1)
