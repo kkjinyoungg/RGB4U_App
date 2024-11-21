@@ -11,6 +11,6 @@
     android:textColor="@color/white"
     android:textAppearance="@style/chipText"
     android:textSize="14sp"
-    app:chipStrokeWidth="1dp"
-    app:chipStrokeColor="@color/white"
+    app:chipStrokeWidth="0dp"
+    app:chipStrokeColor="@android:color/transparent"
     app:chipSurfaceColor="@android:color/transparent" />

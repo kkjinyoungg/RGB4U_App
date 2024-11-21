@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:layout_width="160dp"
+    android:layout_width="180dp"
     android:layout_height="100dp"
     android:layout_marginRight="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,12 +25,12 @@
             android:textColor="@color/black"
             style="@style/Bd2_Regular" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/analysisResultButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="4dp"
-            android:backgroundTint="@color/main"
+            android:background="@drawable/rounded_button"
             android:text="분석 결과 보기"
             android:stateListAnimator="@null"
             android:textColor="@color/black"

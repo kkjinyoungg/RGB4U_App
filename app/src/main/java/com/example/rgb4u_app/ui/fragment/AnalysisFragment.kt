@@ -59,6 +59,7 @@ class AnalysisFragment : Fragment() {
     private lateinit var emotionratioTitle: TextView
     private lateinit var viewDetail: LinearLayout
     private lateinit var emotionChart: LinearLayout
+    private lateinit var btnMonth : LinearLayout
 
     private var currentCalendar = Calendar.getInstance()
 
@@ -117,8 +118,9 @@ class AnalysisFragment : Fragment() {
         pieChart.isRotationEnabled = false
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
+        btnMonth = view.findViewById(R.id.month_btn)
 
-        toolbarCalendarTitle.setOnClickListener {
+        btnMonth.setOnClickListener {
             showMonthYearPickerDialog()
         }
 

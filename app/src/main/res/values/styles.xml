@@ -182,4 +182,9 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gray2</item>
     </style>
+
+    <style name="TubeShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item> <!-- 양 끝만 둥글게 설정 -->
+    </style>
 </resources>

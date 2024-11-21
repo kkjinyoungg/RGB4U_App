@@ -137,19 +137,15 @@ class CalenderDetailActivity : AppCompatActivity() {
                                 //selectedChipGroup에 감정 추가
                                 for (emotion in emotionTypesList) {
                                     val category = emotionCategoryMap[emotion] ?: "default" // 감정의 상위 카테고리 찾기
-                                    val chip = Chip(this@CalenderDetailActivity).apply {
-                                        text = emotion
-                                        isCloseIconVisible = false // 닫기 아이콘 숨기기
-                                        isClickable = false // 칩 클릭 비활성화
-                                        isFocusable = false // 포커스 비활성화
+                                    val chip = layoutInflater.inflate(R.layout.summary_selected_chip, emotionChipGroup, false) as Chip
 
-                                        shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                                            .setAllCornerSizes(50f) // 모서리 둥글기
-                                            .build()
+                                        chip.text = emotion
+                                        chip.isCloseIconVisible = false // 닫기 아이콘 숨기기
+                                        chip.isClickable = false // 칩 클릭 비활성화
+                                        chip.isFocusable = false // 포커스 비활성화
 
-                                        setTextColor(ContextCompat.getColor(this@CalenderDetailActivity, R.color.white)) // 텍스트 색상
-                                        chipBackgroundColor = getChipColor(category) // 배경색 설정
-                                    }
+                                        chip.setTextColor(ContextCompat.getColor(this@CalenderDetailActivity, R.color.white)) // 텍스트 색상
+                                        chip.chipBackgroundColor = getChipColor(category) // 배경색 설정
                                     // 선택한 감정 추가
                                     selectedChipGroup.addView(chip)
                                 }

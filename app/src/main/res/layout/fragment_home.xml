@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="220dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -130,7 +130,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textBoxContainer"
-        app:lottie_fileName="home_default_moa.json"
+        app:lottie_fileName="home_default_moa_02.json"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"/>
 
@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="0dp"
         android:text="생각을 분석하고 알려드려요"
         android:textColor="@color/black"
         style="@style/CH_Bd1"

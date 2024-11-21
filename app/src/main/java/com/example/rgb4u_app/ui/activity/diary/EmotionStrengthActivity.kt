@@ -100,7 +100,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         })
 
         // Initialize the Next button state based on the initial SeekBar progress
-        myEmotionFragment.setButtonNextEnabled(seekBar.progress in 1..4)
+        myEmotionFragment.setButtonNextEnabled(seekBar.progress in 0..4)
     }
 
     // 특정 단계에서 폰트 스타일을 변경하는 함수

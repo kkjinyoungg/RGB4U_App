@@ -40,7 +40,7 @@ class SignUpActivity2 : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
 
         // 버튼 초기 상태 설정 (활성화)
-        buttonNext.isEnabled = false
+        buttonNext.isEnabled = true
 
         // 오늘 날짜를 가져와서 초기 값 설정
         val calendar = Calendar.getInstance()

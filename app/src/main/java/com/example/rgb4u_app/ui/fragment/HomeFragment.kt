@@ -56,8 +56,8 @@ class HomeFragment : Fragment() {
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
-        notificationButton.visibility = View.GONE
+        // val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
+        // notificationButton.visibility = View.GONE
 
         textBox = view.findViewById(R.id.textBox)
         dateTextView = view.findViewById(R.id.dateTextView)
@@ -169,7 +169,7 @@ class HomeFragment : Fragment() {
             "안녕하세요! 반가워요!",
             "오늘은 어떤 하루를 보냈나요?",
             "어떤 도움이 필요하신가요?",
-            "서진아, 오늘은 햄버거가 땡기는 날이야.",
+            "서진아, 오늘은 햄버거가 먹고 싶은 날이야.",
             "일기를 썼어요 고정멘트",
             "분석 결과 나옴 고정멘트"
         )

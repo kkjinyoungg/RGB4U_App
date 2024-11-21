@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
+            style="@style/Bd2_Regular"
             android:visibility="gone"
             android:text="너무 한 가지 부정적인 상황으로 전반적인 판단을 내리고 있어요..."
             android:textColor="@color/white" />
