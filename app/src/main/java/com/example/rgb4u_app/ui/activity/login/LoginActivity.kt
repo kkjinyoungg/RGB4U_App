@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.example.rgb4u_app.ui.activity.onboarding.OnboardingActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -106,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 if (task.result.exists()) {
                     Log.d("유저체크", "기존 사용자입니다")
-                    startMainActivity()  // 사용자가 이미 가입된 경우 메인화면으로 이동
+                    startOnboardingActivity()  // 사용자가 이미 가입된 경우 메인화면으로 이동
                 } else {
                     saveUserToDatabase(user)
                     // DistortionDefaultData 객체를 생성하고 userId를 넘겨주기
@@ -157,6 +158,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun startSignUpActivity1() {
         val intent = Intent(this, SignUpActivity1::class.java)
+        startActivity(intent)
+    }
+
+    private fun startOnboardingActivity() {
+        val intent = Intent(this, OnboardingActivity::class.java)
         startActivity(intent)
     }
 
