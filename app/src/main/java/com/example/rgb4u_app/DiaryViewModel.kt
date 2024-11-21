@@ -210,6 +210,11 @@ class DiaryViewModel : ViewModel() {
                 // Optional callback code after the data is saved (empty for now)
                 Log.d("SampleData", "fillinganalysis is completed.")
 
+                // (3) saveThoughtsToFirebase 호출
+                val monthlyUpdater = MonthlyDistortionUpdater()
+                monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
+                Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
+
                 updateReadingStatus2(userId)  // readingStatus 업데이트
 
             }
