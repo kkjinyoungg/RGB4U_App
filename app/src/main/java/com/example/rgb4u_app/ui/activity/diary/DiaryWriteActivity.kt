@@ -24,6 +24,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -211,8 +212,6 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         // ViewModel에 입력된 상황 텍스트 저장
         diaryViewModel.situation.postValue(inputText)
-        //diaryViewModel.situation.value = inputText
-
 
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
@@ -229,8 +228,10 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             override fun onTemporarySave() {
                 // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
                 val inputText = findViewById<EditText>(R.id.inputField).text.toString()
-                diaryViewModel.situation.postValue(inputText)
-                diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
+                Log.d("DiaryWriteActivity", "Saving input text: $inputText") // 로그 추가
+                diaryViewModel.situation.setValue(inputText)
+                diaryViewModel.saveTemporaryDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
+                Log.d("DiaryWriteActivity", "User ID: ${userId ?: "defaultUserId"}") // 로그 추
 
                 val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
                 startActivity(intent)
@@ -258,10 +259,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             override fun onTemporarySave() {
                 // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
                 val inputText = findViewById<EditText>(R.id.inputField).text.toString()
-                diaryViewModel.situation.postValue(inputText)
                 Log.d("DiaryWriteActivity", "Saving input text: $inputText") // 로그 추가
-
-                diaryViewModel.saveDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
+                diaryViewModel.situation.setValue(inputText)
+                diaryViewModel.saveTemporaryDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
                 Log.d("DiaryWriteActivity", "User ID: ${userId ?: "defaultUserId"}") // 로그 추
 
                 val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)

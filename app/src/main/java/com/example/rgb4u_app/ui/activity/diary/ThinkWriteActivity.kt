@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -22,6 +23,7 @@ import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
 import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -29,6 +31,10 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
+
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
+    private val userId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,12 +167,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     override fun onNextButtonClicked() {
         val inputText = findViewById<EditText>(R.id.inputField).text.toString()
-
         // ViewModel에 입력된 생각 텍스트 저장
         diaryViewModel.thoughts.postValue(inputText)
-        //원래 코드 : diaryViewModel.thoughts.value = inputText
-
-        //val situationText = intent.getStringExtra("EXTRA_SITUATION_TEXT")
 
         // EmotionStrengthActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, EmotionStrengthActivity::class.java)
@@ -176,6 +178,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
     override fun onToolbarAction1Clicked() {
         // "Back" 버튼 클릭 시 DiaryWriteActivity로 이동
+        val inputText = findViewById<EditText>(R.id.inputField).text.toString()
+        diaryViewModel.thoughts.setValue(inputText)
         val intent = Intent(this, DiaryWriteActivity::class.java)
         startActivity(intent)
         finish()
@@ -190,8 +194,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             override fun onTemporarySave() {
                 // 현재 입력 필드의 내용을 ViewModel에 저장하고 MainActivity로 이동
                 val inputText = findViewById<EditText>(R.id.inputField).text.toString()
-                diaryViewModel.situation.postValue(inputText)
-
+                diaryViewModel.thoughts.setValue(inputText)
+                diaryViewModel.saveTemporaryDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
                 val intent = Intent(this@ThinkWriteActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
