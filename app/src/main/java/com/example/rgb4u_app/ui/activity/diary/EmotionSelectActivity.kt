@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth
 import android.content.Context // 칩 높이
 // import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
@@ -345,14 +346,19 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         // dialog의 리스너 설정
         dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
             override fun onTemporarySave() {
+                if (selectedEmotions.isNotEmpty()) {
+                    diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
 
-                diaryViewModel.emotionTypes.postValue(selectedEmotions)
-
+                    // LiveData의 값이 변경되었음을 확인하기 위해 observe를 사용하여 로그 찍기
+                    diaryViewModel.emotionTypes.observe(this@EmotionSelectActivity) { emotionTypes ->
+                        Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
+                    }
+                diaryViewModel.saveTemporaryDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
                 val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-
+                }
             override fun onDelete() {
                 // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
                 val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)

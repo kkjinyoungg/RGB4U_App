@@ -3,6 +3,7 @@ package com.example.rgb4u_app.ui.activity.diary
 import android.util.Log
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -14,6 +15,7 @@ import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 
@@ -23,6 +25,8 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
     private lateinit var dynamicTextView: TextView
     private lateinit var squareView: ImageView
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
+    private val userId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,10 +89,10 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
                 myEmotionFragment.setButtonNextEnabled(progress in 0..4)
 
                 // ViewModel에 감정 정도 값, 텍스트 저장
-                diaryViewModel.emotionDegree.postValue(progress) // 감정 정도 저장
-                diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+                diaryViewModel.emotionDegree.setValue(progress) // 감정 정도 저장
+                diaryViewModel.emotionString.setValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
                 // 감정 단계에 따라 이미지 문자열 저장
-                diaryViewModel.emotionImage.postValue("img_emotion_$progress") // 이미지 문자열 저장
+                diaryViewModel.emotionImage.setValue("img_emotion_$progress") // 이미지 문자열 저장
 
                 // 감정 단계에 따라 이미지 변경
                 squareView.setImageResource(getImageResId(progress))
@@ -155,10 +159,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         // dialog의 리스너 설정
         dialog.listener = object : TemporarySaveDialogFragment.OnButtonClickListener {
             override fun onTemporarySave() {
-
-                // SeekBar의 현재 진행 상태와 동적 텍스트를 ViewModel에 저장
-                diaryViewModel.emotionDegree.postValue(seekBar.progress) // 감정 정도 저장
-                diaryViewModel.emotionString.postValue(dynamicTextView.text.toString()) // 감정 텍스트 저장
+                diaryViewModel.saveTemporaryDiaryToFirebase(userId ?: "defaultUserId") //NULL 처리 다시 고민하기
 
                 val intent = Intent(this@EmotionStrengthActivity, MainActivity::class.java)
                 startActivity(intent)
