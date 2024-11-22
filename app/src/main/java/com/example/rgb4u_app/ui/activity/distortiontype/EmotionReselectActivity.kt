@@ -2,18 +2,20 @@ package com.example.rgb4u_app.ui.activity.distortiontype
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.summary.SummaryChangedDayActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
 
 class EmotionReselectActivity : AppCompatActivity() {
 
@@ -46,6 +48,27 @@ class EmotionReselectActivity : AppCompatActivity() {
         // 받은 데이터 확인 (Log로 출력)
         Log.d("EmotionReselectActivity", "$toolbarDate")
         Log.d("EmotionReselectActivity", "Received Date: $date")
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        // ActionBar 설정
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // button_write_action2 버튼 숨기기
+        val buttonWriteAction2: ImageButton = findViewById(R.id.button_write_action2)
+        buttonWriteAction2.visibility = View.GONE
+
+        // button_write_action1 클릭 리스너 추가
+        val buttonWriteAction1: ImageButton = findViewById(R.id.button_write_action1)
+        buttonWriteAction1.setOnClickListener {
+            val intent = Intent(this, DistortionTypeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate // 툴바 타이틀 설정 (toolbar_write_title)
 
         // 뷰 초기화
         dynamicTextView = findViewById(R.id.dynamicTextView)
