@@ -182,7 +182,7 @@ class HomeFragment : Fragment() {
         val messagesArray = org.json.JSONArray().apply {
             put(JSONObject().apply {
                 put("role", "user")
-                put("content", "안부인사를 말해줘")
+                put("content", "다양한 주제로 다정한 말을 해주세요. 가끔 &울 사용하세요. 공백 포함 46바이트를 넘지 않도록 해주세요. 예: '오늘은 어떤 과자를 먹어볼까요?&' (이 예시처럼 46바이트를 넘지 않게 해주세요.)")
             })
         }
 
