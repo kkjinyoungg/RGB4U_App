@@ -142,6 +142,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                         addChipToSelectedGroup(chip, category)
                         selectedEmotions.add(chip.text.toString()) // 선택된 감정 추가
                         chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_delete) // 아이콘 설정
+                        diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
                         Log.d("EmotionSelectActivity", "Added: ${chip.text}") // 추가된 감정 로그
 
                     } else {
@@ -150,6 +151,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                         removeChipFromSelectedGroup(chip.text.toString())
                         selectedEmotions.remove(chip.text.toString()) // 선택된 감정에서 제거
                         chip.closeIcon = ContextCompat.getDrawable(this, R.drawable.ic_chip_plus) // 아이콘 설정
+                        diaryViewModel.emotionTypes.value = selectedEmotions // ViewModel에 선택된 감정 저장
                         Log.d("EmotionSelectActivity", "Removed: ${chip.text}") // 제거된 감정 로그
 
                     }
