@@ -13,9 +13,10 @@ import com.example.rgb4u_app.ui.fragment.ChangedDayFragment
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 class SummaryChangedDayActivity : AppCompatActivity() {
 
-    private lateinit var toolbar: String
+    private lateinit var toolbarDate: String
     private lateinit var date: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,12 +25,13 @@ class SummaryChangedDayActivity : AppCompatActivity() {
 
         // 인텐트에서 데이터 받기
         val intent = intent
-        toolbar = intent.getStringExtra("Toolbar") ?: ""
+        toolbarDate = intent.getStringExtra("ToolbarDate") ?: ""
         date = intent.getStringExtra("Date") ?: ""
 
         // Toolbar 설정
-        val toolbars: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbars)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -40,7 +42,7 @@ class SummaryChangedDayActivity : AppCompatActivity() {
 
         // ChangedDayFragment 로드
         if (savedInstanceState == null) {
-            val fragment = ChangedDayFragment.newInstance(toolbar, date) // date도 전달
+            val fragment = ChangedDayFragment.newInstance(toolbarDate, date) // date도 전달
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit()

@@ -27,7 +27,7 @@ class EmotionReselectActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
-    private lateinit var toolbar: String
+    private lateinit var toolbarDate: String
     private lateinit var date: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +40,11 @@ class EmotionReselectActivity : AppCompatActivity() {
 
         // 인텐트에서 데이터 받기
         val intent = intent
-        toolbar = intent.getStringExtra("Toolbar") ?: ""
+        toolbarDate = intent.getStringExtra("Toolbar") ?: ""
         date = intent.getStringExtra("Date") ?: ""
 
         // 받은 데이터 확인 (Log로 출력)
-        Log.d("EmotionReselectActivity", "$toolbar")
+        Log.d("EmotionReselectActivity", "$toolbarDate")
         Log.d("EmotionReselectActivity", "Received Date: $date")
 
         // 뷰 초기화
@@ -161,7 +161,7 @@ class EmotionReselectActivity : AppCompatActivity() {
                     // Intent 생성하여 데이터 전달
                     val intent = Intent(this, SummaryChangedDayActivity::class.java).apply {
                         putExtra("Date", date)  // date 전달
-                        putExtra("Toolbar", toolbar)  // toolbar 전달
+                        putExtra("Toolbar", toolbarDate)  // toolbar 전달
                     }
                     startActivity(intent)
                     finish()  // 현재 액티비티 종료

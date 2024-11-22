@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 if (task.result.exists()) {
                     Log.d("유저체크", "기존 사용자입니다")
-                    startOnboardingActivity()  // 사용자가 이미 가입된 경우 메인화면으로 이동
+                    startMainActivity() // 사용자가 이미 가입된 경우 메인화면으로 이동
                 } else {
                     saveUserToDatabase(user)
                     // DistortionDefaultData 객체를 생성하고 userId를 넘겨주기

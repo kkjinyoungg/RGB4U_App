@@ -27,7 +27,7 @@ class DistortionTypeActivity : AppCompatActivity() {
     private lateinit var distortionTypeFiller: DistortionTypeFiller
     private lateinit var userId: String
 
-    private lateinit var toolbar: String // lateinit으로 선언
+    private lateinit var toolbarDate: String // lateinit으로 선언
     private lateinit var date: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class DistortionTypeActivity : AppCompatActivity() {
 
         // Intent에서 툴바랑 date 가져오기
         date = intent.getStringExtra("date") ?: ""
-        toolbar = intent.getStringExtra("toolbar") ?: ""
+        toolbarDate = intent.getStringExtra("toolbar") ?: ""
 
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
@@ -57,7 +57,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = date
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate
 
         viewPager = findViewById(R.id.view_pager)
         pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, date)
@@ -83,8 +83,8 @@ class DistortionTypeActivity : AppCompatActivity() {
                 viewPager.currentItem += 1
             } else {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
-                intent.putExtra("Toolbar", date) //toolbar로 고치기
-                intent.putExtra("Date", date) // userId, date보내기
+                intent.putExtra("Toolbar", toolbarDate) //toolbar로 고치기
+                intent.putExtra("Date", date) // date보내기
                 startActivity(intent)
             }
         }
