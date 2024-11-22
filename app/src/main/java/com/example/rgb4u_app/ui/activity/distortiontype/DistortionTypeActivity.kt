@@ -2,23 +2,20 @@ package com.example.rgb4u_app.ui.activity.distortiontype
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
-import com.example.rgb4u_app.ui.fragment.DistortionHelpBottomSheet
 import com.example.rgb4u_app.DistortionTypeFiller
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import android.util.Log
+import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.example.rgb4u_app.ui.fragment.DistortionHelpBottomSheet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import android.widget.ImageButton
 
 class DistortionTypeActivity : AppCompatActivity() {
 
@@ -43,6 +40,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
         Log.d("DistortionTypeActivity", "Received Diary ID: $date")
+        Log.d("DistortionTypeActivity", "Received Toolbar Date: $toolbarDate")
 
         // Firebase에서 readingStatus 업데이트
         updateReadingStatus(userId, date)
@@ -57,7 +55,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate // 툴바 타이틀 설정 (toolbar_write_title)
 
         viewPager = findViewById(R.id.view_pager)
         pagerAdapter = DistortionPagerAdapter(this, viewPager, userId, date)
@@ -104,7 +102,7 @@ class DistortionTypeActivity : AppCompatActivity() {
 
         toolbar.findViewById<View>(R.id.button_write_action1).setOnClickListener {
             Log.d("DistortionTypeActivity", "Summary button clicked")
-            val intent = Intent(this, SummaryMainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 

@@ -10,9 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
 import com.example.rgb4u_app.ui.fragment.ChangedDayFragment
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class SummaryChangedDayActivity : AppCompatActivity() {
 
@@ -31,7 +28,7 @@ class SummaryChangedDayActivity : AppCompatActivity() {
         // Toolbar 설정
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate
+        toolbar.findViewById<TextView>(R.id.toolbar_write_title).text = toolbarDate // 툴바 타이틀 설정 (toolbar_write_title)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)

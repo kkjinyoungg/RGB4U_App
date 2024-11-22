@@ -60,6 +60,7 @@ class AnalysisFragment : Fragment() {
     private lateinit var viewDetail: LinearLayout
     private lateinit var emotionChart: LinearLayout
     private lateinit var btnMonth : LinearLayout
+    private lateinit var emptyView: LinearLayout
 
     private var currentCalendar = Calendar.getInstance()
 
@@ -111,7 +112,17 @@ class AnalysisFragment : Fragment() {
 
         }
 
+        // RecyclerView에 어댑터 설정
         recyclerView.adapter = cardAdapter
+
+//        // 데이터가 없으면 RecyclerView 숨기고 emptyView 보이기
+//        if (cardList.isEmpty()) {
+//            recyclerView.visibility = View.GONE
+//            emptyView.visibility = View.VISIBLE
+//        } else {
+//            recyclerView.visibility = View.VISIBLE
+//            emptyView.visibility = View.GONE
+//        }
 
         // PieChart 설정
         pieChart = view.findViewById(R.id.pie_chart)
@@ -152,6 +163,8 @@ class AnalysisFragment : Fragment() {
         overlayView = view.findViewById(R.id.overlay_view) // overlay_view의 ID를 사용하여 초기화
 
         nodataLayout = view.findViewById(R.id.no_data_layout)  // nodataLayout 초기화
+
+        emptyView = view.findViewById(R.id.empty_view) // 행성 유형 데이터 없을 떄 / emptyView 레이아웃 초기화
 
         emotionTitle = view.findViewById(R.id.tv_emotion_title) // 행성 top3 타이틀
         emotionratioTitle = view.findViewById(R.id.tv_emotion_ratio_title) // 감정 타이틀
@@ -404,68 +417,35 @@ class AnalysisFragment : Fragment() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        // 데이터가 있는 경우 오버레이 숨김
+                        // 데이터가 있는 경우
                         overlayView.visibility = View.GONE
                         nodataLayout.visibility = View.GONE
 
                         emotionTitle.visibility = View.VISIBLE
-                        recyclerView.visibility = View.VISIBLE
                         emotionratioTitle.visibility = View.VISIBLE
                         viewDetail.visibility = View.VISIBLE
                         emotionChart.visibility = View.VISIBLE
 
+                        // 감정 데이터 처리
                         val surprise = snapshot.child("Surprise").getValue(Double::class.java)?.toFloat() ?: 0f
                         val fear = snapshot.child("Fear").getValue(Double::class.java)?.toFloat() ?: 0f
                         val sadness = snapshot.child("Sadness").getValue(Double::class.java)?.toFloat() ?: 0f
                         val anger = snapshot.child("Anger").getValue(Double::class.java)?.toFloat() ?: 0f
                         val disgust = snapshot.child("Disgust").getValue(Double::class.java)?.toFloat() ?: 0f
 
-                        Log.d("AnalysisFragment", "Surprise: $surprise, Fear: $fear, Sadness: $sadness, Anger: $anger, Disgust: $disgust")
-
                         val total = surprise + fear + sadness + anger + disgust
                         val entries: List<PieEntry> = if (total > 0) {
-                            // 퍼센트 계산
                             val surprisePercent = (surprise / total * 100)
                             val fearPercent = (fear / total * 100)
                             val sadnessPercent = (sadness / total * 100)
                             val angerPercent = (anger / total * 100)
                             val disgustPercent = (disgust / total * 100)
 
-                            // TextView에 값 설정 및 보이기/숨기기
-                            if (surprisePercent > 0) {
-                                percentSurprise.text = "${Math.round(surprisePercent)}%"
-                                percentSurprise.visibility = View.VISIBLE
-                            } else {
-                                percentSurprise.visibility = View.GONE
-                            }
-
-                            if (fearPercent > 0) {
-                                percentFear.text = "${Math.round(fearPercent)}%"
-                                percentFear.visibility = View.VISIBLE
-                            } else {
-                                percentFear.visibility = View.GONE
-                            }
-
-                            if (sadnessPercent > 0) {
-                                percentSadness.text = "${Math.round(sadnessPercent)}%"
-                                percentSadness.visibility = View.VISIBLE
-                            } else {
-                                percentSadness.visibility = View.GONE
-                            }
-
-                            if (angerPercent > 0) {
-                                percentAnger.text = "${Math.round(angerPercent)}%"
-                                percentAnger.visibility = View.VISIBLE
-                            } else {
-                                percentAnger.visibility = View.GONE
-                            }
-
-                            if (disgustPercent > 0) {
-                                percentDisgust.text = "${Math.round(disgustPercent)}%"
-                                percentDisgust.visibility = View.VISIBLE
-                            } else {
-                                percentDisgust.visibility = View.GONE
-                            }
+                            percentSurprise.text = "${Math.round(surprisePercent)}%"
+                            percentFear.text = "${Math.round(fearPercent)}%"
+                            percentSadness.text = "${Math.round(sadnessPercent)}%"
+                            percentAnger.text = "${Math.round(angerPercent)}%"
+                            percentDisgust.text = "${Math.round(disgustPercent)}%"
 
                             listOf(
                                 PieEntry(surprisePercent, "놀람"),
@@ -475,20 +455,31 @@ class AnalysisFragment : Fragment() {
                                 PieEntry(disgustPercent, "혐오")
                             )
                         } else {
-                            // 데이터가 없을 때
                             listOf(PieEntry(1f, "없음"))
                         }
+
                         setupPieChart(entries)
-                        // 로그 출력으로 entries 확인
-                        Log.d("계산완료", "Entries: $entries")
+
+                        // cardAdapter 데이터 처리
+                        if (cardAdapter.itemCount > 0) {
+                            recyclerView.visibility = View.VISIBLE
+                            emptyView.visibility = View.GONE
+                        } else {
+                            recyclerView.visibility = View.GONE
+                            emptyView.visibility = View.VISIBLE
+                        }
                     } else {
+                        // 데이터가 없는 경우
+                        overlayView.visibility = View.GONE
                         nodataLayout.visibility = View.VISIBLE
 
                         emotionTitle.visibility = View.GONE
-                        recyclerView.visibility = View.GONE
                         emotionratioTitle.visibility = View.GONE
                         viewDetail.visibility = View.GONE
                         emotionChart.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+                        emptyView.visibility = View.GONE
+
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -499,6 +490,7 @@ class AnalysisFragment : Fragment() {
                         .show()
                 }
             })
+
     }
 
     //인지왜곡 Top3 카드 연결
