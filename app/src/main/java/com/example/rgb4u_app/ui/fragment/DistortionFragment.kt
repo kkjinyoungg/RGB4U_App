@@ -22,11 +22,23 @@ class DistortionFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: DistortionPagerAdapter
     private lateinit var distortionType: DistortionType
+    private var position: Int = 0
+    private var totalItems: Int = 0
 
     companion object {
-        fun newInstance(distortionType: DistortionType, viewPager: ViewPager2, adapter: DistortionPagerAdapter): DistortionFragment {
+        fun newInstance(
+            distortionType: DistortionType,
+            position: Int,
+            totalItems: Int,
+            viewPager: ViewPager2,
+            adapter: DistortionPagerAdapter
+        ): DistortionFragment {
             val fragment = DistortionFragment()
-            fragment.distortionType = distortionType // 전달된 DistortionType을 저장
+            fragment.distortionType = distortionType
+            fragment.position = position
+            fragment.totalItems = totalItems
+            fragment.viewPager = viewPager
+            fragment.pagerAdapter = adapter
             return fragment
         }
     }
@@ -40,6 +52,10 @@ class DistortionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val pageTextView = view.findViewById<TextView>(R.id.tv_page_indicator)
+        // "현재 위치 / 전체 위치" 형식으로 텍스트 설정
+        pageTextView.text = "(${position + 1} / $totalItems)"
 
         val titleTextView = view.findViewById<TextView>(R.id.tv_type_title) // 유형 타입
         titleTextView.text = distortionType.type
