@@ -32,30 +32,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="70dp"
-        android:fontFamily="@font/nanumsquareroundbold"
+        android:layout_marginTop="80dp"
         android:text="8월 17일 토요일"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        style="@style/ST_Bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="16dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/white_20"
+        app:cardBackgroundColor="@color/white_10"
         app:cardCornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="90dp"
-            android:layout_height="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -71,87 +71,78 @@
                 android:id="@+id/dDayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nanumsquareroundregular"
+                android:layout_marginRight="12dp"
                 android:gravity="center"
-                android:padding="8dp"
                 android:text="D+10"
                 android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                style="@style/Bd2_Regular"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/textBoxContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/img_ch_textbox"
-        android:padding="12dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="220dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- 텍스트 -->
-        <TextView
-            android:id="@+id/textBox"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/own_mongmongday"
             android:gravity="center"
-            android:text="오늘은 어떤 하루를 보냈어?"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/refreshIcon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:background="@drawable/bubble_textbox">
 
-        <!-- 리프레시 버튼 -->
+            <TextView
+                android:id="@+id/textBox"
+                style="@style/CH_Bd2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:text="오늘은 어떤 하루를 보냈어요?"
+                android:textAlignment="center"
+                android:textColor="@color/blue1"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/refreshIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_moa_chat_refresh" />
+        </LinearLayout>
         <ImageView
-            android:id="@+id/refreshIcon"
-            android:layout_width="16dp"
-            android:layout_height="14dp"
-            android:clickable="true"
-            android:contentDescription="새로고침 아이콘"
-            android:focusable="true"
-            android:padding="4dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_refresh"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textBox"
-            app:layout_constraintHorizontal_chainStyle="packed" /> <!-- 이 부분을 수정했습니다. -->
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_bubble_textbox_tri" />
+    </LinearLayout>
 
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/mainCharacterContainer"
-        android:layout_width="180dp"
-        android:layout_height="210dp"
-        android:layout_marginBottom="200dp"
-        android:contentDescription="메인 캐릭터"
-        android:scaleType="fitCenter"
-        android:src="@drawable/img_ch_home"
-        android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigationBar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="-8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBoxContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/textBoxContainer"
+        app:lottie_fileName="home_default_moa_02.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 
     <TextView
         android:id="@+id/homeNotificationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="0dp"
         android:text="생각을 분석하고 알려드려요"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        style="@style/CH_Bd1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainCharacterContainer" />
 
@@ -164,7 +155,7 @@
         android:padding="4dp"
         android:text="5"
         android:textColor="@color/blue2"
-        android:textSize="16sp"
+        style="@style/CH_Bd1"
         app:layout_constraintBottom_toBottomOf="@+id/homeNotificationLabel"
         app:layout_constraintStart_toEndOf="@+id/homeNotificationLabel"
         app:layout_constraintTop_toTopOf="@+id/homeNotificationLabel" />
@@ -172,7 +163,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/analysisRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"

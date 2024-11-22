@@ -34,8 +34,7 @@
                 android:gravity="center"
                 android:text="나서진"
                 android:textColor="@color/blue2"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/ST_Bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,8 +42,7 @@
                 android:gravity="center"
                 android:text="님 반가워요!"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/ST_Bold" />
         </LinearLayout>
 
         <!-- 두 번째 텍스트뷰: "모아가 인사하고 싶어해요" -->
@@ -55,14 +53,13 @@
             android:gravity="center"
             android:text="모아가 인사하고 싶어해요"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            style="@style/ST_Bold"  />
 
         <!-- 이미지뷰 -->
         <ImageView
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:src="@drawable/img_ch_mypage"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:src="@drawable/img_onboarding_start"
             android:layout_marginTop="66dp"
             android:contentDescription="모아 이미지" />
 
@@ -71,9 +68,7 @@
             android:layout_height="wrap_content"
             android:text="안녕하세요?\n저는 모아예요"
             android:layout_marginTop="16dp"
-            android:textSize="24sp"
-            android:padding="4dp"
-            android:fontFamily="@font/own_mongmongday"
+            style="@style/CH_ST"
             android:textColor="@color/blue2"
             android:textAlignment="center" />
     </LinearLayout>
@@ -87,6 +82,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
+        android:stateListAnimator="@null"
         android:text="모아와 대화하기"
         style="@style/Bd2_Bold"
         android:textColor="@color/black"

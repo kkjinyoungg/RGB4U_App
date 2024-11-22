@@ -26,20 +26,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone" /> <!-- 기본은 안 보이도록 설정 -->
 
+    <!-- 데이터가 없을 때 -->
+    <LinearLayout
+        android:id="@+id/no_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/ST_Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            android:text="아직 기록이 없어요 \n 먼저 하루를 기록해 보세요"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="120dp"
+            android:background="@drawable/img_analysis_no_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_emotion_title" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_analysis_write"
+            app:layout_constraintBottom_toTopOf="@+id/navigationBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
     <!-- 생각 유형 타이틀 -->
     <TextView
         android:id="@+id/tv_emotion_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="72dp"
         android:text="가장 많이 나온 생각 유형이에요"
         style="@style/CH_Bd1"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <!-- RecyclerView -->
 
     <!-- 감정 비율 타이틀 -->
     <androidx.recyclerview.widget.RecyclerView
@@ -100,6 +139,7 @@
 
             <!-- 놀람 -->
             <LinearLayout
+                android:id="@+id/percent_layout_surprise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">
@@ -129,12 +169,11 @@
                     android:text="NN%"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
-
             </LinearLayout>
 
             <!-- 두려움 -->
             <LinearLayout
+                android:id="@+id/percent_layout_fear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -170,6 +209,7 @@
 
             <!-- 슬픔 -->
             <LinearLayout
+                android:id="@+id/percent_layout_sadness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -205,6 +245,7 @@
 
             <!-- 분노 -->
             <LinearLayout
+                android:id="@+id/percent_layout_anger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">
@@ -240,6 +281,7 @@
 
             <!-- 혐오 -->
             <LinearLayout
+                android:id="@+id/percent_layout_disgust"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp">

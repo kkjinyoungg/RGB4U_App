@@ -166,8 +166,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
                     // 글자 수가 1자 이상일 때만 버튼 활성화
                     val isTextValid = charCount in 1..150
                     buttonNext?.isEnabled = isTextValid
-                    myRecordFragment.setButtonNextEnabled(isTextValid)
-                    myRecordFragment.setButtonNextVisibility(isTextValid)
+
+                    // 버튼은 항상 보이도록 수정
+                    myRecordFragment.setButtonNextVisibility(true) // 항상 true로 설정
 
                     // 글자 수 업데이트
                     charCountTextView.text = "$charCount/150"

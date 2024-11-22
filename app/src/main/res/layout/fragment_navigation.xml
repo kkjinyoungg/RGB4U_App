@@ -12,7 +12,7 @@
         android:layout_gravity="bottom"
         style="@style/BottomAppBarCustom"
         app:fabCradleMargin="0dp"
-        app:fabCradleRoundedCornerRadius="16dp"
+        app:fabCradleRoundedCornerRadius="8dp"
         app:fabCradleVerticalOffset="0dp"
         app:fabAlignmentMode="center"
         app:background="@drawable/rounded_bottom_appbar_background" />
@@ -46,6 +46,7 @@
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="56dp"
         android:scaleType="fitCenter"
+        android:elevation="10dp"
         app:backgroundTint="@android:color/transparent"
         app:srcCompat="@drawable/ic_fnb"
         app:maxImageSize="80dp"

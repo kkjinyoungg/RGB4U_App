@@ -18,7 +18,7 @@ import java.util.Locale
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-
+import android.widget.ImageButton
 
 class DistortionTypeActivity : AppCompatActivity() {
 
@@ -49,6 +49,9 @@ class DistortionTypeActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
         setSupportActionBar(toolbar)
+
+        val helpButton = toolbar.findViewById<ImageButton>(R.id.button_write_action2)
+        helpButton.setImageResource(R.drawable.ic_distortion_help_btn)
 
         // ActionBar 설정
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -93,7 +96,8 @@ class DistortionTypeActivity : AppCompatActivity() {
             }
         }
 
-        toolbar.findViewById<View>(R.id.button_write_action2).setOnClickListener {
+        // 클릭 이벤트 설정
+        helpButton.setOnClickListener {
             Log.d("DistortionTypeActivity", "Help button clicked")
             showDistortionHelpBottomSheet()
         }

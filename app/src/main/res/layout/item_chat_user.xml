@@ -4,16 +4,22 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
     android:gravity="end">
 
     <TextView
         android:id="@+id/chatMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bubble_background"
-        android:padding="12dp"
-        android:textSize="14sp"
+        android:background="@drawable/user_chat_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        style="@style/Bd2_Regular"
         android:textColor="@color/black"
         android:layout_gravity="end" />
 </LinearLayout>

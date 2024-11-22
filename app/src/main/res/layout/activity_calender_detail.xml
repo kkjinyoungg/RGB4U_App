@@ -84,13 +84,13 @@
 
             <ImageButton
                 android:id="@+id/situationDownButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_space_between"
+                android:src="@drawable/ic_arrow_down"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/situationLayout" />
@@ -160,13 +160,13 @@
 
             <ImageButton
                 android:id="@+id/thoughtDownButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
                 android:background="@null"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_space_between"
+                android:src="@drawable/ic_arrow_down"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thoughtLayout" />
@@ -300,25 +300,46 @@
             </LinearLayout>
 
             <!-- 달라진 하루 보기 버튼 (MaterialButton) - 플로팅버튼은 텍스트 불가능 -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonNext"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/main"
-                android:paddingStart="24dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="4dp"
-                android:text="달라진 하루 보기"
-                android:textColor="@color/black"
-                app:cornerRadius="16dp"
-                app:icon="@drawable/ic_next"
-                app:iconGravity="textEnd"
-                app:iconPadding="4dp"
-                app:iconTint="@null" />
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="52dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginBottom="16dp"-->
+<!--                android:backgroundTint="@color/main"-->
+<!--                android:paddingStart="24dp"-->
+<!--                android:paddingTop="4dp"-->
+<!--                android:paddingEnd="24dp"-->
+<!--                android:paddingBottom="4dp"-->
+<!--                android:text="달라진 하루 보기"-->
+<!--                style="@style/Bd2_Bold"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:cornerRadius="50dp"-->
+<!--                app:icon="@drawable/ic_next"-->
+<!--                app:iconGravity="textEnd"-->
+<!--                app:iconPadding="4dp"-->
+<!--                app:iconTint="@null" />-->
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonNext"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/main"
+        android:gravity="center"
+        android:text="달라진 하루 보기"
+        style="@style/Bd2_Bold"
+        android:textColor="@color/black"
+        app:shapeAppearanceOverlay="@style/TubeShapeAppearance"
+        app:icon="@drawable/ic_next"
+        app:iconSize="16dp"
+        app:iconGravity="textEnd"
+        app:iconPadding="2dp"
+        app:iconTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

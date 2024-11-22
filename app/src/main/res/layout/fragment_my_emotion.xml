@@ -178,7 +178,7 @@
         android:stateListAnimator="@null"
         android:background="@drawable/rounded_button"
         android:text="다음"
-        android:textColor="@color/black"
+        android:textColor="@color/rounded_button_text"
         style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -35,6 +35,7 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
             }
             TYPE_EMPTY -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_home_analysis_empty, parent, false)
+                view.alpha = 0.4f  // 50% 투명도
                 EmptyViewHolder(view)
             }
             else -> throw IllegalArgumentException("Unknown view type: $viewType")

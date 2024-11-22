@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@drawable/bg_mypage">
 
     <!-- 상단 타이틀 및 뒤로가기 버튼 -->
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -27,6 +27,7 @@ import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Log
+import android.widget.LinearLayout
 import java.util.Calendar
 import java.util.Locale
 
@@ -34,6 +35,7 @@ class CalendarFragment : Fragment() {
 
     private lateinit var calendarGrid: GridLayout
     private lateinit var textCurrentMonth: TextView
+    private lateinit var monthBtn : LinearLayout
     private var currentCalendar = Calendar.getInstance()
     private var startDay = 0
 
@@ -45,6 +47,7 @@ class CalendarFragment : Fragment() {
 
         calendarGrid = view.findViewById(R.id.calendar_grid)
         textCurrentMonth = view.findViewById(R.id.toolbar_calendar_title)
+        monthBtn = view.findViewById(R.id.month_btn)
 
         // 현재 날짜 가져오기
         val calendar = Calendar.getInstance()
@@ -64,7 +67,7 @@ class CalendarFragment : Fragment() {
             changeMonth(1)
         }
 
-        textCurrentMonth.setOnClickListener {
+        monthBtn.setOnClickListener {
             showMonthYearPickerDialog()
         }
 

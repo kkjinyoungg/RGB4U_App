@@ -15,6 +15,7 @@
         android:background="@android:color/transparent"/>
 
     <LinearLayout
+        android:id="@+id/month_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,16 +30,15 @@
             android:textSize="16sp"
             android:fontFamily="@font/nanumsquareroundregular"
             android:background="?attr/selectableItemBackground"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:text="Title" />
 
         <ImageButton
-            android:layout_width="24dp"
+            android:layout_width="18dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_next"
+            android:background="@android:color/transparent"
             android:contentDescription="다음 버튼"
-            android:background="@android:color/transparent"/>
+            android:src="@drawable/ic_arrow_down_12" />
 
     </LinearLayout>
 
