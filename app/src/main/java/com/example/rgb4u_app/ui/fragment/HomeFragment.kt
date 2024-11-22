@@ -45,6 +45,9 @@ class HomeFragment : Fragment() {
     private var messages: String = "" // 메시지 변수 추가
     private val client = OkHttpClient() // OkHttpClient 초기화
 
+    //apiKey = ""의 ""안에 키 넣기!
+    private val apiKey = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -176,17 +179,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun callChatGPT(callback: (String) -> Unit) {
+        val messagesArray = org.json.JSONArray().apply {
+            put(JSONObject().apply {
+                put("role", "user")
+                put("content", "안부인사를 말해줘")
+            })
+        }
+
         val requestBody = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
-            put("messages", listOf(
-                mapOf("role" to "user", "content" to "안부인사를 말해줘") // 원하는 프롬프트로 변경
-            ))
+            put("messages", messagesArray)
         }.toString()
+
 
         val request = Request.Builder()
             .url("https://api.openai.com/v1/chat/completions")
             .post(requestBody.toRequestBody("application/json".toMediaType()))
-            .addHeader("Authorization", "Bearer YOUR_API_KEY") // 여기에 본인의 API 키 입력
+            .addHeader("Authorization", "Bearer $apiKey")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -194,7 +203,7 @@ class HomeFragment : Fragment() {
                 e.printStackTrace()
                 // 메인 스레드에서 오류 메시지 콜백
                 requireActivity().runOnUiThread {
-                    callback("오류가 발생했습니다.") // 실패 시 콜백 호출
+                    callback("오류가 발생했습니다.")
                 }
             }
 
@@ -203,7 +212,7 @@ class HomeFragment : Fragment() {
                     if (!it.isSuccessful) {
                         // 메인 스레드에서 오류 메시지 콜백
                         requireActivity().runOnUiThread {
-                            callback("응답 오류: ${it.code}") // 오류 시 콜백 호출
+                            callback("응답 오류: ${it.code}")
                         }
                         throw IOException("Unexpected code $it")
                     }
@@ -217,12 +226,13 @@ class HomeFragment : Fragment() {
 
                     // 메인 스레드에서 UI 업데이트
                     requireActivity().runOnUiThread {
-                        callback(message) // 성공 시 콜백 호출
+                        callback(message)
                     }
                 }
             }
         })
     }
+
 
 
 }
