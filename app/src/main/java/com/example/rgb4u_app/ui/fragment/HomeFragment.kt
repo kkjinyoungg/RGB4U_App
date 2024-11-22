@@ -19,10 +19,15 @@ import com.example.rgb4u_app.ui.activity.home.AnalysisItem
 import com.example.rgb4u_app.ui.activity.home.AnalysisItemAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.random.Random
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+
 
 class HomeFragment : Fragment() {
 
@@ -37,6 +42,8 @@ class HomeFragment : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var analysisList: MutableList<AnalysisItem>
     private lateinit var adapter: AnalysisItemAdapter
+    private var messages: String = "" // 메시지 변수 추가
+    private val client = OkHttpClient() // OkHttpClient 초기화
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,9 +62,6 @@ class HomeFragment : Fragment() {
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activity.supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        // val notificationButton: ImageButton = view.findViewById(R.id.notificationButton)
-        // notificationButton.visibility = View.GONE
 
         textBox = view.findViewById(R.id.textBox)
         dateTextView = view.findViewById(R.id.dateTextView)
@@ -93,34 +97,28 @@ class HomeFragment : Fragment() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 analysisList.clear()
-
                 var unreadCount = 0
                 var loadCount = 0
 
                 for (dateSnapshot in snapshot.children) {
-                    // 각 날짜의 diary 데이터를 가져옵니다.
                     val readingStatus = dateSnapshot.child("readingstatus").getValue(String::class.java)
                     val toolbardate = dateSnapshot.child("toolbardate").getValue(String::class.java)
-                    val dateKey = dateSnapshot.key ?: ""  // yyyy-mm-dd 형식의 날짜
+                    val dateKey = dateSnapshot.key ?: ""
 
-                    // 읽기 상태가 null이 아닐 때 체크
                     if (readingStatus != null) {
                         when (readingStatus) {
                             "unread" -> {
                                 unreadCount++
-                                // toolbardate이 null이 아닐 때 추가
                                 analysisList.add(AnalysisItem(true, false, toolbardate ?: "", dateKey))
                             }
                             "load" -> {
                                 loadCount++
-                                // toolbardate이 null이 아닐 때 추가
                                 analysisList.add(AnalysisItem(true, true, toolbardate ?: "", dateKey))
                             }
                         }
                     }
                 }
 
-                // unread와 load가 없으면 (false, false) 추가
                 if (unreadCount == 0 && loadCount == 0) {
                     analysisList.add(AnalysisItem(false, false))
                 }
@@ -134,8 +132,6 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
-
 
     private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
         notificationCount = adapter.itemCount
@@ -165,17 +161,68 @@ class HomeFragment : Fragment() {
     }
 
     private fun changeMessage() {
-        val messages = arrayOf(
-            "안녕하세요! 반가워요!",
-            "오늘은 어떤 하루를 보냈나요?",
-            "어떤 도움이 필요하신가요?",
-            "서진아, 오늘은 햄버거가 먹고 싶은 날이야.",
-            "일기를 썼어요 고정멘트",
-            "분석 결과 나옴 고정멘트"
-        )
+        // 결과가 나올 때까지 ". . ."을 표시
+        textBox.text = ". . ."
 
-        val randomIndex = Random.nextInt(messages.size)
-        textBox.text = messages[randomIndex]
-        textBox.visibility = View.VISIBLE
+        callChatGPT { result ->
+            // 메인 스레드에서 UI 업데이트
+            requireActivity().runOnUiThread {
+                // API 호출 결과로 messages 업데이트
+                messages = result
+                // 결과를 textBox에 표시
+                textBox.text = messages
+            }
+        }
     }
+
+    private fun callChatGPT(callback: (String) -> Unit) {
+        val requestBody = JSONObject().apply {
+            put("model", "gpt-3.5-turbo")
+            put("messages", listOf(
+                mapOf("role" to "user", "content" to "안부인사를 말해줘") // 원하는 프롬프트로 변경
+            ))
+        }.toString()
+
+        val request = Request.Builder()
+            .url("https://api.openai.com/v1/chat/completions")
+            .post(requestBody.toRequestBody("application/json".toMediaType()))
+            .addHeader("Authorization", "Bearer YOUR_API_KEY") // 여기에 본인의 API 키 입력
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // 메인 스레드에서 오류 메시지 콜백
+                requireActivity().runOnUiThread {
+                    callback("오류가 발생했습니다.") // 실패 시 콜백 호출
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!it.isSuccessful) {
+                        // 메인 스레드에서 오류 메시지 콜백
+                        requireActivity().runOnUiThread {
+                            callback("응답 오류: ${it.code}") // 오류 시 콜백 호출
+                        }
+                        throw IOException("Unexpected code $it")
+                    }
+
+                    val responseBody = it.body?.string()
+                    val jsonResponse = JSONObject(responseBody)
+                    val message = jsonResponse.getJSONArray("choices")
+                        .getJSONObject(0)
+                        .getJSONObject("message")
+                        .getString("content")
+
+                    // 메인 스레드에서 UI 업데이트
+                    requireActivity().runOnUiThread {
+                        callback(message) // 성공 시 콜백 호출
+                    }
+                }
+            }
+        })
+    }
+
+
 }
