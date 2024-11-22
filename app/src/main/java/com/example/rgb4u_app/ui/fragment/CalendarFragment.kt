@@ -260,7 +260,6 @@ class CalendarFragment : Fragment() {
         return (this * density).toInt()
     }
 
-
     private fun fetchDiaryDataForMonth() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         Log.d("FetchDiaryData", "User ID: $userId")
@@ -303,18 +302,27 @@ class CalendarFragment : Fragment() {
 
                         Log.d("FetchDiaryData", "Parsed day: $day")
 
-                        val userInput = diaryData["userInput"] as? Map<String, Any>
+                        val savingStatus = diaryData["savingstatus"] as? String
 
-                        if (userInput == null) {
-                            Log.d("FetchDiaryData", "userInput is null. Skipping.")
-                            continue
+                        if (savingStatus == "save") {
+                            val userInput = diaryData["userInput"] as? Map<String, Any>
+
+                            if (userInput == null) {
+                                Log.d("FetchDiaryData", "userInput is null. Skipping.")
+                                continue
+                            }
+
+                            val emotionDegree = extractEmotionDegree(userInput)
+                            Log.d("FetchDiaryData", "Emotion degree for day $day: $emotionDegree")
+
+                            daysWithDiary.add(day)
+                            addStampToCalendar(day, emotionDegree)
+
+                        } else {
+                            Log.d("FetchDiaryData", "Saving status is not 'save'. Adding temp image for day $day.")
+                            daysWithDiary.add(day)
+                            addTempImageToCalendar(day)  // "img_calendartemp" 표시를 위한 함수 호출
                         }
-
-                        val emotionDegree = extractEmotionDegree(userInput)
-                        Log.d("FetchDiaryData", "Emotion degree for day $day: $emotionDegree")
-
-                        daysWithDiary.add(day)
-                        addStampToCalendar(day, emotionDegree)
                     }
                 } else {
                     Log.d("FetchDiaryData", "Snapshot does not exist.")
@@ -331,7 +339,29 @@ class CalendarFragment : Fragment() {
             }
     }
 
-    // emotionDegree 값을 안전하게 추출하는 함수
+    private fun addTempImageToCalendar(day: Int) {
+        val today = Calendar.getInstance()
+        if (currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+            currentCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+            day > today.get(Calendar.DAY_OF_MONTH)) {
+            return
+        }
+
+        val index = day + startDay - 1
+        if (index in 0 until calendarGrid.childCount) {
+            val dayView = calendarGrid.getChildAt(index) as? FrameLayout
+            dayView?.let {
+                val tempImage = ImageView(requireContext()).apply {
+                    layoutParams = FrameLayout.LayoutParams(40.dpToPx(), 40.dpToPx()).apply {
+                        gravity = Gravity.CENTER
+                    }
+                    setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.img_calendartemp, null))
+                }
+                it.addView(tempImage)
+            }
+        }
+    }
+
     // emotionDegree 값을 안전하게 추출하는 함수
     private fun extractEmotionDegree(userInput: Map<String, Any>): Int {
         val reMeasuredEmotionDegree = userInput["reMeasuredEmotionDegree"] as? Map<String, Any>
