@@ -381,6 +381,21 @@ class CalendarFragment : Fragment() {
                         gravity = Gravity.CENTER
                     }
                     setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.img_calendartemp, null))
+                    setOnClickListener {
+                        val selectedDate = Calendar.getInstance().apply {
+                            time = currentCalendar.time
+                            set(Calendar.DAY_OF_MONTH, day)
+                        }
+                        val formattedDate = SimpleDateFormat("MM월 dd일 E요일", Locale("ko", "KR")).format(selectedDate.time)
+                        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(selectedDate.time)
+
+                        val intent = Intent(requireContext(), DiaryWriteActivity::class.java).apply {
+                            putExtra("SELECTED_DATE", formattedDate)
+                            putExtra("SELECTED_YEAR", year)
+                        }
+                        //임시저장한 내용 땡겨오는 코드 넣기
+                        startActivity(intent)
+                    }
                 }
                 it.addView(tempImage)
             }
