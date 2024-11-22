@@ -61,24 +61,37 @@ class CalendarFragment : Fragment() {
         val buttonAction2 = view.findViewById<ImageButton>(R.id.button_calendar_action2)
 
         buttonAction1.setOnClickListener {
-            changeMonth(-1)
+            changeMonthBefore(-1) //지난달
         }
         buttonAction2.setOnClickListener {
-            changeMonth(1)
+            changeMonthNext(1) //다음달
         }
 
         monthBtn.setOnClickListener {
             showMonthYearPickerDialog()
         }
 
-
-        updateCalendar()
+        updateCalendar(currentYear, currentMonth)
         return view
     }
-
-    private fun changeMonth(monthOffset: Int) {
+    private fun changeMonthBefore(monthOffset: Int) {
         val today = Calendar.getInstance()
 
+        // 월을 조정
+        currentCalendar.add(Calendar.MONTH, monthOffset)
+
+        // 조정된 연도와 월을 가져오기
+        val updatedYear = currentCalendar.get(Calendar.YEAR)
+        val updatedMonth = currentCalendar.get(Calendar.MONTH) + 1 // 1부터 시작하도록 +1
+
+        Log.d("이전 달 UpdateCalendar", "Year: $updatedYear, Month: $updatedMonth")
+        updateCalendar(updatedYear, updatedMonth)
+    }
+
+    private fun changeMonthNext(monthOffset: Int) {
+        val today = Calendar.getInstance()
+
+        // 다음 달로 이동할 수 없는 조건
         if (monthOffset > 0 &&
             currentCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
             currentCalendar.get(Calendar.MONTH) >= today.get(Calendar.MONTH)
@@ -87,11 +100,18 @@ class CalendarFragment : Fragment() {
             return
         }
 
+        // 월을 조정
         currentCalendar.add(Calendar.MONTH, monthOffset)
-        updateCalendar()
+
+        // 조정된 연도와 월을 가져오기
+        val updatedYear = currentCalendar.get(Calendar.YEAR)
+        val updatedMonth = currentCalendar.get(Calendar.MONTH) + 1 // 1부터 시작하도록 +1
+
+        Log.d("다음 달 UpdateCalendar", "Year: $updatedYear, Month: $updatedMonth")
+        updateCalendar(updatedYear, updatedMonth)
     }
 
-    private fun updateCalendar() {
+    private fun updateCalendar(year: Int, month: Int) {
         textCurrentMonth.text = SimpleDateFormat("yyyy년 M월", Locale.getDefault()).format(currentCalendar.time)
         calendarGrid.removeAllViews()
 
@@ -147,7 +167,8 @@ class CalendarFragment : Fragment() {
             calendarGrid.addView(frameLayout)
         }
 
-        fetchDiaryDataForMonth()
+        // year와 month를 fetchDiaryDataForMonth에 전달
+        fetchDiaryDataForMonth(year, month)
     }
 
     private fun showMonthYearPickerDialog() {
@@ -213,7 +234,7 @@ class CalendarFragment : Fragment() {
 
             currentCalendar.set(Calendar.YEAR, selectedYear)
             currentCalendar.set(Calendar.MONTH, selectedMonth - 1) // Month는 0부터 시작
-            updateCalendar()
+            updateCalendar(selectedYear, selectedMonth)
             dialog.dismiss()
         }
 
@@ -260,14 +281,18 @@ class CalendarFragment : Fragment() {
         return (this * density).toInt()
     }
 
-    private fun fetchDiaryDataForMonth() {
+    private fun fetchDiaryDataForMonth(year: Int, month: Int) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         Log.d("FetchDiaryData", "User ID: $userId")
 
         val calendar = Calendar.getInstance().apply {
-            set(Calendar.DAY_OF_MONTH, 1)
+            // year과 month를 사용하여 첫 번째 날로 설정
+            set(year.toInt(), month.toInt() - 1, 1) // 월은 0부터 시작
         }
-        val yearMonth = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(calendar.time)
+
+        // 월을 두 자리로 포맷팅
+        val formattedMonth = String.format("%02d", month)
+        val yearMonth = "$year-$formattedMonth"
 
         val firstDayKey = "$yearMonth-01"
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
