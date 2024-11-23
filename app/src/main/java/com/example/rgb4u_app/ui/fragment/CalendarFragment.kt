@@ -498,8 +498,8 @@ class CalendarFragment : Fragment() {
                             set(Calendar.DAY_OF_MONTH, day)
                         }
 
-                        // 기존 날짜 포맷 (예: "2024년 11월 20일 수요일")
-                        val dateFormat = SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.getDefault())
+                        // 기존 날짜 포맷 (예: "11월 20일 수요일")
+                        val dateFormat = SimpleDateFormat("M월 d일 E요일", Locale.getDefault())
                         val formattedDate = dateFormat.format(selectedDate.time)
 
                         // 새로운 날짜 포맷 (예: "2024-11-20")
