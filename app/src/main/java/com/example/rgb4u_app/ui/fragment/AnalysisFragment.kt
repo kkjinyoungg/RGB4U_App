@@ -150,17 +150,17 @@ class AnalysisFragment : Fragment() {
         buttonAction1.setOnClickListener {
             // 이전 날짜로 이동하는 로직 추가
             moveToPreviousDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기 )
             // 카드 데이터 가져오기
             val cardList = fetchCardData()
-            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기 )
         }
 
         buttonAction2.setOnClickListener {
             // 다음 날짜로 이동하는 로직 추가
             moveToNextDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
             // 카드 데이터 가져오기
             val cardList = fetchCardData()
-            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         }
 
         // overlayView 초기화
@@ -274,9 +274,10 @@ class AnalysisFragment : Fragment() {
     private fun moveToPreviousDate() {
         currentCalendar.add(Calendar.MONTH, -1) // 한 달 전으로 이동
         updateToolbarDate()
+        fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
+
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
-        fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
     private fun moveToNextDate() {
@@ -287,9 +288,10 @@ class AnalysisFragment : Fragment() {
             (currentCalendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) && currentCalendar.get(Calendar.MONTH) < currentDate.get(Calendar.MONTH))) {
             currentCalendar.add(Calendar.MONTH, 1) // 한 달 후로 이동
             updateToolbarDate()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
+
             // 카드 데이터 가져오기
             val cardList = fetchCardData()
-            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         } else {
             Toast.makeText(requireContext(), "현재 날짜 이후로는 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
         }
@@ -471,9 +473,6 @@ class AnalysisFragment : Fragment() {
                         setupPieChart(entries)
 
                     } else {
-                        // 데이터가 없는 경우
-                        recyclerView.visibility = View.VISIBLE
-                        emptyView.visibility = View.GONE
                         overlayView.visibility = View.GONE
                         nodataLayout.visibility = View.VISIBLE
 
@@ -481,6 +480,8 @@ class AnalysisFragment : Fragment() {
                         emotionratioTitle.visibility = View.GONE
                         viewDetail.visibility = View.GONE
                         emotionChart.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+                        emptyView.visibility = View.GONE
 
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -519,6 +520,9 @@ class AnalysisFragment : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        recyclerView.visibility = View.VISIBLE
+                        emptyView.visibility = View.GONE
+
                         val planetCounts = mutableMapOf<String, Int>()
 
                         // 행성별 count 값을 가져와서 Map에 저장
@@ -561,9 +565,6 @@ class AnalysisFragment : Fragment() {
                                         // imageResourceId 로그 출력
                                         Log.d("fetchCardData", "최종 이미지 리소스 ID: $imageResourceId")
 
-                                        recyclerView.visibility = View.VISIBLE
-                                        emptyView.visibility = View.GONE
-
                                         // 카드 아이템 생성
                                         cardList.add(CardItem(planetName, imageResourceId))
 
@@ -577,13 +578,17 @@ class AnalysisFragment : Fragment() {
                             }
                         } else {
                             Log.d("fetchCardData", "행성 데이터가 없습니다.")
-                            recyclerView.visibility = View.GONE
-                            emptyView.visibility = View.VISIBLE
+                            if (nodataLayout.visibility != View.VISIBLE) {
+                                recyclerView.visibility = View.GONE
+                                emptyView.visibility = View.VISIBLE
+                            }
                         }
                     } else {
                         Log.d("fetchCardData", "MonthlyAnalysis 데이터가 없습니다.")
-                        recyclerView.visibility = View.GONE
-                        emptyView.visibility = View.VISIBLE
+                        if (nodataLayout.visibility != View.VISIBLE) {
+                            recyclerView.visibility = View.GONE
+                            emptyView.visibility = View.VISIBLE
+                        }
                     }
                 }
 
