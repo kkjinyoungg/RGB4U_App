@@ -15,6 +15,10 @@ import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import android.util.Log
 
 class NavigationFragment : Fragment() {
 
@@ -71,7 +75,24 @@ class NavigationFragment : Fragment() {
         // FAB 버튼 클릭 리스너 설정
         fabThink = view.findViewById(R.id.fab_think)
         fabThink.setOnClickListener {
-            startActivity(Intent(activity, DiaryWriteActivity::class.java))
+            // 현재 날짜를 가져오고 포맷팅
+            val calendar = Calendar.getInstance()
+            val dateFormatYear = SimpleDateFormat("yyyy", Locale.getDefault())
+            val dateFormatDate = SimpleDateFormat("MM월 dd일 E요일", Locale.getDefault())
+
+            val selectedYear = dateFormatYear.format(calendar.time) // yyyy 값
+            val selectedDate = dateFormatDate.format(calendar.time) // MM월 dd일 E요일 형식
+
+            // 로그 찍기
+            Log.d("NavigationFragment", "Selected Year: $selectedYear")
+            Log.d("NavigationFragment", "Selected Date: $selectedDate")
+
+            // DiaryWriteActivity로 데이터 전달
+            val intent = Intent(activity, DiaryWriteActivity::class.java).apply {
+                putExtra("SELECTED_YEAR", selectedYear) // yyyy 값 전달
+                putExtra("SELECTED_DATE", selectedDate) // MM월 dd일 E요일 전달
+            }
+            startActivity(intent)
         }
     }
 }
