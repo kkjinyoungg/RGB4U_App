@@ -34,8 +34,8 @@ class DistortionTypeActivity : AppCompatActivity() {
         userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         // Intent에서 툴바랑 date 가져오기
-        date = intent.getStringExtra("date") ?: ""
-        toolbarDate = intent.getStringExtra("toolbar") ?: ""
+        date = intent.getStringExtra("Date") ?: ""
+        toolbarDate = intent.getStringExtra("Toolbar") ?: ""
 
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
