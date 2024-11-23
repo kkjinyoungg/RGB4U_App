@@ -1,8 +1,8 @@
 package com.example.rgb4u_app.ui.activity.calendar
 
-import android.util.Log
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -14,9 +14,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
+import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class CalenderChangedDayActivity : AppCompatActivity() {
 
@@ -101,14 +105,9 @@ class CalenderChangedDayActivity : AppCompatActivity() {
             userInputRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(userInputSnapshot: DataSnapshot) {
                     // reMeasuredEmotionDegree 데이터를 확인
-                    val emotionDegreeInt2 = userInputSnapshot.child("reMeasuredEmotionDegree/int")
-                        .getValue(Int::class.java)
-                    val emotionDegreeString2 =
-                        userInputSnapshot.child("reMeasuredEmotionDegree/string")
-                            .getValue(String::class.java)
-                    val emotionDegreeImage2 =
-                        userInputSnapshot.child("reMeasuredEmotionDegree/emotionimg")
-                            .getValue(String::class.java)
+                    val emotionDegreeInt2 = userInputSnapshot.child("reMeasuredEmotionDegree/int").getValue(Int::class.java) ?: 2
+                    val emotionDegreeString2 = userInputSnapshot.child("reMeasuredEmotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                    val emotionDegreeImage2 = userInputSnapshot.child("reMeasuredEmotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
 
                     if (emotionDegreeInt2 != null && emotionDegreeString2 != null && emotionDegreeImage2 != null) {
                         // 데이터가 있을 때
@@ -119,12 +118,12 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                         emotionText2.text = emotionDegreeString2
                         emotionIcon2.setImageResource(getEmotionImageResource(emotionDegreeImage2))
                     } else {
-                        // 데이터가 없을 때
-                        secondChangedEmotionLayout.visibility = View.GONE
-                        layoutAddEmotion.visibility = View.VISIBLE
+                        // 데이터가 없을 때 '감정 재선택'으로 연결되는 버튼이 나오게끔 설계
+                        secondChangedEmotionLayout.visibility = View.GONE // 기존 2번째 감정
+                        layoutAddEmotion.visibility = View.VISIBLE // 버튼 있는 레이아웃
 
                         layoutAddEmotion.setOnClickListener {
-                            val intent = Intent(this@CalenderChangedDayActivity, EmotionReselectActivity::class.java)
+                            val intent = Intent(this@CalenderChangedDayActivity, EmotionReselectActivity::class.java) //화면 연결
                             intent.putExtra("userId", userId)
                             intent.putExtra("date", date)
                             startActivity(intent)
@@ -135,10 +134,8 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                     val emotionDegreeInt =
                         userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
                     val emotionDegreeString =
-                        userInputSnapshot.child("emotionDegree/string").getValue(String::class.java)
-                            ?: "보통이었어"
-                    val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg")
-                        .getValue(String::class.java) ?: "img_emotion_2"
+                        userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                    val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
 
                     emotionStep1.text = "${emotionDegreeInt + 1}단계"
                     emotionText1.text = emotionDegreeString
