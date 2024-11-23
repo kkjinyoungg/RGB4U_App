@@ -34,8 +34,8 @@ class DistortionTypeActivity : AppCompatActivity() {
         userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         // Intent에서 툴바랑 date 가져오기
-        date = intent.getStringExtra("date") ?: ""
-        toolbarDate = intent.getStringExtra("toolbar") ?: ""
+        date = intent.getStringExtra("Date") ?: ""
+        toolbarDate = intent.getStringExtra("Toolbar") ?: ""
 
         // 로그 출력
         Log.d("DistortionTypeActivity", "Received User ID: $userId")
@@ -83,6 +83,7 @@ class DistortionTypeActivity : AppCompatActivity() {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 intent.putExtra("Toolbar", toolbarDate) //toolbar로 고치기
                 intent.putExtra("Date", date) // date보내기
+                Log.d("DistortionTypeActivity", "$toolbarDate")
                 startActivity(intent)
             }
         }

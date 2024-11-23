@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.summary
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -22,8 +23,9 @@ class SummaryChangedDayActivity : AppCompatActivity() {
 
         // 인텐트에서 데이터 받기
         val intent = intent
-        toolbarDate = intent.getStringExtra("ToolbarDate") ?: ""
+        toolbarDate = intent.getStringExtra("Toolbar") ?: ""
         date = intent.getStringExtra("Date") ?: ""
+        Log.d("SummaryChangedDayActivity", "$toolbarDate")
 
         // Toolbar 설정
         val toolbar: Toolbar = findViewById(R.id.toolbar)
