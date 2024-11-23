@@ -83,6 +83,7 @@ class DistortionTypeActivity : AppCompatActivity() {
                 val intent = Intent(this, EmotionReselectActivity::class.java)
                 intent.putExtra("Toolbar", toolbarDate) //toolbar로 고치기
                 intent.putExtra("Date", date) // date보내기
+                Log.d("DistortionTypeActivity", "$toolbarDate")
                 startActivity(intent)
             }
         }

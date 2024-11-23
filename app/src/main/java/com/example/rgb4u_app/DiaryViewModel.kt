@@ -184,8 +184,10 @@ class DiaryViewModel : ViewModel() {
                     monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
                     Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
 
-                    // (4) readingStatus 업데이트
-                    updateReadingStatus2(userId)  // readingStatus 업데이트
+                    // 20초 지연 후 (4) readingStatus 업데이트
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        updateReadingStatus2(userId)  // readingStatus 업데이트
+                    }, 5000) // 5초 (5000 밀리초)
                 }
             }
         } else {
@@ -215,7 +217,10 @@ class DiaryViewModel : ViewModel() {
                 monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
                 Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
 
-                updateReadingStatus2(userId)  // readingStatus 업데이트
+                // 20초 지연 후 (4) readingStatus 업데이트
+                Handler(Looper.getMainLooper()).postDelayed({
+                    updateReadingStatus2(userId)  // readingStatus 업데이트
+                }, 5000) // 5초 (5000 밀리초)
 
             }
         }
