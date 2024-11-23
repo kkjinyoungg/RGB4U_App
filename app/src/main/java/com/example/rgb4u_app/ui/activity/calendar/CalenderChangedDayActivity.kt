@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -64,8 +65,10 @@ class CalenderChangedDayActivity : AppCompatActivity() {
         val thoughtDetailButton: ImageButton = findViewById(R.id.thoughtDetailButton)
         thoughtDetailButton.setOnClickListener {
             val intent = Intent(this, ChangeThinkThisActivity::class.java)
+            intent.putExtra("date", date)
             startActivity(intent)
             finish()
+
         }
 
         val emotionStep1 = findViewById<TextView>(R.id.emotionStep1)
