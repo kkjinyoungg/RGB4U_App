@@ -263,6 +263,10 @@ class AnalysisFragment : Fragment() {
             // 툴바의 날짜 갱신
             updateToolbarDate()
 
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기 )
+            // 카드 데이터 가져오기
+            val cardList = fetchCardData()
+
             dialog.dismiss()
         }
 
