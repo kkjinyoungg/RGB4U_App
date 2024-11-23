@@ -1,8 +1,8 @@
 package com.example.rgb4u_app.ui.activity.calendar
 
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -14,13 +14,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
+import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class CalenderChangedDayActivity : AppCompatActivity() {
 
@@ -72,8 +68,10 @@ class CalenderChangedDayActivity : AppCompatActivity() {
         val thoughtDetailButton: ImageButton = findViewById(R.id.thoughtDetailButton)
         thoughtDetailButton.setOnClickListener {
             val intent = Intent(this, ChangeThinkThisActivity::class.java)
+            intent.putExtra("date", date)
             startActivity(intent)
             finish()
+
         }
 
         secondChangedEmotionLayout = findViewById(R.id.secondChangedEmotionLayout) // XML ID에 맞게 설정

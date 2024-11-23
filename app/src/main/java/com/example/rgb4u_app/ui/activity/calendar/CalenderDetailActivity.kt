@@ -75,8 +75,6 @@ class CalenderDetailActivity : AppCompatActivity() {
         val datefordb = intent.getStringExtra("SELECTED_DATE_FOR_DB")
         Log.d("CalenderDetailActivity", "datefordb: $datefordb")
 
-        // 현재 로그인된 사용자의 UID를 가져오는 함수
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
 
         // situationTextView와 thoughtTextView 참조
         val situationTextView = findViewById<TextView>(R.id.situationTextView)
@@ -87,6 +85,29 @@ class CalenderDetailActivity : AppCompatActivity() {
         // 칩 그룹 참조
         val selectedChipGroup = findViewById<ChipGroup>(R.id.SummarySelectedChipGroup)
         val emotionChipGroup = findViewById<ChipGroup>(R.id.SummaryEmotionChipGroup)
+
+        // 현재 로그인된 사용자의 UID를 가져오는 함수
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val changedDayButton: MaterialButton = findViewById(R.id.buttonNext)
+
+        // totalCharacters 값 확인 후 '달라진 하루' 버튼 가리기
+        val totalCharactersRef = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$datefordb/aiAnalysis/secondAnalysis/totalCharacters")
+
+        totalCharactersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val totalCharacters = snapshot.getValue(Long::class.java) ?: 0L
+                if (totalCharacters == 0L) {
+                    changedDayButton.visibility = View.GONE
+                } else {
+                    changedDayButton.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                error.toException().printStackTrace()
+            }
+        })
 
         // Firebase로부터 데이터 가져오기
         if (userId != null && datefordb != null) {
