@@ -76,6 +76,9 @@ class CalenderChangedDayActivity : AppCompatActivity() {
             finish()
         }
 
+        secondChangedEmotionLayout = findViewById(R.id.secondChangedEmotionLayout) // XML ID에 맞게 설정
+        layoutAddEmotion = findViewById(R.id.layout_add_emotion)
+
         val emotionStep1 = findViewById<TextView>(R.id.emotionStep1)
         val emotionIcon1 = findViewById<ImageView>(R.id.emotionIcon1)
         val emotionText1 = findViewById<TextView>(R.id.emotionText1)

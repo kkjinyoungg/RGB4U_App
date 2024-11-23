@@ -218,39 +218,34 @@
                             android:text="아주 좋았어"
                             android:textColor="@color/blue2" />
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layout_add_emotion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="@drawable/rounded_button_gray"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="12dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif"
-                            android:text="지금은 감정이 어떻게 달라졌나요?"
-                            android:textColor="@color/black"
-                            android:textSize="12sp" />
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_marginStart="8dp"
-                            android:src="@drawable/ic_next_gray1" />
-                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- 감정 레이블 텍스트뷰들 -->
+                <LinearLayout
+                    android:id="@+id/layout_add_emotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button_gray"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:visibility="gone">
 
-                <!-- ChipGroup -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:text="지금은 감정이 어떻게 달라졌나요?"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
 
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_next_gray1" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
