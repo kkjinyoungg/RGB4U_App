@@ -150,12 +150,16 @@ class AnalysisFragment : Fragment() {
         buttonAction1.setOnClickListener {
             // 이전 날짜로 이동하는 로직 추가
             moveToPreviousDate()
-            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
+            // 카드 데이터 가져오기
+            val cardList = fetchCardData()
+            fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기 )
         }
 
         buttonAction2.setOnClickListener {
             // 다음 날짜로 이동하는 로직 추가
             moveToNextDate()
+            // 카드 데이터 가져오기
+            val cardList = fetchCardData()
             fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         }
 
@@ -270,6 +274,8 @@ class AnalysisFragment : Fragment() {
     private fun moveToPreviousDate() {
         currentCalendar.add(Calendar.MONTH, -1) // 한 달 전으로 이동
         updateToolbarDate()
+        // 카드 데이터 가져오기
+        val cardList = fetchCardData()
         fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
     }
 
@@ -281,6 +287,8 @@ class AnalysisFragment : Fragment() {
             (currentCalendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) && currentCalendar.get(Calendar.MONTH) < currentDate.get(Calendar.MONTH))) {
             currentCalendar.add(Calendar.MONTH, 1) // 한 달 후로 이동
             updateToolbarDate()
+            // 카드 데이터 가져오기
+            val cardList = fetchCardData()
             fetchEmotionData() // 날짜 변경 시 데이터 다시 가져오기
         } else {
             Toast.makeText(requireContext(), "현재 날짜 이후로는 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
@@ -412,6 +420,8 @@ class AnalysisFragment : Fragment() {
         val month = calendar.get(Calendar.MONTH) + 1
         val monthFormatted = String.format("%04d-%02d", year, month)
 
+        Log.d("fetchCardData", "월별 감정 분석 데이터 가져오기: $monthFormatted")
+
         database.child("users").child(userId)
             .child("monthlyStats").child(monthFormatted).child("emotionsGraph")
             .addValueEventListener(object : ValueEventListener {
@@ -460,16 +470,10 @@ class AnalysisFragment : Fragment() {
 
                         setupPieChart(entries)
 
-                        // cardAdapter 데이터 처리
-                        if (cardAdapter.itemCount > 0) {
-                            recyclerView.visibility = View.VISIBLE
-                            emptyView.visibility = View.GONE
-                        } else {
-                            recyclerView.visibility = View.GONE
-                            emptyView.visibility = View.VISIBLE
-                        }
                     } else {
                         // 데이터가 없는 경우
+                        recyclerView.visibility = View.VISIBLE
+                        emptyView.visibility = View.GONE
                         overlayView.visibility = View.GONE
                         nodataLayout.visibility = View.VISIBLE
 
@@ -477,8 +481,6 @@ class AnalysisFragment : Fragment() {
                         emotionratioTitle.visibility = View.GONE
                         viewDetail.visibility = View.GONE
                         emotionChart.visibility = View.GONE
-                        recyclerView.visibility = View.GONE
-                        emptyView.visibility = View.GONE
 
                         Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -509,7 +511,7 @@ class AnalysisFragment : Fragment() {
         val month = calendar.get(Calendar.MONTH) + 1
         val monthFormatted = String.format("%04d-%02d", year, month)
 
-        Log.d("fetchCardData", "월별 분석 데이터 가져오기: $monthFormatted")
+        Log.d("fetchCardData", "월별 Top3 분석 데이터 가져오기: $monthFormatted")
 
         // MonthlyAnalysis에서 해당 월의 행성 데이터 가져오기
         database.child("users").child(userId)
@@ -535,6 +537,7 @@ class AnalysisFragment : Fragment() {
 
                         // 행성이 하나라도 있으면 카드 리스트에 추가
                         if (sortedPlanets.isNotEmpty()) {
+
                             for ((planetName, _) in sortedPlanets) {
                                 Log.d("fetchCardData", "행성 데이터 추가: $planetName")
 
@@ -558,6 +561,9 @@ class AnalysisFragment : Fragment() {
                                         // imageResourceId 로그 출력
                                         Log.d("fetchCardData", "최종 이미지 리소스 ID: $imageResourceId")
 
+                                        recyclerView.visibility = View.VISIBLE
+                                        emptyView.visibility = View.GONE
+
                                         // 카드 아이템 생성
                                         cardList.add(CardItem(planetName, imageResourceId))
 
@@ -571,9 +577,13 @@ class AnalysisFragment : Fragment() {
                             }
                         } else {
                             Log.d("fetchCardData", "행성 데이터가 없습니다.")
+                            recyclerView.visibility = View.GONE
+                            emptyView.visibility = View.VISIBLE
                         }
                     } else {
                         Log.d("fetchCardData", "MonthlyAnalysis 데이터가 없습니다.")
+                        recyclerView.visibility = View.GONE
+                        emptyView.visibility = View.VISIBLE
                     }
                 }
 
