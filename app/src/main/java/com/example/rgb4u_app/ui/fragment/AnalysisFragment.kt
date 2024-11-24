@@ -96,9 +96,6 @@ class AnalysisFragment : Fragment() {
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
 
-        // 초기 날짜 설정
-        updateToolbarDate()
-
         // 카드 데이터 가져오기
         val cardList = fetchCardData()
 
@@ -111,6 +108,9 @@ class AnalysisFragment : Fragment() {
                 .commit()
 
         }
+
+        // 초기 날짜 설정
+        updateToolbarDate()
 
         // RecyclerView에 어댑터 설정
         recyclerView.adapter = cardAdapter
@@ -308,6 +308,11 @@ class AnalysisFragment : Fragment() {
         val formattedDate = SimpleDateFormat("yyyy년 MM월", Locale("ko", "KR")).format(currentCalendar.time)
         toolbarCalendarTitle.text = formattedDate
         formattedDate2 = SimpleDateFormat("yyyy-MM", Locale("ko", "KR")).format(currentCalendar.time)
+        // cardAdapter에서 formattedDate2를 최신으로 전달
+        cardAdapter.updateFormattedDate(formattedDate2)
+        // 로그 찍기
+        Log.d("ToolbarDate", "formattedDate: $formattedDate")  // formattedDate 로그
+        Log.d("ToolbarDate", "formattedDate2: $formattedDate2")  // formattedDate2 로그
     }
 
 

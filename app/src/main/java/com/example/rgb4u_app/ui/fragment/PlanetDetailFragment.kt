@@ -28,7 +28,6 @@ import com.google.firebase.database.ValueEventListener
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-
 class PlanetDetailFragment : Fragment() {
 
     private var typeName: String = "Default Title" // 멤버 변수로 선언
@@ -59,6 +58,7 @@ class PlanetDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_planet_detail, container, false)
+        Log.d("PlanetDetailFragment", "Arguments set: typeName=$typeName, formattedDate2=$formattedDate2")
 
         // Firebase 인증과 데이터베이스 참조 설정
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -113,7 +113,7 @@ class PlanetDetailFragment : Fragment() {
         // fetchDistortionData 호출
         fetchDistortionData(distortionRef, typeName)
 
-        // boxfiller 호출
+        // boxfiller 호출 (미리 데이터를 로드하여 갱신)
         boxfiller(formattedDate2, typeName)
 
         return rootView
@@ -220,21 +220,11 @@ class PlanetDetailFragment : Fragment() {
         // "2024-11-17" 형식의 문자열을 파싱
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = sdf.parse(dateString)
-
-        // Calendar 객체로 변환
-        val calendar = Calendar.getInstance().apply {
-            time = date!!
+        val outputDateFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+        return if (date != null) {
+            outputDateFormat.format(date)
+        } else {
+            dateString
         }
-
-        // 월, 일, 요일 가져오기
-        val month = calendar.get(Calendar.MONTH) + 1 // 0부터 시작하므로 1 더하기
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val dayOfWeek = SimpleDateFormat("EEEE", Locale.KOREAN).format(date)
-
-        // 포맷팅된 문자열 반환
-        return "${month}월 ${day}일 ${dayOfWeek}"
     }
-
-
 }
-
