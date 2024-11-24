@@ -1,15 +1,15 @@
 package com.example.rgb4u_app.ui.fragment
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -19,15 +19,15 @@ import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.analysis.AnalysisActivity
 import com.example.rgb4u_app.ui.activity.analysis.BoxData
 import com.example.rgb4u_app.ui.activity.analysis.PlanetDetailBoxAdapter
-import android.widget.ImageView
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import android.util.Log
-import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 class PlanetDetailFragment : Fragment() {
 
     private var typeName: String = "Default Title" // 멤버 변수로 선언
@@ -98,8 +98,11 @@ class PlanetDetailFragment : Fragment() {
         buttonWriteAction1.setOnClickListener {
             val intent = Intent(requireContext(), AnalysisActivity::class.java)
             startActivity(intent)
-            activity?.finish()
+            activity.finish()
         }
+        val buttonWriteAction2: ImageButton = rootView.findViewById(R.id.button_base1_action2)
+        buttonWriteAction2.visibility = View.GONE // 버튼 숨기기
+
 
         // planet_counter 텍스트 설정
         val planetCounter: TextView = rootView.findViewById(R.id.planet_counter)

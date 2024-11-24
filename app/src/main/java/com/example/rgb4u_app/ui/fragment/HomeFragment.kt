@@ -175,10 +175,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateNotificationCount(adapter: AnalysisItemAdapter) {
-        notificationCount = adapter.itemCount
+        // getter 메서드를 통해 analysisList에 접근
+        val notificationCount = adapter.getAnalysisList().count { it.hasAnalysisData }
         notificationCountText.text = "$notificationCount"
-        notificationCountText.visibility = View.VISIBLE
+        // notificationCount가 0인 경우에도 보이게 수정
+        notificationCountText.visibility = if (notificationCount > 0) View.VISIBLE else View.VISIBLE
     }
+
 
     private fun updateDateAndDay() {
         val currentDate = Calendar.getInstance()

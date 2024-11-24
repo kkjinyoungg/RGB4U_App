@@ -56,6 +56,11 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
         }
     }
 
+    // 외부에서 analysisList에 접근할 수 있도록 getter 메서드 추가
+    fun getAnalysisList(): List<AnalysisItem> {
+        return analysisList
+    }
+
     override fun getItemCount(): Int {
         return analysisList.size
     }
