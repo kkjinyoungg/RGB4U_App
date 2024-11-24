@@ -32,6 +32,8 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
+    private var dbDate: String = ""  // nullable String을 non-null String으로 수정
+
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
         get() = FirebaseAuth.getInstance().currentUser?.uid
@@ -46,6 +48,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         titleText?.let {
             toolbarTitle.text = it // 툴바 제목 텍스트에 설정
         }
+        dbDate = intent.getStringExtra("DBDATE") ?: ""
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
