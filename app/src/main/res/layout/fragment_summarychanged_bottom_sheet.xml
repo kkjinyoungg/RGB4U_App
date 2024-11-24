@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/help_bottom_sheet_background">
+
+    <!-- 제목 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:text="생각 분석 결과를 확인했어요"
+        android:textAlignment="textStart"
+        android:textColor="@color/blue1"
+        android:textSize="18sp" />
+
+    <!-- 이미지 -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/img_onboarding_01" />
+
+    <!-- 설명 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingTop="8dp"
+        android:text="하루를 잘 마무리했어요!\n다음에도 저와 함께 하루를 기록해봐요!"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <!-- 확인 버튼 -->
+    <android.widget.Button
+        android:id="@+id/btn_confirm_changed"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="확인"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp" />
+</LinearLayout>

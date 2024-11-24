@@ -2,21 +2,23 @@ package com.example.rgb4u_app.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.databinding.FragmentChangedDayBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import android.util.Log
+import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
-import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.google.firebase.database.ValueEventListener
 
 class ChangedDayFragment : Fragment() {
     private lateinit var binding: FragmentChangedDayBinding
@@ -70,12 +72,34 @@ class ChangedDayFragment : Fragment() {
         // 확인 버튼 클릭 리스너
         binding.confirmButton.setOnClickListener {
             // MainActivity로 이동
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            startActivity(intent)
+            showBottomSheet() // 바텀시트 열기
+//            val intent = Intent(requireActivity(), MainActivity::class.java)
+//            startActivity(intent)
         }
 
         return binding.root
     }
+
+    private fun showBottomSheet() { // 확인 바텀시트 열기
+        // 바텀시트 레이아웃 inflate
+        val bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_summarychanged_bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        // 확인 버튼 클릭 이벤트
+        val confirmButton: Button = bottomSheetView.findViewById(R.id.btn_confirm_changed)
+        confirmButton.setOnClickListener {
+            bottomSheetDialog.dismiss() // 바텀시트 닫기
+
+            // 다음 액티비티로 이동
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish() // 현재 액티비티 종료
+        }
+
+        bottomSheetDialog.show() // 바텀시트 표시
+    }
+
 
     private fun loadDataFromFirebase() {
         // Firebase database 참조

@@ -91,6 +91,21 @@ class HomeFragment : Fragment() {
         mainConstraintLayout = view.findViewById(R.id.mainConstraintLayout)
         mainCharacterContainer = view.findViewById(R.id.mainCharacterContainer)
 
+        // ~홈 배경화면 바꾸는 코드~
+        // 조건에 따라 상태 설정
+        val currentState = when {
+            hasFinishedDiary() -> "after_diary"
+            hasFinishedAnalysis() -> "after_analysis"
+            else -> "default"
+        }
+
+        // 상태에 따라 배경 변경
+        when (currentState) {
+            "default" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
+            "after_diary" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
+            "after_analysis" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+        }
+
         analysisList = mutableListOf()
         adapter = AnalysisItemAdapter(analysisList)
         val recyclerView: RecyclerView = view.findViewById(R.id.analysisRecyclerView)
@@ -106,6 +121,18 @@ class HomeFragment : Fragment() {
         // 앱이 처음 생성될 때 랜덤 메시지를 선택하여 텍스트박스에 설정
         setInitialMessage()
     }
+
+    //~홈 배경화면 바꾸는 코드~
+    fun hasFinishedDiary(): Boolean { // 홈 배경화면 상태 코드
+        // 일기가 완료되었는지 판단하는 로직
+        return true  // 예시로 true를 반환
+    }
+
+    fun hasFinishedAnalysis(): Boolean { // 홈 배경화면 상태 코드
+        // 분석이 완료되었는지 판단하는 로직
+        return false  // 예시로 false를 반환
+    }
+
 
     private fun observeDiaries() {
         database.addValueEventListener(object : ValueEventListener {
