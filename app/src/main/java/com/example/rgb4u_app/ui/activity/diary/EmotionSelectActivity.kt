@@ -47,6 +47,15 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
     var yyyymmdd: String = ""
 
+    private val emotions = mapOf(
+        "Surprise" to listOf("움찔하는", "황당한", "깜짝 놀란", "어안이 벙벙한", "아찔한", "충격적인"),
+        "Fear" to listOf("걱정스러운", "긴장된", "불안한", "겁나는", "무서운", "암담한"),
+        "Sadness" to listOf("기운 없는", "서운한", "슬픈", "눈물이 나는", "우울한", "비참한"),
+        "Anger" to listOf("약 오른", "짜증나는", "화난", "억울한", "분한", "끓어오르는"),
+        "Disgust" to listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
+    )
+    private lateinit var chipGroupMap: Map<String, ChipGroup>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emotion_select)
@@ -61,9 +70,18 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         //다이어리뷰모델초기화
         diaryViewModel = (application as MyApplication).diaryViewModel
 
-        // 관찰자 추가.
+        // emotionTypes가 변경될 때마다 해당 감정들이 선택된 칩에 반영되도록 처리
         diaryViewModel.emotionTypes.observe(this) { emotionTypes ->
             Log.d("EmotionSelectActivity", "Selected emotions in ViewModel: $emotionTypes")
+
+            // 기존에 선택된 감정들을 반영
+            for ((category, labels) in emotions) {
+                val chipGroup = chipGroupMap[category] ?: continue
+                for (label in labels) {
+                    val chip = chipGroup.findChipByText(label)
+                    chip?.isChecked = emotionTypes.contains(label) // emotionTypes에 포함된 감정은 선택 상태로 만듦
+                }
+            }
         }
 
         yyyymmdd = diaryViewModel.getCurrentDate() //diaryviewmodel에서 가져오기
@@ -95,14 +113,6 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
         selectedChipGroup = findViewById(R.id.selectedChipGroup)
 
-        val emotions = mapOf(
-            "Surprise" to listOf("움찔하는", "황당한", "깜짝 놀란", "어안이 벙벙한", "아찔한", "충격적인"),
-            "Fear" to listOf("걱정스러운", "긴장된", "불안한", "겁나는", "무서운", "암담한"),
-            "Sadness" to listOf("기운 없는", "서운한", "슬픈", "눈물이 나는", "우울한", "비참한"),
-            "Anger" to listOf("약 오른", "짜증나는", "화난", "억울한", "분한", "끓어오르는"),
-            "Disgust" to listOf("정 떨어지는", "불쾌한", "싫은", "모욕적인", "못마땅한", "미운")
-        )
-
         val inflater = LayoutInflater.from(this)
 
         val surpriseChipGroup = findViewById<ChipGroup>(R.id.surpriseChipGroup)
@@ -111,7 +121,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         val angerChipGroup = findViewById<ChipGroup>(R.id.angerChipGroup)
         val disgustChipGroup = findViewById<ChipGroup>(R.id.disgustChipGroup)
 
-        val chipGroupMap = mapOf(
+        chipGroupMap = mapOf(
             "Surprise" to surpriseChipGroup,
             "Fear" to fearChipGroup,
             "Sadness" to sadnessChipGroup,
@@ -371,5 +381,15 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
 
         // 팝업 표시
         dialog.show(supportFragmentManager, "TemporarySaveDialog")
+    }
+
+
+    // 칩에 텍스트가 있을 경우 해당 칩을 찾아 반환하는 확장 함수
+    private fun ChipGroup.findChipByText(text: String): Chip? {
+        for (i in 0 until childCount) {
+            val chip = getChildAt(i) as? Chip
+            if (chip?.text == text) return chip
+        }
+        return null
     }
 }
