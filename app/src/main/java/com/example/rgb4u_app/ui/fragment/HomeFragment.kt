@@ -35,7 +35,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
+import com.google.firebase.database.GenericTypeIndicator
 
 class HomeFragment : Fragment() {
 
@@ -52,6 +52,10 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: AnalysisItemAdapter
     private var messages: String = "" // 메시지 변수 추가
     private val client = OkHttpClient() // OkHttpClient 초기화
+
+
+    private var firebaseMessage: String? = null // Firebase에서 가져온 메시지를 저장할 변수
+    private var isMessageSet: Boolean = false // 메시지가 설정되었는지 여부를 추적하는 변수
 
     //apiKey = ""의 ""안에 키 넣기!
     private val apiKey = ""
@@ -105,15 +109,12 @@ class HomeFragment : Fragment() {
         // Firebase 데이터 감시
         observeDiaries()
         observeFirebaseStates()
-        // 앱이 처음 생성될 때 랜덤 메시지를 선택하여 텍스트박스에 설정
-        setInitialMessage()
     }
 
     private fun observeFirebaseStates() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
 
-        // 현재 날짜를 yyyy-MM-dd 형식으로 가져오기
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
         Log.d("observeFirebaseStates", "Observing data for date: $currentDate")
 
@@ -122,19 +123,35 @@ class HomeFragment : Fragment() {
                 val savingStatus = snapshot.child("savingstatus").getValue(String::class.java)
                 val readingStatus = snapshot.child("readingstatus").getValue(String::class.java)
 
-                Log.d("onDataChange", "SavingStatus: $savingStatus, ReadingStatus: $readingStatus")
+                val userInput = snapshot.child("userInput")
+                val emotionDegreeType = object : GenericTypeIndicator<Map<String, Any>>() {}
+                val emotionDegree = userInput.child("emotionDegree").getValue(emotionDegreeType)
+                val emotionDegreeInt = (emotionDegree?.get("int") as? Long)?.toInt() ?: 0
 
-                // 상태에 따라 배경 설정
+                val reMeasuredEmotionDegreeType = object : GenericTypeIndicator<Map<String, Any>>() {}
+                val reMeasuredEmotionDegree = userInput.child("reMeasuredEmotionDegree").getValue(reMeasuredEmotionDegreeType)
+                val reMeasuredEmotionDegreeInt = (reMeasuredEmotionDegree?.get("int") as? Long)?.toInt() ?: -1
+
+                Log.d("onDataChange", "SavingStatus: $savingStatus, ReadingStatus: $readingStatus")
+                Log.d("onDataChange", "emotionDegreeInt: $emotionDegreeInt, reMeasuredEmotionDegreeInt: $reMeasuredEmotionDegreeInt")
+
                 when {
                     savingStatus == "save" && readingStatus == "read" -> {
-                        updateBackground("after_analysis")
+                        updateBackground("after_analysis", emotionDegreeInt, reMeasuredEmotionDegreeInt)
                     }
                     savingStatus == "save" -> {
-                        updateBackground("after_diary")
+                        updateBackground("after_diary", emotionDegreeInt, reMeasuredEmotionDegreeInt)
                     }
                     else -> {
-                        updateBackground("default")
+                        updateBackground("default", emotionDegreeInt, reMeasuredEmotionDegreeInt)
                     }
+                }
+
+                firebaseMessage = snapshot.child("message").getValue(String::class.java)
+
+                if (firebaseMessage != null && !isMessageSet) {
+                    isMessageSet = true
+                    updateTextBox()
                 }
             }
 
@@ -144,13 +161,64 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun updateBackground(state: String) {
+    private fun updateTextBox() {
+        // Firebase에서 가져온 메시지가 있으면 해당 메시지를 텍스트박스에 표시
+        if (!firebaseMessage.isNullOrEmpty()) {
+            textBox.text = firebaseMessage
+        }
+        // Firebase에서 메시지가 없으면 랜덤 메시지를 표시
+        else {
+            setInitialMessage()
+        }
+    }
+
+    private fun updateBackground(state: String, emotionDegreeInt: Int, reMeasuredEmotionDegreeInt: Int) {
         Log.d("updateBackground", "Updating background to state: $state")
-        // 상태에 따라 배경 변경
+
+        // 랜덤 말풍선 텍스트 리스트
+        val diaryMessages = listOf(
+            "오늘도 기록을 잊지 않다니 대단해요!",
+            "하루를 기록한 게 분명 도움이 될 거예요!",
+            "꾸준히 기록하는 모습이 멋져요!",
+            "오늘의 기록이 더 멋진 내일을 만들 거예요!",
+            "매일의 기록이 큰 힘이 될 거예요!",
+            "하루하루 정말 잘 해내고 있어요!",
+            "하루를 기록하며 성장하는 모습이 멋져요!",
+            "오늘도 한 걸음 나아갔네요! 잘하고 있어요!",
+            "꾸준한 기록이 만들어낼 변화가 기대돼요!",
+            "매일 하루를 돌아보는 모습이 멋져요!"
+        )
+
+        // 상태에 따라 배경과 랜덤 말풍선 텍스트 변경
         when (state) {
-            "default" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
-            "after_diary" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
-            "after_analysis" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+            "default" -> {
+                mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
+                textBox.text = "기록을 시작해 보세요!"
+            }
+            "after_diary" -> {
+                mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
+                textBox.text = diaryMessages.random() // 랜덤 메시지 선택
+            }
+            "after_analysis" -> {
+                mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+
+                if (emotionDegreeInt == 0 || reMeasuredEmotionDegreeInt == -1) {
+                    textBox.text = "내일도 저와 함께 하루를 기록해보세요&"
+                } else {
+                    // emotionDegreeInt와 reMeasuredEmotionDegreeInt 비교
+                    when {
+                        emotionDegreeInt > reMeasuredEmotionDegreeInt -> {
+                            textBox.text = "감정이 나아졌어요! 내일도 저와 하루를 기록해요&"
+                        }
+                        emotionDegreeInt == reMeasuredEmotionDegreeInt -> {
+                            textBox.text = "변화가 당장 느껴지지 않아도 도움이 되었을 거예요&"
+                        }
+                        emotionDegreeInt < reMeasuredEmotionDegreeInt -> {
+                            textBox.text = "오늘은 천천히 하루를 돌아보면 어떨까요?&"
+                        }
+                    }
+                }
+            }
         }
     }
 
