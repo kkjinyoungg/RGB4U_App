@@ -95,7 +95,10 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
 
         val currentUserId = userId // userId를 임시 변수에 할당
         if (currentUserId != null) {
-            diaryViewModel.loadDiaryFromFirebase(currentUserId, formattedDate ?: "2024-11-21")
+            diaryViewModel.loadDiaryFromFirebase(currentUserId, formattedDate ?: "2024-11-21") { loadedSituation ->
+                // 상황 값을 EditText에 바로 설정
+                findViewById<EditText>(R.id.inputField).setText(loadedSituation)
+            }
         } else {
             Log.e("DiaryWriteActivity", "User ID is null, cannot load diary.")
         }
