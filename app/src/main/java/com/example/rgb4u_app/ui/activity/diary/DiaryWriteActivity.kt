@@ -155,9 +155,6 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // 텍스트 필드 변화에 따라 버튼 활성화/비활성화 및 글자 수 업데이트
         inputField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-
-                diaryViewModel.situation.value = s?.toString() ?: "" //업데이트 추가
-
                 s?.let {
                     val charCount = s.length
                     val byteCount = s.toString().toByteArray(Charsets.UTF_8).size
