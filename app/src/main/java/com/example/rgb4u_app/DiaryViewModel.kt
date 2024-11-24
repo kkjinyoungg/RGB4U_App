@@ -40,7 +40,6 @@ class DiaryViewModel : ViewModel() {
     var onDiarySaved: (() -> Unit)? = null
 
     fun loadDiaryFromFirebase(userId: String, formattedDate: String) {
-
         val databaseRef = FirebaseDatabase.getInstance()
             .getReference("users/$userId/diaries/$formattedDate/userInput")
 
@@ -50,8 +49,10 @@ class DiaryViewModel : ViewModel() {
                 situation.value = snapshot.child("situation").getValue(String::class.java) ?: ""
                 thoughts.value = snapshot.child("thoughts").getValue(String::class.java) ?: ""
                 emotionDegree.value = snapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 0
-                // emotionTypes를 안전하게 List<String>으로 변환
-                emotionTypes.value = snapshot.child("emotionTypes").getValue(List::class.java) as? List<String> ?: emptyList()
+
+                // emotionTypes 필드를 List<String>으로 처리
+                val emotionTypesValue = snapshot.child("emotionTypes").getValue() as? List<String>
+                emotionTypes.value = emotionTypesValue ?: emptyList()
             }
         }.addOnFailureListener { e ->
             Log.e("DiaryViewModel", "Firebase 데이터 로드 실패: ${e.message}")
