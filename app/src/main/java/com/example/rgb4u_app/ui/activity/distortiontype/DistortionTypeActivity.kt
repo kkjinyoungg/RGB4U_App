@@ -123,7 +123,7 @@ class DistortionTypeActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance()
             .getReference("users/$userId/diaries/$date/readingstatus")
 
-        database.setValue("").addOnSuccessListener {
+        database.setValue("read").addOnSuccessListener {
             Log.d("DistortionTypeActivity", "readingStatus 업데이트 성공: 빈 문자열로 설정됨")
         }.addOnFailureListener { exception ->
             Log.e("DistortionTypeActivity", "readingStatus 업데이트 실패", exception)

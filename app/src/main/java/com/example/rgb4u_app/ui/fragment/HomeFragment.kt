@@ -91,20 +91,7 @@ class HomeFragment : Fragment() {
         mainConstraintLayout = view.findViewById(R.id.mainConstraintLayout)
         mainCharacterContainer = view.findViewById(R.id.mainCharacterContainer)
 
-        // ~홈 배경화면 바꾸는 코드~
-        // 조건에 따라 상태 설정
-        val currentState = when {
-            hasFinishedDiary() -> "after_diary"
-            hasFinishedAnalysis() -> "after_analysis"
-            else -> "default"
-        }
 
-        // 상태에 따라 배경 변경
-        when (currentState) {
-            "default" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
-            "after_diary" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
-            "after_analysis" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
-        }
 
         analysisList = mutableListOf()
         adapter = AnalysisItemAdapter(analysisList)
@@ -117,22 +104,55 @@ class HomeFragment : Fragment() {
 
         // Firebase 데이터 감시
         observeDiaries()
-
+        observeFirebaseStates()
         // 앱이 처음 생성될 때 랜덤 메시지를 선택하여 텍스트박스에 설정
         setInitialMessage()
     }
 
-    //~홈 배경화면 바꾸는 코드~
-    fun hasFinishedDiary(): Boolean { // 홈 배경화면 상태 코드
-        // 일기가 완료되었는지 판단하는 로직
-        return true  // 예시로 true를 반환
+    private fun observeFirebaseStates() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/diaries")
+
+        // 현재 날짜를 yyyy-MM-dd 형식으로 가져오기
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
+        Log.d("observeFirebaseStates", "Observing data for date: $currentDate")
+
+        databaseReference.child(currentDate).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val savingStatus = snapshot.child("savingstatus").getValue(String::class.java)
+                val readingStatus = snapshot.child("readingstatus").getValue(String::class.java)
+
+                Log.d("onDataChange", "SavingStatus: $savingStatus, ReadingStatus: $readingStatus")
+
+                // 상태에 따라 배경 설정
+                when {
+                    savingStatus == "save" && readingStatus == "read" -> {
+                        updateBackground("after_analysis")
+                    }
+                    savingStatus == "save" -> {
+                        updateBackground("after_diary")
+                    }
+                    else -> {
+                        updateBackground("default")
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseError", "Failed to read data: ${error.message}")
+            }
+        })
     }
 
-    fun hasFinishedAnalysis(): Boolean { // 홈 배경화면 상태 코드
-        // 분석이 완료되었는지 판단하는 로직
-        return false  // 예시로 false를 반환
+    private fun updateBackground(state: String) {
+        Log.d("updateBackground", "Updating background to state: $state")
+        // 상태에 따라 배경 변경
+        when (state) {
+            "default" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
+            "after_diary" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
+            "after_analysis" -> mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+        }
     }
-
 
     private fun observeDiaries() {
         database.addValueEventListener(object : ValueEventListener {
