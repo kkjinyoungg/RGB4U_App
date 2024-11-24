@@ -39,6 +39,51 @@ class DiaryViewModel : ViewModel() {
     // 콜백 함수 추가
     var onDiarySaved: (() -> Unit)? = null
 
+    fun loadDiaryFromFirebase(userId: String, formattedDate: String, onSituationLoaded: (String) -> Unit) {
+        val databaseRef = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$formattedDate/userInput")
+
+        databaseRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                // 데이터가 존재할 경우 각 필드 처리
+                val situationValue = snapshot.child("situation").getValue(String::class.java) ?: ""
+                val thoughtsValue = snapshot.child("thoughts").getValue(String::class.java) ?: ""
+                val emotionDegreeValue = snapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 0
+
+                val emotionTypesValue = snapshot.child("emotionTypes").getValue() as? List<String> ?: emptyList()
+
+                // ViewModel 필드 업데이트
+                situation.value = situationValue
+                thoughts.value = thoughtsValue
+                emotionDegree.value = emotionDegreeValue
+                emotionTypes.value = emotionTypesValue
+
+                // 상황 값 반환
+                onSituationLoaded(situationValue)
+            } else {
+                // 데이터가 없을 경우 빈 값으로 초기화
+                situation.value = ""
+                thoughts.value = ""
+                emotionDegree.value = 0
+                emotionTypes.value = emptyList()
+
+                // 빈 상황 값 반환
+                onSituationLoaded("")
+            }
+        }.addOnFailureListener { e ->
+            Log.e("DiaryViewModel", "Firebase 데이터 로드 실패: ${e.message}")
+
+            // 실패 시에도 기본값 반환
+            situation.value = ""
+            thoughts.value = ""
+            emotionDegree.value = 0
+            emotionTypes.value = emptyList()
+
+            onSituationLoaded("")
+        }
+    }
+
+
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
         // 날짜를 가져옵니다.

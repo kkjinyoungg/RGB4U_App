@@ -28,6 +28,8 @@ import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 
 class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -35,6 +37,8 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     private lateinit var diaryViewModel: DiaryViewModel // ViewModel 선언
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
+
+    private var formattedDate: String = ""  // nullable String을 non-null String으로 수정
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
@@ -73,7 +77,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             if (matchResult != null) {
                 val (month, day) = matchResult.destructured
                 // yyyy-MM-dd 형식으로 변환
-                val formattedDate = "$selectedYear-$month-${day.padStart(2, '0')}" // 일(day)을 두 자리로 맞춤
+                formattedDate = "$selectedYear-$month-${day.padStart(2, '0')}" // 일(day)을 두 자리로 맞춤
                 diaryViewModel.setCurrentDate(formattedDate) // ViewModel에 날짜 값 전달
                 Log.d("DiaryWriteActivity", "Set Current Date in ViewModel: $formattedDate") // ViewModel에 전달된 값 로그 출력
             }
@@ -87,6 +91,16 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             val defaultDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
             diaryViewModel.setCurrentDate(defaultDate) // ViewModel에 날짜 값 전달
             Log.d("DiaryWriteActivity", "(날짜 정보 없어서)Set Current Date in ViewModel: $defaultDate") // ViewModel에 전달된 기본값 로그 출력
+        }
+
+        val currentUserId = userId // userId를 임시 변수에 할당
+        if (currentUserId != null) {
+            diaryViewModel.loadDiaryFromFirebase(currentUserId, formattedDate ?: "2024-11-21") { loadedSituation ->
+                // 상황 값을 EditText에 바로 설정
+                findViewById<EditText>(R.id.inputField).setText(loadedSituation)
+            }
+        } else {
+            Log.e("DiaryWriteActivity", "User ID is null, cannot load diary.")
         }
 
         // ViewModel 관찰자 추가
@@ -216,6 +230,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // ThinkWriteActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, ThinkWriteActivity::class.java)
         intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
+        intent.putExtra("DBDATE", formattedDate) // yyyy-mm-dd
         startActivity(intent)
     }
 
@@ -239,11 +254,31 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             }
 
             override fun onDelete() {
-                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
-                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                // 현재 로그인된 사용자의 UID 가져오기
+                val currentUserId = userId
+                if (currentUserId != null) {
+                    // Realtime Database의 해당 경로 참조
+                    val databaseRef = FirebaseDatabase.getInstance().reference
+                    val diaryRef = databaseRef.child("users").child(currentUserId).child("diaries").child(formattedDate)
+
+                    // 해당 경로의 데이터를 삭제
+                    diaryRef.removeValue()
+                        .addOnSuccessListener {
+                            // 삭제 성공 시 처리할 코드
+                            Log.d("DiaryWriteActivity", "Diary deleted successfully.")
+                            val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { exception: Exception ->
+                            // 삭제 실패 시 처리할 코드
+                            Log.e("DiaryWriteActivity", "Failed to delete diary: ${exception.message}")
+                        }
+                } else {
+                    Log.e("DiaryWriteActivity", "User ID is null, cannot delete diary.")
+                }
             }
+
         }
 
         // 팝업 표시
@@ -270,10 +305,29 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             }
 
             override fun onDelete() {
-                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
-                val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                // 현재 로그인된 사용자의 UID 가져오기
+                val currentUserId = userId
+                if (currentUserId != null) {
+                    // Realtime Database의 해당 경로 참조
+                    val databaseRef = FirebaseDatabase.getInstance().reference
+                    val diaryRef = databaseRef.child("users").child(currentUserId).child("diaries").child(formattedDate)
+
+                    // 해당 경로의 데이터를 삭제
+                    diaryRef.removeValue()
+                        .addOnSuccessListener {
+                            // 삭제 성공 시 처리할 코드
+                            Log.d("DiaryWriteActivity", "Diary deleted successfully.")
+                            val intent = Intent(this@DiaryWriteActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { exception: Exception ->
+                            // 삭제 실패 시 처리할 코드
+                            Log.e("DiaryWriteActivity", "Failed to delete diary: ${exception.message}")
+                        }
+                } else {
+                    Log.e("DiaryWriteActivity", "User ID is null, cannot delete diary.")
+                }
             }
         }
 
