@@ -76,12 +76,12 @@ class NavigationFragment : Fragment() {
         // FAB 버튼 클릭 리스너 설정
         fabThink = view.findViewById(R.id.fab_think)
 
-//        // 상황에 따라 FAB 아이콘 변경하는 코드 - 수정 필요 -
-//        if (someCondition) {
-//            fab.setImageResource(R.drawable.ic_image1)
-//        } else {
-//            fab.setImageResource(R.drawable.ic_image2)
-//        }
+        // 상황에 따라 FAB 아이콘 변경하는 코드 - 수정 필요 -
+       /* if (someCondition) {
+            fab.setImageResource(R.drawable.ic_image1)
+        } else {
+            fab.setImageResource(R.drawable.ic_image2)
+        }*/
 
         fabThink.setOnClickListener {
 
