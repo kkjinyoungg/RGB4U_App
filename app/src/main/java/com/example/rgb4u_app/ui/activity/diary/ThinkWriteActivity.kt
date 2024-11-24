@@ -24,6 +24,7 @@ import com.example.rgb4u_app.ui.fragment.MyRecordFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListener {
 
@@ -176,6 +177,7 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // EmotionStrengthActivity로 데이터를 전달하면서 이동
         val intent = Intent(this, EmotionStrengthActivity::class.java)
         intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
+        intent.putExtra("DBDATE", dbDate) // yyyy-mm-dd
         startActivity(intent)
     }
 
@@ -205,10 +207,29 @@ class ThinkWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             }
 
             override fun onDelete() {
-                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
-                val intent = Intent(this@ThinkWriteActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                // 현재 로그인된 사용자의 UID 가져오기
+                val currentUserId = userId
+                if (currentUserId != null) {
+                    // Realtime Database의 해당 경로 참조
+                    val databaseRef = FirebaseDatabase.getInstance().reference
+                    val diaryRef = databaseRef.child("users").child(currentUserId).child("diaries").child(dbDate)
+
+                    // 해당 경로의 데이터를 삭제
+                    diaryRef.removeValue()
+                        .addOnSuccessListener {
+                            // 삭제 성공 시 처리할 코드
+                            Log.d("ThinkWriteActivity", "Diary deleted successfully.")
+                            val intent = Intent(this@ThinkWriteActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { exception: Exception ->
+                            // 삭제 실패 시 처리할 코드
+                            Log.e("ThinkWriteActivity", "Failed to delete diary: ${exception.message}")
+                        }
+                } else {
+                    Log.e("ThinkWriteActivity", "User ID is null, cannot delete diary.")
+                }
             }
         }
 

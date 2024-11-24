@@ -30,6 +30,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.google.firebase.database.FirebaseDatabase
 
 class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 
@@ -40,6 +41,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
     private val maxSelectableChips = 3  // 최대 선택 가능 칩 수
     private lateinit var loadingDialog: Dialog
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
+    private var dbDate: String = ""  // nullable String을 non-null String으로 수정
 
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
@@ -66,6 +68,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         titleText?.let {
             toolbarTitle.text = it // 툴바 제목 텍스트에 설정
         }
+        dbDate = intent.getStringExtra("DBDATE") ?: ""
 
         //다이어리뷰모델초기화
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -372,10 +375,29 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
             }
                 }
             override fun onDelete() {
-                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
-                val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                // 현재 로그인된 사용자의 UID 가져오기
+                val currentUserId = userId
+                if (currentUserId != null) {
+                    // Realtime Database의 해당 경로 참조
+                    val databaseRef = FirebaseDatabase.getInstance().reference
+                    val diaryRef = databaseRef.child("users").child(currentUserId).child("diaries").child(dbDate)
+
+                    // 해당 경로의 데이터를 삭제
+                    diaryRef.removeValue()
+                        .addOnSuccessListener {
+                            // 삭제 성공 시 처리할 코드
+                            Log.d("EmotionSelectActivity", "Diary deleted successfully.")
+                            val intent = Intent(this@EmotionSelectActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { exception: Exception ->
+                            // 삭제 실패 시 처리할 코드
+                            Log.e("EmotionSelectActivity", "Failed to delete diary: ${exception.message}")
+                        }
+                } else {
+                    Log.e("EmotionSelectActivity", "User ID is null, cannot delete diary.")
+                }
             }
         }
 

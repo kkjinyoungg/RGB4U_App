@@ -16,6 +16,7 @@ import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
 import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
 import com.example.rgb4u_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.NavigationListener {
 
@@ -27,6 +28,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
     private val userId: String?
         get() = FirebaseAuth.getInstance().currentUser?.uid
+    private var dbDate: String = ""  // nullable String을 non-null String으로 수정
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         titleText?.let {
             toolbarTitle.text = it // 툴바 제목 텍스트에 설정
         }
+        dbDate = intent.getStringExtra("DBDATE") ?: ""
 
         // Application에서 ViewModel 가져오기
         diaryViewModel = (application as MyApplication).diaryViewModel
@@ -142,6 +145,7 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
         // 다음 액티비티로 전환
         val intent = Intent(this, EmotionSelectActivity::class.java)
         intent.putExtra("TOOLBAR_TITLE", toolbarTitle.text.toString()) // toolbarTitle.text 값을 전달
+        intent.putExtra("DBDATE", dbDate) // yyyy-mm-dd
         startActivity(intent)
 
     }
@@ -167,10 +171,29 @@ class EmotionStrengthActivity : AppCompatActivity(), MyEmotionFragment.Navigatio
             }
 
             override fun onDelete() {
-                // 삭제 동작: 아무것도 저장하지 않고 MainActivity로 이동
-                val intent = Intent(this@EmotionStrengthActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                // 현재 로그인된 사용자의 UID 가져오기
+                val currentUserId = userId
+                if (currentUserId != null) {
+                    // Realtime Database의 해당 경로 참조
+                    val databaseRef = FirebaseDatabase.getInstance().reference
+                    val diaryRef = databaseRef.child("users").child(currentUserId).child("diaries").child(dbDate)
+
+                    // 해당 경로의 데이터를 삭제
+                    diaryRef.removeValue()
+                        .addOnSuccessListener {
+                            // 삭제 성공 시 처리할 코드
+                            Log.d("EmotionStrengthActivity", "Diary deleted successfully.")
+                            val intent = Intent(this@EmotionStrengthActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { exception: Exception ->
+                            // 삭제 실패 시 처리할 코드
+                            Log.e("EmotionStrengthActivity", "Failed to delete diary: ${exception.message}")
+                        }
+                } else {
+                    Log.e("EmotionStrengthActivity", "User ID is null, cannot delete diary.")
+                }
             }
         }
 
