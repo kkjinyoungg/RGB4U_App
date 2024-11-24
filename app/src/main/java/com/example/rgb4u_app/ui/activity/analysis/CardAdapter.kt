@@ -11,12 +11,12 @@ import com.example.rgb4u_app.R
 
 // CardItem에 대한 어댑터
 class CardAdapter(
-    private val cardList: List<CardItem>,
+    private var cardList: List<CardItem>,
     private val formattedDate2: String,
     private val onCardClickListener: (CardItem, String) -> Unit) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    // ViewHolder 클래스 정의
+    // ViewHolder 클래스 정의zz
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image_type)
         val textView: TextView = itemView.findViewById(R.id.tv_type_name)
@@ -44,6 +44,11 @@ class CardAdapter(
     // 아이템 수 반환
     override fun getItemCount(): Int {
         return cardList.size
+    }
+
+    fun updateCardData(newCardList: List<CardItem>) {
+        cardList = newCardList
+        notifyDataSetChanged() // 데이터가 변경되었음을 알리고 UI를 갱신
     }
 }
 

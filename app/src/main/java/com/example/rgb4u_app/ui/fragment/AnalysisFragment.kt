@@ -502,7 +502,7 @@ class AnalysisFragment : Fragment() {
 
     //인지왜곡 Top3 카드 연결
     private fun fetchCardData(): List<CardItem> {
-        val cardList = mutableListOf<CardItem>()
+        var cardList = mutableListOf<CardItem>()
 
         // Firebase에서 월별 분석 데이터 가져오기
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -571,10 +571,12 @@ class AnalysisFragment : Fragment() {
 
                                         // 카드 아이템 생성
                                         cardList.add(CardItem(planetName, imageResourceId))
-
+                                        // 어댑터에 데이터 업데이트
+                                        cardAdapter.updateCardData(cardList)
                                         // 카드 어댑터 갱신
                                         Log.d("fetchCardData", "카드 어댑터 갱신: $planetName")
                                         cardAdapter.notifyDataSetChanged()
+
                                     }.addOnFailureListener { exception ->
                                         Log.e("fetchCardData", "imageResource 가져오기 실패: ${exception.message}")
                                     }
