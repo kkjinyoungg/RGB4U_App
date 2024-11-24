@@ -36,6 +36,8 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
     private val helpViewModel: HelpBottomSheetViewModel by viewModels() // ViewModel 선언
     private lateinit var toolbarTitle: TextView  // 툴바 제목 텍스트뷰
 
+    private var formattedDate: String = ""  // nullable String을 non-null String으로 수정
+
     // 현재 로그인된 사용자의 UID를 가져오는 함수
     private val userId: String?
         get() = FirebaseAuth.getInstance().currentUser?.uid
@@ -73,7 +75,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             if (matchResult != null) {
                 val (month, day) = matchResult.destructured
                 // yyyy-MM-dd 형식으로 변환
-                val formattedDate = "$selectedYear-$month-${day.padStart(2, '0')}" // 일(day)을 두 자리로 맞춤
+                formattedDate = "$selectedYear-$month-${day.padStart(2, '0')}" // 일(day)을 두 자리로 맞춤
                 diaryViewModel.setCurrentDate(formattedDate) // ViewModel에 날짜 값 전달
                 Log.d("DiaryWriteActivity", "Set Current Date in ViewModel: $formattedDate") // ViewModel에 전달된 값 로그 출력
             }
@@ -87,6 +89,13 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
             val defaultDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
             diaryViewModel.setCurrentDate(defaultDate) // ViewModel에 날짜 값 전달
             Log.d("DiaryWriteActivity", "(날짜 정보 없어서)Set Current Date in ViewModel: $defaultDate") // ViewModel에 전달된 기본값 로그 출력
+        }
+
+        val currentUserId = userId // userId를 임시 변수에 할당
+        if (currentUserId != null) {
+            diaryViewModel.loadDiaryFromFirebase(currentUserId, formattedDate ?: "2024-11-21")
+        } else {
+            Log.e("DiaryWriteActivity", "User ID is null, cannot load diary.")
         }
 
         // ViewModel 관찰자 추가
@@ -146,6 +155,9 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         // 텍스트 필드 변화에 따라 버튼 활성화/비활성화 및 글자 수 업데이트
         inputField.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+
+                diaryViewModel.situation.value = s?.toString() ?: "" //업데이트 추가
+
                 s?.let {
                     val charCount = s.length
                     val byteCount = s.toString().toByteArray(Charsets.UTF_8).size

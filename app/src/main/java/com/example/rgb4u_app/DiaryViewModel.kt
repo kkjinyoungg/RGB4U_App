@@ -39,6 +39,25 @@ class DiaryViewModel : ViewModel() {
     // 콜백 함수 추가
     var onDiarySaved: (() -> Unit)? = null
 
+    fun loadDiaryFromFirebase(userId: String, formattedDate: String) {
+
+        val databaseRef = FirebaseDatabase.getInstance()
+            .getReference("users/$userId/diaries/$formattedDate/userInput")
+
+        databaseRef.get().addOnSuccessListener { snapshot ->
+            if (snapshot.exists()) {
+                // 상황과 생각을 null이 아닐 경우 빈 문자열로 처리
+                situation.value = snapshot.child("situation").getValue(String::class.java) ?: ""
+                thoughts.value = snapshot.child("thoughts").getValue(String::class.java) ?: ""
+                emotionDegree.value = snapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 0
+                // emotionTypes를 안전하게 List<String>으로 변환
+                emotionTypes.value = snapshot.child("emotionTypes").getValue(List::class.java) as? List<String> ?: emptyList()
+            }
+        }.addOnFailureListener { e ->
+            Log.e("DiaryViewModel", "Firebase 데이터 로드 실패: ${e.message}")
+        }
+    }
+
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
         // 날짜를 가져옵니다.
