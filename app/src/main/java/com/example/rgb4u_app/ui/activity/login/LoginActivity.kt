@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.example.rgb4u_app.ui.activity.PasswordEntryActivity
 import com.example.rgb4u_app.ui.activity.onboarding.OnboardingActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -106,8 +107,14 @@ class LoginActivity : AppCompatActivity() {
         userRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 if (task.result.exists()) {
-                    Log.d("유저체크", "기존 사용자입니다")
-                    startMainActivity() // 사용자가 이미 가입된 경우 메인화면으로 이동
+                    val password = task.result.child("password").getValue(String::class.java)
+                    if (!password.isNullOrEmpty()) {
+                        Log.d("유저체크", "기존 사용자 - 비밀번호 설정됨")
+                        startPasswordEntryActivity() // PasswordEntryActivity로 이동
+                    } else {
+                        Log.d("유저체크", "기존 사용자 - 비밀번호 없음")
+                        startMainActivity() // 기존 방식대로 MainActivity로 이동
+                    }
                 } else {
                     saveUserToDatabase(user)
                     // DistortionDefaultData 객체를 생성하고 userId를 넘겨주기
@@ -121,7 +128,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
     //요청 코드, 로드 태그 정의
     companion object {
         private const val TAG = "LoginActivity"
@@ -168,6 +174,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startPasswordEntryActivity() {
+        val intent = Intent(this, PasswordEntryActivity::class.java)
         startActivity(intent)
     }
 }
