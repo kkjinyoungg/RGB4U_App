@@ -59,6 +59,9 @@
             android:name=".ui.activity.distortiontype.EmotionReselectActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.distortiontype.EmotionReselectActivity2"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.distortiontype.DistortionTypeActivity"
             android:exported="false" />
         <activity

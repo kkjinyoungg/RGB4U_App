@@ -239,6 +239,7 @@ class CalenderDetailActivity : AppCompatActivity() {
             // CalenderChangedDayActivity로 이동
             val intent = Intent(this, CalenderChangedDayActivity::class.java)
             intent.putExtra("date", datefordb) // datefordb를 Intent에 추가
+            intent.putExtra("Toolbar", selectedDate) //toolbar로 고치기
             startActivity(intent)
         }
     }

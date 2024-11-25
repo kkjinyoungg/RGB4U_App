@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
+import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity2
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +30,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
     private val situations = mutableListOf<ChangeDaySituation>()
     private lateinit var secondChangedEmotionLayout: LinearLayout
     private lateinit var layoutAddEmotion: LinearLayout
+    private lateinit var toolbarDate: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
 
         // diaryId, ID
         val date = intent.getStringExtra("date") ?: "defaultDate"
+        val toolbarDate = intent.getStringExtra("Toolbar") ?: "defaultDate"
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -109,7 +111,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                     val emotionDegreeString2 = userInputSnapshot.child("reMeasuredEmotionDegree/string").getValue(String::class.java) ?: "보통이었어"
                     val emotionDegreeImage2 = userInputSnapshot.child("reMeasuredEmotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
 
-                    if (emotionDegreeInt2 != null && emotionDegreeString2 != null && emotionDegreeImage2 != null) {
+                    if (emotionDegreeInt2 != -1) {
                         // 데이터가 있을 때
                         secondChangedEmotionLayout.visibility = View.VISIBLE
                         layoutAddEmotion.visibility = View.GONE
@@ -123,9 +125,9 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                         layoutAddEmotion.visibility = View.VISIBLE // 버튼 있는 레이아웃
 
                         layoutAddEmotion.setOnClickListener {
-                            val intent = Intent(this@CalenderChangedDayActivity, EmotionReselectActivity::class.java) //화면 연결
-                            intent.putExtra("userId", userId)
-                            intent.putExtra("date", date)
+                            val intent = Intent(this@CalenderChangedDayActivity, EmotionReselectActivity2::class.java) //화면 연결
+                            intent.putExtra("Toolbar", toolbarDate) //toolbar로 고치기
+                            intent.putExtra("Date", date) // date보내기
                             startActivity(intent)
                         }
                     }
