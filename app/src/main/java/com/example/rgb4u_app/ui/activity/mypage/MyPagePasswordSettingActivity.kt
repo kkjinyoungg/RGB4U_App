@@ -11,12 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
-
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class MyPagePasswordSettingActivity : AppCompatActivity() {
     private var password = "" // 입력된 비밀번호 저장
     private var confirmPassword = "" // 확인용 비밀번호 저장
     private lateinit var imageViews: Array<ImageView>
+    private lateinit var userId: String
+
+    // Firebase Database Reference
+    private lateinit var database: DatabaseReference
 
     // 이미지 리소스 배열 (각 숫자에 맞는 이미지 리소스를 설정)
     private val passwordImages = arrayOf(
@@ -34,6 +40,10 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_password_setting)
+
+        // Firebase 초기화
+        database = FirebaseDatabase.getInstance().reference
+        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
         // 이미지 뷰 초기화
         imageViews = arrayOf(
@@ -220,20 +230,28 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
 
     private fun checkPasswordMatch() {
         if (password == confirmPassword) {
-            Toast.makeText(this, "비밀번호가 설정되었어요", Toast.LENGTH_SHORT).show()
+            // 비밀번호가 일치하면 저장
+            database.child("users").child(userId).child("password").setValue(confirmPassword)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "비밀번호가 설정되었어요", Toast.LENGTH_SHORT).show()
 
-            // 토글 상태 저장
-            val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-            with(sharedPreferences.edit()) {
-                putBoolean("switchPassword", true) // 비밀번호 설정 후 토글을 켠 상태로 저장
-                apply()
-            }
+                        // 토글 상태 저장
+                        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+                        with(sharedPreferences.edit()) {
+                            putBoolean("switchPassword", true) // 비밀번호 설정 후 토글을 켠 상태로 저장
+                            apply()
+                        }
 
-            // MyPageMainActivity로 이동
-            val intent = Intent(this, MyPageMainActivity::class.java)
-            intent.putExtra("passwordSet", true) // 비밀번호 설정 상태 전달
-            startActivity(intent)
-            finish()
+                        // MyPageMainActivity로 이동
+                        val intent = Intent(this, MyPageMainActivity::class.java)
+                        intent.putExtra("passwordSet", true) // 비밀번호 설정 상태 전달
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "비밀번호 저장 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
         } else {
             tvNewPasswordDescription.text = "비밀번호가 일치하지 않아요"
             tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.highlight_dark)) // 빨간색
@@ -244,8 +262,6 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
             }, 500) // 0.5초 대기
         }
     }
-
-
 
     private fun resetPasswordInput() {
         password = ""
