@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
     private var isMessageSet: Boolean = false // 메시지가 설정되었는지 여부를 추적하는 변수
 
     //apiKey = ""의 ""안에 키 넣기!
-    private val apiKey = ""
+    private val apiKey = "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"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
