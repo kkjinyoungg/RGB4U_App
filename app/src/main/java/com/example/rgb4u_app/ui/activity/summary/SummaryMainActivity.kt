@@ -152,6 +152,15 @@ class SummaryMainActivity : AppCompatActivity() {
                                 //감정 종류 연결 코드 바꿀 예정
                                 //emotionTypeTextView.text = emotionTypes
 
+                                // emotionsList가 비어있는지 확인
+                                if (emotionsList.isEmpty()) {
+                                    // 비어 있으면 emotionTypeTextView 숨기기
+                                    emotionTypeTextView.visibility = View.GONE
+                                } else {
+                                    // 비어 있지 않으면 emotionTypeTextView 보이기
+                                    emotionTypeTextView.visibility = View.VISIBLE
+                                }
+
                                 //selectedChipGroup에 감정 추가
                                 for (emotion in emotionTypesList) {
                                     val category = emotionCategoryMap[emotion] ?: "default" // 감정의 상위 카테고리 찾기
