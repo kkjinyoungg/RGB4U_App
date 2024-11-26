@@ -23,7 +23,7 @@ class AiSecond {
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance() // Firebase 인스턴스 초기화
     private val client = OkHttpClient() // OkHttpClient 인스턴스 초기화
-    private val apiKey = "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"// API 키 설정 (따옴표 안에 키 넣기)
+    private val apiKey = ""// API 키 설정 (따옴표 안에 키 넣기)
     private val TAG = "AiSecond" // 로깅 태그
     // getCurrentDate() 값을 저장할 변수
     private var currentDate: String = ""  // null을 허용하지 않음
