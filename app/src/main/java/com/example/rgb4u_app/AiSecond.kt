@@ -154,12 +154,12 @@ class AiSecond {
                                         val contentJson = JSONObject(content) // content를 JSON으로 변환
                                         Log.d(TAG, "API 응답 JSON: $contentJson")
 
-                                        // "유형"이 없는 경우 처리
+                                        // "유형"이 null이거나 빈 문자열인 경우 처리
                                         val type = contentJson.optString("유형")
-                                        if (type == "null" || type.isEmpty()) {
-                                            // 유형이 "null" 문자열이거나 빈 문자열이면 null 처리
+                                        if (type == null || type.isEmpty()) {
+                                            // "유형"이 null이거나 빈 문자열이면 null 처리
                                             val noTypeResponse = JSONObject().apply {
-                                                put("유형", JSONObject.NULL)
+                                                put("유형", JSONObject.NULL) // null로 처리
                                                 put("생각", sentence)
                                                 put("유형 이유", JSONObject.NULL)
                                                 put("대안적 생각", JSONObject.NULL)
@@ -181,6 +181,7 @@ class AiSecond {
 
                                             callback(responseObj) // 콜백으로 응답 전달
                                         }
+
                                     } catch (e: JSONException) {
                                         Log.e(TAG, "content 파싱 오류: ${e.message}")
                                         val errorResponse = JSONObject().apply {
@@ -218,8 +219,8 @@ class AiSecond {
         for (result in results) {
             val type = result.optString("유형") // 기본적으로 빈 문자열로 처리됨
 
-            // "유형"이 null이 아니고 빈 문자열이 아닌 경우에만 추가
-            if (type != null && type.isNotEmpty()) {
+            // "유형"이 null이 아니고 빈 문자열이 아니며, "null"이라는 문자열도 아닌 경우에만 추가
+            if (type != null && type.isNotEmpty() && type != "null") {
                 // 유형이 이미 3개 이상이면 추가하지 않음
                 if (filteredResults.size < 3) {
                     filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
