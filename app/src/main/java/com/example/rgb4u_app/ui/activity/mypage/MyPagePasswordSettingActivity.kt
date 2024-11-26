@@ -1,7 +1,9 @@
 package com.example.rgb4u_app.ui.activity.mypage
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -34,6 +36,15 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_password_setting)
+
+        // 상태바 투명
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // 이미지 뷰 초기화
         imageViews = arrayOf(
@@ -252,7 +263,7 @@ class MyPagePasswordSettingActivity : AppCompatActivity() {
         confirmPassword = ""
         updatePasswordImages(false) // 초기 비밀번호 이미지 리셋
         updatePasswordImages(true)  // 확인 비밀번호 이미지 리셋
-        tvNewPasswordTitle.text = "새로운 비밀번호 입력"
+        tvNewPasswordTitle.text = "비밀번호 입력"
         tvNewPasswordDescription.text = "사용하실 비밀번호를 입력해주세요"
         tvNewPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.blue2_30)) // 기본 색으로 초기화
         isConfirmingPassword = false

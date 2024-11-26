@@ -128,6 +128,7 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
                 chip.setTextColor(getColor(R.color.white))
                 // 칩 배경색을 설정
                 chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#33FFFFFF"))
+                chipGroup.chipSpacingVertical = -6
 
                 chip.setOnCheckedChangeListener { _, isChecked ->
                     val selectedChipCount = selectedChipGroup.childCount
@@ -230,11 +231,11 @@ class EmotionSelectActivity : AppCompatActivity(), MyEmotionFragment.NavigationL
         selectedChip.chipBackgroundColor = getChipColor(category) // 배경색 설정
 
 //        // 칩 높이
-//        val params = ViewGroup.LayoutParams(
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//            48.dpToPx(this) // 52dp를 px로 변환
-//        )
-//        selectedChip.layoutParams = params
+       val params = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+           52.dpToPx(this) // 52dp를 px로 변환
+        )
+       selectedChip.layoutParams = params
 //
 //        // 칩 테두리 투명
 //        selectedChip.chipStrokeColor = ColorStateList.valueOf(Color.TRANSPARENT)

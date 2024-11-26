@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.mypage
 
 //파이어베이스
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -43,6 +44,18 @@ class MyPageProfileEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_profile_edit)
+
+        // 투명바
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
+
 
         // Firebase Database 초기화
         database = FirebaseDatabase.getInstance().reference
@@ -89,7 +102,7 @@ class MyPageProfileEditActivity : AppCompatActivity() {
                 if (length == 0) {
                     setErrorState("닉네임을 입력해 주세요.")
                 } else if (length > 10) {
-                    setErrorState("10글자까지 입력할 수 있어요.")
+                    setErrorState("10글자 이내로 입력할 수 있어요.")
                 } else {
                     clearErrorState() // 에러 메시지 지우고 기본 테두리 색상으로 변경
                 }

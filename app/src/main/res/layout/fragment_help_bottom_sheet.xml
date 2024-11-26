@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/design_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="322dp"
+        android:layout_height="380dp"
         android:orientation="vertical"
         android:background="@drawable/help_bottom_sheet_background">
 
@@ -20,11 +20,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="64dp"
             android:orientation="horizontal"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:gravity="start">
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/titleTextView"
@@ -34,12 +34,12 @@
                 style="@style/Bd1_ExtraBold"
                 android:textColor="@color/black" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/refreshButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="4dp"
-                android:src="@drawable/ic_refresh"
+                android:src="@drawable/ic_refresh_gray"
                 android:contentDescription="새로고침"
                 android:background="?attr/selectableItemBackground"
                 android:layout_marginEnd="0dp" />
@@ -62,7 +62,7 @@
         <!-- 구분선 추가 -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
+            android:layout_height="2dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="@drawable/help_bottom_sheet_line" />
@@ -84,7 +84,7 @@
         <!-- 구분선 추가 -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
+            android:layout_height="2dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="@drawable/help_bottom_sheet_line" />

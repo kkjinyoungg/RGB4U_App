@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bg_mypage_main">
 
     <!-- 상단 텍스트 "마이페이지" -->
@@ -159,7 +160,7 @@
                 <LinearLayout
                     android:id="@+id/btn_notification_details"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -187,7 +188,7 @@
                 <!-- 비밀번호 설정 (토글 버튼) -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -256,7 +257,7 @@
                 <LinearLayout
                     android:id="@+id/btn_how_to_use_details"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -285,7 +286,7 @@
                 <LinearLayout
                     android:id="@+id/btn_terms_of_service_details"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -326,7 +327,7 @@
                 <!-- 로그아웃 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -347,7 +348,7 @@
                 <!-- 회원탈퇴 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 

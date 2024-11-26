@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="208dp"
         android:orientation="horizontal"
         android:gravity="center"
         app:closeIcon="@drawable/ic_emotion_close"
@@ -32,13 +32,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="100dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectedChipGroup"
-        android:background="@drawable/edittext_background"
+        android:background="@drawable/edittext_background_2"
         android:fillViewport="true">
 
         <LinearLayout
@@ -61,8 +61,7 @@
                 android:id="@+id/surpriseChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                app:chipSpacingHorizontal="12dp"
                 app:singleSelection="false" />
 
             <!-- 두려움 레이블 -->
@@ -80,8 +79,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 app:singleSelection="false"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"/>
 
             <!-- 슬픔 레이블 -->
             <TextView
@@ -98,8 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 app:singleSelection="false"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"/>
 
             <!-- 화남 레이블 -->
             <TextView
@@ -116,8 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 app:singleSelection="false"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"/>
 
             <!-- 혐오 레이블 -->
             <TextView
@@ -134,8 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 app:singleSelection="false"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
     </ScrollView>

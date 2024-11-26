@@ -1,4 +1,10 @@
 <resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 기본 테마 설정 -->
+        <item name="android:windowTranslucentStatus">true</item> <!-- 상태바 반투명 -->
+        <item name="android:statusBarColor">@android:color/transparent</item> <!-- 상태바 투명 -->
+    </style>
+
     <!-- BottomAppBar 기본 스타일 -->
     <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="android:backgroundTint">@color/white</item>
@@ -39,90 +45,105 @@
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="H1_Regular">
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="H2_Bold">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="H2_Regular">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="ST_Bold">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="ST_Regular">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Bd1_ExtraBold">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundextrabold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Bd1_Bold">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Bd1_Regular">
-    <item name="android:textSize">16sp</item>
-    <item name="android:fontFamily">@font/nanumsquareroundregular</item>
-    <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nanumsquareroundregular</item>
+        <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Bd2_Bold">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Bd2_Regular">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Cp1_Bold">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Cp1_Regular">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Cp2_Bold">
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundbold</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
     <style name="Cp2_Regular">
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/nanumsquareroundregular</item>
         <item name="android:lineSpacingMultiplier">1.4</item>
+        <item name="android:letterSpacing">0.04</item>
     </style>
 
 
@@ -131,42 +152,49 @@
         <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_H2">
         <item name="android:textSize">26sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_ST">
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_Bd1">
         <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_Bd2">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_Cp1">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="CH_Cp2">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/own_mongmongday</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <!-- 활성 상태의 폰트 스타일 -->

@@ -3,6 +3,7 @@ package com.example.rgb4u_app.ui.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +36,8 @@ class NavigationFragment : Fragment() {
 
         // SharedPreferences를 사용하여 선택된 메뉴 항목 로드
         val sharedPreferences = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        var selectedNavItem = sharedPreferences.getInt("selectedNavItem", -1)
-
-        // SharedPreferences에서 값이 없을 경우 기본값 설정
-        if (selectedNavItem == -1) {
-            selectedNavItem = R.id.nav_home // 기본값 설정 (예: 홈 화면)
-        }
+        var selectedNavItem = sharedPreferences.getInt("selectedNavItem", R.id.nav_home) // 기본값을 홈으로 설정
+        Log.d("NavigationFragment", "Selected Nav Item: $selectedNavItem") // 로그 추가
 
         // 선택된 아이템 설정
         bottomNav.selectedItemId = selectedNavItem

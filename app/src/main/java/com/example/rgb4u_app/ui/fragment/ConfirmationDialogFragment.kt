@@ -2,7 +2,10 @@ package com.example.rgb4u_app.ui.fragment
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment

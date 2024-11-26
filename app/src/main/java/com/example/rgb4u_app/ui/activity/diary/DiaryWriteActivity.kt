@@ -110,7 +110,7 @@ class DiaryWriteActivity : AppCompatActivity(), MyRecordFragment.NavigationListe
         myRecordFragment.setImage(R.drawable.img_ch_situation)
 
         // 프래그먼트에서 요구하는 인터페이스 구현 확인
-        myRecordFragment.setQuestionText("어떤 상황이 있었는지 들려주세요", "오늘 힘들었던 순간이 있었나요?")
+        myRecordFragment.setQuestionText("어떤 상황이 있었는지 들려주세요", "하루 동안 힘들었던 순간이 있었나요?")
 
         // 특정 단계의 이미지만 보이도록 설정 (예: 2단계 "생각 적기")
         myRecordFragment.showIconForStep(1)

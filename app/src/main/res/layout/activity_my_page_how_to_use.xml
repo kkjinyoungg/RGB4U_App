@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.mypage.MyPageHowToUseActivity"
     android:background="@color/background_light">
 
@@ -33,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="120dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -100,7 +101,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="120dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -186,7 +187,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="120dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -252,7 +253,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="120dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -317,7 +318,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="120dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -405,12 +406,13 @@
             <android.widget.Button
                 android:id="@+id/buttonNext"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="54dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="72dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/nanumsquareroundbold"
+                android:stateListAnimator="@null"
                 android:text="확인"
                 android:textColor="@color/black"
                 android:textSize="14sp" />

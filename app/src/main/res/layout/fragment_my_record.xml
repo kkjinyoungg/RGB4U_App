@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_diary_splash"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragment.MyRecordFragment">
 
     <LinearLayout
@@ -30,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/icon_situation"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -60,8 +61,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_diary_next" />
@@ -74,8 +75,8 @@
 
             <ImageView
                 android:id="@+id/icon_thought"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -89,8 +90,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_diary_next" />
@@ -103,8 +104,8 @@
 
             <ImageView
                 android:id="@+id/icon_emotion_strength"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -118,8 +119,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_diary_next" />
@@ -132,8 +133,8 @@
 
             <ImageView
                 android:id="@+id/icon_emotion_type"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -149,9 +150,9 @@
 
     <ImageView
         android:id="@+id/imgCharacter"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/questionment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -184,7 +185,7 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"

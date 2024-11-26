@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_diary_splash"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragment.MyEmotionFragment">
 
     <LinearLayout
@@ -45,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/icon_situation"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -59,8 +60,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_diary_next"  />
@@ -73,8 +74,8 @@
 
             <ImageView
                 android:id="@+id/icon_thought"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -87,8 +88,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:src="@drawable/ic_diary_next"  />
@@ -101,8 +102,8 @@
 
             <ImageView
                 android:id="@+id/icon_emotion_strength"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -129,8 +130,8 @@
 
             <ImageView
                 android:id="@+id/icon_emotion_type"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_progress_ch" />
 
             <TextView
@@ -148,7 +149,7 @@
         android:id="@+id/questionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:text="어떤 상황이 있었는지 들려주세요"
         android:textAlignment="center"
         android:textColor="@color/main"
@@ -170,7 +171,7 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"

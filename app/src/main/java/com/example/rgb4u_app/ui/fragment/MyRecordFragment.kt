@@ -1,6 +1,7 @@
 package com.example.rgb4u_app.ui.fragment
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,15 @@ class MyRecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_my_record, container, false)
+
+        // 상태바 투명
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            requireActivity().window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // UI 요소 초기화
         questionment = view.findViewById(R.id.questionment)
@@ -140,7 +150,6 @@ class MyRecordFragment : Fragment() {
                 iconThought.visibility = View.VISIBLE
                 textSituation.apply {
                     visibility = View.VISIBLE
-                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
                 }
             }
 
@@ -148,7 +157,6 @@ class MyRecordFragment : Fragment() {
                 iconEmotionStrength.visibility = View.VISIBLE
                 textSituation.apply {
                     visibility = View.VISIBLE
-                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
                 }
             }
 
@@ -156,7 +164,6 @@ class MyRecordFragment : Fragment() {
                 iconEmotionType.visibility = View.VISIBLE
                 textSituation.apply {
                     visibility = View.VISIBLE
-                    setTextColor(ContextCompat.getColor(context, R.color.white_40))
                 }
             }
 //        when (step) {

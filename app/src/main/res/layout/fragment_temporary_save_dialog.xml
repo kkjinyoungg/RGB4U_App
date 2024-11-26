@@ -7,8 +7,9 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="248dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/bg_dialog"
+        android:layout_width="280dp"
+        android:layout_height="380dp"
         android:orientation="vertical"
         android:background="@drawable/rounded_corner_background"
         android:outlineProvider="none"
@@ -39,34 +40,32 @@
 
         <Button
             android:id="@+id/btnTemporarySave"
-            android:layout_width="216dp"
-            android:layout_height="52dp"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="임시 저장"
             style="@style/Bd2_Bold"
             android:stateListAnimator="@null"
             android:backgroundTint="@color/main"
-            android:textColor="@color/black"
-            android:layout_marginBottom="4dp" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnDelete"
-            android:layout_width="216dp"
-            android:layout_height="52dp"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:text="삭제"
             android:stateListAnimator="@null"
             android:backgroundTint="@color/main_secondary"
             style="@style/Bd2_Bold"
-            android:textColor="@color/highlight"
-            android:layout_marginBottom="4dp" />
+            android:textColor="@color/highlight" />
 
         <Button
             android:id="@+id/btnCancel"
-            android:layout_width="216dp"
-            android:layout_height="52dp"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.rgb4u_app.R
@@ -26,7 +27,7 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
         viewModel = ViewModelProvider(this).get(HelpBottomSheetViewModel::class.java)
 
         // 상황 텍스트뷰 설정
-        val refreshButton = view.findViewById<ImageButton>(R.id.refreshButton)
+        val refreshButton = view.findViewById<ImageView>(R.id.refreshButton)
 
         // 초기 상황 설정
         updateSituations(view)
@@ -45,7 +46,7 @@ class HelpBottomSheetFragment : BottomSheetDialogFragment() {
 
         dialog?.let {
             val bottomSheet = it.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            bottomSheet?.layoutParams?.height = 340.dpToPx()  // 원하는 높이로 설정
+            bottomSheet?.layoutParams?.height = 400.dpToPx()  // 원하는 높이로 설정
             bottomSheet?.requestLayout()
         }
     }

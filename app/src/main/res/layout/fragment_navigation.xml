@@ -2,40 +2,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
 
     <!-- BottomAppBar with rounded corners -->
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/main_bottom_appBar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="72dp"
         android:layout_gravity="bottom"
         style="@style/BottomAppBarCustom"
-        app:fabCradleMargin="0dp"
-        app:fabCradleRoundedCornerRadius="8dp"
-        app:fabCradleVerticalOffset="0dp"
+        app:fabCradleMargin="16dp"
         app:fabAlignmentMode="center"
-        app:background="@drawable/rounded_bottom_appbar_background" />
+        app:fabCradleRoundedCornerRadius="8dp" />
 
-    <!-- BottomNavigationView with custom rounded background(android:layout_marginEnd="16dp"생략) -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_gravity="bottom"
-        android:elevation="10dp"
-        app:itemActiveIndicatorStyle="@style/Theme.Navigation.Indicator"
-        android:background="@android:color/transparent"
-        app:itemBackground="@android:color/transparent"
-        app:itemRippleColor="@android:color/transparent"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/navigation_item_color_selector"
-        app:itemTextColor="@color/navigation_item_text_color"
-        app:menu="@menu/bottom_navigation_menu"
-        app:labelVisibilityMode="labeled"
-        app:itemHorizontalTranslationEnabled="false"
-        app:itemTextAppearanceActive="@style/CustomActiveTextAppearance"
-        app:itemTextAppearanceInactive="@style/CustomInactiveTextAppearance" />
+        <!-- BottomNavigationView with custom rounded background(android:layout_marginEnd="16dp"생략) -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_gravity="bottom"
+            android:elevation="10dp"
+            app:itemActiveIndicatorStyle="@style/Theme.Navigation.Indicator"
+            android:background="@android:color/transparent"
+            app:itemBackground="@android:color/transparent"
+            app:itemRippleColor="@android:color/transparent"
+            app:itemIconSize="32dp"
+            app:itemIconTint="@color/navigation_item_color_selector"
+            app:itemTextColor="@color/navigation_item_text_color"
+            app:menu="@menu/bottom_navigation_menu"
+            app:labelVisibilityMode="labeled"
+            app:itemHorizontalTranslationEnabled="false"
+            app:itemTextAppearanceActive="@style/CustomActiveTextAppearance"
+            app:itemTextAppearanceInactive="@style/CustomInactiveTextAppearance" />
 
 
     <!-- FloatingActionButton for center icon -->
@@ -44,15 +43,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="56dp"
-        android:scaleType="fitCenter"
-        android:elevation="10dp"
+        android:layout_marginBottom="52dp"
+        android:background="@null"
+        android:foregroundGravity="center"
+        android:outlineProvider="none"
+        android:scaleType="centerInside"
+        android:stateListAnimator="@null"
         app:backgroundTint="@android:color/transparent"
-        app:srcCompat="@drawable/ic_fnb"
-        app:maxImageSize="80dp"
-        app:tint="@null"
         app:fabSize="normal"
+        app:srcCompat="@drawable/ic_fnb_png"
         app:layout_anchor="@id/main_bottom_appBar"
-        android:outlineProvider="none"/>
+        app:maxImageSize="72dp"
+        app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
