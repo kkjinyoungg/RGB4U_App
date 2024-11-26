@@ -2,7 +2,6 @@ package com.example.rgb4u_appclass
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.FirebaseDatabase
 import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,6 +14,12 @@ import com.google.firebase.database.ServerValue
 import com.example.rgb4u_app.MonthlyDistortionUpdater
 import android.os.Handler
 import android.os.Looper
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.Transaction
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
 
 class DiaryViewModel : ViewModel() {
 
@@ -83,7 +88,6 @@ class DiaryViewModel : ViewModel() {
         }
     }
 
-
     // 데이터를 파이어베이스에 저장하는 함수
     fun saveDiaryToFirebase(userId: String) {
         // 날짜를 가져옵니다.
@@ -121,7 +125,7 @@ class DiaryViewModel : ViewModel() {
                     "string" to "", // 감정 상태 (임시 데이터)
                     "emotionimg" to "" // 이미지 상태 (임시 데이터)
                 ),
-                "emotionTypes" to emotionTypes.value
+                "emotionTypes" to emotionTypes.value // 감정 유형
             ),
             "aiAnalysis" to mapOf(
                 "firstAnalysis" to mapOf(
@@ -153,7 +157,6 @@ class DiaryViewModel : ViewModel() {
             )
         )
 
-
         // 데이터 저장
         database.setValue(diaryData)
             .addOnSuccessListener {
@@ -168,29 +171,49 @@ class DiaryViewModel : ViewModel() {
 
                 // 감정 유형에 대한 키워드 카운트 업데이트
                 val statsRef = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$yyyymmdate")
-                val emotionGraphRef = FirebaseDatabase.getInstance().getReference("users/$userId/monthlyStats/$yyyymmdate/emotionsGraph")
                 val updates = mutableMapOf<String, Any>()
 
                 Log.d("DiaryViewModel", "현재 감정 유형: $emotionTypes")
 
-                // 감정 유형들을 순회하면서 처리
-                for (emotionType in emotionTypes) {
-                    // emotionType에 맞는 키워드를 찾아서 카운트 증가
-                    val keywordList = getKeywordListForEmotion(emotionType) ?: continue
-                    for (keyword in keywordList) {
-                        // 정확히 매칭된 키워드만 증가시킴
-                        val keywordPath = "keywords/$emotionType/$keyword" // keyword를 감정 유형에 맞게 경로 설정
-                        updates[keywordPath] = ServerValue.increment(1) // 이 부분에서 키워드 카운트를 1 증가시킴
-                        Log.d("DiaryViewModel", "Updating keyword count for: $keyword, path: $keywordPath")
+                // 감정 유형이 비어있지 않다면 실행
+                if (emotionTypes.isNotEmpty()) {
+                    // 감정 유형들을 순회하면서 처리
+                    for (emotionType in emotionTypes) {
+                        // emotionType에 맞는 키워드를 찾아서 카운트 증가
+                        val keywordList = getKeywordListForEmotion(emotionType) ?: continue
+                        for (keyword in keywordList) {
+                            // 정확히 매칭된 키워드만 증가시킴
+                            val keywordPath = "keywords/$emotionType/$keyword" // keyword를 감정 유형에 맞게 경로 설정
+                            updates[keywordPath] = ServerValue.increment(1) // 이 부분에서 키워드 카운트를 1 증가시킴
+                            Log.d("DiaryViewModel", "Updating keyword count for: $keyword, path: $keywordPath")
+                        }
+
+                        // 감정 유형에 대한 카운트를 graph에 기록
+                        val emotionGraphPath = "emotiongraph/$emotionType"
+                        val emotionGraphRef = FirebaseDatabase.getInstance().getReference(emotionGraphPath)
+
+                        emotionGraphRef.runTransaction(object : Transaction.Handler {
+                            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                                val currentValue = currentData.value as? Long ?: 0
+                                currentData.value = currentValue + 1 // 기존 값에 1을 더함
+                                return Transaction.success(currentData) // 트랜잭션 성공 반환
+                            }
+
+                            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                                if (databaseError != null) {
+                                    Log.e("DiaryViewModel", "Transaction failed: ${databaseError.message}")
+                                } else {
+                                    Log.d("DiaryViewModel", "Updated emotion graph for $emotionType")
+                                }
+                            }
+                        })
                     }
 
-                    // 감정 유형에 대한 카운트를 graph에 기록
-                    val emotionGraphPath = "emotiongraph/$emotionType"
-                    updates[emotionGraphPath] = ServerValue.increment(1) // 감정 유형의 카운트를 1 증가시킴
-                    Log.d("DiaryViewModel", "Updated emotion graph for $emotionType at path: $emotionGraphPath")
+                    // 감정 유형 업데이트 적용
+                    statsRef.updateChildren(updates) // updates를 한 번에 반영
+                } else {
+                    Log.w("DiaryViewModel", "emotionTypes 리스트가 비어 있습니다.")
                 }
-
-                statsRef.updateChildren(updates) // updates를 한 번에 반영
 
                 // 월간 통계 업데이트
                 monthlyStatsUpdater.updateMonthlyStats(
@@ -204,6 +227,7 @@ class DiaryViewModel : ViewModel() {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
             }
     }
+
 
     // AI 분석을 수행하는 함수
     private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {

@@ -69,7 +69,7 @@ class MonthlyStatsUpdater {
         return emotions[emotion]?.associate { it to 0 } ?: emptyMap()
     }
 
-    // 감정 수치 업데이트 함수
+    // 감정 수치 업데이트 함수에서 그래프 값을 트랜잭션으로 업데이트
     private fun updateEmotionCounts(monthlyStatsRef: DatabaseReference, emotionTypes: List<String>) {
         val emotionCountMap = mutableMapOf<String, Any>() // Map<String, Any>로 변경
 
@@ -81,16 +81,23 @@ class MonthlyStatsUpdater {
             for ((emotion, keywords) in emotions) {
                 if (keywords.contains(emotionType)) {
                     // 감정 그래프 업데이트
-                    emotionCountMap[emotion] = (emotionCountMap[emotion] as? Int ?: 0) + 1
+                    monthlyStatsRef.child("emotionsGraph").child(emotion).runTransaction(object : Transaction.Handler {
+                        override fun doTransaction(currentData: MutableData): Transaction.Result {
+                            val currentValue = currentData.value as? Long ?: 0
+                            currentData.value = currentValue + 1 // 기존 값에 1을 더함
+                            return Transaction.success(currentData) // 트랜잭션 성공 반환
+                        }
+
+                        override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                            if (databaseError != null) {
+                                Log.e("MonthlyStatsUpdater", "Transaction failed: ${databaseError.message}")
+                            } else {
+                                Log.d("MonthlyStatsUpdater", "Emotion graph updated for $emotion")
+                            }
+                        }
+                    })
                 }
             }
-        }
-
-        // Firebase에 업데이트
-        monthlyStatsRef.child("emotionsGraph").updateChildren(emotionCountMap).addOnSuccessListener {
-            Log.d("MonthlyStatsUpdater", "Emotion counts updated successfully.")
-        }.addOnFailureListener {
-            Log.e("MonthlyStatsUpdater", "Emotion counts update failed", it)
         }
 
         // 키워드 카운트 업데이트
@@ -105,11 +112,7 @@ class MonthlyStatsUpdater {
                             return Transaction.success(currentCount) // 트랜잭션 성공 반환
                         }
 
-                        override fun onComplete(
-                            databaseError: DatabaseError?,  // 올바른 매개변수: DatabaseError
-                            committed: Boolean,             // 올바른 매개변수: Boolean
-                            dataSnapshot: DataSnapshot?     // 올바른 매개변수: DataSnapshot
-                        ) {
+                        override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
                             if (databaseError != null) {
                                 Log.e("MonthlyStatsUpdater", "Transaction failed: ${databaseError.message}")
                             } else if (committed) {
@@ -121,4 +124,5 @@ class MonthlyStatsUpdater {
             }
         }
     }
+
 }
