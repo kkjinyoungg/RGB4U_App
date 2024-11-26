@@ -90,30 +90,30 @@ class AiSecond {
     private fun analyzeCognitiveDistortions(sentence: String, callback: (JSONObject) -> Unit) {
         Log.d(TAG, "인지 왜곡 분석 요청: $sentence")
         val prompt = """
-            다음 생각이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
-            
-            ${cognitiveDistortions.joinToString("\n")}
-            
-            생각은: "$sentence" // 여기에 생각이 들어가야 해요.
-            
-            만약 이 생각이 인지 왜곡에 해당하지 않는다면, JSON 형식으로 아래와 같이 제시해주세요:
-            {
-                "유형": null, // 인지 왜곡에 해당하지 않으면 "유형" 필드를 null로 넣어주세요.
-                "생각": "$sentence",
-                "유형 이유": null, // "유형"이 null이면 "유형 이유"도 null로 해주세요.
-                "대안적 생각": null, // 대안적 생각이 필요하지 않으면 null로 해주세요.
-                "대안적 생각 이유": null // 대안적 생각 이유도 null로 해주세요.
-            }
+        다음 생각이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
+        
+        ${cognitiveDistortions.joinToString("\n")}
+        
+        생각은: "$sentence" // 여기에 생각이 들어가야 해요.
+        
+        만약 이 생각이 인지 왜곡에 해당하지 않는다면, JSON 형식으로 아래와 같이 제시해주세요:
+        {
+            "유형": null, // 인지 왜곡에 해당하지 않으면 "유형" 필드를 null로 넣어주세요.
+            "생각": "$sentence",
+            "유형 이유": null, // "유형"이 null이면 "유형 이유"도 null로 해주세요.
+            "대안적 생각": null, // 대안적 생각이 필요하지 않으면 null로 해주세요.
+            "대안적 생각 이유": null // 대안적 생각 이유도 null로 해주세요.
+        }
 
-            만약 이 생각이 인지 왜곡에 해당한다면, 아래와 같은 형식으로 제시해주세요:
-            {
-                "유형": "유형 이름", // 인지 왜곡에 해당하는 유형을 적어주세요.
-                "생각": "$sentence",
-                "유형 이유": "이 생각이 이 유형에 해당하는 이유를 짧은 한 두 생각으로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요.",
-                "대안적 생각": "이 생각 대신 하면 좋은 적응적인 생각을 짧은 한 생각으로 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
-                "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 짧은 한 두 생각으로 작성해주세요. '이렇게 생각하면'으로 시작해 주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요."
-            }
-            """.trimIndent()
+        만약 이 생각이 인지 왜곡에 해당한다면, 아래와 같은 형식으로 제시해주세요:
+        {
+            "유형": "유형 이름", // 인지 왜곡에 해당하는 유형을 적어주세요.
+            "생각": "$sentence",
+            "유형 이유": "이 생각이 이 유형에 해당하는 이유를 짧은 한 두 생각으로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요.",
+            "대안적 생각": "이 생각 대신 하면 좋은 적응적인 생각을 짧은 한 생각으로 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
+            "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 짧은 한 두 생각으로 작성해주세요. '이렇게 생각하면'으로 시작해 주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요."
+        }
+        """.trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = JSONObject().apply {
@@ -155,7 +155,9 @@ class AiSecond {
                                         Log.d(TAG, "API 응답 JSON: $contentJson")
 
                                         // "유형"이 없는 경우 처리
-                                        if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
+                                        val type = contentJson.optString("유형")
+                                        if (type == "null" || type.isEmpty()) {
+                                            // 유형이 "null" 문자열이거나 빈 문자열이면 null 처리
                                             val noTypeResponse = JSONObject().apply {
                                                 put("유형", JSONObject.NULL)
                                                 put("생각", sentence)
@@ -166,7 +168,6 @@ class AiSecond {
                                             callback(noTypeResponse) // 콜백으로 응답 전달
                                         } else {
                                             // 유형이 distortionMap에 맞게 변환
-                                            val type = contentJson.optString("유형", "유형 없음")
                                             val mappedType = distortionMap[type] ?: JSONObject.NULL // 변환된 유형이 distortionMap에 없으면 null 처리
 
                                             // 모든 필요한 필드 추출
@@ -207,6 +208,7 @@ class AiSecond {
             }
         })
     }
+
 
 
 
