@@ -90,21 +90,30 @@ class AiSecond {
     private fun analyzeCognitiveDistortions(sentence: String, callback: (JSONObject) -> Unit) {
         Log.d(TAG, "인지 왜곡 분석 요청: $sentence")
         val prompt = """
-다음 생각이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
+            다음 생각이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
+            
+            ${cognitiveDistortions.joinToString("\n")}
+            
+            생각은: "$sentence" // 여기에 생각이 들어가야 해요.
+            
+            만약 이 생각이 인지 왜곡에 해당하지 않는다면, JSON 형식으로 아래와 같이 제시해주세요:
+            {
+                "유형": null, // 인지 왜곡에 해당하지 않으면 "유형" 필드를 null로 넣어주세요.
+                "생각": "$sentence",
+                "유형 이유": null, // "유형"이 null이면 "유형 이유"도 null로 해주세요.
+                "대안적 생각": null, // 대안적 생각이 필요하지 않으면 null로 해주세요.
+                "대안적 생각 이유": null // 대안적 생각 이유도 null로 해주세요.
+            }
 
-${cognitiveDistortions.joinToString("\n")}
-
-생각은: "$sentence" // 여기에 생각이 들어가야 해요.
-
-인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형으로 제시해주세요:
-{
-    "유형": "유형 이름", // 만약 유형이 없다면, "유형" 필드에 null을 넣어주세요.
-    "생각": "$sentence",
-    "유형 이유": "이 생각이 이 유형에 해당하는 이유를 짧은 한 두 생각으로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요.",
-    "대안적 생각": "이 생각 대신 하면 좋은 적응적인 생각을 짧은 한 생각으로 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
-    "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 짧은 한 두 생각으로 작성해주세요. '이렇게 생각하면'으로 시작해 주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요."
-}
-""".trimIndent()
+            만약 이 생각이 인지 왜곡에 해당한다면, 아래와 같은 형식으로 제시해주세요:
+            {
+                "유형": "유형 이름", // 인지 왜곡에 해당하는 유형을 적어주세요.
+                "생각": "$sentence",
+                "유형 이유": "이 생각이 이 유형에 해당하는 이유를 짧은 한 두 생각으로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요.",
+                "대안적 생각": "이 생각 대신 하면 좋은 적응적인 생각을 짧은 한 생각으로 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
+                "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 짧은 한 두 생각으로 작성해주세요. '이렇게 생각하면'으로 시작해 주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요."
+            }
+            """.trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = JSONObject().apply {
@@ -207,8 +216,8 @@ ${cognitiveDistortions.joinToString("\n")}
         for (result in results) {
             val type = result.optString("유형") // 기본적으로 빈 문자열로 처리됨
 
-            // "유형"이 비어있지 않은 경우에만 추가
-            if (type.isNotEmpty()) {
+            // "유형"이 null이 아니고 빈 문자열이 아닌 경우에만 추가
+            if (type != null && type.isNotEmpty()) {
                 // 유형이 이미 3개 이상이면 추가하지 않음
                 if (filteredResults.size < 3) {
                     filteredResults[type] = filteredResults.getOrDefault(type, mutableListOf()).apply {
@@ -219,6 +228,7 @@ ${cognitiveDistortions.joinToString("\n")}
         }
         return filteredResults
     }
+
 
     private fun createSecondAnalysis(filteredResults: Map<String, List<JSONObject>>): Map<String, Any> {
         val thoughtSets = mutableMapOf<String, Any>()
