@@ -28,19 +28,16 @@ class AiSecond {
     // getCurrentDate() 값을 저장할 변수
     private var currentDate: String = ""  // null을 허용하지 않음
 
+    // 12가지 인지 왜곡 유형 리스트
     private val cognitiveDistortions = listOf(
-        "1. 흑백성 : 전부 아니면 전무의 사고. 연속적 개념보다는 오직 두 가지의 범주로 나누어 상황을 봐요. 예: 완벽하게 성공하지 못하면, 실패한 거야.",
-        "2. 재앙성 : 재앙화. 미래에 대해 보다 현실적인 어떤 다른 고려도 없이 부정적으로 예상해요. 예: 나는 매우 화가 날 것이고, 전혀 기능하지 못할 거야.",
-        "3. 외면성 : 긍정적인 면의 평가절하. 자신의 긍정적 경험 혹은 행한 일이나 자질 등을 고려하지 않고 스스로에게 비이성적으로 말해요. 예: 계획이 성공했지만 내가 유능한 것이 아니라 단지 운이 있었을 뿐이야.",
-        "4. 느낌성 : 감정적 추론. 그것을 너무 강하게 느끼고 실제적으로 믿기 때문에 그 반대되는 증거는 무시하거나 고려하지 않고, 어떤 일이 틀림없는 사실이라고 생각해요. 예: 일에 있어 많은 것을 잘 한 줄은 알지만, 여전히 나는 실패자라고 느껴.",
-        "5. 이름성 : 명명하기. 덜 위험한 결론으로 이끄는 좀 더 합리적인 증거를 고려하지 않고, 자신이나 다른 사람에게 고정적이며 전반적인 이름을 붙여요. 예: 나는 실패자야. 그는 전혀 좋지 않아.",
-        "6. 과장성 : 과장 또는 축소. 자신이나 다른 사람 혹은 어떤 상황을 평가할 때, 비이성적으로 부정적인 측면을 강조하고 긍정적인 면을 최소화해요. 예: 평범하다는 평가를 받는 것은 내가 얼마나 부적합한지 증명하는 거야.",
-        "7. 부분성 : 정신적 여과. 전체 그림을 보는 대신에 한 가지 작은 세세한 것에 필요 없이 관심을 가져요. 예: 나의 평가에서 받은 한 가지 낮은 점수는, 비록 몇 가지 높은 점수가 있음에도 불구하고, 내가 일을 엉망으로 한다는 거야.",
-        "8. 궁예성 : 독심술. 좀 더 현실적인 가능성을 고려하지 않고, 다른 이들이 생각하는 것을 알 수 있다고 믿어요. 예: 그는 내가 이 계획의 구체적인 것도 모른다고 생각하고 있어.",
-        "9. 일반화성 : 지나친 일반화. 현재의 상황을 넘어서는 싹쓸이식 부정적 결론을 내려요. 예: 그 모임에서 불편하다고 느꼈으므로 나는 친구를 사귀기에 필요한 요소를 가지고 있지 않아.",
-        "10. 내탓성 : 자기 탓. 다른 사람의 행동에 대한 좀 더 타당한 설명을 고려하지 않고, 자신 때문에 다른 사람들이 부정적으로 행동한다고 믿어요. 예: 그 수리공이 나에게 퉁명스럽게 대했던 것은 내가 무엇인가 잘못했기 때문이야.",
-        "11. 해야해성 : 당위 진술. 자신이나 다른 사람들의 행동에 대해 확실하고 고정된 사고를 가지고 있으며, 이런 기대를 충족하지 못하게 되면 얼마나 나쁜지를 과대평가해요. 예: 내가 실수를 한다는 것은 끔찍한 일이야. 나는 항상 최선을 다해야 해.",
-        "12. 어둠성 : 터널 시야. 어떤 상황의 부정적인 면만을 봐요. 예: 우리 아들의 담임 선생은 올바로 하는 것이 없어. 그는 비판적이며 무감각하고 형편없이 가르쳐."
+        "전부 아니면 전무의 사고", "재앙화", "긍정적인 면의 평가절하", "감정적 추론", "명명하기",
+        "과장 및 축소", "정신적 여과", "독심술", "지나친 일반화", "자기 탓", "당위 진술", "터널 시야"
+    )
+
+    private val distortionMap = mapOf(
+        "전부 아니면 전무의 사고" to "흑백성", "재앙화" to "재앙성", "긍정적인 면의 평가절하" to "외면성",
+        "감정적 추론" to "느낌성", "명명하기" to "이름성", "과장 및 축소" to "과장성", "정신적 여과" to "부분성",
+        "독심술" to "궁예성", "지나친 일반화" to "일반화성", "자기 탓" to "내탓성", "당위 진술" to "해야해성", "터널 시야" to "어둠성"
     )
 
     fun analyzeThoughts(userId: String, diaryId: String, currentDate: String, callback: () -> Unit) {
@@ -59,12 +56,12 @@ class AiSecond {
             var processedCount = 0
 
             for (sentence in sentences) {
-                Log.d(TAG, "문장 분석 중: $sentence")
+                Log.d(TAG, "생각 분석 중: $sentence")
                 analyzeCognitiveDistortions(sentence) { apiResponse ->
                     results.add(apiResponse)
                     processedCount++
 
-                    // 모든 문장 분석이 완료된 경우
+                    // 모든 생각 분석이 완료된 경우
                     if (processedCount == sentences.size) {
                         val filteredResults = filterResults(results)
                         Log.d(TAG, "결과 필터링 완료, 필터링된 결과 수: ${filteredResults.size}")
@@ -93,21 +90,21 @@ class AiSecond {
     private fun analyzeCognitiveDistortions(sentence: String, callback: (JSONObject) -> Unit) {
         Log.d(TAG, "인지 왜곡 분석 요청: $sentence")
         val prompt = """
-    다음 문장이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
-    
-    판단 시 참고해야 할 인지 왜곡 유형과 정의는 다음과 같아요:
-    ${cognitiveDistortions.joinToString("\n")}
-    
-    인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형식으로 제시해주세요:
-    {
-        "유형": "유형 이름", // 만약 유형이 없다면, "유형" 필드에 null을 넣어주세요.
-        "문장": "$sentence",
-        "유형 이유": "이 유형에 해당하는 이유를 한국어 기준 200byte 이내로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 문장으로 자연스럽게 작성해 주세요.",
-        "대안적 생각": "이 문장 대신 하면 좋은 적응적인 생각을 한국어 기준 80byte 이내로 간단하게 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
-        "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 한국어 기준 200byte 이내로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 문장으로 자연스럽게 작성해 주세요."
-    }
-""".trimIndent()
+다음 생각이 12가지 인지 왜곡 유형 중 하나에 해당하는지 판단해주세요.
 
+${cognitiveDistortions.joinToString("\n")}
+
+생각은: "$sentence" // 여기에 생각이 들어가야 해요.
+
+인지 왜곡에 해당하면 다음을 아래 형식으로 JSON 형으로 제시해주세요:
+{
+    "유형": "유형 이름", // 만약 유형이 없다면, "유형" 필드에 null을 넣어주세요.
+    "생각": "$sentence",
+    "유형 이유": "이 생각이 이 유형에 해당하는 이유를 짧은 한 두 생각으로 작성해주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요.",
+    "대안적 생각": "이 생각 대신 하면 좋은 적응적인 생각을 짧은 한 생각으로 작성해주세요. 반말로, '나는 ~했어'와 같은 형태로 자연스럽게 표현해 주세요.",
+    "대안적 생각 이유": "이 대안적 생각을 추천한 이유를 짧은 한 두 생각으로 작성해주세요. '이렇게 생각하면'으로 시작해 주세요. 말투는 ~해요체이고, 친절하고 다정하게 설명해 주세요. 초등학생도 이해할 수 있도록 쉬운 단어와 생각으로 자연스럽게 작성해 주세요."
+}
+""".trimIndent()
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody = JSONObject().apply {
@@ -126,7 +123,7 @@ class AiSecond {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e(TAG, "API request failed: ${e.message}")
+                Log.e(TAG, "API 요청 실패: ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -142,10 +139,8 @@ class AiSecond {
                                 val choice = json.getJSONArray("choices").getJSONObject(0)
                                 if (choice.has("message")) {
                                     val message = choice.getJSONObject("message")
-                                    // content를 가져오기 전에 직접적으로 JSON 파싱을 시도합니다.
                                     val content = message.getString("content")
 
-                                    // content가 올바른 JSON 형식인지 확인
                                     try {
                                         val contentJson = JSONObject(content) // content를 JSON으로 변환
                                         Log.d(TAG, "API 응답 JSON: $contentJson")
@@ -154,17 +149,21 @@ class AiSecond {
                                         if (!contentJson.has("유형") || contentJson.getString("유형").isEmpty()) {
                                             val noTypeResponse = JSONObject().apply {
                                                 put("유형", JSONObject.NULL)
-                                                put("문장", sentence)
+                                                put("생각", sentence)
                                                 put("유형 이유", JSONObject.NULL)
                                                 put("대안적 생각", JSONObject.NULL)
                                                 put("대안적 생각 이유", JSONObject.NULL)
                                             }
                                             callback(noTypeResponse) // 콜백으로 응답 전달
                                         } else {
+                                            // 유형이 distortionMap에 맞게 변환
+                                            val type = contentJson.optString("유형", "유형 없음")
+                                            val mappedType = distortionMap[type] ?: JSONObject.NULL // 변환된 유형이 distortionMap에 없으면 null 처리
+
                                             // 모든 필요한 필드 추출
                                             val responseObj = JSONObject().apply {
-                                                put("유형", contentJson.optString("유형", "유형 없음"))
-                                                put("문장", contentJson.optString("문장", "문장 없음"))
+                                                put("유형", mappedType) // 변환된 유형을 저장
+                                                put("생각", contentJson.optString("생각", "생각 없음"))
                                                 put("유형 이유", contentJson.optString("유형 이유", "이유 없음"))
                                                 put("대안적 생각", contentJson.optString("대안적 생각", "대안 없음"))
                                                 put("대안적 생각 이유", contentJson.optString("대안적 생각 이유", "이유 없음"))
@@ -173,11 +172,10 @@ class AiSecond {
                                             callback(responseObj) // 콜백으로 응답 전달
                                         }
                                     } catch (e: JSONException) {
-                                        // 만약 content가 JSON이 아니라면 그냥 문자열로 처리
                                         Log.e(TAG, "content 파싱 오류: ${e.message}")
                                         val errorResponse = JSONObject().apply {
                                             put("유형", JSONObject.NULL)
-                                            put("문장", sentence)
+                                            put("생각", sentence)
                                             put("유형 이유", JSONObject.NULL)
                                             put("대안적 생각", JSONObject.NULL)
                                             put("대안적 생각 이유", JSONObject.NULL)
@@ -198,9 +196,10 @@ class AiSecond {
                     }
                 }
             }
-
         })
     }
+
+
 
     private fun filterResults(results: List<JSONObject>): Map<String, List<JSONObject>> {
         val filteredResults = mutableMapOf<String, MutableList<JSONObject>>()
@@ -262,7 +261,7 @@ class AiSecond {
             val thoughtSet = mutableListOf<Any>()
             thoughts.take(3).forEach { thought ->
                 thoughtSet.add(mapOf<String, Any>(
-                    "selectedThoughts" to thought.optString("문장", "Unknown"),
+                    "selectedThoughts" to thought.optString("생각", "Unknown"),
                     "charactersReason" to thought.optString("유형 이유", ""),
                     "alternativeThoughts" to thought.optString("대안적 생각", ""),
                     "alternativeThoughtsReason" to thought.optString("대안적 생각 이유", ""),

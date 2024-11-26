@@ -12,13 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class PasswordEntryActivity : AppCompatActivity() {
+    private lateinit var userId: String
+    // Firebase Database Reference
+    private lateinit var database: DatabaseReference
+
     private var password = "" // 입력된 비밀번호 저장
     private lateinit var imageViews: Array<ImageView>
 
     // 사전에 설정한 비밀번호 (예시로 "1234"를 설정)
-    private val correctPassword = "1234"
+    private var correctPassword = ""
 
     // 이미지 리소스 배열 (각 숫자에 맞는 이미지 리소스를 설정)
     private val passwordImages = arrayOf(
@@ -37,6 +44,12 @@ class PasswordEntryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_password_entry)
 
+        // Firebase 초기화
+        database = FirebaseDatabase.getInstance().reference
+        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        // 비밀번호 가져오기
+        fetchPasswordFromDatabase()
         // 이미지 뷰 초기화
         imageViews = arrayOf(
             findViewById(R.id.img_1),
@@ -68,41 +81,57 @@ class PasswordEntryActivity : AppCompatActivity() {
         }
     }
 
+    private fun fetchPasswordFromDatabase() {
+        database.child("users").child(userId).child("password")
+            .get()
+            .addOnSuccessListener { dataSnapshot ->
+                val passwordFromDb = dataSnapshot.getValue(String::class.java)
+                correctPassword = passwordFromDb ?: "" // Null 처리
+            }
+            .addOnFailureListener { exception ->
+                correctPassword = "" // 오류 발생 시 기본값
+                exception.printStackTrace()
+            }
+    }
+
     private fun onNumberButtonClick(number: String) {
         if (password.length < 4) {
             password += number
             updatePasswordImages()
 
-            // 선택된 숫자의 색상 변경
             val buttonId = getButtonId(number)
             resetSelectedButtonColor()
             buttonId?.let {
-                findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color)) // 선택 색상
+                findViewById<Button>(it).setTextColor(ContextCompat.getColor(this, R.color.selected_text_color))
                 selectedButtonId = it
             }
         }
 
         if (password.length == 4) {
-            // 비밀번호가 4자리 입력되면 확인
+            // 비밀번호가 4자리 입력되었을 때만 확인 수행
+            if (correctPassword.isEmpty()) {
+                resetAllImageResources()
+                return // 비밀번호 가져오기 완료 후 다시 시도
+            }
+
             if (password == correctPassword) {
                 // 비밀번호가 맞으면 MainActivity로 이동
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                // 비밀번호가 틀리면 입력 초기화
+                // 비밀번호가 틀렸을 때의 처리
                 password = ""
                 tvstartPasswordTitle.text = "비밀번호 입력"
                 tvstartPasswordDescription.text = "비밀번호가 일치하지 않아요"
-                tvstartPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color)) // 텍스트 색상 빨간색으로 변경
-                resetAllImageResources() // 이미지 리셋
-                resetAllButtonColors()  // 버튼 색상 리셋
+                tvstartPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.error_text_color))
+                resetAllImageResources()
+                resetAllButtonColors()
 
-                // 일정 시간 후 텍스트를 원래대로 변경
                 Handler(Looper.getMainLooper()).postDelayed({
                     tvstartPasswordDescription.text = "비밀번호를 입력해주세요"
-                    tvstartPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.white)) // 기본 텍스트 색상으로 변경
-                }, 2000) // 2000ms (2초) 후에 텍스트 변경
+                    tvstartPasswordDescription.setTextColor(ContextCompat.getColor(this, R.color.white))
+                }, 2000)
             }
         }
     }

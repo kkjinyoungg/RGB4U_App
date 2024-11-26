@@ -56,6 +56,11 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
         }
     }
 
+    // 외부에서 analysisList에 접근할 수 있도록 getter 메서드 추가
+    fun getAnalysisList(): List<AnalysisItem> {
+        return analysisList
+    }
+
     override fun getItemCount(): Int {
         return analysisList.size
     }
@@ -87,8 +92,8 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
                     val context = itemView.context
                     val intent = Intent(context, DistortionTypeActivity::class.java)
                     // 화면 전환(전달할 데이터가 있다면 수정 필요함)
-                    intent.putExtra("date", item.dbDate)  // yyyy-mm-dd 형식의 날짜 전달
-                    intent.putExtra("toolbar", item.analysisDate)  // toolbar 형식의 날짜 전달
+                    intent.putExtra("Date", item.dbDate)  // yyyy-mm-dd 형식의 날짜 전달
+                    intent.putExtra("Toolbar", item.analysisDate)  // toolbar 형식의 날짜 전달
                     context.startActivity(intent)
                 }
             }

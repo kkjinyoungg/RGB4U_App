@@ -1,11 +1,12 @@
 package com.example.rgb4u_app.ui.activity.calendar
 
-import android.util.Log
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +14,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
+import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity2
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class CalenderChangedDayActivity : AppCompatActivity() {
 
@@ -22,6 +28,9 @@ class CalenderChangedDayActivity : AppCompatActivity() {
     private lateinit var adapter: ChangeDayThinkAdapter
     private lateinit var database: DatabaseReference
     private val situations = mutableListOf<ChangeDaySituation>()
+    private lateinit var secondChangedEmotionLayout: LinearLayout
+    private lateinit var layoutAddEmotion: LinearLayout
+    private lateinit var toolbarDate: String // lateinit으로 선언
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +42,7 @@ class CalenderChangedDayActivity : AppCompatActivity() {
 
         // diaryId, ID
         val date = intent.getStringExtra("date") ?: "defaultDate"
+        val toolbarDate = intent.getStringExtra("Toolbar") ?: "defaultDate"
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -64,9 +74,14 @@ class CalenderChangedDayActivity : AppCompatActivity() {
         val thoughtDetailButton: ImageButton = findViewById(R.id.thoughtDetailButton)
         thoughtDetailButton.setOnClickListener {
             val intent = Intent(this, ChangeThinkThisActivity::class.java)
+            intent.putExtra("date", date)
             startActivity(intent)
             finish()
+
         }
+
+        secondChangedEmotionLayout = findViewById(R.id.secondChangedEmotionLayout) // XML ID에 맞게 설정
+        layoutAddEmotion = findViewById(R.id.layout_add_emotion)
 
         val emotionStep1 = findViewById<TextView>(R.id.emotionStep1)
         val emotionIcon1 = findViewById<ImageView>(R.id.emotionIcon1)
@@ -87,25 +102,46 @@ class CalenderChangedDayActivity : AppCompatActivity() {
             loadSecondAnalysisData(userId, date)
 
             // emotionDegree와 emotionTypes를 userInput에서 가져오기
-            val userInputRef = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/userInput")
+            val userInputRef =
+                FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/userInput")
             userInputRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(userInputSnapshot: DataSnapshot) {
-                    // emotionDegree에서 int와 string 가져오기
-                    val emotionDegreeInt = userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
-                    val emotionDegreeString = userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
-                    val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
-
+                    // reMeasuredEmotionDegree 데이터를 확인
                     val emotionDegreeInt2 = userInputSnapshot.child("reMeasuredEmotionDegree/int").getValue(Int::class.java) ?: 2
                     val emotionDegreeString2 = userInputSnapshot.child("reMeasuredEmotionDegree/string").getValue(String::class.java) ?: "보통이었어"
                     val emotionDegreeImage2 = userInputSnapshot.child("reMeasuredEmotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
 
+                    if (emotionDegreeInt2 != -1) {
+                        // 데이터가 있을 때
+                        secondChangedEmotionLayout.visibility = View.VISIBLE
+                        layoutAddEmotion.visibility = View.GONE
+
+                        emotionStep2.text = "${emotionDegreeInt2 + 1}단계"
+                        emotionText2.text = emotionDegreeString2
+                        emotionIcon2.setImageResource(getEmotionImageResource(emotionDegreeImage2))
+                    } else {
+                        // 데이터가 없을 때 '감정 재선택'으로 연결되는 버튼이 나오게끔 설계
+                        secondChangedEmotionLayout.visibility = View.GONE // 기존 2번째 감정
+                        layoutAddEmotion.visibility = View.VISIBLE // 버튼 있는 레이아웃
+
+                        layoutAddEmotion.setOnClickListener {
+                            val intent = Intent(this@CalenderChangedDayActivity, EmotionReselectActivity2::class.java) //화면 연결
+                            intent.putExtra("Toolbar", toolbarDate) //toolbar로 고치기
+                            intent.putExtra("Date", date) // date보내기
+                            startActivity(intent)
+                        }
+                    }
+
+                    // 첫 번째 감정 데이터는 항상 처리
+                    val emotionDegreeInt =
+                        userInputSnapshot.child("emotionDegree/int").getValue(Int::class.java) ?: 2
+                    val emotionDegreeString =
+                        userInputSnapshot.child("emotionDegree/string").getValue(String::class.java) ?: "보통이었어"
+                    val emotionDegreeImage = userInputSnapshot.child("emotionDegree/emotionimg").getValue(String::class.java) ?: "img_emotion_2"
+
                     emotionStep1.text = "${emotionDegreeInt + 1}단계"
                     emotionText1.text = emotionDegreeString
                     emotionIcon1.setImageResource(getEmotionImageResource(emotionDegreeImage))
-
-                    emotionStep2.text = "${emotionDegreeInt2 + 1}단계"
-                    emotionText2.text = emotionDegreeString2
-                    emotionIcon2.setImageResource(getEmotionImageResource(emotionDegreeImage2))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -114,13 +150,17 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                 }
             })
         } else {
-            Log.e("CalenderChangedDay", "Invalid input: userId or date is null. userId=$userId, date=$date")
+            Log.e(
+                "CalenderChangedDay",
+                "Invalid input: userId or date is null. userId=$userId, date=$date"
+            )
         }
     }
 
     private fun loadSecondAnalysisData(userId: String, date: String) {
         val thoughtSetsRef = database.child("users").child(userId)
-            .child("diaries").child(date).child("aiAnalysis").child("secondAnalysis").child("thoughtSets")
+            .child("diaries").child(date).child("aiAnalysis").child("secondAnalysis")
+            .child("thoughtSets")
 
         thoughtSetsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -133,13 +173,21 @@ class CalenderChangedDayActivity : AppCompatActivity() {
                     // 각 행성에서 첫 번째 데이터만 처리
                     val firstItemSnapshot = planetSnapshot.children.firstOrNull()
                     if (firstItemSnapshot != null) {
-                        val imageResourceName = firstItemSnapshot.child("imageResource").value as? String
-                        val selectedThoughts = firstItemSnapshot.child("selectedThoughts").value as? String
-                        val alternativeThoughts = firstItemSnapshot.child("alternativeThoughts").value as? String
+                        val imageResourceName =
+                            firstItemSnapshot.child("imageResource").value as? String
+                        val selectedThoughts =
+                            firstItemSnapshot.child("selectedThoughts").value as? String
+                        val alternativeThoughts =
+                            firstItemSnapshot.child("alternativeThoughts").value as? String
 
                         if (imageResourceName != null && selectedThoughts != null && alternativeThoughts != null) {
-                            val imageResourceId = resources.getIdentifier(imageResourceName, "drawable", packageName)
-                            val situation = ChangeDaySituation(imageResourceId, selectedThoughts, alternativeThoughts)
+                            val imageResourceId =
+                                resources.getIdentifier(imageResourceName, "drawable", packageName)
+                            val situation = ChangeDaySituation(
+                                imageResourceId,
+                                selectedThoughts,
+                                alternativeThoughts
+                            )
                             situations.add(situation)
                         }
                     }

@@ -16,6 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.google.firebase.database.*
+import com.google.firebase.auth.FirebaseAuth
+import android.util.Log
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -23,8 +26,14 @@ class OnboardingActivity : AppCompatActivity() {
     private val chatList = mutableListOf<ChatData>()
     private lateinit var adapter: ChatAdapter
 
+    private lateinit var database: DatabaseReference
+    // 현재 로그인된 사용자의 UID를 가져오는 함수
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+    private var realnickname: String = ""
+
     // 캐릭터 메시지 단계별 데이터
-    private val characterMessages = listOf(
+    private val characterMessagesTemplate = listOf(
         listOf(
             ChatData("저는 [닉네임]님의 우주에 살고 있는 달토끼, 모아예요.", "CHARACTER"),
             ChatData("오늘은 제가 지내고 있는 우주에 대해 소개해 드리고 싶어요!", "CHARACTER", R.drawable.img_onboarding_02),
@@ -70,6 +79,9 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
 
+        // Firebase Realtime Database 초기화
+        database = FirebaseDatabase.getInstance().reference
+
         val toolbar: Toolbar = findViewById(R.id.toolbar_base1)
         setSupportActionBar(toolbar)
 
@@ -92,7 +104,21 @@ class OnboardingActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         btnNext.visibility = View.GONE // 초기에는 버튼 숨김
-        loadInitialChat()
+
+        // 닉네임 로드
+        if (userId != null) {
+            getUserData(userId) { nickname ->
+                if (nickname != null) {
+                    realnickname = nickname
+                    updateCharacterMessagesWithNickname()
+                    loadInitialChat()
+                } else {
+                    Log.e("OnboardingActivity", "사용자 데이터를 불러오지 못했습니다.")
+                }
+            }
+        } else {
+            Log.e("OnboardingActivity", "사용자 UID를 가져올 수 없습니다.")
+        }
 
         btnNext.setOnClickListener {
             if (btnNext.text == "생각모아 시작") {
@@ -104,19 +130,26 @@ class OnboardingActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateCharacterMessagesWithNickname() {
+        for (step in characterMessagesTemplate) {
+            for (message in step) {
+                message.message = message.message.replace("[닉네임]", realnickname) // Modify message directly
+            }
+        }
+    }
+
     private fun loadInitialChat() {
         chatList.add(ChatData("안녕하세요!", "CHARACTER", R.drawable.img_onboarding_01))
         adapter.notifyItemInserted(chatList.size - 1)
         scrollToBottom()
 
         GlobalScope.launch(Dispatchers.Main) {
-            showCharacterMessagesWithDelay(characterMessages[currentMessageIndex])
+            showCharacterMessagesWithDelay(characterMessagesTemplate[currentMessageIndex])
         }
     }
 
     private fun addNextMessageStep() {
         if (currentUserMessageIndex < nextUserMessages.size) {
-            // 사용자 메시지 추가
             val userMessage = nextUserMessages[currentUserMessageIndex]
             chatList.add(ChatData(userMessage, "USER"))
             adapter.notifyItemInserted(chatList.size - 1)
@@ -124,16 +157,13 @@ class OnboardingActivity : AppCompatActivity() {
 
             currentUserMessageIndex++
 
-            // 캐릭터 메시지 추가
-            if (currentMessageIndex < characterMessages.size - 1) {
+            if (currentMessageIndex < characterMessagesTemplate.size - 1) {
                 currentMessageIndex++
                 GlobalScope.launch(Dispatchers.Main) {
-                    showCharacterMessagesWithDelay(characterMessages[currentMessageIndex])
+                    showCharacterMessagesWithDelay(characterMessagesTemplate[currentMessageIndex])
                 }
             }
         }
-
-        // 버튼 상태 업데이트
         updateNextButtonState()
     }
 
@@ -151,17 +181,15 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun updateNextButtonState() {
         when {
-            currentMessageIndex == characterMessages.size - 1 &&
+            currentMessageIndex == characterMessagesTemplate.size - 1 &&
                     currentUserMessageIndex == nextUserMessages.size -> {
                 btnNext.text = "생각모아 시작"
                 btnNext.visibility = View.VISIBLE
             }
-
             currentUserMessageIndex < nextUserMessages.size -> {
                 btnNext.text = nextUserMessages[currentUserMessageIndex]
                 btnNext.visibility = View.VISIBLE
             }
-
             else -> {
                 btnNext.visibility = View.GONE
             }
@@ -170,5 +198,20 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun scrollToBottom() {
         recyclerView.scrollToPosition(chatList.size - 1)
+    }
+
+    private fun getUserData(userId: String, callback: (String?) -> Unit) {
+        val userRef = database.child("users").child(userId).child("nickname")
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nickname = snapshot.getValue(String::class.java)
+                callback(nickname)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("OnboardingActivity", "데이터베이스 에러: ${error.message}")
+                callback(null)
+            }
+        })
     }
 }

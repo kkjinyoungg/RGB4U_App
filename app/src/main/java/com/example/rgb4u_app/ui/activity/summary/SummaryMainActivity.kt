@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -15,10 +16,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionTypeActivity
+import com.example.rgb4u_app.ui.activity.home.MainActivity
 import com.example.rgb4u_appclass.DiaryViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
@@ -27,9 +28,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class SummaryMainActivity : AppCompatActivity() {
 
@@ -265,9 +263,11 @@ class SummaryMainActivity : AppCompatActivity() {
 
         // buttonNext 클릭 리스너 추가
         findViewById<Button>(R.id.buttonNext).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
+            showBottomSheet() // 바텀시트 열기
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
         }
     }
 
@@ -280,5 +280,24 @@ class SummaryMainActivity : AppCompatActivity() {
             "img_emotion_3" -> R.drawable.img_emotion_3
             else -> R.drawable.img_emotion_4 // 4번 이미지 설정
         }
+    }
+
+    private fun showBottomSheet() {
+        // 바텀시트 레이아웃 inflate
+        val bottomSheetView = LayoutInflater.from(this).inflate(R.layout.fragment_summary_bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        // 확인 버튼 클릭 이벤트
+        val confirmButton: Button = bottomSheetView.findViewById(R.id.btn_confirm)
+        confirmButton.setOnClickListener {
+            bottomSheetDialog.dismiss() // 바텀시트 닫기
+            // 다음 액티비티로 이동
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        bottomSheetDialog.show() // 바텀시트 표시
     }
 }
