@@ -276,7 +276,7 @@ class HomeFragment : Fragment() {
         val notificationCount = adapter.getAnalysisList().count { it.hasAnalysisData }
         notificationCountText.text = "$notificationCount"
         // notificationCount가 0인 경우에도 보이게 수정
-        notificationCountText.visibility = if (notificationCount > 0) View.VISIBLE else View.VISIBLE
+        notificationCountText.visibility = if (notificationCount > 0) View.VISIBLE else View.GONE
     }
 
 
@@ -451,6 +451,4 @@ class HomeFragment : Fragment() {
 
         })
     }
-
-
 }

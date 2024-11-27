@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -80,7 +81,7 @@ class DistortionFragment : Fragment() {
         alternativeExtendedDetailTextView.text = distortionType.alternativeExtendedDetail
 
         // moreThoughtsTextView 초기화
-        val moreThoughtsTextView = view.findViewById<TextView>(R.id.tv_more_thoughts)
+        val moreThoughtsTextView = view.findViewById<LinearLayout>(R.id.tv_more_thoughts)
 
         // detail2와 detail3가 없거나 null 또는 빈 문자열인지 확인하고 tv_more_thoughts를 숨김
         if (distortionType.detail2.isNullOrEmpty() && distortionType.detail3.isNullOrEmpty()) {
@@ -106,30 +107,39 @@ class DistortionFragment : Fragment() {
 
         // 첫 번째 토글 기능
         toggleDetailTextView.setOnClickListener {
-            toggleView(extendedDetailTextView, btnToggleDetail, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
+            toggleView(extendedDetailTextView, btnToggleDetail, toggleDetailTextView, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
         }
 
         btnToggleDetail.setOnClickListener {
-            toggleView(extendedDetailTextView, btnToggleDetail, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
+            toggleView(extendedDetailTextView, btnToggleDetail, toggleDetailTextView, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
         }
 
         // 두 번째 토글 기능
         alternativeToggleTextView.setOnClickListener {
-            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up_blue, R.drawable.ic_toggle_down_blue)
+            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, alternativeToggleTextView, R.drawable.ic_toggle_up_blue, R.drawable.ic_toggle_down_blue)
         }
 
         btnAlternativeToggle.setOnClickListener {
-            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up_blue, R.drawable.ic_toggle_down_blue)
+            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, alternativeToggleTextView, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down_blue)
         }
+
     }
 
-    private fun toggleView(extendedView: TextView, toggleButton: ImageView, upDrawable: Int, downDrawable: Int) {
+    private fun toggleView(
+        extendedView: TextView,
+        toggleButton: ImageView,
+        toggleTextView: TextView, // 텍스트 뷰 추가
+        upDrawable: Int,
+        downDrawable: Int
+    ) {
         if (extendedView.visibility == View.GONE) {
             extendedView.visibility = View.VISIBLE
             toggleButton.setImageResource(upDrawable) // 올리는 아이콘으로 변경
+            toggleTextView.text = "접기" // 텍스트를 "접기"로 변경
         } else {
             extendedView.visibility = View.GONE
             toggleButton.setImageResource(downDrawable) // 내리는 아이콘으로 변경
+            toggleTextView.text = "자세히보기" // 텍스트를 "자세히보기"로 변경
         }
     }
 }
