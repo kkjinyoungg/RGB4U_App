@@ -35,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="행성 유형"
+                android:layout_marginLeft="2dp"
                 android:textColor="@color/black"
                 style="@style/Bd2_Bold" />
 
