@@ -12,48 +12,48 @@
         android:layout_height="72dp"
         android:layout_gravity="bottom"
         style="@style/BottomAppBarCustom"
-        app:fabCradleMargin="16dp"
-        app:fabAlignmentMode="center"
-        app:fabCradleRoundedCornerRadius="8dp" />
+        app:fabCradleMargin="6dp"
+        app:fabCradleRoundedCornerRadius="40dp"
+        app:fabAlignmentMode="center"/>
 
         <!-- BottomNavigationView with custom rounded background(android:layout_marginEnd="16dp"생략) -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_gravity="bottom"
-            android:elevation="10dp"
-            app:itemActiveIndicatorStyle="@style/Theme.Navigation.Indicator"
-            android:background="@android:color/transparent"
-            app:itemBackground="@android:color/transparent"
-            app:itemRippleColor="@android:color/transparent"
-            app:itemIconSize="32dp"
-            app:itemIconTint="@color/navigation_item_color_selector"
-            app:itemTextColor="@color/navigation_item_text_color"
-            app:menu="@menu/bottom_navigation_menu"
-            app:labelVisibilityMode="labeled"
-            app:itemHorizontalTranslationEnabled="false"
-            app:itemTextAppearanceActive="@style/CustomActiveTextAppearance"
-            app:itemTextAppearanceInactive="@style/CustomInactiveTextAppearance" />
 
 
     <!-- FloatingActionButton for center icon -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        android:elevation="10dp"
+        app:itemActiveIndicatorStyle="@style/Theme.Navigation.Indicator"
+        app:itemBackground="@android:color/transparent"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="32dp"
+        app:itemIconTint="@color/navigation_item_color_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemTextAppearanceActive="@style/CustomActiveTextAppearance"
+        app:itemTextAppearanceInactive="@style/CustomInactiveTextAppearance"
+        app:itemTextColor="@color/navigation_item_text_color"
+        app:labelVisibilityMode="labeled"
+        app:layout_anchor="@+id/main_bottom_appBar"
+        app:layout_anchorGravity="center"
+        app:menu="@menu/bottom_navigation_menu" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_think"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="72dp"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="52dp"
-        android:background="@null"
-        android:foregroundGravity="center"
-        android:outlineProvider="none"
+        android:layout_marginBottom="42dp"
         android:scaleType="centerInside"
-        android:stateListAnimator="@null"
+        app:shapeAppearanceOverlay="@style/fab_3_rounded"
+        app:maxImageSize="96dp"
+        app:fabCustomSize="72dp"
         app:backgroundTint="@android:color/transparent"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_fnb_png"
         app:layout_anchor="@id/main_bottom_appBar"
-        app:maxImageSize="72dp"
+        app:srcCompat="@drawable/ic_fab_yet"
         app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

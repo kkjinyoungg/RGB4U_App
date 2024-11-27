@@ -1,6 +1,7 @@
 package com.example.rgb4u_app.ui.fragment
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,6 +60,16 @@ class PlanetDetailFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_planet_detail, container, false)
         Log.d("PlanetDetailFragment", "Arguments set: typeName=$typeName, formattedDate2=$formattedDate2")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            requireActivity().window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // 상태바 텍스트 및 아이콘을 검은색으로 설정
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // Firebase 인증과 데이터베이스 참조 설정
         val userId = FirebaseAuth.getInstance().currentUser?.uid

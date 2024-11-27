@@ -63,7 +63,7 @@ class ChangedDayFragment : Fragment() {
         }
 
         // UI 설정
-        binding.tvDayChange.text = "달라진 하루를 느껴보세요"
+        binding.tvDayChange.text = "달라진 생각과 감정을 보며 하루를 돌아보세요"
         binding.situationTitle.text = situationTitle
 
         // Firebase에서 데이터 가져오기

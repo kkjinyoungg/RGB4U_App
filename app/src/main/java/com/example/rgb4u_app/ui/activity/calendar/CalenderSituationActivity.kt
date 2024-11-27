@@ -1,9 +1,12 @@
 package com.example.rgb4u_app.ui.activity.calendar
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -29,6 +32,17 @@ class CalenderSituationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_calender_situation)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                        // 글자색 검은색으로 유지
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // 현재 로그인된 사용자의 UID를 가져오는 함수
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -81,6 +95,8 @@ class CalenderSituationActivity : AppCompatActivity() {
             val imageView = fragmentView.findViewById<ImageView>(R.id.whySummaryLabelImageView)
             imageView?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
             fragmentView.findViewById<ImageButton>(R.id.backButton)?.setImageResource(R.drawable.ic_back)
+            fragmentView.findViewById<View>(R.id.whySummarybg)?.setBackgroundResource(R.drawable.edittext_background_wh)
+            fragmentView.findViewById<ImageView>(R.id.summaryline)?.setBackgroundResource(R.drawable.help_bottom_sheet_line)
         }
     }
 

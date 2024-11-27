@@ -307,7 +307,7 @@ class AnalysisFragment : Fragment() {
             // 카드 데이터 가져오기
             val cardList = fetchCardData()
         } else {
-            Toast.makeText(requireContext(), "현재 날짜 이후로는 이동할 수 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "다음 달로는 이동할 수 없어요", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -432,7 +432,7 @@ class AnalysisFragment : Fragment() {
         Log.d("AnalysisFragment", "현재 로그인된 사용자 ID: $userId")
 
         if (userId == null) {
-            Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "사용자가 로그인되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -501,15 +501,11 @@ class AnalysisFragment : Fragment() {
                         emotionChart.visibility = View.GONE
                         recyclerView.visibility = View.GONE
                         emptyView.visibility = View.GONE
-
-                        Toast.makeText(context, "데이터를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     overlayView.visibility = View.VISIBLE // 오류 시 오버레이 보이게 설정
-                    Toast.makeText(context, "데이터 로딩 실패: ${error.message}", Toast.LENGTH_SHORT)
-                        .show()
                 }
             })
 

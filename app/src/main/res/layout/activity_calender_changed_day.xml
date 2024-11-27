@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_pw_changeday">
+    android:fitsSystemWindows="true"
+    android:background="@drawable/bg_analysis_calenar">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_write_diary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- ScrollView 추가 -->
@@ -67,8 +67,8 @@
                         <!-- thoughtDetailButton 버튼 (오른쪽 끝에 배치) -->
                         <ImageButton
                             android:id="@+id/thoughtDetailButton"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_gravity="end"
                             android:layout_marginStart="8dp"
                             android:background="@null"
@@ -81,7 +81,7 @@
                         android:id="@+id/summaryThinkRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="12dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -124,9 +124,7 @@
                     style="@style/Cp1_Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/nanumsquareroundbold"
-                    android:lineSpacingExtra="4dp"
+                    android:layout_marginTop="12dp"
                     android:text="감정 정도"
                     android:textColor="@color/gray2" />
 
@@ -141,8 +139,8 @@
                     <!-- 감정 변화 아이콘 및 텍스트 1 -->
                     <ImageView
                         android:id="@+id/emotionIcon1"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
                         android:src="@drawable/img_emotion_0" />
 
                     <LinearLayout
@@ -172,9 +170,9 @@
 
                 <!-- 섹션 구분을 위한 화살표 이미지 -->
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="22dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="28dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:src="@drawable/ic_arrow_down_blue" />
@@ -191,8 +189,8 @@
                     <!-- 감정 변화 아이콘 및 텍스트 2 -->
                     <ImageView
                         android:id="@+id/emotionIcon2"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
                         android:src="@drawable/img_emotion_1" />
 
                     <LinearLayout
@@ -235,15 +233,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
                         android:text="지금은 감정이 어떻게 달라졌나요?"
                         android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        style="@style/Cp2_Regular" />
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="4dp"
                         android:src="@drawable/ic_next_gray1" />
                 </LinearLayout>
             </LinearLayout>

@@ -145,18 +145,18 @@
                     style="@style/Bd2_Regular" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/situationDownButton"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_arrow_down_10_"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/situationLayout" />
+        <ImageButton
+            android:id="@+id/situationDownButton"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_arrow_down_10_"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/situationLayout" />
 
             <!-- 생각 요약 박스 -->
             <LinearLayout

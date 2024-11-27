@@ -1,0 +1,36 @@
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_record"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="@color/background"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:elevation="20dp">
+
+    <ImageButton
+        android:id="@+id/button_base1_action1"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_back"
+        android:contentDescription="동작 버튼"
+        android:layout_gravity="start"
+        android:background="@android:color/transparent"/>
+    <TextView
+        android:id="@+id/toolbar_base1_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanumsquareroundregular"
+        android:layout_gravity="center" />
+    <ImageButton
+        android:id="@+id/button_base1_action2"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_exit"
+        android:contentDescription="동작 버튼"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"/>
+</androidx.appcompat.widget.Toolbar>

@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_light_sub"
     tools:context=".ui.fragment.PlanetDetailFragment">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_base1"
+        layout="@layout/toolbar_analysis_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,8 +29,8 @@
             <!-- Planet Image (툴바 바로 아래) -->
             <ImageView
                 android:id="@+id/planet_image"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter" />
 
@@ -40,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:text="부정적인 것은 훨씬 크게, \n긍정적인 것은 훨씬 작게 생각하게 해요"
                 android:textAlignment="center"
                 android:textColor="@color/gray1"
@@ -61,7 +62,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="16dp"
                 android:layout_marginLeft="32dp"
                 android:layout_gravity="center_vertical">
 
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 style="@style/Cp1_Regular"
                 android:text="모든 행성 설명 총 두 줄입니다. \n+ 이 행성에 맞는 조언 같은 (왜 이 생각들을 봐야 하는지)"
                 android:textColor="@color/gray1" />
@@ -99,9 +99,11 @@
                 android:id="@+id/boxTextrecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="40dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

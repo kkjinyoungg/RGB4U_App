@@ -1,6 +1,7 @@
 package com.example.rgb4u_app.ui.activity.summary
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,15 @@ class SummaryChangedDayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary_changed_day)
+
+        // 투명 상태바
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // 인텐트에서 데이터 받기
         val intent = intent

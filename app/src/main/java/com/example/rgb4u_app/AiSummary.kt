@@ -38,63 +38,74 @@ class AiSummary {
 
             // ChatGPT API로 분석 요청 보내기
             val prompt = """
-    너는 인지행동치료 전문가로, 사람들이 쓴 글에서 감정, 상황, 생각을 정확히 분리하는 역할을 해요. 각 요소를 구별할 때는 친절하고 다정하게 설명해주고, ~해요체로 표현해 주세요. 
-    예를 들어, '스스로를 나쁘게 생각하고 있어요.' 같은 식으로요.
 
-    하나의 문장 안에 감정, 상황, 생각이 동시에 포함될 수 있다는 점에 유의해 주세요. 각 요소를 개별적으로 분류해주세요.
-    상황과 생각을 분류할 때, 각각 그렇게 분류한 이유도 친절하게 설명해주면 좋겠어요. 예를 들어, '오늘 있었던 실제 사건에 대한 내용이에요.', '오늘 있었던 일에 대한 생각을 나타내는 내용이에요.'라고요.
-    만약 상황에서 생각과 감정을 분류했다면, 생각과 감정이 사라진 이유를 친절하게 설명해주면 좋겠어요. 예를 들어, '(옮겨진 내용)은 감정을 나타내고 있어서 옮겨졌어요', '(옮겨진 내용)은 생각을 나타내고 있어서 옮겨졌어요'라고요.
-    만약 생각에서 상황과 감정을 분류했다면, 상황과 감정이 사라진 이유를 친절하게 설명해주면 좋겠어요. 예를 들어, '(옮겨진 내용)은 감정을 나타내고 있어서 옮겨졌어요', '(옮겨진 내용)은 상황을 나타내고 있어서 옮겨졌어요'라고요.
+            사용자가 입력한 문장을 각각 독립적으로 분석하여 다음 항목을 구체적으로 분류해 주세요. 각 항목에 대해 이유를 친근하고 부드러운 말투로 설명해 주세요. 분석된 항목들은 명확하게 구분되어야 하며, 감정은 단어로만 추출하지 말고 감정의 뉘앙스도 함께 담아주세요. 상황과 생각도 마찬가지로 구체적인 내용으로 분리해 주세요.
+            
+            각 문장에 대해 분석을 진행하세요:
+            1. **상황**: 사용자 입력에서 **객관적인 사건**이나 **사실적인 설명**을 추출해 주세요. 주관적인 해석이나 추측은 제외해 주세요.
+                - 예시: "체육 시간에 발야구를 했어." (사실적인 설명이며 객관적인 사건이에요. 실제로 일어난 일을 말하는 거예요.)
+                - 예시: "시험에서 50점을 받았어." (실제로 일어난 구체적인 사건을 나타내고 있어요. 사실 그대로의 일을 말해요.)
+            
+            2. **상황 요약 이유**: 상황에서 어떤 일이 있었는지를 친절하고 간결하게 설명해 주세요.
+                - 예시: "체육 시간에 발야구를 하다가 넘어졌어요." (그때 어떤 일이 있었는지 설명해 주세요. 그래서 넘어진 일을 설명하고 있어요.)
+            
+            3. **생각**: 사용자 입력에서 **주관적인 생각**이나 **의견**, **추측**을 추출해 주세요. 자신에 대한 생각이나 의문, 자책 등이 포함됩니다.
+                - 예시: "나는 왜 잘하는 게 하나도 없을까?" (스스로를 깎아내리는 생각이에요. 자신에 대해 부정적으로 생각하고 있어요.)
+                - 예시: "애들이 나를 비웃었을 거야." (확실하지 않은 것을 넘겨짚는 생각이에요. 주관적으로 추측하고 있어요.)
+            
+            4. **생각 요약 이유**: 생각에서 어떤 내용이 주관적이었는지, 그리고 왜 그것이 사용자의 생각으로 분류되는지 설명해 주세요.
+                - 예시: "자기 자신에 대해 부정적인 생각을 했고, 친구들이 나를 비웃을 것 같다고 추측했어요." (자신을 깎아내리고, 확실하지 않은 것을 추측하고 있어요. 자신의 주관적인 의견과 추측이라서 생각으로 분류되었어요.)
+            
+            5. **감정**: 사용자 입력에서 나타나는 감정 표현을 추출하고, **감정의 뉘앙스**까지 포함해 주세요. 예를 들어, '슬프다', '걱정된다'와 같이 감정의 구체적인 표현을 포함시켜 주세요. 또한, 감정의 강도나 깊이를 표현할 수 있으면 더 좋아요. 예: "조금 슬프다" 또는 "굉장히 우울하다".
+                - 예시: "너무 창피해." (감정이 정말 강해요. '창피하다'라고 느끼는 감정의 강도가 커요.)
+                - 예시: "진짜 우울해." (우울한 감정이 굉장히 강한 걸 알 수 있어요. '진짜'라는 표현이 그만큼 힘을 실어주고 있어요.)
+            
+            이 작업은 구조화된 JSON 형식으로 반환해 주세요.
+            
+            각 문장의 분석을 별도로 진행해주세요. 
 
-    참고할 정의와 예시는 다음과 같아요:
-
-    감정: 감정은 정서적 반응이나 감정 형용사가 포함된 문장이에요. 예를 들어, '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다' 등의 키워드가 있어요. 이러한 키워드를 잘 식별해 주세요. 감정이 여러 개 있다면 리스트 형태로 표현해 주세요.
-    상황: 상황은 개인이 경험한 실제 사건이나 환경을 설명하는 문장이에요. 예를 들어, '친구와 밥을 먹었어', '시험 공부를 했어' 같은 문장이에요.
-    생각: 생각은 특정 상황에 대한 개인의 즉각적인 반응이나 해석을 나타내는 문장이에요. 예를 들어, '나는 친구가 나를 싫어하는 것 같아', '나는 시험을 망친 게 내 탓이라고 생각해'처럼 사람의 말투로 부드럽게 표현해 주세요.
-
-    생각이 너무 축약되거나 여러 문장이 합쳐지지 않도록 주의해 주세요. 예를 들어, '나는 공부를 못해'처럼 구체적으로 풀어서 작성해 주세요. 문장은 끊어서 각각 한국어 기준 80byte 이내로 작성해주세요.
-
-    이 작업은 구조화된 JSON 형식으로 반환해 주세요.
-
-    여기 내가 제공하는 텍스트를 분석해 주세요:
-    $combinedText
-""".trimIndent()
+            여기 내가 제공하는 텍스트를 분석해 주세요:
+            $combinedText
+            """.trimIndent()
 
 
-// function schema 정의
+
+            // function schema 정의
             val functionSchema = """
-{
-    "name": "analyze_text",
-    "description": "Analyze a user's text and return emotions, situation, and thoughts",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "emotion": {
-                "type": "array",
-                "items": { "type": "string" },
-                "description": "List of emotions identified in the text, e.g., '슬프다', '화가 나다'. Identify the emotional response from the text. It should include recognizable emotional keywords, such as '슬프다', '화가 나다', '기쁘다', '불안하다', '상처받다', etc. Please ensure to accurately identify the emotions. If the identified content represents an emotion, specify that '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
-            },
-            "situation": {
-                "type": "string",
-                "description": "The situation as described in the text, expressed in a casual manner, like talking to oneself. Use informal language like '~했어'. If the identified content represents a situation, specify that '(내용)은 상황을 나타내고 있어서 옮겨졌어요'."
-            },
-            "thoughts": {
-                "type": "string",
-                "description": "The thoughts as described in the text, expressed in a casual manner, like talking to oneself. Use informal language like '~했어'. The thoughts should not be overly condensed from the original and should not be combined into a single sentence. If the identified content represents a thought, specify that '(내용)은 생각을 나타내고 있어서 옮겨졌어요'."
-            },
-            "situationReason": {
-                "type": "string",
-                "description": "Reason for categorizing the text as a situation, expressed kindly and in a gentle tone using ~해요체. Use simple words and sentences that are easy for elementary students to understand. Explain if thoughts or emotions have been separated, e.g., '(내용)은 생각을 나타내고 있어서 옮겨졌어요'."
-            },
-            "thoughtsReason": {
-                "type": "string",
-                "description": "Reason for categorizing the text as a thought, expressed kindly and in a gentle tone using ~해요체. Use simple words and sentences that are easy for elementary students to understand. Explain if situations or emotions have been separated, e.g., '(내용)은 감정을 나타내고 있어서 옮겨졌어요'."
+            {
+                "name": "analyze_text",
+                "description": "사용자가 입력한 문장에서 각각 감정, 상황, 생각을 분류하고, 각 항목에 대한 이유를 설명해 주세요. 결과는 각 문장의 분석으로 분리되어 제공해 주세요. 분석 항목에 대한 설명은 부드럽고 친근한 말투로 작성해 주세요.
+",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "emotion": {
+                            "type": "array",
+                            "items": { "type": "string" },
+                            "description": "텍스트에서 확인된 감정 목록이에요. 예: '슬프다', '걱정된다'. 감정은 명확하고 구체적으로 표현해 주세요."
+                        },
+                        "situation": {
+                            "type": "string",
+                            "description": "텍스트에서 묘사된 상황이에요. 객관적인 사건이나 사실적인 설명만 포함해 주세요."
+                        },
+                        "thoughts": {
+                            "type": "string",
+                            "description": "텍스트에서 묘사된 생각이에요. 주관적인 의견, 판단, 추측 등을 포함해 주세요."
+                        },
+                        "situationReason": {
+                            "type": "string",
+                            "description": "상황을 사건이나 사실로 분류한 이유를 설명해 주세요. 왜 그것이 객관적인 상황으로 분류되는지 설명해 주세요."
+                        },
+                        "thoughtsReason": {
+                            "type": "string",
+                            "description": "생각을 주관적인 의견이나 추측으로 분류한 이유를 설명해 주세요. 왜 그것이 생각으로 분류되는지 설명해 주세요."
+                        }
+                    },
+                    "required": ["emotion", "situation", "thoughts", "situationReason", "thoughtsReason"]
+                }
             }
-        },
-        "required": ["emotion", "situation", "thoughts", "situationReason", "thoughtsReason"]
-    }
-}
-""".trimIndent()
+            """.trimIndent()
+
 
 
             val requestBody = JSONObject()

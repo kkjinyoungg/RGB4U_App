@@ -1,6 +1,7 @@
 package com.example.rgb4u_app.ui.activity.calendar
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -56,6 +57,15 @@ class CalenderDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calender_detail)
 
+        // 투명 상태바
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
+
         // Toolbar 설정
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -66,6 +76,10 @@ class CalenderDetailActivity : AppCompatActivity() {
 
         // 툴바의 제목을 날짜로 설정
         val toolbarTitle: TextView = findViewById(R.id.toolbar_write_title)
+
+        // 오른쪽 아이콘 안 보이게
+        val buttonWriteAction2: ImageButton = findViewById(R.id.button_write_action2)
+        buttonWriteAction2.visibility = View.GONE
 
         // Intent로부터 날짜 정보 받기
         val selectedDate = intent.getStringExtra("SELECTED_DATE")

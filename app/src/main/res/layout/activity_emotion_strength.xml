@@ -27,8 +27,8 @@
     <!-- Square view for illustrations -->
     <ImageView
         android:id="@+id/squareView"
-        android:layout_width="270dp"
-        android:layout_height="270dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginTop="220dp"
         android:src="@drawable/img_emotion_0"
         app:layout_constraintEnd_toEndOf="parent"

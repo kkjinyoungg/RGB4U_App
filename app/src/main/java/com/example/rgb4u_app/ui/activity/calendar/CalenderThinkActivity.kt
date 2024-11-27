@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.calendar
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -82,6 +83,8 @@ class CalenderThinkActivity : AppCompatActivity() {
             val imageView = fragmentView.findViewById<ImageView>(R.id.whySummaryLabelImageView)
             imageView?.setColorFilter(ContextCompat.getColor(this, R.color.black), android.graphics.PorterDuff.Mode.SRC_IN)
             fragmentView.findViewById<ImageButton>(R.id.backButton)?.setImageResource(R.drawable.ic_back)
+            fragmentView.findViewById<View>(R.id.whySummarybg)?.setBackgroundResource(R.drawable.edittext_background_wh)
+            fragmentView.findViewById<ImageView>(R.id.summaryline)?.setBackgroundResource(R.drawable.help_bottom_sheet_line)
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.rgb4u_app.ui.activity.analysis
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -43,6 +44,17 @@ class FrequentEmotionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frequent_emotions)
 
+        // 상태바 투명
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
+
         val selectedDate = intent.getStringExtra("selectedDate") ?: "2024-10"  // 기본값은 "2024-10"으로 설정
 
         // Firebase Authentication을 통해 현재 로그인한 사용자 UID 가져오기
@@ -80,7 +92,7 @@ class FrequentEmotionsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 툴바 타이틀 설정
-        findViewById<TextView>(R.id.toolbar_base1_title).text = "내가 자주 선택한 감정"
+        findViewById<TextView>(R.id.toolbar_base1_title).text = "자주 선택한 감정이에요"
         findViewById<ImageButton>(R.id.button_base1_action1).setOnClickListener {
             val intent = Intent(this, AnalysisActivity::class.java)
             startActivity(intent)

@@ -86,7 +86,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toTopOf="@id/tv_emotion_ratio_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -94,10 +95,11 @@
         app:layout_constraintTop_toBottomOf="@id/tv_emotion_title"
         tools:listitem="@layout/item_card_view" />
 
+    <!-- 생각 유형 결과 없을 때 -->
     <LinearLayout
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -106,9 +108,9 @@
         android:gravity="center"
         android:padding="8dp"
         android:orientation="vertical"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tv_emotion_ratio_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_emotion_title">
+        app:layout_constraintTop_toBottomOf="@id/tv_emotion_title"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -118,9 +120,9 @@
 
             <ImageView
                 android:id="@+id/iv_empty_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="14dp"
                 android:src="@drawable/img_analysis_no_data" />
 
             <TextView
@@ -128,10 +130,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="8dp"
-                android:text="아직 결과가 없어요"
+                android:text="아직 생각 유형 결과가 없어요"
                 android:textColor="@color/gray1"
-                android:textSize="18sp" />
+                style="@style/Bd2_Bold" />
         </LinearLayout>
     </LinearLayout>
 

@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.analysis.FrequentEmotionsActivity">
 
     <!-- 상단 툴바 -->
     <include
-        layout="@layout/toolbar_base1"
+        layout="@layout/toolbar_analysis_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_frequent" />

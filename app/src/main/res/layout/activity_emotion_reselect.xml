@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_diary_splash"
+    android:fillViewport="true"
     tools:context=".ui.activity.distortiontype.EmotionReselectActivity">
 
     <include
@@ -18,7 +19,7 @@
         android:id="@+id/questionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="70dp"
         android:text="지금은 부정적인 감정이 \n얼마나 심한지 한 번 더 알려주세요"
         android:textAlignment="center"
         android:textColor="@color/main"
@@ -29,7 +30,7 @@
         android:id="@+id/subQuestionment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:text="생각을 돌아보니 감정이 어떻게 달라졌나요?"
         android:textColor="@color/blue2_30"
@@ -39,8 +40,8 @@
 
     <ImageView
         android:id="@+id/squareView"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:layout_marginTop="220dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +90,7 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:max="4"
         android:progressDrawable="@drawable/custom_progress"
         android:splitTrack="false"
@@ -102,13 +103,14 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
         android:text="다음"
         android:textColor="@color/black"
+        android:stateListAnimator="@null"
         style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

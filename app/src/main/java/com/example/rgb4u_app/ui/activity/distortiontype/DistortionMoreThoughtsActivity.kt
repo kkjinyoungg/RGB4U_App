@@ -1,5 +1,6 @@
 package com.example.rgb4u_app.ui.activity.distortiontype
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -41,6 +42,15 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_distortion_more_thoughts)
+
+        // 투명 상태바
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.apply {
+                decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                statusBarColor = android.graphics.Color.TRANSPARENT
+            }
+        }
 
         // 툴바의 뒤로가기 버튼 설정 및 타이틀, 불필요한 버튼 숨김
         val toolbar = findViewById<View>(R.id.toolbar_write_diary)
@@ -128,13 +138,25 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
         // 두 번째 섹션 데이터 설정
         setupSecondSection()
 
-        // 첫 번째 '자세히 보기' 토글 버튼 동작 설정
-        setToggleFunctionality(tvToggleDetail2, btnToggleDetail2, tvTypeDetailExtended2)
-        setToggleFunctionality(tvAlternativeDetailToggle2, btnAlternativeDetailToggle2, tvAlternativeDetailExtended2)
+        // 첫 번째 '자세히 보기' 버튼 설정
+        setToggleFunctionality(
+            tvToggleDetail2, btnToggleDetail2, tvTypeDetailExtended2,
+            R.drawable.ic_toggle_down, R.drawable.ic_toggle_up
+        )
+        setToggleFunctionality(
+            tvAlternativeDetailToggle2, btnAlternativeDetailToggle2, tvAlternativeDetailExtended2,
+            R.drawable.ic_toggle_down_blue, R.drawable.ic_toggle_up_blue
+        )
 
-        // 두 번째 '자세히 보기' 토글 버튼 동작 설정
-        setToggleFunctionality(tvToggleDetail3, btnToggleDetail3, tvTypeDetailExtended3)
-        setToggleFunctionality(tvAlternativeDetailToggle3, btnAlternativeDetailToggle3, tvAlternativeDetailExtended3)
+        // 두 번째 '자세히 보기' 버튼 설정
+        setToggleFunctionality(
+            tvToggleDetail3, btnToggleDetail3, tvTypeDetailExtended3,
+            R.drawable.ic_toggle_down, R.drawable.ic_toggle_up
+        )
+        setToggleFunctionality(
+            tvAlternativeDetailToggle3, btnAlternativeDetailToggle3, tvAlternativeDetailExtended3,
+            R.drawable.ic_toggle_down_blue, R.drawable.ic_toggle_up_blue
+        )
     }
 
     private fun setupFirstSection() {
@@ -158,13 +180,15 @@ class DistortionMoreThoughtsActivity : AppCompatActivity() {
     private fun setToggleFunctionality(
         textView: TextView,
         button: ImageButton,
-        hiddenText: TextView
+        hiddenText: TextView,
+        expandIcon: Int,
+        collapseIcon: Int
     ) {
         val toggleListener = View.OnClickListener {
             val isVisible = hiddenText.visibility == View.VISIBLE
             hiddenText.visibility = if (isVisible) View.GONE else View.VISIBLE
-            button.setImageResource(if (isVisible) R.drawable.ic_toggle_down else R.drawable.ic_toggle_up)
-            textView.text = if (isVisible) "자세히 보기" else "숨기기"
+            button.setImageResource(if (isVisible) expandIcon else collapseIcon)
+            textView.text = if (isVisible) "자세히 보기" else "접기"
         }
         textView.setOnClickListener(toggleListener)
         button.setOnClickListener(toggleListener)

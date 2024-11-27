@@ -87,7 +87,7 @@ class DistortionFragment : Fragment() {
             moreThoughtsTextView.visibility = View.GONE
         } else {
             // "다른 생각도 더 보실래요?"에 밑줄 효과 추가
-            moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+            // moreThoughtsTextView.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             moreThoughtsTextView.setOnClickListener {
                 val context = requireContext()
                 val intent = Intent(context, DistortionMoreThoughtsActivity::class.java)
@@ -115,11 +115,11 @@ class DistortionFragment : Fragment() {
 
         // 두 번째 토글 기능
         alternativeToggleTextView.setOnClickListener {
-            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
+            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up_blue, R.drawable.ic_toggle_down_blue)
         }
 
         btnAlternativeToggle.setOnClickListener {
-            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up, R.drawable.ic_toggle_down)
+            toggleView(alternativeExtendedDetailTextView, btnAlternativeToggle, R.drawable.ic_toggle_up_blue, R.drawable.ic_toggle_down_blue)
         }
     }
 

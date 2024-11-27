@@ -9,13 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <!-- 프로필 이미지 -->
         <ImageView
             android:id="@+id/TypeImageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
             android:layout_marginEnd="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_planet_a" />
@@ -40,10 +42,11 @@
             <LinearLayout
                 android:id="@+id/detailButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:background="@drawable/rounded_button_gray"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp">
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,10 +60,10 @@
                     style="@style/Cp1_Regular"/>
 
                 <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="12dp"
                     android:src="@drawable/ic_next" />
             </LinearLayout>
         </LinearLayout>

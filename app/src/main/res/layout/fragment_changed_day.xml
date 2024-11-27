@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fillViewport="true"
     android:orientation="vertical" >
 
     <!-- 달라진 하루 고정 텍스트 중앙 정렬 -->
@@ -9,7 +10,7 @@
         android:id="@+id/tv_day_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="달라진 생각과 감정을 보며 하루를 돌아보세요"
         style="@style/CH_Bd1"
         android:textAlignment="center"
@@ -45,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/toggleSituation"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:src="@drawable/ic_arrow_down_2"/>
         </LinearLayout>
 
@@ -63,10 +64,10 @@
 
     <!-- 섹션 구분을 위한 화살표 이미지 -->
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_arrow_down" />
 
@@ -84,7 +85,7 @@
             android:id="@+id/tvThinkChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:text="이렇게 생각을 바꿔봤어요"
             style="@style/Bd2_Bold"
             android:textColor="@color/black" />
@@ -102,7 +103,7 @@
             android:id="@+id/examplebluebox1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_blue2_10_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -110,8 +111,8 @@
 
             <ImageView
                 android:id="@+id/exampleImage1"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/img_ch_mypage" />
 
             <TextView
@@ -121,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
-                android:text="엄마는 왜 매번 나를 괴롭히고 내가 하는 걸 싫어하고..."
+                android:text="엄마는 왜 매번 나를 괴롭히고 내가 고..."
                 android:textColor="@color/blue2" />
         </LinearLayout>
 
@@ -138,8 +139,8 @@
 
             <ImageView
                 android:id="@+id/exampleImage2"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/img_ch_mypage" />
 
             <TextView
@@ -166,8 +167,8 @@
 
             <ImageView
                 android:id="@+id/exampleImage3"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/img_ch_mypage" />
 
             <TextView
@@ -184,10 +185,10 @@
 
     <!-- 섹션 구분을 위한 화살표 이미지 -->
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_arrow_down" />
 
@@ -206,7 +207,7 @@
             android:id="@+id/tvEmotionChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:text="그래서 감정이 이렇게 달라졌어요"
             style="@style/Bd2_Bold"
             android:textColor="@color/black" />
@@ -225,8 +226,8 @@
                 <!-- 감정 변화 아이콘 및 텍스트 1 -->
                 <ImageView
                     android:id="@+id/emotionIcon1"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:layout_marginRight="4dp"
                     android:src="@drawable/img_emotion_0" />
 
@@ -257,8 +258,8 @@
 
             <ImageView
                 android:id="@+id/ic_next"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
@@ -272,8 +273,8 @@
             <!-- 감정 변화 아이콘 및 텍스트 2 -->
             <ImageView
                 android:id="@+id/emotionIcon2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginRight="4dp"
                 android:src="@drawable/img_emotion_1" />
 
@@ -309,13 +310,14 @@
     <android.widget.Button
         android:id="@+id/confirmButton"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="24dp"
         android:text="확인"
         style="@style/Bd2_Bold"
+        android:stateListAnimator="@null"
         android:textColor="@color/black"
         android:background="@drawable/rounded_button" />
 </LinearLayout>

@@ -5,6 +5,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item> <!-- 상태바 투명 -->
     </style>
 
+    <style name="fab_3_rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100%</item>
+        <item name="cornerSizeTopLeft">33dp</item> // 100일 때 33
+        <item name="cornerSizeTopRight">33dp</item>
+        <item name="cornerSizeBottomLeft">33dp</item>
+        <item name="cornerSizeBottomRight">33dp</item>
+    </style>
+
     <!-- BottomAppBar 기본 스타일 -->
     <style name="BottomAppBarCustom" parent="Widget.MaterialComponents.BottomAppBar">
         <item name="android:backgroundTint">@color/white</item>

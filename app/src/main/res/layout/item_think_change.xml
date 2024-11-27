@@ -8,7 +8,6 @@
         android:id="@+id/thinkLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +35,8 @@
             <!-- ThinktoggleButton을 오른쪽 끝에 배치 -->
             <ImageButton
                 android:id="@+id/ThinktoggleButton"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical|end"
                 android:background="@drawable/ic_toggle_down" />
@@ -93,8 +92,8 @@
             <!-- ThimktoggleButton을 오른쪽 끝에 배치 -->
             <ImageButton
                 android:id="@+id/ChangetoggleButton"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_gravity="center_vertical|end"
                 android:background="@drawable/ic_toggle_down_blue" />

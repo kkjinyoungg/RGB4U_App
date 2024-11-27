@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bg_pw_changeday"
     tools:context="ui.activity.distortiontype.DistortionTypeActivity">
 
@@ -60,7 +61,7 @@
         <!-- 버튼 레이아웃 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="24dp"
@@ -73,7 +74,7 @@
             <android.widget.Button
                 android:id="@+id/btn_previous"
                 android:layout_width="104dp"
-                android:layout_height="52dp"
+                android:layout_height="54dp"
                 android:text="이전"
                 android:textColor="@color/black"
                 android:stateListAnimator="@null"
@@ -85,7 +86,7 @@
             <android.widget.Button
                 android:id="@+id/btn_next"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="54dp"
                 android:background="@drawable/rounded_button"
                 android:text="다음"
                 android:stateListAnimator="@null"
