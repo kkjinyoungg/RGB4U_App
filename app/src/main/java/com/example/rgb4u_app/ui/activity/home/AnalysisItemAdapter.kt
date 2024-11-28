@@ -85,6 +85,7 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
                     text = "분석 결과 보기"
                     isEnabled = true
                     backgroundTintList = ContextCompat.getColorStateList(itemView.context, R.color.main)
+                    setTextColor(ContextCompat.getColor(itemView.context, R.color.black)) // 텍스트 색상 설정
                 }
 
                 // 버튼 클릭 리스너 추가

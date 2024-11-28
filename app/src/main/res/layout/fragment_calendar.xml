@@ -47,6 +47,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1">
 
@@ -59,25 +60,23 @@
                 android:src="@drawable/img_emotion_0"
                 android:visibility="gone" />
 
+            <!-- 오늘 날짜 표시 배경 -->
+            <View
+                android:id="@+id/today_circle"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_circle_yellow"  />
+
             <!-- 날짜 텍스트 -->
             <TextView
                 android:id="@+id/date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:text="1"
-                android:fontFamily="@font/nanumsquareroundregular"
-                android:textColor="@color/white"
-                android:paddingBottom="8dp"/>
-
-            <!-- 오늘 날짜 표시 배경 -->
-            <View
-                android:id="@+id/today_circle"
-                android:layout_width="30dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_circle_yellow"
-                android:visibility="gone" />
+                android:layout_gravity="center_vertical"
+                android:text="28"
+                android:textColor="@color/black"
+                style="@style/Bd2_Regular"/>
         </FrameLayout>
     </GridLayout>
 

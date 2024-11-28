@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.AnalysisItem
 import com.example.rgb4u_app.ui.activity.home.AnalysisItemAdapter
@@ -198,18 +199,26 @@ class HomeFragment : Fragment() {
             "매일 하루를 돌아보는 모습이 멋져요!"
         )
 
+        val lottieAnimationView = view?.findViewById<LottieAnimationView>(R.id.mainCharacterContainer)
+
         // 상태에 따라 배경과 랜덤 말풍선 텍스트 변경
         when (state) {
             "default" -> {
                 mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_defult)
                 textBox.text = "기록을 시작해 보세요!"
+                lottieAnimationView?.setAnimation("home_default_moa_02.json")
+                lottieAnimationView?.playAnimation()
             }
             "after_diary" -> {
                 mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_diary)
                 textBox.text = diaryMessages.random() // 랜덤 메시지 선택
+                lottieAnimationView?.setAnimation("home_after_diary.json")
+                lottieAnimationView?.playAnimation()
             }
             "after_analysis" -> {
                 mainConstraintLayout.setBackgroundResource(R.drawable.bg_home_after_analysis)
+                lottieAnimationView?.setAnimation("home_after_analysis.json")
+                lottieAnimationView?.playAnimation()
 
                 if (emotionDegreeInt == 0 || reMeasuredEmotionDegreeInt == -1) {
                     textBox.text = "내일도 저와 함께 하루를 기록해보세요&"
