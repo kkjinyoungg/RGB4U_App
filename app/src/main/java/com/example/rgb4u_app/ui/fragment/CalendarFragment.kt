@@ -162,9 +162,9 @@ class CalendarFragment : Fragment() {
 
                     if (isToday(day)) {
                         val todayCircle = View(requireContext()).apply {
-                            layoutParams = FrameLayout.LayoutParams(30.dpToPx(), 20.dpToPx()).apply {
+                            layoutParams = FrameLayout.LayoutParams(28.dpToPx(), 20.dpToPx()).apply {
                                 gravity = Gravity.CENTER
-                                setMargins(0, 92, 0, 0.dpToPx()) // 원하는 Bottom 값으로 조정
+                                setMargins(0, 90, 0, 0.dpToPx()) // 원하는 Bottom 값으로 조정
                             }
                             background = ResourcesCompat.getDrawable(resources, R.drawable.bg_circle_yellow, null)
                         }

@@ -41,7 +41,7 @@
         android:layout_weight="1"
         android:layout_marginBottom="100dp"
         android:columnCount="7"
-        android:padding="8dp"
+        android:padding="16dp"
         android:orientation="horizontal" >
         <!-- 각 날짜 셀 예시 -->
         <FrameLayout
@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="28"
+                android:paddingBottom="4dp"
                 android:textColor="@color/black"
                 style="@style/Bd2_Regular"/>
         </FrameLayout>

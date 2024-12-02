@@ -192,7 +192,7 @@ class AnalysisFragment : Fragment() {
         // "자세히 보기" 링크 초기화 및 클릭 리스너 설정
         tvViewDetails = view.findViewById(R.id.tv_view_details)
         tvViewDetails.setOnClickListener {
-            Toast.makeText(context, "자세히 보기를 클릭했습니다.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "자세히 보기를 클릭했습니다.", Toast.LENGTH_SHORT).show()
             // 날짜를 전달(FrequentEmotionsActivity로)
             val intent = Intent(context, FrequentEmotionsActivity::class.java)
             intent.putExtra("selectedDate", formattedDate2)
