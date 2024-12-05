@@ -2,6 +2,7 @@ package com.example.rgb4u_app.ui.activity.onboarding
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -12,13 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.google.firebase.database.*
-import com.google.firebase.auth.FirebaseAuth
-import android.util.Log
 
 class OnboardingActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -139,14 +143,18 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun loadInitialChat() {
-        chatList.add(ChatData("안녕하세요!", "CHARACTER", R.drawable.img_onboarding_01))
-        adapter.notifyItemInserted(chatList.size - 1)
+        // 첫 번째 메시지 위에 Starline 추가
+        chatList.add(ChatData("", "STARLINE"))  // Starline 추가
+        chatList.add(ChatData("안녕하세요!", "CHARACTER", R.drawable.img_onboarding_01))  // 첫 메시지 추가
+
+        adapter.notifyItemRangeInserted(0, 2)  // 두 개 항목이 추가되었으므로 범위로 업데이트
         scrollToBottom()
 
         GlobalScope.launch(Dispatchers.Main) {
             showCharacterMessagesWithDelay(characterMessagesTemplate[currentMessageIndex])
         }
     }
+
 
     private fun addNextMessageStep() {
         if (currentUserMessageIndex < nextUserMessages.size) {
@@ -168,6 +176,8 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun showCharacterMessagesWithDelay(messages: List<ChatData>) {
+        btnNext.visibility = View.GONE // 메시지 추가 중 버튼 숨김
+
         GlobalScope.launch(Dispatchers.Main) {
             for (message in messages) {
                 chatList.add(message)

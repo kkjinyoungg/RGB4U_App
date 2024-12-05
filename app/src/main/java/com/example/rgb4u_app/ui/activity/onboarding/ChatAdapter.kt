@@ -11,33 +11,62 @@ import com.example.rgb4u_app.R
 
 class ChatAdapter(private val chatList: List<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    companion object {
+        private const val VIEW_TYPE_STARLINE = 0
+        private const val VIEW_TYPE_CHARACTER = 1
+        private const val VIEW_TYPE_USER = 2
+    }
+
     override fun getItemViewType(position: Int): Int {
-        // "CHARACTER" 메시지와 "USER" 메시지에 따라 레이아웃 구분
-        return if (chatList[position].sender == "CHARACTER") R.layout.item_chat_character else R.layout.item_chat_user
+        return when {
+            position == 0 -> VIEW_TYPE_STARLINE
+            chatList[position].sender == "CHARACTER" -> VIEW_TYPE_CHARACTER
+            else -> VIEW_TYPE_USER
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        return if (viewType == R.layout.item_chat_character) {
-            CharacterViewHolder(view)
-        } else {
-            UserViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_STARLINE -> {
+                val view = inflater.inflate(R.layout.item_starline, parent, false)
+                StarlineViewHolder(view)
+            }
+            VIEW_TYPE_CHARACTER -> {
+                val view = inflater.inflate(R.layout.item_chat_character, parent, false)
+                CharacterViewHolder(view)
+            }
+            else -> {
+                val view = inflater.inflate(R.layout.item_chat_user, parent, false)
+                UserViewHolder(view)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val chatData = chatList[position]
-        if (holder is CharacterViewHolder) {
-            val isIconVisible = shouldShowIcon(position) // 아이콘 표시 여부 결정
-            holder.bind(chatData, isIconVisible)
-        } else if (holder is UserViewHolder) {
-            holder.bind(chatData)
+        if (holder is StarlineViewHolder) {
+            holder.bind("모아님이 입장하셨습니다") // 스타라인 메시지
+        } else {
+            val chatData = chatList[position]
+            if (holder is CharacterViewHolder) {
+                val isIconVisible = shouldShowIcon(position)
+                holder.bind(chatData, isIconVisible)
+            } else if (holder is UserViewHolder) {
+                holder.bind(chatData)
+            }
         }
     }
 
     override fun getItemCount() = chatList.size
 
-    // CHARACTER 메시지의 ViewHolder
+    class StarlineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val starlineTextView: TextView = itemView.findViewById(R.id.startline)
+
+        fun bind(message: String) {
+            starlineTextView.text = message
+        }
+    }
+
     class CharacterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView = itemView.findViewById(R.id.chatMessage)
         private val characterIcon: ImageView = itemView.findViewById(R.id.characterIcon)
@@ -55,10 +84,9 @@ class ChatAdapter(private val chatList: List<ChatData>) : RecyclerView.Adapter<R
             } else {
                 characterIcon.visibility = View.GONE
                 characterName.visibility = View.GONE
-                iconPlaceholder.visibility = View.VISIBLE // 공간 유지
+                iconPlaceholder.visibility = View.VISIBLE
             }
 
-            // 이미지가 있는 경우에만 표시
             if (chatData.imageResId != null) {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(chatData.imageResId)
@@ -68,7 +96,6 @@ class ChatAdapter(private val chatList: List<ChatData>) : RecyclerView.Adapter<R
         }
     }
 
-    // USER 메시지의 ViewHolder
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView = itemView.findViewById(R.id.chatMessage)
 
@@ -77,14 +104,11 @@ class ChatAdapter(private val chatList: List<ChatData>) : RecyclerView.Adapter<R
         }
     }
 
-    // 캐릭터 아이콘을 표시해야 하는 조건 확인
     private fun shouldShowIcon(position: Int): Boolean {
-        // 리스트의 첫 번째 메시지인 경우
-        if (position == 0 && chatList[position].sender == "CHARACTER") {
+        if (position == 1 && chatList[position].sender == "CHARACTER") {
             return true
         }
-        // 이전 메시지가 USER이고 현재 메시지가 CHARACTER인 경우
-        if (position > 0 && chatList[position].sender == "CHARACTER" && chatList[position - 1].sender == "USER") {
+        if (position > 1 && chatList[position].sender == "CHARACTER" && chatList[position - 1].sender == "USER") {
             return true
         }
         return false
