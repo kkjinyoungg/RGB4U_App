@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_defult"
+    tools:context=".ui.activity.distortiontype.NotDistortionTypeInfoActivity">
+
+    <!-- 툴바 포함 -->
+    <include
+        layout="@layout/toolbar_write_diary"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 콘텐츠를 담는 LinearLayout -->
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/buttonNext"
+        app:layout_constraintVertical_bias="0.5">
+
+        <!-- 이미지뷰 -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_notdistortiontype"
+            android:contentDescription="모아 이미지" />
+
+        <!-- 첫 번째 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="분석 결과 발견된 생각이 없어요"
+            android:layout_marginTop="16dp"
+            android:textSize="24sp"
+            style="@style/CH_ST"
+            android:textColor="@color/main"
+            android:textAlignment="center" />
+
+        <!-- 두 번째 텍스트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생각이 상황을 잘 바라보고 있어요"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            style="@style/Cp1_Regular"
+            android:textColor="@color/blue2_30"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <!-- 하단 버튼 -->
+    <android.widget.Button
+        android:id="@+id/buttonNext"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:stateListAnimator="@null"
+        android:background="@drawable/rounded_button_light"
+        android:text="확인"
+        android:textColor="@color/rounded_button_light_text"
+        style="@style/Bd2_Bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
