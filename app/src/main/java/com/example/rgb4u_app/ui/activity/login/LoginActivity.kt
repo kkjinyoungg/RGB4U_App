@@ -119,8 +119,12 @@ class LoginActivity : AppCompatActivity() {
                 if (task.result.exists()) {
                     val password = task.result.child("password").getValue(String::class.java)
                     if (!password.isNullOrEmpty()) {
-                        Log.d("유저체크", "기존 사용자 - 비밀번호 설정됨")
-                        startPasswordEntryActivity() // PasswordEntryActivity로 이동
+                        //Log.d("유저체크", "기존 사용자 - 비밀번호 설정됨")
+                        //startPasswordEntryActivity() // PasswordEntryActivity로 이동
+
+                        //전시용으로 비밀번호 있어도 띄우지 않음
+                        Log.d("유저체크", "기존 사용자 - 비밀번호 없음")
+                        startMainActivity() // 기존 방식대로 MainActivity로 이동
                     } else {
                         Log.d("유저체크", "기존 사용자 - 비밀번호 없음")
                         startMainActivity() // 기존 방식대로 MainActivity로 이동
