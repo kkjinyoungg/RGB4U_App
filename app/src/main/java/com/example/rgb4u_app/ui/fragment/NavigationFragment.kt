@@ -119,8 +119,11 @@ class NavigationFragment : Fragment() {
                 if (snapshot.exists()) {
                     val savingStatus = snapshot.child("savingstatus").value as? String
                     if (savingStatus == "save") {
-                        fabThink.setImageResource(R.drawable.ic_fab_done) //회색버튼
-                        fabThink.isClickable = false
+                        //전시용으로 항상 클릭할 수 있게 처리
+                        fabThink.setImageResource(R.drawable.ic_fab_yet) //노란색버튼
+                        fabThink.isClickable = true
+                        //fabThink.setImageResource(R.drawable.ic_fab_done) //회색버튼
+                        //fabThink.isClickable = false
                     } else {
                         fabThink.setImageResource(R.drawable.ic_fab_yet) //노란색버튼
                         fabThink.isClickable = true
