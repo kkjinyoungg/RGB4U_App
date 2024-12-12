@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rgb4u_app.R
 import com.example.rgb4u_app.ui.activity.distortiontype.DistortionTypeActivity
+import com.example.rgb4u_app.ui.activity.distortiontype.NotDistortionTypeInfoActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -91,11 +94,30 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
                 // 버튼 클릭 리스너 추가
                 analysisResultButton.setOnClickListener {
                     val context = itemView.context
-                    val intent = Intent(context, DistortionTypeActivity::class.java)
-                    // 화면 전환(전달할 데이터가 있다면 수정 필요함)
-                    intent.putExtra("Date", item.dbDate)  // yyyy-mm-dd 형식의 날짜 전달
-                    intent.putExtra("Toolbar", item.analysisDate)  // toolbar 형식의 날짜 전달
-                    context.startActivity(intent)
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    val date = item.dbDate // yyyy-mm-dd 형식
+
+                    // **Firebase Realtime Database에서 totalCharacters 값 확인**
+                    val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId/diaries/$date/aiAnalysis/secondAnalysis/totalCharacters")
+
+                    databaseReference.get().addOnSuccessListener { snapshot ->
+                        val totalCharacters = snapshot.getValue(Int::class.java) ?: 0
+
+                        if (totalCharacters == 0) {
+                            // **totalCharacters가 0일 경우 NotDistortionTypeInfoActivity로 이동**
+                            val intent = Intent(context, NotDistortionTypeInfoActivity::class.java)
+                            context.startActivity(intent)
+                        } else {
+                            // **totalCharacters가 0이 아닐 경우 기존 동작 유지**
+                            val intent = Intent(context, DistortionTypeActivity::class.java)
+                            intent.putExtra("Date", item.dbDate)  // yyyy-mm-dd 형식의 날짜 전달
+                            intent.putExtra("Toolbar", item.analysisDate)  // toolbar 형식의 날짜 전달
+                            context.startActivity(intent)
+                        }
+                    }.addOnFailureListener {
+                        // Firebase에서 데이터 읽기 실패 시 처리
+                        it.printStackTrace()
+                    }
                 }
             }
         }

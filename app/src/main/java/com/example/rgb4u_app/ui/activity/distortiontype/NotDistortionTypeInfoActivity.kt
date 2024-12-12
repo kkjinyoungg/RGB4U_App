@@ -55,7 +55,7 @@ class NotDistortionTypeInfoActivity : AppCompatActivity() {
         // Firebase에서 readingStatus 업데이트
         updateReadingStatus(userId, date)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar_write_diary)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val helpButton = toolbar.findViewById<ImageButton>(R.id.button_write_action2)

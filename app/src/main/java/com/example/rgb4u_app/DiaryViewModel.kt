@@ -234,7 +234,7 @@ class DiaryViewModel : ViewModel() {
     private fun analyzeDiaryWithAI(userId: String, diaryId: String, diaryDate: String) {
         Log.d("DiaryViewModel", "AI 분석 호출: userId = $userId, diaryId = $diaryId, diaryDate = $diaryDate")
 
-        if (diaryDate == "2024-11-28") {
+        if (diaryDate == "2024-12-01") {
             // diaryDate가 "2024-11-28"
             Log.d("DiaryViewModel", "AI 분석을 수행하지 않음, diaryDate = 2024-11-28")
             val sampledata = SampleData()
@@ -267,7 +267,7 @@ class DiaryViewModel : ViewModel() {
                 }, 5000) // 5초 (5000 밀리초)
 
             }
-        } else if (diaryDate == "2024-11-11") {
+        } else if (diaryDate == "2024-11-01") {
             // diaryDate가 "2024-11-11"일 경우 처리하지 않음
             Log.d("DiaryViewModel", "AI 분석을 수행하지 않음, diaryDate = 2024-11-11")
             val sampledata2 = SampleData2()
