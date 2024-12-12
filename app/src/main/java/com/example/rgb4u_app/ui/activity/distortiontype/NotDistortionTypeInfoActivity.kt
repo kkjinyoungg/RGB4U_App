@@ -48,9 +48,8 @@ class NotDistortionTypeInfoActivity : AppCompatActivity() {
         toolbarDate = intent.getStringExtra("Toolbar") ?: ""
 
         // 로그 출력
-        Log.d("DistortionTypeActivity", "Received User ID: $userId")
-        Log.d("DistortionTypeActivity", "Received Diary ID: $date")
-        Log.d("DistortionTypeActivity", "Received Toolbar Date: $toolbarDate")
+        Log.d("NotDistortionTypeInfoActivity", "Received Diary ID: $date")
+        Log.d("NotDistortionTypeInfoActivity", "Received Toolbar Date: $toolbarDate")
 
         // Firebase에서 readingStatus 업데이트
         updateReadingStatus(userId, date)
@@ -69,12 +68,12 @@ class NotDistortionTypeInfoActivity : AppCompatActivity() {
 
         // 클릭 이벤트 설정
         helpButton.setOnClickListener {
-            Log.d("DistortionTypeActivity", "Help button clicked")
+            Log.d("NotDistortionTypeInfoActivity", "Help button clicked")
             showDistortionHelpBottomSheet()
         }
 
         toolbar.findViewById<View>(R.id.button_write_action1).setOnClickListener {
-            Log.d("DistortionTypeActivity", "Summary button clicked")
+            Log.d("NotDistortionTypeInfoActivity", "Summary button clicked")
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -87,13 +86,14 @@ class NotDistortionTypeInfoActivity : AppCompatActivity() {
     }
 
     private fun updateReadingStatus(userId: String, date: String) {
+        Log.d("NotDistortionTypeInfoActivityy", "date 값: $date")  // date 값 로그에 찍기
         val database = FirebaseDatabase.getInstance()
             .getReference("users/$userId/diaries/$date/readingstatus")
 
         database.setValue("read").addOnSuccessListener {
-            Log.d("DistortionTypeActivity", "readingStatus 업데이트 성공: 빈 문자열로 설정됨")
+            Log.d("NotDistortionTypeInfoActivity", "readingStatus 업데이트 성공: 빈 문자열로 설정됨")
         }.addOnFailureListener { exception ->
-            Log.e("DistortionTypeActivity", "readingStatus 업데이트 실패", exception)
+            Log.e("NotDistortionTypeInfoActivity", "readingStatus 업데이트 실패", exception)
         }
     }
 

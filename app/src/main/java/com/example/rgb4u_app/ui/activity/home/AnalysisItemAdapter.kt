@@ -106,6 +106,8 @@ class AnalysisItemAdapter(private val analysisList: List<AnalysisItem>) :
                         if (totalCharacters == 0) {
                             // **totalCharacters가 0일 경우 NotDistortionTypeInfoActivity로 이동**
                             val intent = Intent(context, NotDistortionTypeInfoActivity::class.java)
+                            intent.putExtra("Date", item.dbDate)  // yyyy-mm-dd 형식의 날짜 전달
+                            intent.putExtra("Toolbar", item.analysisDate)  // toolbar 형식의 날짜 전달
                             context.startActivity(intent)
                         } else {
                             // **totalCharacters가 0이 아닐 경우 기존 동작 유지**
