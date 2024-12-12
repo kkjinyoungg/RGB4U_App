@@ -261,11 +261,7 @@ class DiaryViewModel : ViewModel() {
                 monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
                 Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
 
-                // 20초 지연 후 (4) readingStatus 업데이트
-                Handler(Looper.getMainLooper()).postDelayed({
-                    updateReadingStatus2(userId)  // readingStatus 업데이트
-                }, 5000) // 5초 (5000 밀리초)
-
+                updateReadingStatus2(userId)  // readingStatus 업데이트
             }
         } else if (diaryDate == "2024-11-01") {
             // diaryDate가 "2024-11-11"일 경우 처리하지 않음
@@ -294,13 +290,10 @@ class DiaryViewModel : ViewModel() {
                 monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
                 Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
 
-                // 20초 지연 후 (4) readingStatus 업데이트
-                Handler(Looper.getMainLooper()).postDelayed({
-                    updateReadingStatus2(userId)  // readingStatus 업데이트
-                }, 5000) // 5초 (5000 밀리초)
+                updateReadingStatus2(userId)  // readingStatus 업데이트
             }
         }
-        else{
+        else {
             // (1) AiSummary 호출
             val aiSummary = AiSummary()
             aiSummary.analyzeDiary(userId, diaryId, getCurrentDate()) {
@@ -313,21 +306,24 @@ class DiaryViewModel : ViewModel() {
                 // (2) AiSecond 호출
                 val aiSecond = AiSecond()
                 aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
-                    Log.d("DiaryViewModel", "AiSecond 분석 완료")
+                    // 실패 시 재시도 로직을 포함시킬 필요가 있을 수 있으므로
+                    try {
+                        Log.d("DiaryViewModel", "AiSecond 분석 완료")
 
-                    // (3) saveThoughtsToFirebase 호출
-                    val monthlyUpdater = MonthlyDistortionUpdater()
-                    monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
-                    Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
+                        // (3) saveThoughtsToFirebase 호출
+                        val monthlyUpdater = MonthlyDistortionUpdater()
+                        monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
+                        Log.d("DiaryViewModel", "왜곡 통계 저장 완료")
 
-                    // 20초 지연 후 (4) readingStatus 업데이트
-                    Handler(Looper.getMainLooper()).postDelayed({
                         updateReadingStatus2(userId)  // readingStatus 업데이트
-                    }, 5000) // 5초 (5000 밀리초)
+                    } catch (e: Exception) {
+                        Log.e("DiaryViewModel", "AiSecond 분석 실패, 다시 시도합니다.")
+                        // 실패 시 재시도 로직
+                        retryAiSecond(userId, diaryId, diaryDate)
+                    }
                 }
             }
         }
-
 
     }
 
@@ -461,6 +457,22 @@ class DiaryViewModel : ViewModel() {
             }.addOnFailureListener {
                 Log.e("DiaryViewModel", "일기 저장 실패", it)
             }
+    }
+
+    fun retryAiSecond(userId: String, diaryId: String, diaryDate: String) {
+        val aiSecond = AiSecond()
+        aiSecond.analyzeThoughts(userId, diaryId, getCurrentDate()) {
+            try {
+                Log.d("DiaryViewModel", "AiSecond 분석 완료 (재시도)")
+
+                val monthlyUpdater = MonthlyDistortionUpdater()
+                monthlyUpdater.saveThoughtsToFirebase(userId, diaryId, diaryDate, getCurrentDate())
+                Log.d("DiaryViewModel", "왜곡 통계 저장 완료 (재시도)")
+                updateReadingStatus2(userId)
+            } catch (e: Exception) {
+                Log.e("DiaryViewModel", "AiSecond 분석 실패 (재시도 시에도 실패)")
+            }
+        }
     }
 }
 

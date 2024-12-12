@@ -52,6 +52,14 @@ class AiSecond {
             val thoughts = dataSnapshot.value.toString()
             val sentences = splitSentences(thoughts)
 
+
+            // thoughts가 비어 있거나 공백만 포함된 경우 처리
+            if (sentences.isEmpty()) {
+                Log.d(TAG, "생각이 비어 있거나 공백만 포함됨. 후속 작업 처리.")
+                // "유형"이 null이거나 빈 문자열인 경우와 동일한 방식으로 처리
+                handleEmptyResults(userId, diaryId, callback)
+            }
+
             val results = mutableListOf<JSONObject>()
             var processedCount = 0
 
