@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_defult"
-    tools:context=".ui.activity.distortiontype.NotDistortionTypeInfoActivity">
+    tools:context=".ui.activity.distortiontype.NotDistortionTypeInfoActivity"
+    android:fitsSystemWindows="true">
 
     <!-- 툴바 포함 -->
     <include
@@ -24,7 +25,7 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/buttonNext"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.4">
 
         <!-- 이미지뷰 -->
         <ImageView
@@ -60,17 +61,17 @@
     <android.widget.Button
         android:id="@+id/buttonNext"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="16dp"
+        android:layout_height="52dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="24dp"
         android:stateListAnimator="@null"
         android:background="@drawable/rounded_button_light"
         android:text="확인"
         android:textColor="@color/rounded_button_light_text"
         style="@style/Bd2_Bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
