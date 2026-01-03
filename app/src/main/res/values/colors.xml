@@ -78,7 +78,7 @@
     <color name="on_track_color">#FFE661</color> <!-- main-->
     <color name="off_track_color">#D9D9D9</color> <!-- gray3-->
 
-    //네비게이션바 메뉴 텍스트 색
+    //네비게이션바 메뉴 텍스트 색 .
     <color name="selectedTextColor">@color/blue2</color>
     <color name="defaultTextColor">@color/gray2</color>
 
