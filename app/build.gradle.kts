@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rgb4u_app"
+    namespace = "com.example.rgb4u.ver1_app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.rgb4u_app"
+        applicationId = "com.example.rgb4u.ver1_app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

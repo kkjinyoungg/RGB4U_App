@@ -3,47 +3,47 @@
     "project_number": "538491861151",
     "firebase_url": "https://rgb4u-c6b85-default-rtdb.firebaseio.com",
     "project_id": "rgb4u-c6b85",
-    "storage_bucket": "rgb4u-c6b85.appspot.com"
+    "storage_bucket": "rgb4u-c6b85.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:538491861151:android:5d10f8ce1206a101598aaa",
+        "mobilesdk_app_id": "1:538491861151:android:108cf01aed628497598aaa",
         "android_client_info": {
-          "package_name": "com.example.rgb4u_app"
+          "package_name": "com.example.rgb4u.ver1_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "538491861151-5u137r6h4bfqqnf9vpq6uddmrkmrg15o.apps.googleusercontent.com",
+          "client_id": "538491861151-8t043cb5h7uj3vnbt8c93rb7j0vl6sbj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.rgb4u_app",
-            "certificate_hash": "fb1d42c64783a32cb2d0272a2d5f81df1c1b41aa"
-          }
-        },
-        {
-          "client_id": "538491861151-6dv2cn6oirlh3blnq7egbvul5g0ep5te.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.rgb4u_app",
-            "certificate_hash": "3deb7d1d14fb687c40a2e1f80c450f2f4619fec5"
-          }
-        },
-        {
-          "client_id": "538491861151-eeou8o7bm2p5japqnjqrfeo6kht6jcnj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.rgb4u_app",
+            "package_name": "com.example.rgb4u.ver1_app",
             "certificate_hash": "064de65d45027f0825f06ab3940bce89955625ab"
           }
         },
         {
-          "client_id": "538491861151-rsq9b80f1qq5r390ugr2u2ldecc7qpta.apps.googleusercontent.com",
+          "client_id": "538491861151-nknh18teiere1o5tbdqk8ravi4prvt5l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.rgb4u_app",
-            "certificate_hash": "6306d29de30bf54278d44ee66687e3b31eb8ae2c"
+            "package_name": "com.example.rgb4u.ver1_app",
+            "certificate_hash": "fb1d42c64783a32cb2d0272a2d5f81df1c1b41aa"
+          }
+        },
+        {
+          "client_id": "538491861151-oqn1mm8qch8reskhkot4m4ehrn1hkaij.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rgb4u.ver1_app",
+            "certificate_hash": "67600d102837b91f2ee9d1930f236cd62b2f85f5"
+          }
+        },
+        {
+          "client_id": "538491861151-v3f3c699s44fnci9amu23m43f80iuc6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rgb4u.ver1_app",
+            "certificate_hash": "3deb7d1d14fb687c40a2e1f80c450f2f4619fec5"
           }
         },
         {
@@ -53,7 +53,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB_XOxPI3QMrSkJMO-TdsXkmiHzkEA7eM0"
+          "current_key": "AIzaSyBgkoArMq5WGDksBw_CSFtRpIa91djuoSc"
         }
       ],
       "services": {

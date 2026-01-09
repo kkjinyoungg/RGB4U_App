@@ -1,7 +1,7 @@
-package com.example.rgb4u_app.ui.activity.distortiontype
+package com.example.rgb4u.ver1_app.ui.activity.distortiontype
 
 import android.os.Parcelable
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

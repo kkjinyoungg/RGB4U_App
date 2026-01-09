@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.login
+package com.example.rgb4u.ver1_app.ui.activity.login
 
 import android.content.Intent
 import android.os.Build
@@ -9,10 +9,10 @@ import android.widget.ImageButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.home.MainActivity
-import com.example.rgb4u_app.ui.activity.PasswordEntryActivity
-import com.example.rgb4u_app.ui.activity.onboarding.OnboardingActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_app.ui.activity.PasswordEntryActivity
+import com.example.rgb4u.ver1_app.ui.activity.onboarding.OnboardingActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -23,8 +23,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
-import com.example.rgb4u_app.ui.activity.login.SignUpActivity1
-import com.example.rgb4u_app.ui.activity.login.DistortionDefaultData
+import com.example.rgb4u.ver1_app.ui.activity.login.SignUpActivity1
+import com.example.rgb4u.ver1_app.ui.activity.login.DistortionDefaultData
 
 class LoginActivity : AppCompatActivity() {
 

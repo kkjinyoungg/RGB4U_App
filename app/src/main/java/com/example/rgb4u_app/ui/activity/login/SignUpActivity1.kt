@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.login
+package com.example.rgb4u.ver1_app.ui.activity.login
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -12,7 +12,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
 import android.util.Log

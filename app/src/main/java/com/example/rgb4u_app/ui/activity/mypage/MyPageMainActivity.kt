@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.mypage
+package com.example.rgb4u.ver1_app.ui.activity.mypage
 
 import android.content.Intent
 import android.os.Build
@@ -10,10 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.login.LoginActivity
-import com.example.rgb4u_app.ui.fragment.ConfirmationDialogFragment
-import com.example.rgb4u_app.ui.fragment.NavigationFragment
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.login.LoginActivity
+import com.example.rgb4u.ver1_app.ui.fragment.ConfirmationDialogFragment
+import com.example.rgb4u.ver1_app.ui.fragment.NavigationFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

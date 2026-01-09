@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel" />
+            type="com.example.rgb4u.ver1_app.ui.fragment.HelpBottomSheetViewModel" />
     </data>
 
     <!-- 제목과 새로고침 버튼을 수평으로 배치 -->

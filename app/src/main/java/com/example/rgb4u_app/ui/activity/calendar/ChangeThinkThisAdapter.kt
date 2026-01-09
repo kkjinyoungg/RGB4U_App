@@ -7,9 +7,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.calendar.MyData
-import com.example.rgb4u_app.ui.fragment.ChangeThinkBottomSheetDialogFragment
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.calendar.MyData
+import com.example.rgb4u.ver1_app.ui.fragment.ChangeThinkBottomSheetDialogFragment
 
 class ChangeThinkThisAdapter(
     private val items: List<MyData>,  // 데이터 리스트

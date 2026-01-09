@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 
 class TemporarySaveDialogFragment : DialogFragment() {
 

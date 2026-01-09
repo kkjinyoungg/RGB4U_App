@@ -19,7 +19,7 @@
     <!-- MyRecordFragment -->
     <fragment
         android:id="@+id/myemotionFragment"
-        android:name="com.example.rgb4u_app.ui.fragment.MyEmotionFragment"
+        android:name="com.example.rgb4u.ver1_app.ui.fragment.MyEmotionFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_my_emotion" />

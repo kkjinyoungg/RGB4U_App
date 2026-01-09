@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.mypage
+package com.example.rgb4u.ver1_app.ui.activity.mypage
 
 //파이어베이스
 import android.content.Intent
@@ -17,9 +17,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
-import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.mypage.MyPageMainActivity
+import com.example.rgb4u.ver1_app.ui.fragment.MypageCommonHeaderFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class HelpBottomSheetFragment : BottomSheetDialogFragment() {

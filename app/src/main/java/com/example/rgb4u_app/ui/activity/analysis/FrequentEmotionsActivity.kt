@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.analysis
+package com.example.rgb4u.ver1_app.ui.activity.analysis
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel

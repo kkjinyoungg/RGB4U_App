@@ -83,7 +83,7 @@
 
     <fragment
         android:id="@+id/navigationBar"
-        android:name="com.example.rgb4u_app.ui.fragment.NavigationFragment"
+        android:name="com.example.rgb4u.ver1_app.ui.fragment.NavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

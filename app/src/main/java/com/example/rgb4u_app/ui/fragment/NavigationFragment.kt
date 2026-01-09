@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.content.Context
 import android.content.Intent
@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.analysis.AnalysisActivity
-import com.example.rgb4u_app.ui.activity.calendar.CalendarHomeActivity
-import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
-import com.example.rgb4u_app.ui.activity.home.MainActivity
-import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.analysis.AnalysisActivity
+import com.example.rgb4u.ver1_app.ui.activity.calendar.CalendarHomeActivity
+import com.example.rgb4u.ver1_app.ui.activity.diary.DiaryWriteActivity
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_app.ui.activity.mypage.MyPageMainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat

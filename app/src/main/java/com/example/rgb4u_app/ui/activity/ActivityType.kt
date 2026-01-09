@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.activity
+package com.example.rgb4u.ver1_app.activity
 
 /*도움말 바텀시트 관련*/
 object ActivityType {

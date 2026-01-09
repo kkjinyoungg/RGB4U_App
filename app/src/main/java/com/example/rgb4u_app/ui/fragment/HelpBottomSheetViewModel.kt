@@ -1,9 +1,9 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.rgb4u_app.activity.ActivityType
+import com.example.rgb4u.ver1_app.activity.ActivityType
 
 class HelpBottomSheetViewModel : ViewModel() {
     private val _situations = MutableLiveData<List<String>>()

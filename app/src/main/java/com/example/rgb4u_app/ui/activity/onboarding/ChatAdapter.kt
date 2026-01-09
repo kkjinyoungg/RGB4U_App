@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.onboarding
+package com.example.rgb4u.ver1_app.ui.activity.onboarding
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.Space
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 
 class ChatAdapter(private val chatList: List<ChatData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
