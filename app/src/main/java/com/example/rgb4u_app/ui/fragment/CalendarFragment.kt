@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.app.Dialog
 import android.content.Intent
@@ -19,9 +19,9 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.calendar.CalenderDetailActivity
-import com.example.rgb4u_app.ui.activity.diary.DiaryWriteActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.calendar.CalenderDetailActivity
+import com.example.rgb4u.ver1_app.ui.activity.diary.DiaryWriteActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator

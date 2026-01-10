@@ -1,4 +1,4 @@
-package com.example.rgb4u_appclass
+package com.example.rgb4u.ver1_appclass
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,13 +6,13 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import com.example.rgb4u_app.AiSummary // AiSummary 추가
-import com.example.rgb4u_app.AiSecond // AiSecond 추가
-import com.example.rgb4u_app.SampleData //SampleData 추가
-import com.example.rgb4u_app.SampleData2 //SampleData 추가
-import com.example.rgb4u_app.MonthlyStatsUpdater
+import com.example.rgb4u.ver1_app.AiSummary // AiSummary 추가
+import com.example.rgb4u.ver1_app.AiSecond // AiSecond 추가
+import com.example.rgb4u.ver1_app.SampleData //SampleData 추가
+import com.example.rgb4u.ver1_app.SampleData2 //SampleData 추가
+import com.example.rgb4u.ver1_app.MonthlyStatsUpdater
 import com.google.firebase.database.ServerValue
-import com.example.rgb4u_app.MonthlyDistortionUpdater
+import com.example.rgb4u.ver1_app.MonthlyDistortionUpdater
 import android.os.Handler
 import android.os.Looper
 import com.google.firebase.database.FirebaseDatabase

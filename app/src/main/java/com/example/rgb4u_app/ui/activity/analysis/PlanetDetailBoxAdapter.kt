@@ -1,11 +1,11 @@
-package com.example.rgb4u_app.ui.activity.analysis
+package com.example.rgb4u.ver1_app.ui.activity.analysis
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 
 
 // 데이터 클래스 정의

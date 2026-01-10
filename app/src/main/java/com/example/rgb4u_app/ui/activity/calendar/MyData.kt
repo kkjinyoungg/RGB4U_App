@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.calendar
+package com.example.rgb4u.ver1_app.ui.activity.calendar
 
 data class MyData(
     val imageResId: Int,  // 행성 유형의 이미지 리소스 ID

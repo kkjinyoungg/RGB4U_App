@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.calendar
+package com.example.rgb4u.ver1_app.ui.activity.calendar
 
 import ChangeThinkThisAdapter
 import android.content.Intent
@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 

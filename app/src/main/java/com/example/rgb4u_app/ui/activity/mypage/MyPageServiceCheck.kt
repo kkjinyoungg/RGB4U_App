@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.mypage
+package com.example.rgb4u.ver1_app.ui.activity.mypage
 
 import android.content.Intent
 import android.os.Build
@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.fragment.MypageCommonHeaderFragment
-import com.example.rgb4u_app.ui.activity.mypage.MyPageMainActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.fragment.MypageCommonHeaderFragment
+import com.example.rgb4u.ver1_app.ui.activity.mypage.MyPageMainActivity
 
 
 class MyPageServiceCheck : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.rgb4u_app
+package com.example.rgb4u.ver1_app
 
 import android.util.Log
 import com.google.firebase.database.DatabaseReference

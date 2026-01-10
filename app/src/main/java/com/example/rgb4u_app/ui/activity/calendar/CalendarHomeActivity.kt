@@ -1,8 +1,8 @@
-package com.example.rgb4u_app.ui.activity.calendar
+package com.example.rgb4u.ver1_app.ui.activity.calendar
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 
 class CalendarHomeActivity : AppCompatActivity() {
 

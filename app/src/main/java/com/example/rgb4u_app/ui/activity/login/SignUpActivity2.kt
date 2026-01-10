@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.login
+package com.example.rgb4u.ver1_app.ui.activity.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +11,8 @@ import android.widget.ImageButton
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.onboarding.OnboardingStartActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.onboarding.OnboardingStartActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

@@ -1,9 +1,9 @@
-package com.example.rgb4u_app.ui.activity.analysis
+package com.example.rgb4u.ver1_app.ui.activity.analysis
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.fragment.AnalysisFragment
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.fragment.AnalysisFragment
 
 class AnalysisActivity : AppCompatActivity() {
 

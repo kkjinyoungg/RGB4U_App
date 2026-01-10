@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.summary
+package com.example.rgb4u.ver1_app.ui.activity.summary
 
 import android.content.Intent
 import android.os.Build
@@ -9,9 +9,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
-import com.example.rgb4u_app.ui.fragment.ChangedDayFragment
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.EmotionReselectActivity
+import com.example.rgb4u.ver1_app.ui.fragment.ChangedDayFragment
 
 class SummaryChangedDayActivity : AppCompatActivity() {
 

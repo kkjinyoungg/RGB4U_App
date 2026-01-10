@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.summary
+package com.example.rgb4u.ver1_app.ui.activity.summary
 
 import android.os.Build
 import android.os.Bundle
@@ -6,9 +6,9 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.fragment.SummaryFragment
-import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.fragment.SummaryFragment
+import com.example.rgb4u.ver1_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

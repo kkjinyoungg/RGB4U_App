@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.analysis
+package com.example.rgb4u.ver1_app.ui.activity.analysis
 
 data class CardItem(
     val typeName: String,

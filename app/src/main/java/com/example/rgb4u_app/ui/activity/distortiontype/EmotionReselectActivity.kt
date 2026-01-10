@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.distortiontype
+package com.example.rgb4u.ver1_app.ui.activity.distortiontype
 
 import android.content.Intent
 import android.os.Build
@@ -12,8 +12,8 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.summary.SummaryChangedDayActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.summary.SummaryChangedDayActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

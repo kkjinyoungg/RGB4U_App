@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.content.Context
 import android.os.Build
@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

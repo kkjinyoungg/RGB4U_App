@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.mypage
+package com.example.rgb4u.ver1_app.ui.activity.mypage
 
 import android.content.Intent
 import android.os.Build
@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.login.LoginActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.login.LoginActivity
 
 class MyPageDeleteaccoutActivity : AppCompatActivity() {
 

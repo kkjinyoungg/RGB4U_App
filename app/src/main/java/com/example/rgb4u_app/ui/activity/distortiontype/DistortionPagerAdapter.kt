@@ -1,12 +1,12 @@
-package com.example.rgb4u_app.ui.activity.distortiontype
+package com.example.rgb4u.ver1_app.ui.activity.distortiontype
 
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.rgb4u_app.DistortionTypeFiller // DistortionTypeFiller를 임포트
-import com.example.rgb4u_app.ui.fragment.DistortionFragment
+import com.example.rgb4u.ver1_app.DistortionTypeFiller // DistortionTypeFiller를 임포트
+import com.example.rgb4u.ver1_app.ui.fragment.DistortionFragment
 
 class DistortionPagerAdapter(
     activity: FragmentActivity,

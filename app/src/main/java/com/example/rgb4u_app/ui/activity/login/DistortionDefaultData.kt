@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.login
+package com.example.rgb4u.ver1_app.ui.activity.login
 
 import com.google.firebase.database.FirebaseDatabase
 

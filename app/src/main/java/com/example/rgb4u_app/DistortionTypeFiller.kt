@@ -1,7 +1,7 @@
-package com.example.rgb4u_app
+package com.example.rgb4u.ver1_app
 
 import android.util.Log
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionType
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.DistortionType
 import com.google.firebase.database.*
 
 class DistortionTypeFiller {

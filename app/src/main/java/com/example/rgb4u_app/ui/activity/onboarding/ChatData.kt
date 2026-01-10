@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.onboarding
+package com.example.rgb4u.ver1_app.ui.activity.onboarding
 
 data class ChatData(
     var message: String,

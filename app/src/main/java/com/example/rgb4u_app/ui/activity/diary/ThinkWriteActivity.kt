@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.diary
+package com.example.rgb4u.ver1_app.ui.activity.diary
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,15 +14,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.rgb4u_app.MyApplication
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.activity.ActivityType
-import com.example.rgb4u_app.ui.activity.home.MainActivity
-import com.example.rgb4u_app.ui.fragment.HelpBottomSheetFragment
-import com.example.rgb4u_app.ui.fragment.HelpBottomSheetViewModel
-import com.example.rgb4u_app.ui.fragment.MyRecordFragment
-import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
-import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u.ver1_app.MyApplication
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.activity.ActivityType
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_app.ui.fragment.HelpBottomSheetFragment
+import com.example.rgb4u.ver1_app.ui.fragment.HelpBottomSheetViewModel
+import com.example.rgb4u.ver1_app.ui.fragment.MyRecordFragment
+import com.example.rgb4u.ver1_app.ui.fragment.TemporarySaveDialogFragment
+import com.example.rgb4u.ver1_appclass.DiaryViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 

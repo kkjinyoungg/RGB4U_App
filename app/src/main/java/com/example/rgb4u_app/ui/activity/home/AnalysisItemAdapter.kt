@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.home
+package com.example.rgb4u.ver1_app.ui.activity.home
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionTypeActivity
-import com.example.rgb4u_app.ui.activity.distortiontype.NotDistortionTypeInfoActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.DistortionTypeActivity
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.NotDistortionTypeInfoActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 

@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.content.Intent
 import android.graphics.Paint
@@ -11,11 +11,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionMoreThoughtsActivity
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionPagerAdapter
-import com.example.rgb4u_app.ui.activity.distortiontype.DistortionType
-import com.example.rgb4u_app.ui.activity.distortiontype.EmotionReselectActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.DistortionMoreThoughtsActivity
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.DistortionPagerAdapter
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.DistortionType
+import com.example.rgb4u.ver1_app.ui.activity.distortiontype.EmotionReselectActivity
 
 
 class DistortionFragment : Fragment() {

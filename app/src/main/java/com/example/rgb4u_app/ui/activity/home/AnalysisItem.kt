@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.home
+package com.example.rgb4u.ver1_app.ui.activity.home
 
 data class AnalysisItem(
     val hasAnalysisData: Boolean,

@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.content.Intent
 import android.os.Build
@@ -16,10 +16,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.analysis.AnalysisActivity
-import com.example.rgb4u_app.ui.activity.analysis.BoxData
-import com.example.rgb4u_app.ui.activity.analysis.PlanetDetailBoxAdapter
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.analysis.AnalysisActivity
+import com.example.rgb4u.ver1_app.ui.activity.analysis.BoxData
+import com.example.rgb4u.ver1_app.ui.activity.analysis.PlanetDetailBoxAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

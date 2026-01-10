@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.summary
+package com.example.rgb4u.ver1_app.ui.activity.summary
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -15,10 +15,10 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.diary.EmotionSelectActivity
-import com.example.rgb4u_app.ui.activity.home.MainActivity
-import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.diary.EmotionSelectActivity
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_appclass.DiaryViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup

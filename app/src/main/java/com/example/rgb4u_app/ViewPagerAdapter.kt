@@ -1,9 +1,9 @@
-package com.example.rgb4u_app
+package com.example.rgb4u.ver1_app
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.rgb4u_app.ui.fragment.EmotionFragment
+import com.example.rgb4u.ver1_app.ui.fragment.EmotionFragment
 
 class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 

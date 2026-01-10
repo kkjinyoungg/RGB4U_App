@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.fragment
+package com.example.rgb4u.ver1_app.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.databinding.FragmentChangedDayBinding
-import com.example.rgb4u_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.databinding.FragmentChangedDayBinding
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

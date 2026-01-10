@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/myrecordFragment"
-        android:name="com.example.rgb4u_app.ui.fragment.MyRecordFragment"
+        android:name="com.example.rgb4u.ver1_app.ui.fragment.MyRecordFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_my_record" />

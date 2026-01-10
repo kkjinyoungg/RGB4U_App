@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.diary
+package com.example.rgb4u.ver1_app.ui.activity.diary
 
 import android.app.Dialog
 import android.content.Intent
@@ -13,13 +13,13 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.MyApplication
-import com.example.rgb4u_app.R
-import com.example.rgb4u_app.ui.activity.home.MainActivity
-import com.example.rgb4u_app.ui.activity.summary.SummaryMainActivity
-import com.example.rgb4u_app.ui.fragment.MyEmotionFragment
-import com.example.rgb4u_app.ui.fragment.TemporarySaveDialogFragment
-import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u.ver1_app.MyApplication
+import com.example.rgb4u.ver1_app.R
+import com.example.rgb4u.ver1_app.ui.activity.home.MainActivity
+import com.example.rgb4u.ver1_app.ui.activity.summary.SummaryMainActivity
+import com.example.rgb4u.ver1_app.ui.fragment.MyEmotionFragment
+import com.example.rgb4u.ver1_app.ui.fragment.TemporarySaveDialogFragment
+import com.example.rgb4u.ver1_appclass.DiaryViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.shape.ShapeAppearanceModel

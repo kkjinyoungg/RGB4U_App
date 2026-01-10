@@ -1,8 +1,8 @@
-package com.example.rgb4u_app
+package com.example.rgb4u.ver1_app
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
-import com.example.rgb4u_appclass.DiaryViewModel
+import com.example.rgb4u.ver1_appclass.DiaryViewModel
 
 class MyApplication : Application() {
     // ViewModel 인스턴스를 저장할 ViewModelProvider

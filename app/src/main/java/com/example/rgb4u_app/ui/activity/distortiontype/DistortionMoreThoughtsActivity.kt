@@ -1,4 +1,4 @@
-package com.example.rgb4u_app.ui.activity.distortiontype
+package com.example.rgb4u.ver1_app.ui.activity.distortiontype
 
 import android.os.Build
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rgb4u_app.R
+import com.example.rgb4u.ver1_app.R
 import android.widget.LinearLayout
 
 class DistortionMoreThoughtsActivity : AppCompatActivity() {
