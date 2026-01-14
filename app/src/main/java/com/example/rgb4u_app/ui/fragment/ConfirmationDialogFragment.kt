@@ -5,7 +5,9 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.ViewGroup
 import android.view.Window
+import android.view.WindowManager // 그림자 제거 추가
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -44,7 +46,19 @@ class ConfirmationDialogFragment(
         }
 
         builder.setView(view)
-        return builder.create()
+
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.setOnShowListener {
+            val width = resources.getDimensionPixelSize(R.dimen.dialog_width_296)
+            dialog.window?.setLayout(
+                width,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        return dialog
     }
 }
 

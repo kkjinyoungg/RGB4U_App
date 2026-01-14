@@ -137,7 +137,6 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/dotted_line_02" />
 
-
             <!-- 설정 섹션 -->
             <LinearLayout
                 android:id="@+id/settings_section"
