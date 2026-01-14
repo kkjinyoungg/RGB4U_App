@@ -42,14 +42,19 @@
         android:layout_marginBottom="100dp"
         android:columnCount="7"
         android:padding="16dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
         <!-- 각 날짜 셀 예시 -->
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1">
+            android:layout_columnWeight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <!-- 도장 이미지 -->
             <ImageView
@@ -65,7 +70,7 @@
                 android:id="@+id/today_circle"
                 android:layout_width="40dp"
                 android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:background="@drawable/bg_circle_yellow"  />
 
             <!-- 날짜 텍스트 -->
@@ -73,7 +78,7 @@
                 android:id="@+id/date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:text="28"
                 android:paddingBottom="4dp"
                 android:textColor="@color/black"

@@ -78,6 +78,7 @@ class CalendarFragment : Fragment() {
         }
 
         monthBtn.setOnClickListener {
+            Log.d("CalendarClick", "클릭됨!") // 로그가 찍히는지 확인
             showMonthYearPickerDialog()
         }
 
@@ -168,7 +169,7 @@ class CalendarFragment : Fragment() {
                             }
                             background = ResourcesCompat.getDrawable(resources, R.drawable.bg_circle_yellow, null)
                         }
-                        frameLayout.addView(todayCircle)
+                        frameLayout.addView(todayCircle, 0)    // addView 시 0번째 인덱스를 주어 텍스트(date_text)보다 뒤에 그려지게 함
                         setTextColor(ResourcesCompat.getColor(resources, R.color.black, null))
                     }
                 }
