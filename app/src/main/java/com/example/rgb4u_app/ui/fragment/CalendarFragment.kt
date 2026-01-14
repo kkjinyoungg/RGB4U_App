@@ -185,6 +185,10 @@ class CalendarFragment : Fragment() {
 
     private fun showMonthYearPickerDialog() {
         val dialog = Dialog(requireContext())
+        // 그림자 제거
+        dialog.window?.setBackgroundDrawable(
+            android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT)
+        )
         dialog.setContentView(R.layout.dialog_month_year_picker)
 
         val yearPicker = dialog.findViewById<NumberPicker>(R.id.year_picker)
