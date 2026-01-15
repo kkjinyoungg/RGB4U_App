@@ -3,7 +3,8 @@
     android:id="@+id/toolbar_record"
     android:layout_width="match_parent"
     android:paddingTop="16dp"
-    android:layout_height="80dp" >
+    android:layout_height="80dp"
+    android:background="@color/white_0" >
 
     <ImageButton
         android:id="@+id/button_calendar_action1"
@@ -20,7 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true" >
+        >
 
         <TextView
             android:id="@+id/toolbar_calendar_title"
@@ -32,15 +36,21 @@
             android:fontFamily="@font/nanumsquareroundregular"
             android:background="?attr/selectableItemBackground"
             android:layout_marginEnd="4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:duplicateParentState="true"
             android:text="Title" />
 
         <ImageButton
-            android:layout_width="18dp"
+            android:id="@+id/toolbar_calendar_arrow"
+            android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@android:color/transparent"
             android:contentDescription="다음 버튼"
+            android:clickable="false"
+            android:focusable="false"
+            android:duplicateParentState="true"
             android:src="@drawable/ic_arrow_down_12" />
-
     </LinearLayout>
 
     <ImageButton

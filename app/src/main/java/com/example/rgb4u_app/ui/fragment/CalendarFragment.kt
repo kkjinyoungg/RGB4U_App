@@ -28,6 +28,7 @@ import com.google.firebase.database.GenericTypeIndicator
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Log
+import android.view.MotionEvent
 import android.widget.LinearLayout
 import java.util.Calendar
 import java.util.Locale
@@ -77,10 +78,28 @@ class CalendarFragment : Fragment() {
             changeMonthNext(1) //다음달
         }
 
+        // TextView 터치 시 부모 LinearLayout 클릭 호출 (ACTION_UP만)
+        textCurrentMonth.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                monthBtn.performClick()
+            }
+            true
+        }
+
+        // 화살표 이미지도 클릭 시 부모 LinearLayout 클릭 호출 (ACTION_UP만)
+        val arrowBtn = view.findViewById<ImageButton>(R.id.toolbar_calendar_arrow)
+        arrowBtn.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                monthBtn.performClick()
+            }
+            true
+        }
+
         monthBtn.setOnClickListener {
             Log.d("CalendarClick", "클릭됨!") // 로그가 찍히는지 확인
             showMonthYearPickerDialog()
         }
+
 
         updateCalendar(currentYear, currentMonth)
         return view
@@ -182,6 +201,8 @@ class CalendarFragment : Fragment() {
         // year와 month를 fetchDiaryDataForMonth에 전달
         fetchDiaryDataForMonth(year, month)
     }
+
+
 
     private fun showMonthYearPickerDialog() {
         val dialog = Dialog(requireContext())

@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -140,8 +141,26 @@ class AnalysisFragment : Fragment() {
 
         toolbarCalendarTitle = view.findViewById(R.id.toolbar_calendar_title)
         btnMonth = view.findViewById(R.id.month_btn)
+        val arrowBtn = view.findViewById<ImageButton>(R.id.toolbar_calendar_arrow)
+
+        // TextView 터치 시 부모 LinearLayout 클릭 호출 (ACTION_UP만)
+        toolbarCalendarTitle.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                btnMonth.performClick()
+            }
+            true
+        }
+
+        // 화살표 이미지도 클릭 시 부모 LinearLayout 클릭 호출 (ACTION_UP만)
+        arrowBtn.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                btnMonth.performClick()
+            }
+            true
+        }
 
         btnMonth.setOnClickListener {
+            Log.d("CalendarClick", "LinearLayout 클릭됨! (다이어로그 테스트)")
             showMonthYearPickerDialog()
         }
 
