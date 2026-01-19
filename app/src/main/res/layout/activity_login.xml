@@ -27,32 +27,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewLogo" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tvLogo"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="380dp"-->
-<!--        android:fontFamily="@font/uhbeezziba"-->
-<!--        android:text="생각모아"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="30sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/viewLogo"-->
-<!--        app:layout_constraintHorizontal_bias="0.49"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/viewLogo"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <android.widget.ImageButton
+<!--    <android.widget.ImageButton-->
+<!--        android:id="@+id/btn_google"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="120dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:background="@drawable/ic_googlelogin"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493" />-->
+
+    <LinearLayout
         android:id="@+id/btn_google"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="54dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="120dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginLeft="14dp"
-        android:background="@drawable/ic_googlelogin"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/rounded_button_login"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_google"
+            android:contentDescription="Google 로그인 아이콘"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Google 계정으로 로그인"
+            android:textColor="@color/rounded_button_text"
+            style="@style/Bd2_Bold"/>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

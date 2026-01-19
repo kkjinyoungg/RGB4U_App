@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -68,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // 구글 로그인 버튼 클릭 이벤트 (버튼 이름 변경하기)
-        findViewById<ImageButton>(R.id.btn_google).setOnClickListener {
+        findViewById<LinearLayout>(R.id.btn_google).setOnClickListener {
             loginWithGoogle()
         }
     }
